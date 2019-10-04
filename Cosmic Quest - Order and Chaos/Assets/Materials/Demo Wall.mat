@@ -8,19 +8,27 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Demo Wall
-  m_Shader: {fileID: 10705, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _NORMALMAP
-  m_LightmapFlags: 5
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_ShaderKeywords: _NORMALMAP _SPECULAR_SETUP
+  m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_11CF35A1:
+        m_Texture: {fileID: 2800000, guid: 0935e416b6e0c774c8adfb3d8eb76450, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_450DE7A2:
+        m_Texture: {fileID: 2800000, guid: a36fff84a912a524a91c74bcd24e6767, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 996150ba62885444aac67ba38c366e6d, type: 3}
+        m_Texture: {fileID: 2800000, guid: a36fff84a912a524a91c74bcd24e6767, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Control:
@@ -44,7 +52,7 @@ Material:
         m_Scale: {x: 5, y: 5}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: cd1393fcd2c4c5944bd8cd7ab256cf2e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0935e416b6e0c774c8adfb3d8eb76450, type: 3}
         m_Scale: {x: 0.15, y: 0.15}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -105,22 +113,37 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - PixelSnap: 0
+    - _AlphaClip: 0
+    - _Blend: 0
     - _BumpScale: 0.81
+    - _Cull: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _Glossiness: 0.382
+    - _GlossMapScale: 1
+    - _Glossiness: 0
+    - _GlossinessSource: 0
+    - _GlossyReflections: 1
     - _Metallic: 0.652
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Outline: 0.0145
     - _Parallax: 0.02
+    - _ReceiveShadows: 1
     - _Shininess: 1
+    - _SmoothnessTextureChannel: 0
+    - _SpecSource: 1
+    - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Surface: 0
     - _UVSec: 0
+    - _WorkflowMode: 0
     - _ZWrite: 1
     m_Colors:
+    - Color_791B5F03: {r: 0.7877358, g: 0.87644917, b: 1, a: 0}
+    - Vector2_C681272: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_CF8B0756: {r: 0.15, g: 0.15, b: 0, a: 0}
     - _Color: {r: 0.7058823, g: 0.7687627, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _SpecColor: {r: 0, g: 0, b: 0, a: 1}
