@@ -13,12 +13,7 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
-    [HideInInspector]
     public GameObject[] players;
 
-    private void Start()
-    {
-        // Make a list of all players in the game TODO temporary
-        players = GameObject.FindGameObjectsWithTag("Player");
-    }
+    // TODO add players to manager from GameManager initialization
 }

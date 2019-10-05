@@ -1,25 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// using UnityEngine.Experimental.Input; TODO switch to new input system
 
 public class PlayerController : MonoBehaviour
 {
-    private CharacterController characterController;
+    // public InputMaster controls;
 
     public float speed = 6.0f;
     public float rotationSpeed = 100.0f;
     public float gravity = 20.0f;
-    
+
+    private CharacterController characterController;
+
     private Vector3 moveDirection = Vector3.zero;
     private Vector3 lookDirection = Vector3.zero;
     
-    // Start is called before the first frame update
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (characterController.isGrounded)
