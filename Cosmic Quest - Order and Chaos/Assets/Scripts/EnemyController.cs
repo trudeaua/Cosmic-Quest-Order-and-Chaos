@@ -25,28 +25,41 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-        // For now just reference the first player in the targets array, will need to
+        // TODO For now just reference the first player in the targets array, will need to
         // switch to some kind of targeting algorithm
-        // Choose target
-        currentTarget = targets[0];
 
-        float distance = Vector3.Distance(currentTarget.position, transform.position);
+        float distance = Vector3.Distance(targets[0].position, transform.position);
 
-        if (distance <= aggroRadius)
+        if (currentTarget == null && distance <= aggroRadius)
         {
-            agent.SetDestination(currentTarget.position);
-
-            if (distance <= agent.stoppingDistance)
+            // We don't have a target and there may be one we can detect
+            RaycastHit hit;
+            Physics.Linecast(transform.position, targets[0].position, out hit);
+            if (hit.transform.CompareTag("Player"))
             {
-                // Attack target
-                FaceTarget();
+                // Can only aggro if the player is visible
+                currentTarget = targets[0];
             }
         }
-        else if (currentTarget != null && distance > deAggroRadius)
+        else if (currentTarget != null)
         {
-            // Cancel enemy aggro
-            currentTarget = null;
-            agent.SetDestination(transform.position);
+            if (distance <= deAggroRadius)
+            {
+                // We have a target so let's follow them
+                agent.SetDestination(currentTarget.position);
+
+                if (distance <= agent.stoppingDistance)
+                {
+                    // Attack target?
+                    FaceTarget();
+                }
+            }
+            else
+            {
+                // Target out of range, cancel enemy aggro
+                currentTarget = null;
+                agent.SetDestination(transform.position);
+            }
         }
     }
 
