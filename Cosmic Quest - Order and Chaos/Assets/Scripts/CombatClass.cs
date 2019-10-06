@@ -2,19 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Base class for combat classes to extend from
-public class CombatClass : MonoBehaviour
+public enum CombatStyle
+{
+    Melee,
+    Ranged,
+    Magic
+}
+
+[System.Serializable]
+public class CombatClass
 {
     public string className;
-    public Stat[] statModifiers;
 
-    public virtual void PrimaryAttack()
-    {
-        // TODO
-    }
+    // Modifiers
+    //public Stat[] statModifiers;
+    public int baseDamageModifier;
+    public int baseDefenseModifier;
 
-    public virtual void SecondaryAttack()
-    {
-        // TODO
-    }
+    // Combat style configurations
+    public CombatStyle combatStyle;
+
+    // Melee combat style configurations TODO expand this
+    public float attackRadius = 2f;
+
+    // TODO Ranged combat style configurations
+
+
+    // TODO Magic combat style configurations
 }

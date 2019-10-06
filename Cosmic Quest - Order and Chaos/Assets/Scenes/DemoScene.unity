@@ -322,6 +322,7 @@ GameObject:
   - component: {fileID: 430740832}
   - component: {fileID: 430740830}
   - component: {fileID: 430740829}
+  - component: {fileID: 430740833}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -410,6 +411,23 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &430740833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 430740827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68daf0c9d7019af4c959f81b9db70916, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 20
+  baseDamage:
+    baseValue: 0
+  baseDefense:
+    baseValue: 0
 --- !u!1 &454658676
 GameObject:
   m_ObjectHideFlags: 0
@@ -2768,6 +2786,8 @@ GameObject:
   - component: {fileID: 724833697}
   - component: {fileID: 724833696}
   - component: {fileID: 724833695}
+  - component: {fileID: 724833693}
+  - component: {fileID: 724833692}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2789,6 +2809,37 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &724833692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724833690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 755bb775475de8c439d1f98f99d8956f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  baseDamage:
+    baseValue: 5
+  baseDefense:
+    baseValue: 1
+--- !u!114 &724833693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724833690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63d3b523e1156574f994d432fa711989, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackCooldown: 0.5
+  attackRadius: 2
 --- !u!4 &724833694
 Transform:
   m_ObjectHideFlags: 0
@@ -2903,7 +2954,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 10bc0c0ad0663764089c405ad311387b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

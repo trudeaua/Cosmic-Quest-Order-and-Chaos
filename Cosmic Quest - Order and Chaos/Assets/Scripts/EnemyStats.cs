@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : EntityStats
+public class EnemyStats : EntityStats
 {
     public override void Die()
     {
-        // Player death
-        Debug.Log("Player died");
+        Debug.Log(transform.name + " died.");
         transform.gameObject.SetActive(false);
     }
 }

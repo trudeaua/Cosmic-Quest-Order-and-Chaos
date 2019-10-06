@@ -6,13 +6,20 @@ public class EntityStats : MonoBehaviour
 {
     public int maxHealth = 100;
     public int currentHealth { get; private set; }
-    public CombatClass combatClass;
-    public Stat[] baseStats;
+    //public CombatClass combatClass { get; private set; }
+
+    // public Stat[] baseStats;
+    public Stat baseDamage;
+    public Stat baseDefense;
 
     void Awake()
     {
-        // Start player off with full health
+        // Start off with full health
         currentHealth = maxHealth;
+
+        // Add combat class stat modifiers to base stats
+        //baseDamage.AddModifier(combatClass.baseDamageModifier);
+        //baseDefense.AddModifier(combatClass.baseDefenseModifier);
     }
 
     public void TakeDamage(int damage)

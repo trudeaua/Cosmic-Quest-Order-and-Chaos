@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 // using UnityEngine.Experimental.Input; TODO switch to new input system
 
+[RequireComponent(typeof(EntityCombat))]
 public class PlayerController : MonoBehaviour
 {
     // public InputMaster controls;
@@ -12,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public float gravity = 20.0f;
 
     private CharacterController characterController;
+    private EntityCombat playerCombat;
 
     private Vector3 moveDirection = Vector3.zero;
     private Vector3 lookDirection = Vector3.zero;
@@ -19,12 +21,19 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
+        playerCombat = GetComponent<EntityCombat>();
     }
 
     private void Update()
     {
         if (characterController.isGrounded)
         {
+            // TODO demo purposes only?
+            if (Input.GetButtonDown("Attack1"))
+            {
+                playerCombat.PrimaryAttack();
+            }
+
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
             lookDirection = new Vector3(Input.GetAxis("RightH"), 0.0f, Input.GetAxis("RightV"));
 
