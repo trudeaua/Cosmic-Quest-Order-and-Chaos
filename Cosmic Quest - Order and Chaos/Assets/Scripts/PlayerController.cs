@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// using UnityEngine.Experimental.Input; TODO switch to new input system
+using UnityEngine.InputSystem; // TODO switch to new input system
 
 [RequireComponent(typeof(PlayerCombat))]
 public class PlayerController : MonoBehaviour
 {
-    // public InputMaster controls;
-
     public float speed = 6.0f;
     public float rotationSpeed = 100.0f;
     public float gravity = 20.0f;
@@ -15,8 +13,11 @@ public class PlayerController : MonoBehaviour
     private CharacterController characterController;
     private PlayerCombat playerCombat;
 
-    private Vector3 moveDirection = Vector3.zero;
-    private Vector3 lookDirection = Vector3.zero;
+    private Vector2 moveInput;
+    private Vector3 lookInput;
+
+    private Vector3 moveDirection;
+    private Vector3 lookDirection;
     
     private void Start()
     {
@@ -28,12 +29,6 @@ public class PlayerController : MonoBehaviour
     {
         if (characterController.isGrounded)
         {
-            // TODO demo purposes only?
-            if (Input.GetButtonDown("Attack1"))
-            {
-                playerCombat.PrimaryAttack();
-            }
-
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
             lookDirection = new Vector3(Input.GetAxis("RightH"), 0.0f, Input.GetAxis("RightV"));
 
@@ -56,5 +51,38 @@ public class PlayerController : MonoBehaviour
         
         // Move the player
         characterController.Move(moveDirection * Time.deltaTime);
+    }
+
+    private void OnDeviceLost()
+    {
+        Debug.Log("Input device lost connection");
+    }
+
+    private void OnDeviceRegained()
+    {
+        Debug.Log("Input device regained connection");
+    }
+
+    private void OnMove(InputValue value)
+    {
+        Debug.Log("Moving");
+        /*if (characterController.isGrounded)
+        {
+            moveInput = value.Get<Vector2>();
+            moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+            moveDirection *= speed;
+        }*/
+        
+    }
+
+    private void OnLook()
+    {
+        Debug.Log("Looking");
+    }
+
+    private void OnPrimaryAttack()
+    {
+        Debug.Log("Attacking");
+        playerCombat.PrimaryAttack();
     }
 }
