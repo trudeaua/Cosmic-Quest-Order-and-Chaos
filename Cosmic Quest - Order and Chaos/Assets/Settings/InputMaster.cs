@@ -20,14 +20,14 @@ public class InputMaster : InputActionAssetReference
     {
         // Player
         m_Player = asset.GetActionMap("Player");
-        m_Player_Movement = m_Player.GetAction("Movement");
+        m_Player_Move = m_Player.GetAction("Move");
         m_Player_Look = m_Player.GetAction("Look");
         m_Initialized = true;
     }
     private void Uninitialize()
     {
         m_Player = null;
-        m_Player_Movement = null;
+        m_Player_Move = null;
         m_Player_Look = null;
         m_Initialized = false;
     }
@@ -43,13 +43,13 @@ public class InputMaster : InputActionAssetReference
     }
     // Player
     private InputActionMap m_Player;
-    private InputAction m_Player_Movement;
+    private InputAction m_Player_Move;
     private InputAction m_Player_Look;
     public struct PlayerActions
     {
         private InputMaster m_Wrapper;
         public PlayerActions(InputMaster wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement { get { return m_Wrapper.m_Player_Movement; } }
+        public InputAction @Move { get { return m_Wrapper.m_Player_Move; } }
         public InputAction @Look { get { return m_Wrapper.m_Player_Look; } }
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }

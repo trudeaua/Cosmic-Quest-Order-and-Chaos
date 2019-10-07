@@ -16,7 +16,7 @@ public class PlayerCombat : EntityCombat
                 if (hit.transform.CompareTag("Enemy"))
                 {
                     // Do damage
-                    hit.transform.GetComponent<EntityStats>().TakeDamage(stats.baseDamage.GetValue());
+                    hit.transform.GetComponent<EntityStats>().TakeDamage(stats, stats.baseDamage.GetValue());
                 }
             }
 

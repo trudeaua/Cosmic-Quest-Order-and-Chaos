@@ -13,8 +13,8 @@ public class EnemyCombat : EntityCombat
             {
                 if (hit.transform.CompareTag("Player"))
                 {
-                    // Do damage
-                    hit.transform.GetComponent<EntityStats>().TakeDamage(stats.baseDamage.GetValue());
+                    // Do damage to player
+                    hit.transform.GetComponent<EntityStats>().TakeDamage(stats, stats.baseDamage.GetValue());
                 }
             }
 
