@@ -28,7 +28,7 @@ public class EntityStats : MonoBehaviour
         currentHealth -= damage;
         Debug.Log(transform.name + " took " + damage + " damage.");
 
-        if (currentHealth <= 0)
+        if (isDead())
         {
             currentHealth = 0;
             Die();
@@ -39,5 +39,10 @@ public class EntityStats : MonoBehaviour
     {
         // Meant to be implemented with any death tasks
         Debug.Log(transform.name + " died.");
+    }
+
+    public bool isDead()
+    {
+        return currentHealth <= 0;
     }
 }

@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(EnemyCombat))]
 public class EnemyController : MonoBehaviour
 {
     public float aggroRadius = 10f;
     public float deAggroRadius = 15f;
 
-    Transform[] targets;
-    Transform currentTarget;
-    NavMeshAgent agent;
+    private EnemyCombat enemyCombat;
+
+    private Transform[] targets;
+    private Transform currentTarget;
+    private NavMeshAgent agent;
 
     void Start()
     {
@@ -21,28 +24,42 @@ public class EnemyController : MonoBehaviour
             targets[i] = PlayerManager.instance.players[i].transform;
         }
         agent = GetComponent<NavMeshAgent>();
+
+        enemyCombat = GetComponent<EnemyCombat>();
     }
 
     void Update()
     {
-        // TODO For now just reference the first player in the targets array, will need to
-        // switch to some kind of targeting algorithm
+        // TODO Should enemies wander when no target is selected?
 
-        float distance = Vector3.Distance(targets[0].position, transform.position);
+        // Enemy target selection follows this precedence:
+        //   1. Player who attacked them last (TODO)
+        //   2. Player they are currently following
+        //   3. Closest player in their sight
 
-        if (currentTarget == null && distance <= aggroRadius)
+        // No target selected, try to find one
+        if (currentTarget == null)
         {
-            // We don't have a target and there may be one we can detect
-            RaycastHit hit;
-            Physics.Linecast(transform.position, targets[0].position, out hit);
-            if (hit.transform.CompareTag("Player"))
+            float minDistance = float.MaxValue;
+
+            // Find the nearest player within enemy's sight
+            foreach (Transform target in targets)
             {
-                // Can only aggro if the player is visible
-                currentTarget = targets[0];
+                float distance = Vector3.Distance(target.position, transform.position);
+                if (distance <= aggroRadius && distance < minDistance)
+                {
+                    // Ensure enemy can see them directly
+                    if (Physics.Linecast(transform.position, target.position, out RaycastHit hit) && hit.transform.CompareTag("Player"))
+                    {
+                        currentTarget = target;
+                        minDistance = distance;
+                    }
+                }
             }
         }
-        else if (currentTarget != null)
+        else
         {
+            float distance = Vector3.Distance(currentTarget.position, transform.position);
             if (distance <= deAggroRadius)
             {
                 // We have a target so let's follow them
@@ -50,15 +67,24 @@ public class EnemyController : MonoBehaviour
 
                 if (distance <= agent.stoppingDistance)
                 {
-                    // Attack target?
                     FaceTarget();
+                }
+
+                // TODO probably not the most efficient way to handle enemy combat decisions?
+                if (distance <= enemyCombat.attackRadius)
+                {
+                    enemyCombat.PrimaryAttack();
+
+                    // Check to see if current target died
+                    if (currentTarget.GetComponent<EntityStats>().isDead())
+                        currentTarget = null;
                 }
             }
             else
             {
                 // Target out of range, cancel enemy aggro
+                // Enemy will still move to the last known location of the player
                 currentTarget = null;
-                agent.SetDestination(transform.position);
             }
         }
     }

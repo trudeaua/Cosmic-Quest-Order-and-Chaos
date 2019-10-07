@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 // using UnityEngine.Experimental.Input; TODO switch to new input system
 
-[RequireComponent(typeof(EntityCombat))]
+[RequireComponent(typeof(PlayerCombat))]
 public class PlayerController : MonoBehaviour
 {
     // public InputMaster controls;
@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public float gravity = 20.0f;
 
     private CharacterController characterController;
-    private EntityCombat playerCombat;
+    private PlayerCombat playerCombat;
 
     private Vector3 moveDirection = Vector3.zero;
     private Vector3 lookDirection = Vector3.zero;
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-        playerCombat = GetComponent<EntityCombat>();
+        playerCombat = GetComponent<PlayerCombat>();
     }
 
     private void Update()

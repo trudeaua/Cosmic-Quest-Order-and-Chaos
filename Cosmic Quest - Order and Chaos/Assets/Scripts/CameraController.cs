@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Camera))]
 public class CameraController : MonoBehaviour
 {
     public float speed = 2.0f;
@@ -16,7 +17,10 @@ public class CameraController : MonoBehaviour
         players = PlayerManager.instance.players;
 
         // Calculate the Z offset based on the current camera angle and height
-        zOffset = transform.position.y * Mathf.Tan(transform.rotation.x);
+        if (transform.rotation.eulerAngles.x == 90f)
+            zOffset = 0f;
+        else
+            zOffset = transform.position.y * Mathf.Tan(transform.rotation.x);
 
         // Set the initial camera target and move the camera to it
         target = FindPlayersCenter();

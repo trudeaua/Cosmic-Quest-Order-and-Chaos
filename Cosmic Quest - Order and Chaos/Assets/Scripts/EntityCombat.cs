@@ -5,10 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(EntityStats))]
 public class EntityCombat : MonoBehaviour
 {
-    private EntityStats stats;
-    //private CombatClass combatClass;
+    protected EntityStats stats;
+    //protected CombatClass combatClass;
 
-    private bool isAttacking = false;
+    protected bool isCoolingDown = false;
 
     public float attackCooldown = 0.5f;
     public float attackRadius = 2f;
@@ -20,36 +20,18 @@ public class EntityCombat : MonoBehaviour
         //combatClass = stats.combatClass;
     }
 
-    public void PrimaryAttack()
+    public virtual void PrimaryAttack()
     {
-        // TODO very temporary combat architecture
-        if (!isAttacking)
+        if (!isCoolingDown)
         {
-            StartCoroutine("Attack");
+            Debug.Log("Attacking!");
         }
     }
 
-    IEnumerator Attack()
+    IEnumerator AttackCooldown()
     {
-        isAttacking = true;
-        Debug.Log("Attacking!");
-
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, attackRadius))
-        {
-            if (hit.transform.CompareTag("Enemy"))
-            {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * attackRadius, Color.yellow);
-                // Do damage
-                hit.transform.GetComponent<EntityStats>().TakeDamage(stats.baseDamage.GetValue());
-            }
-        }
-        else
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * attackRadius, Color.white);
-            Debug.Log("Nothing to hit!");
-        }
-
+        isCoolingDown = true;
         yield return new WaitForSeconds(attackCooldown);
-        isAttacking = false;
+        isCoolingDown = false;
     }
 }
