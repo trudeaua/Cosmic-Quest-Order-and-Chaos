@@ -10,27 +10,43 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 100.0f;
     public float gravity = 20.0f;
 
-    private CharacterController characterController;
+    private GameControls controls;
+
+    private CharacterController controller;
     private PlayerCombat playerCombat;
 
     private Vector2 moveInput;
-    private Vector3 lookInput;
+    private Vector2 lookInput;
 
     private Vector3 moveDirection;
     private Vector3 lookDirection;
     
+    private void Awake()
+    {
+        controls = new GameControls();
+
+        controls.Player.PrimaryAttack.performed += ctx => playerCombat.PrimaryAttack();
+
+        controller = GetComponent<CharacterController>();
+        playerCombat = GetComponent<PlayerCombat>();
+    }
+
     private void Start()
     {
-        characterController = GetComponent<CharacterController>();
-        playerCombat = GetComponent<PlayerCombat>();
+        // TEMP
+        PlayerManager.instance.RegisterPlayer(gameObject);
     }
 
     private void Update()
     {
-        if (characterController.isGrounded)
+        if (controller.isGrounded)
         {
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-            lookDirection = new Vector3(Input.GetAxis("RightH"), 0.0f, Input.GetAxis("RightV"));
+            // Input lag through callback function, so we poll the controls
+            moveInput = controls.Player.Move.ReadValue<Vector2>();
+            moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+
+            lookInput = controls.Player.Look.ReadValue<Vector2>();
+            lookDirection = new Vector3(lookInput.x, 0f, lookInput.y);
 
             if (lookDirection != Vector3.zero)
             {
@@ -46,43 +62,41 @@ public class PlayerController : MonoBehaviour
             moveDirection *= speed;
         }
 
-        // Apply gravity to the player
         moveDirection.y -= gravity * Time.deltaTime;
         
         // Move the player
-        characterController.Move(moveDirection * Time.deltaTime);
+        controller.Move(moveDirection * Time.deltaTime);
     }
 
-    private void OnDeviceLost()
+    // TODO remove me?
+    public void OnPlayerJoined()
+    {
+        PlayerManager.instance.RegisterPlayer(gameObject);
+    }
+
+    // TODO remove me?
+    public void OnPlayerLeft()
+    {
+        PlayerManager.instance.DeregisterPlayer(gameObject);
+    }
+
+    public void OnDeviceLost()
     {
         Debug.Log("Input device lost connection");
     }
 
-    private void OnDeviceRegained()
+    public void OnDeviceRegained()
     {
         Debug.Log("Input device regained connection");
     }
 
-    private void OnMove(InputValue value)
+    private void OnEnable()
     {
-        Debug.Log("Moving");
-        /*if (characterController.isGrounded)
-        {
-            moveInput = value.Get<Vector2>();
-            moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
-            moveDirection *= speed;
-        }*/
-        
+        controls.Player.Enable();
     }
 
-    private void OnLook()
+    private void OnDisable()
     {
-        Debug.Log("Looking");
-    }
-
-    private void OnPrimaryAttack()
-    {
-        Debug.Log("Attacking");
-        playerCombat.PrimaryAttack();
+        controls.Player.Disable();
     }
 }

@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
 {
     public float speed = 2.0f;
 
-    private GameObject[] players;
+    private List<GameObject> players;
     private float zOffset = 0.0f;
     private Vector3 target;
 
@@ -41,8 +41,7 @@ public class CameraController : MonoBehaviour
 
     private Vector3 FindPlayersCenter()
     {
-        // No need to do these calculations if there's only one player
-        if (players.Length == 1)
+        if (players.Count == 1) // TODO temp
         {
             return new Vector3(players[0].transform.position.x, 0, players[0].transform.position.z);
         }
@@ -54,10 +53,13 @@ public class CameraController : MonoBehaviour
 
         foreach (GameObject player in players)
         {
-            xMin = Mathf.Min(xMin, player.transform.position.x);
-            xMax = Mathf.Max(xMax, player.transform.position.x);
-            zMin = Mathf.Min(zMin, player.transform.position.z);
-            zMax = Mathf.Max(zMax, player.transform.position.z);
+            if (player.activeSelf)
+            {
+                xMin = Mathf.Min(xMin, player.transform.position.x);
+                xMax = Mathf.Max(xMax, player.transform.position.x);
+                zMin = Mathf.Min(zMin, player.transform.position.z);
+                zMax = Mathf.Max(zMax, player.transform.position.z);
+            }
         }
 
         Vector3 minPos = new Vector3(xMin, 0, zMin);

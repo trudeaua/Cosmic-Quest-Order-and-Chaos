@@ -11,18 +11,15 @@ public class EnemyController : MonoBehaviour
 
     private EnemyCombat enemyCombat;
 
-    private Transform[] targets;
+    private List<GameObject> targets;
     private Transform currentTarget;
     private NavMeshAgent agent;
 
     void Start()
     {
         // Store references to the transforms of players
-        targets = new Transform[PlayerManager.instance.players.Length];
-        for (int i = 0; i < targets.Length; i++)
-        {
-            targets[i] = PlayerManager.instance.players[i].transform;
-        }
+        targets = PlayerManager.instance.players;
+
         agent = GetComponent<NavMeshAgent>();
 
         enemyCombat = GetComponent<EnemyCombat>();
@@ -43,15 +40,15 @@ public class EnemyController : MonoBehaviour
             float minDistance = float.MaxValue;
 
             // Find the nearest player within enemy's sight
-            foreach (Transform target in targets)
+            foreach (GameObject target in targets)
             {
-                float distance = Vector3.Distance(target.position, transform.position);
+                float distance = Vector3.Distance(target.transform.position, transform.position);
                 if (distance <= aggroRadius && distance < minDistance)
                 {
                     // Ensure enemy can see them directly
-                    if (Physics.Linecast(transform.position, target.position, out RaycastHit hit) && hit.transform.CompareTag("Player"))
+                    if (Physics.Linecast(transform.position, target.transform.position, out RaycastHit hit) && hit.transform.CompareTag("Player"))
                     {
-                        currentTarget = target;
+                        currentTarget = target.transform;
                         minDistance = distance;
                     }
                 }

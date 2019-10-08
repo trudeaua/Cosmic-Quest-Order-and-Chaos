@@ -13,7 +13,15 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
-    public GameObject[] players;
+    public List<GameObject> players;
 
-    // TODO add players to manager from GameManager initialization
+    public void RegisterPlayer(GameObject player)
+    {
+        players.Add(player);
+    }
+
+    public void DeregisterPlayer(GameObject player)
+    {
+        players.Remove(player);
+    }
 }
