@@ -25,7 +25,7 @@ public class EnemyController : MonoBehaviour
         enemyCombat = GetComponent<EnemyCombat>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // TODO Should enemies wander when no target is selected?
 
@@ -62,6 +62,7 @@ public class EnemyController : MonoBehaviour
                 // We have a target so let's follow them
                 agent.SetDestination(currentTarget.position);
 
+                // Ensure enemy faces target after arrival
                 if (distance <= agent.stoppingDistance)
                 {
                     FaceTarget();

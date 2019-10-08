@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5635172859152886598}
   - component: {fileID: 5635172859152886616}
   - component: {fileID: 5635172859152886599}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Test Player Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 5635172859332704094}
   - component: {fileID: 5635172859332704081}
   - component: {fileID: 5635172859332704080}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Mock Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 5635172859518480661}
   - component: {fileID: 5635172859518480660}
   - component: {fileID: 5635172859518480682}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5635172859518480658}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14, y: 1, z: -24}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5635172859152886598}
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
-  rotationSpeed: 550
+  rotationSpeed: 10
   gravity: 20
 --- !u!114 &5635172859518480661
 MonoBehaviour:
@@ -270,7 +270,7 @@ MonoBehaviour:
     baseValue: 5
   baseDefense:
     baseValue: 1
-  characterColour: 2
+  characterColour: 0
 --- !u!114 &5635172859518480682
 MonoBehaviour:
   m_ObjectHideFlags: 0

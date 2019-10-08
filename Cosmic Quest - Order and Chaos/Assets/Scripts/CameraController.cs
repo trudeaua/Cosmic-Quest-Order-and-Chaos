@@ -27,12 +27,14 @@ public class CameraController : MonoBehaviour
         transform.position = new Vector3(target.x, transform.position.y, target.z - zOffset);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         // Track the approximate center of the players
         target = FindPlayersCenter();
 
         Vector3 pos = transform.position;
+
+        // TODO Smoothed motion of the camera causes slight stuttering in enemy moving
         pos.x = Mathf.Lerp(transform.position.x, target.x, speed * Time.deltaTime);
         pos.z = Mathf.Lerp(transform.position.z, target.z - zOffset, speed * Time.deltaTime);
 

@@ -8,7 +8,7 @@ public class EnemyStats : EntityStats
     {
         // TODO keep track of who did damage to the enemy last?
 
-        if (attacker.characterColour == characterColour)
+        if (characterColour != CharacterColour.None && attacker.characterColour == characterColour)
         {
             Debug.Log("Attack was ineffective against this colour!");
             return;

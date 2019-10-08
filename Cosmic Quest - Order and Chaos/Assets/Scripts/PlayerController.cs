@@ -6,8 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 6.0f;
-    public float rotationSpeed = 550.0f;
-    public float gravity = 20.0f;
+    public float rotationSpeed = 10.0f;
 
     private Rigidbody rb;
 
@@ -53,12 +52,12 @@ public class PlayerController : MonoBehaviour
         if (lookInput != Vector2.zero)
         {
             // Rotate towards look direction
-            rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, Quaternion.LookRotation(lookDirection, Vector3.up), rotationSpeed * Time.deltaTime));
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, Quaternion.LookRotation(lookDirection, Vector3.up), rotationSpeed * Time.deltaTime));
         }
         else if (moveInput != Vector2.zero)
         {
             // Rotate towards direction of movement
-            rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, Quaternion.LookRotation(moveDirection, Vector3.up), rotationSpeed * Time.deltaTime));
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, Quaternion.LookRotation(moveDirection, Vector3.up), rotationSpeed * Time.deltaTime));
         }
 
         // Apply movement speed
