@@ -34,12 +34,12 @@ public class GameControls : IInputActionCollection
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Primary Attack"",
+                    ""name"": ""PrimaryAttack"",
                     ""type"": ""Button"",
                     ""id"": ""4376de81-1207-42e1-8154-ed6200a68419"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -113,10 +113,10 @@ public class GameControls : IInputActionCollection
                     ""name"": """",
                     ""id"": ""dd5ed275-6d77-4d7a-85e6-36ae5b943a5b"",
                     ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": ""Press"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Primary Attack"",
+                    ""action"": ""PrimaryAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -124,10 +124,10 @@ public class GameControls : IInputActionCollection
                     ""name"": """",
                     ""id"": ""180f8046-25f9-4af1-8abb-4fca2221bed3"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Press"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Primary Attack"",
+                    ""action"": ""PrimaryAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -179,7 +179,7 @@ public class GameControls : IInputActionCollection
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
-        m_Player_PrimaryAttack = m_Player.FindAction("Primary Attack", throwIfNotFound: true);
+        m_Player_PrimaryAttack = m_Player.FindAction("PrimaryAttack", throwIfNotFound: true);
     }
 
     ~GameControls()

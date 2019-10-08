@@ -1,34 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem; // TODO switch to new input system
+using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerCombat))]
 public class PlayerController : MonoBehaviour
 {
     public float speed = 6.0f;
-    public float rotationSpeed = 100.0f;
+    public float rotationSpeed = 550.0f;
     public float gravity = 20.0f;
 
-    private GameControls controls;
-
-    private CharacterController controller;
-    private PlayerCombat playerCombat;
+    private Rigidbody rb;
 
     private Vector2 moveInput;
     private Vector2 lookInput;
 
     private Vector3 moveDirection;
     private Vector3 lookDirection;
-    
+
     private void Awake()
     {
-        controls = new GameControls();
+        rb = GetComponent<Rigidbody>();
+    }
 
-        controls.Player.PrimaryAttack.performed += ctx => playerCombat.PrimaryAttack();
+    private void OnEnable()
+    {
+        // Ensure player is not kinematic
+        rb.isKinematic = false;
+    }
 
-        controller = GetComponent<CharacterController>();
-        playerCombat = GetComponent<PlayerCombat>();
+    private void OnDisable()
+    {
+        // Set kinematic when disabled so the player stops moving
+        rb.isKinematic = true;
     }
 
     private void Start()
@@ -37,66 +40,41 @@ public class PlayerController : MonoBehaviour
         PlayerManager.instance.RegisterPlayer(gameObject);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (controller.isGrounded)
+        Move();
+    }
+
+    private void Move()
+    {
+        Vector3 moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+        Vector3 lookDirection = new Vector3(lookInput.x, 0f, lookInput.y);
+
+        if (lookInput != Vector2.zero)
         {
-            // Input lag through callback function, so we poll the controls
-            moveInput = controls.Player.Move.ReadValue<Vector2>();
-            moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
-
-            lookInput = controls.Player.Look.ReadValue<Vector2>();
-            lookDirection = new Vector3(lookInput.x, 0f, lookInput.y);
-
-            if (lookDirection != Vector3.zero)
-            {
-                // Look direction from right joystick
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(lookDirection, Vector3.up), rotationSpeed * 5f * Time.deltaTime);
-            }
-            else if (moveDirection != Vector3.zero)
-            {
-                // Look direction towards movement direction
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(moveDirection, Vector3.up), rotationSpeed * 5f * Time.deltaTime);
-            }
-
-            moveDirection *= speed;
+            // Rotate towards look direction
+            rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, Quaternion.LookRotation(lookDirection, Vector3.up), rotationSpeed * Time.deltaTime));
+        }
+        else if (moveInput != Vector2.zero)
+        {
+            // Rotate towards direction of movement
+            rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, Quaternion.LookRotation(moveDirection, Vector3.up), rotationSpeed * Time.deltaTime));
         }
 
-        moveDirection.y -= gravity * Time.deltaTime;
-        
-        // Move the player
-        controller.Move(moveDirection * Time.deltaTime);
+        // Apply movement speed
+        moveDirection *= speed * Time.deltaTime;
+
+        // Move position
+        rb.MovePosition(rb.position + moveDirection);
     }
 
-    // TODO remove me?
-    public void OnPlayerJoined()
+    private void OnMove(InputValue value)
     {
-        PlayerManager.instance.RegisterPlayer(gameObject);
+        moveInput = value.Get<Vector2>();
     }
 
-    // TODO remove me?
-    public void OnPlayerLeft()
+    private void OnLook(InputValue value)
     {
-        PlayerManager.instance.DeregisterPlayer(gameObject);
-    }
-
-    public void OnDeviceLost()
-    {
-        Debug.Log("Input device lost connection");
-    }
-
-    public void OnDeviceRegained()
-    {
-        Debug.Log("Input device regained connection");
-    }
-
-    private void OnEnable()
-    {
-        controls.Player.Enable();
-    }
-
-    private void OnDisable()
-    {
-        controls.Player.Disable();
+        lookInput = value.Get<Vector2>();
     }
 }

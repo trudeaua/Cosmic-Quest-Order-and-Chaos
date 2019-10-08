@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCombat : EntityCombat
 {
@@ -9,7 +10,7 @@ public class PlayerCombat : EntityCombat
         // TODO temporary combat architecture
         if (!isCoolingDown)
         {
-            Debug.Log("Attacking!");
+            Debug.Log(name + " has attacked!");
 
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, attackRadius))
             {
@@ -21,6 +22,17 @@ public class PlayerCombat : EntityCombat
             }
 
             StartCoroutine("AttackCooldown");
+        }
+    }
+
+    private void OnPrimaryAttack(InputValue value)
+    {
+        Debug.Log("Attack pressed");
+
+        // Only trigger attack on button down
+        if (value.isPressed)
+        {
+            PrimaryAttack();
         }
     }
 }

@@ -17,6 +17,8 @@ public class EntityStats : MonoBehaviour
     public int currentHealth { get; protected set; }
     //public CombatClass combatClass { get; private set; }
 
+    public bool isDead { get; private set; } = false;
+
     // public Stat[] baseStats;
     public Stat baseDamage;
     public Stat baseDefense;
@@ -57,9 +59,10 @@ public class EntityStats : MonoBehaviour
         currentHealth -= damage;
         Debug.Log(transform.name + " took " + damage + " damage.");
 
-        if (IsDead())
+        if (currentHealth <= 0)
         {
             currentHealth = 0;
+            isDead = true;
             Die();
         }
     }
@@ -68,10 +71,5 @@ public class EntityStats : MonoBehaviour
     {
         // Meant to be implemented with any death tasks
         Debug.Log(transform.name + " died.");
-    }
-
-    public bool IsDead()
-    {
-        return currentHealth <= 0;
     }
 }

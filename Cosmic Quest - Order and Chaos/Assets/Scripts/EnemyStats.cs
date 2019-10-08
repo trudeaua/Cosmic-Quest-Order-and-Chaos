@@ -18,7 +18,7 @@ public class EnemyStats : EntityStats
         currentHealth -= damage;
         Debug.Log(transform.name + " took " + damage + " damage.");
 
-        if (IsDead())
+        if (currentHealth <= 0)
         {
             currentHealth = 0;
             Die();

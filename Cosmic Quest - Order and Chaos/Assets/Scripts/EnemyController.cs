@@ -73,7 +73,7 @@ public class EnemyController : MonoBehaviour
                     enemyCombat.PrimaryAttack();
 
                     // Check to see if current target died
-                    if (currentTarget.GetComponent<EntityStats>().IsDead())
+                    if (currentTarget.GetComponent<PlayerStats>().isDead)
                         currentTarget = null;
                 }
             }
