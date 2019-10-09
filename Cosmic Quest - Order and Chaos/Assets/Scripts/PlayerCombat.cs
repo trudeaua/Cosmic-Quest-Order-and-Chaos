@@ -21,8 +21,9 @@ public class PlayerCombat : EntityCombat
 
             anim.SetTrigger("PrimaryAttack");
 
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, attackRadius))
+            if (Physics.Raycast(transform.position + Vector3.up, transform.TransformDirection(Vector3.forward), out RaycastHit hit, attackRadius))
             {
+                
                 if (hit.transform.CompareTag("Enemy"))
                 {
                     // Do damage

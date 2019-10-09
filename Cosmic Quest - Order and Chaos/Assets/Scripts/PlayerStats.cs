@@ -7,6 +7,7 @@ public class PlayerStats : EntityStats
     public override void Die()
     {
         Debug.Log("Player died");
+        isDead = true;
         transform.gameObject.SetActive(false);
     }
 }

@@ -50,7 +50,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &5635172859518480681
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -93,8 +93,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7662213430962324c98b14e8c23c0ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 0.5
-  attackRadius: 2
+  attackRate: 0.75
+  attackRadius: 2.5
 --- !u!114 &5635172859518480660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,6 +251,11 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 285fea09d08a672409665bee9403ec2a, type: 2}
+    - target: {fileID: -7181734470756302157, guid: 1f8932b74ad876f4aa858bac1258be1c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 10bc0c0ad0663764089c405ad311387b, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f8932b74ad876f4aa858bac1258be1c, type: 3}
 --- !u!4 &7840964309664428862 stripped

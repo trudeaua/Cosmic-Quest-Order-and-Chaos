@@ -9,7 +9,8 @@ public class EnemyController : MonoBehaviour
     public float aggroRadius = 10f;
     public float deAggroRadius = 15f;
 
-    private EnemyCombat enemyCombat;
+    private EnemyCombat combat;
+    private EnemyStats stats;
     private Animator anim;
 
     private List<GameObject> targets;
@@ -20,17 +21,24 @@ public class EnemyController : MonoBehaviour
     {
         anim = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        enemyCombat = GetComponent<EnemyCombat>();
+        combat = GetComponent<EnemyCombat>();
+        stats = GetComponent<EnemyStats>();
     }
 
-    void Start()
+    private void Start()
     {
         // Store references to the transforms of players
         targets = PlayerManager.instance.players;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
+        // Prevent enemy activity during death animation
+        if (stats.isDead)
+        {
+            return;
+        }
+
         // TODO Should enemies wander when no target is selected?
 
         // Enemy target selection follows this precedence:
@@ -71,7 +79,7 @@ public class EnemyController : MonoBehaviour
                     FaceTarget();
 
                     // TODO probably not the most efficient way to handle enemy combat decisions?
-                    enemyCombat.PrimaryAttack();
+                    combat.PrimaryAttack();
 
                     // Check to see if current target died -- TODO move this elsewhere?
                     if (currentTarget.GetComponent<PlayerStats>().isDead)
