@@ -7,12 +7,10 @@ public class EntityCombat : MonoBehaviour
 {
     protected EntityStats stats;
     //protected CombatClass combatClass;
+    protected float attackCooldown = 0f;
 
-    protected bool isCoolingDown = false;
-
-    public float attackCooldown = 0.5f;
+    public float attackRate = 1f;
     public float attackRadius = 2f;
-
 
     private void Start()
     {
@@ -20,18 +18,23 @@ public class EntityCombat : MonoBehaviour
         //combatClass = stats.combatClass;
     }
 
+    private void Update()
+    {
+        attackCooldown -= Time.deltaTime;
+    }
+
     public virtual void PrimaryAttack()
     {
-        if (!isCoolingDown)
+        if (attackCooldown <= 0f)
         {
             Debug.Log("Attacking!");
         }
     }
 
-    IEnumerator AttackCooldown()
+    protected IEnumerator PerformDamage(EntityStats enemyStats, float damageDelay)
     {
-        isCoolingDown = true;
-        yield return new WaitForSeconds(attackCooldown);
-        isCoolingDown = false;
+        yield return new WaitForSeconds(damageDelay);
+
+        stats.TakeDamage(enemyStats, stats.baseDamage.GetValue());
     }
 }

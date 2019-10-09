@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class EnemyCombat : EntityCombat
 {
+    private Animator anim;
+
+    private void Awake()
+    {
+        anim = GetComponentInChildren<Animator>();
+    }
+
     public override void PrimaryAttack()
     {
         // TODO temporary combat architecture
-        if (!isCoolingDown)
+        if (attackCooldown <= 0f)
         {
+            attackCooldown = 1f / attackRate;
+
+            anim.SetTrigger("Stab Attack");
+
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, attackRadius))
             {
                 if (hit.transform.CompareTag("Player"))
                 {
                     // Do damage to player
-                    hit.transform.GetComponent<EntityStats>().TakeDamage(stats, stats.baseDamage.GetValue());
+                    StartCoroutine(PerformDamage(hit.transform.GetComponent<EntityStats>(), 0.6f));
                 }
             }
-
-            StartCoroutine("AttackCooldown");
         }
     }
 }

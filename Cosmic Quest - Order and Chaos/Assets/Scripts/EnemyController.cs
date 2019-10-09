@@ -10,19 +10,23 @@ public class EnemyController : MonoBehaviour
     public float deAggroRadius = 15f;
 
     private EnemyCombat enemyCombat;
+    private Animator anim;
 
     private List<GameObject> targets;
     private Transform currentTarget;
     private NavMeshAgent agent;
 
+    private void Awake()
+    {
+        anim = GetComponentInChildren<Animator>();
+        agent = GetComponent<NavMeshAgent>();
+        enemyCombat = GetComponent<EnemyCombat>();
+    }
+
     void Start()
     {
         // Store references to the transforms of players
         targets = PlayerManager.instance.players;
-
-        agent = GetComponent<NavMeshAgent>();
-
-        enemyCombat = GetComponent<EnemyCombat>();
     }
 
     void FixedUpdate()
@@ -54,28 +58,26 @@ public class EnemyController : MonoBehaviour
                 }
             }
         }
-        else
+        
+        if (currentTarget != null)
         {
             float distance = Vector3.Distance(currentTarget.position, transform.position);
             if (distance <= deAggroRadius)
             {
-                // We have a target so let's follow them
                 agent.SetDestination(currentTarget.position);
 
-                // Ensure enemy faces target after arrival
                 if (distance <= agent.stoppingDistance)
                 {
                     FaceTarget();
-                }
 
-                // TODO probably not the most efficient way to handle enemy combat decisions?
-                if (distance <= enemyCombat.attackRadius)
-                {
+                    // TODO probably not the most efficient way to handle enemy combat decisions?
                     enemyCombat.PrimaryAttack();
 
-                    // Check to see if current target died
+                    // Check to see if current target died -- TODO move this elsewhere?
                     if (currentTarget.GetComponent<PlayerStats>().isDead)
+                    {
                         currentTarget = null;
+                    }
                 }
             }
             else
@@ -84,6 +86,16 @@ public class EnemyController : MonoBehaviour
                 // Enemy will still move to the last known location of the player
                 currentTarget = null;
             }
+        }
+
+        // Set walk animation
+        if (agent.velocity != Vector3.zero)
+        {
+            anim.SetBool("Walk Forward", true);
+        }
+        else
+        {
+            anim.SetBool("Walk Forward", false);
         }
     }
 

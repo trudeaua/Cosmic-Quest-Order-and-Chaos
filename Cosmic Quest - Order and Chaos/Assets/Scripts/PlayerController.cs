@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 10.0f;
 
     private Rigidbody rb;
+    private Animator anim;
 
     private Vector2 moveInput;
     private Vector2 lookInput;
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     private void OnEnable()
@@ -58,6 +60,15 @@ public class PlayerController : MonoBehaviour
         {
             // Rotate towards direction of movement
             rb.MoveRotation(Quaternion.Slerp(rb.rotation, Quaternion.LookRotation(moveDirection, Vector3.up), rotationSpeed * Time.deltaTime));
+        }
+
+        if (moveInput != Vector2.zero)
+        {
+            anim.SetFloat("WalkSpeed", moveInput.magnitude);
+        }
+        else
+        {
+            anim.SetFloat("WalkSpeed", 0f);
         }
 
         // Apply movement speed

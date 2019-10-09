@@ -5,30 +5,35 @@ using UnityEngine.InputSystem;
 
 public class PlayerCombat : EntityCombat
 {
+    private Animator anim;
+
+    private void Awake()
+    {
+        anim = GetComponentInChildren<Animator>();
+    }
+
     public override void PrimaryAttack()
     {
         // TODO temporary combat architecture
-        if (!isCoolingDown)
+        if (attackCooldown <= 0f)
         {
-            Debug.Log(name + " has attacked!");
+            attackCooldown = 1f / attackRate;
+
+            anim.SetTrigger("PrimaryAttack");
 
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, attackRadius))
             {
                 if (hit.transform.CompareTag("Enemy"))
                 {
                     // Do damage
-                    hit.transform.GetComponent<EntityStats>().TakeDamage(stats, stats.baseDamage.GetValue());
+                    StartCoroutine(PerformDamage(hit.transform.GetComponent<EntityStats>(), 0.6f));
                 }
             }
-
-            StartCoroutine("AttackCooldown");
-        }
+;        }
     }
 
     private void OnPrimaryAttack(InputValue value)
     {
-        Debug.Log("Attack pressed");
-
         // Only trigger attack on button down
         if (value.isPressed)
         {

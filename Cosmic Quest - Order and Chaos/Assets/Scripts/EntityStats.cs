@@ -35,7 +35,7 @@ public class EntityStats : MonoBehaviour
         //baseDefense.AddModifier(combatClass.baseDefenseModifier);
 
         // TODO this is for testing only!
-        Renderer renderer = GetComponentInChildren<Renderer>();
+        /*Renderer renderer = GetComponentInChildren<Renderer>();
         switch (characterColour)
         {
             case CharacterColour.Red:
@@ -50,7 +50,7 @@ public class EntityStats : MonoBehaviour
             case CharacterColour.Purple:
                 renderer.material.SetColor("_Color", new Color(1f, 0f, 1f));
                 break;
-        }
+        }*/
     }
 
     public virtual void TakeDamage(EntityStats attacker, int damage)
