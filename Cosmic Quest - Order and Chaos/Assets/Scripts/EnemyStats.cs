@@ -6,6 +6,10 @@ public class EnemyStats : EntityStats
 {
     public override void TakeDamage(EntityStats attacker, int damage)
     {
+        // ignore attacks if already dead
+        if (isDead)
+            return;
+
         // TODO keep track of who did damage to the enemy last?
 
         if (characterColour != CharacterColour.None && attacker.characterColour == characterColour)
