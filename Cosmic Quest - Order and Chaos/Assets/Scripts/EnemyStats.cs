@@ -28,6 +28,15 @@ public class EnemyStats : EntityStats
     public override void Die()
     {
         Debug.Log(transform.name + " died.");
+        isDead = true;
+        StartCoroutine(EnemyDeath());
+    }
+
+    // TODO need to disable enemy on death and just show animation
+    IEnumerator EnemyDeath()
+    {
+        GetComponentInChildren<Animator>().SetTrigger("Die");
+        yield return new WaitForSeconds(1.1f);
         transform.gameObject.SetActive(false);
     }
 }

@@ -31,10 +31,10 @@ public class EntityCombat : MonoBehaviour
         }
     }
 
-    protected IEnumerator PerformDamage(EntityStats enemyStats, float damageDelay)
+    protected IEnumerator PerformDamage(EntityStats targetStats, float damageDelay)
     {
         yield return new WaitForSeconds(damageDelay);
 
-        stats.TakeDamage(enemyStats, stats.baseDamage.GetValue());
+        targetStats.TakeDamage(stats, stats.baseDamage.GetValue());
     }
 }
