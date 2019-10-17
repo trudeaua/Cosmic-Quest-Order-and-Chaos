@@ -13,8 +13,8 @@ public enum CharacterColour
 
 public class EntityStats : MonoBehaviour
 {
-    public int maxHealth = 100;
-    public int currentHealth { get; protected set; }
+    public float maxHealth = 100f;
+    public float currentHealth { get; protected set; }
     //public CombatClass combatClass { get; private set; }
 
     public bool isDead { get; protected set; } = false;
