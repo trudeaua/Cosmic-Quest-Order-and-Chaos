@@ -40,6 +40,30 @@ public class GameControls : IInputActionCollection
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""SecondaryAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""7fcc6c30-bd3c-41a9-92de-0f7a4fa0d592"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""e02c0312-8f9d-4012-bd07-e9f92deaf64f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""UltimateAbility"",
+                    ""type"": ""Button"",
+                    ""id"": ""c9be423e-0edd-45eb-857e-3609d971d47d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -141,6 +165,39 @@ public class GameControls : IInputActionCollection
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f1c2d901-5de9-4eeb-abf5-9e302da8df57"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SecondaryAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e423dfe-f35f-4654-9a95-547cc7d7366a"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b1d907c7-b69e-4e74-86d4-0710ce636725"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""UltimateAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -180,6 +237,9 @@ public class GameControls : IInputActionCollection
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_PrimaryAttack = m_Player.FindAction("PrimaryAttack", throwIfNotFound: true);
+        m_Player_SecondaryAttack = m_Player.FindAction("SecondaryAttack", throwIfNotFound: true);
+        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_UltimateAbility = m_Player.FindAction("UltimateAbility", throwIfNotFound: true);
     }
 
     ~GameControls()
@@ -232,6 +292,9 @@ public class GameControls : IInputActionCollection
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_PrimaryAttack;
+    private readonly InputAction m_Player_SecondaryAttack;
+    private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_UltimateAbility;
     public struct PlayerActions
     {
         private GameControls m_Wrapper;
@@ -239,6 +302,9 @@ public class GameControls : IInputActionCollection
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @PrimaryAttack => m_Wrapper.m_Player_PrimaryAttack;
+        public InputAction @SecondaryAttack => m_Wrapper.m_Player_SecondaryAttack;
+        public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @UltimateAbility => m_Wrapper.m_Player_UltimateAbility;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -257,6 +323,15 @@ public class GameControls : IInputActionCollection
                 PrimaryAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryAttack;
                 PrimaryAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryAttack;
                 PrimaryAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryAttack;
+                SecondaryAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondaryAttack;
+                SecondaryAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondaryAttack;
+                SecondaryAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondaryAttack;
+                Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                UltimateAbility.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
+                UltimateAbility.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
+                UltimateAbility.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -270,6 +345,15 @@ public class GameControls : IInputActionCollection
                 PrimaryAttack.started += instance.OnPrimaryAttack;
                 PrimaryAttack.performed += instance.OnPrimaryAttack;
                 PrimaryAttack.canceled += instance.OnPrimaryAttack;
+                SecondaryAttack.started += instance.OnSecondaryAttack;
+                SecondaryAttack.performed += instance.OnSecondaryAttack;
+                SecondaryAttack.canceled += instance.OnSecondaryAttack;
+                Interact.started += instance.OnInteract;
+                Interact.performed += instance.OnInteract;
+                Interact.canceled += instance.OnInteract;
+                UltimateAbility.started += instance.OnUltimateAbility;
+                UltimateAbility.performed += instance.OnUltimateAbility;
+                UltimateAbility.canceled += instance.OnUltimateAbility;
             }
         }
     }
@@ -297,5 +381,8 @@ public class GameControls : IInputActionCollection
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnPrimaryAttack(InputAction.CallbackContext context);
+        void OnSecondaryAttack(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
+        void OnUltimateAbility(InputAction.CallbackContext context);
     }
 }

@@ -7,45 +7,46 @@ public class CameraController : MonoBehaviour
 {
     public float speed = 2.0f;
 
-    private List<GameObject> players;
-    private float zOffset = 0.0f;
-    private Vector3 target;
+    private List<GameObject> _players;
+    private float _zOffset;
+    private Vector3 _target;
 
     private void Start()
     {
         // Grab player GameObjects from the player manager
-        players = PlayerManager.instance.players;
+        _players = PlayerManager.Instance.players;
 
         // Calculate the Z offset based on the current camera angle and height
-        if (transform.rotation.eulerAngles.x == 90f)
-            zOffset = 0f;
+        if (Mathf.Approximately(transform.rotation.eulerAngles.x, 90f))
+            // If looking straight down then there is no offset
+            _zOffset = 0f;
         else
-            zOffset = transform.position.y * Mathf.Tan(transform.rotation.x);
+            _zOffset = transform.position.y * Mathf.Tan(transform.rotation.x);
 
         // Set the initial camera target and move the camera to it
-        target = FindPlayersCenter();
-        transform.position = new Vector3(target.x, transform.position.y, target.z - zOffset);
+        _target = FindPlayersCenter();
+        transform.position = new Vector3(_target.x, transform.position.y, _target.z - _zOffset);
     }
 
     private void FixedUpdate()
     {
         // Track the approximate center of the players
-        target = FindPlayersCenter();
+        _target = FindPlayersCenter();
 
         Vector3 pos = transform.position;
 
         // TODO Smoothed motion of the camera causes slight stuttering in enemy moving
-        pos.x = Mathf.Lerp(transform.position.x, target.x, speed * Time.deltaTime);
-        pos.z = Mathf.Lerp(transform.position.z, target.z - zOffset, speed * Time.deltaTime);
+        pos.x = Mathf.Lerp(transform.position.x, _target.x, speed * Time.deltaTime);
+        pos.z = Mathf.Lerp(transform.position.z, _target.z - _zOffset, speed * Time.deltaTime);
 
         transform.position = pos;
     }
 
     private Vector3 FindPlayersCenter()
     {
-        if (players.Count == 1) // TODO temp
+        if (_players.Count == 1) // TODO temp
         {
-            return new Vector3(players[0].transform.position.x, 0, players[0].transform.position.z);
+            return new Vector3(_players[0].transform.position.x, 0, _players[0].transform.position.z);
         }
 
         float xMin = float.MaxValue;
@@ -53,7 +54,7 @@ public class CameraController : MonoBehaviour
         float zMin = float.MaxValue;
         float zMax = float.MinValue;
 
-        foreach (GameObject player in players)
+        foreach (GameObject player in _players)
         {
             if (player.activeSelf)
             {

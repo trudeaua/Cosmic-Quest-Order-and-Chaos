@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStats : EntityStats
+public class EnemyStatsController : EntityStatsController
 {
-    public override void TakeDamage(EntityStats attacker, int damage)
+    public override void TakeDamage(EntityStatsController attacker, int damage)
     {
         // ignore attacks if already dead
         if (isDead)
@@ -29,7 +29,7 @@ public class EnemyStats : EntityStats
         }
     }
 
-    public override void Die()
+    protected override void Die()
     {
         Debug.Log(transform.name + " died.");
         isDead = true;
@@ -37,7 +37,7 @@ public class EnemyStats : EntityStats
     }
 
     // TODO need to disable enemy on death and just show animation
-    IEnumerator EnemyDeath()
+    private IEnumerator EnemyDeath()
     {
         GetComponentInChildren<Animator>().SetTrigger("Die");
         yield return new WaitForSeconds(1.1f);

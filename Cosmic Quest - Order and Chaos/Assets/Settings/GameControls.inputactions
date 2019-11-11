@@ -28,6 +28,30 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press"
+                },
+                {
+                    "name": "SecondaryAttack",
+                    "type": "Button",
+                    "id": "7fcc6c30-bd3c-41a9-92de-0f7a4fa0d592",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "e02c0312-8f9d-4012-bd07-e9f92deaf64f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "UltimateAbility",
+                    "type": "Button",
+                    "id": "c9be423e-0edd-45eb-857e-3609d971d47d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
@@ -127,6 +151,39 @@
                     "processors": "StickDeadzone(min=0.125,max=0.95)",
                     "groups": "Gamepad",
                     "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f1c2d901-5de9-4eeb-abf5-9e302da8df57",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SecondaryAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9e423dfe-f35f-4654-9a95-547cc7d7366a",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b1d907c7-b69e-4e74-86d4-0710ce636725",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "UltimateAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
