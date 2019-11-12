@@ -8,6 +8,9 @@ public class PlayerMotorController : MonoBehaviour
     public float speed = 6.0f;
     public float rotationSpeed = 10.0f;
 
+    [Tooltip("Max distance of objects that the player can interact with")]
+    public float interactionRadius = 4f;
+
     private Rigidbody _rb;
     private Animator _anim;
 
@@ -81,4 +84,22 @@ public class PlayerMotorController : MonoBehaviour
     {
         _lookInput = value.Get<Vector2>();
     }
+
+    private void OnInteract(InputValue value)
+    {
+        // Only trigger on button pressed down
+        if (value.isPressed)
+        {
+            // Attempt to interact with the first interactable in the player's view
+            if (Physics.Raycast(transform.position + Vector3.up, transform.TransformDirection(Vector3.forward), out RaycastHit hit, interactionRadius))
+            {
+                Interactable interactable = hit.transform.GetComponent<Interactable>();
+                if (interactable != null)
+                {
+                    // Attempt interaction
+                    interactable.Interact(transform);
+                }
+            }
+        }
+    } 
 }
