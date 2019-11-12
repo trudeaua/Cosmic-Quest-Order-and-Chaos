@@ -5,11 +5,14 @@ using UnityEngine;
 public class PlayerStatsController : EntityStatsController
 {
     // Player specific stats
-    public float maxStamina;
-    public float currentStamina { get; private set; }
+    public RegenerableStat stamina;
+    public RegenerableStat mana;
 
-    public float maxMana;
-    public float currentMana { get; private set; }
+    private void Update()
+    {
+        stamina.Regen();
+        mana.Regen();
+    }
     
     protected override void Die()
     {

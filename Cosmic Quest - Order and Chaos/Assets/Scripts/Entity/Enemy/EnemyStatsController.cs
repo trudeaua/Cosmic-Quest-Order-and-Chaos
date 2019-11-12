@@ -19,12 +19,11 @@ public class EnemyStatsController : EntityStatsController
         }
 
         // Calculate any changes based on stats and modifiers here first
-        currentHealth -= damage;
+        health.Subtract(damage);
         Debug.Log(transform.name + " took " + damage + " damage.");
 
-        if (currentHealth <= 0)
+        if (health.currentValue == 0)
         {
-            currentHealth = 0;
             Die();
         }
     }

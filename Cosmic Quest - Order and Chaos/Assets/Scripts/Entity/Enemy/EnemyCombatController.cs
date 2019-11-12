@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemyCombatController : EntityCombatController
 {
+    public float attackRate = 1f;
+    public float attackRadius = 2f;
+    
     public void PrimaryAttack()
     {
         // TODO temporary combat architecture
@@ -18,7 +21,7 @@ public class EnemyCombatController : EntityCombatController
                 if (hit.transform.CompareTag("Player"))
                 {
                     // Do damage to player
-                    StartCoroutine(PerformDamage(hit.transform.GetComponent<EntityStatsController>(), 0.6f));
+                    StartCoroutine(PerformDamage(hit.transform.GetComponent<EntityStatsController>(), Stats.baseDamage.GetValue(), 0.6f));
                 }
             }
         }

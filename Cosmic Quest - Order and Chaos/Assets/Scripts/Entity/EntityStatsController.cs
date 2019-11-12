@@ -13,9 +13,8 @@ public enum CharacterColour
 
 public class EntityStatsController : MonoBehaviour
 {
-    // Common entity health stats
-    public float maxHealth = 100f;
-    public float currentHealth { get; protected set; }
+    // Common entity regenerable stats
+    public RegenerableStat health;
 
     public bool isDead { get; protected set; }
 
@@ -27,8 +26,7 @@ public class EntityStatsController : MonoBehaviour
 
     private void Awake()
     {
-        // Start off with full health
-        currentHealth = maxHealth;
+        health = new RegenerableStat(100, 0, 0, 0f);
 
         // Add combat class stat modifiers to base stats
         //baseDamage.AddModifier(combatClass.baseDamageModifier);
@@ -38,11 +36,10 @@ public class EntityStatsController : MonoBehaviour
     public virtual void TakeDamage(EntityStatsController attacker, int damage)
     {
         // Calculate any changes based on stats and modifiers here first
-        currentHealth -= damage;
+        health.Subtract(damage);
 
-        if (currentHealth <= 0)
+        if (health.currentValue == 0)
         {
-            currentHealth = 0;
             Die();
         }
     }

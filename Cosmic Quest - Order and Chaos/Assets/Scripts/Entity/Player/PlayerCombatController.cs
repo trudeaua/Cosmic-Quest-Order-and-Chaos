@@ -18,7 +18,6 @@ public class PlayerCombatController : EntityCombatController
 
             if (Physics.Raycast(transform.position + Vector3.up, transform.TransformDirection(Vector3.forward), out RaycastHit hit, attackRadius))
             {
-                
                 if (hit.transform.CompareTag("Enemy"))
                 {
                     // Do damage
@@ -34,9 +33,15 @@ public class PlayerCombatController : EntityCombatController
         Debug.Log("Player's base secondary attack triggered");
     }
 
+    protected virtual void UltimateAbility()
+    {
+        // Implement me
+        Debug.Log("Player's base ultimate ability triggered");
+    }
+
     protected virtual void OnPrimaryAttack(InputValue value)
     {
-        // Only trigger attack on button down
+        // Only trigger attack on button down by default
         if (value.isPressed)
         {
             PrimaryAttack();
@@ -45,10 +50,19 @@ public class PlayerCombatController : EntityCombatController
     
     protected virtual void OnSecondaryAttack(InputValue value)
     {
-        // Only trigger attack on button down
+        // Only trigger attack on button down by default
         if (value.isPressed)
         {
             SecondaryAttack();
+        }
+    }
+
+    protected virtual void OnUltimateAbility(InputValue value)
+    {
+        // Only trigger ability on button down by default
+        if (value.isPressed)
+        {
+            UltimateAbility();
         }
     }
 }

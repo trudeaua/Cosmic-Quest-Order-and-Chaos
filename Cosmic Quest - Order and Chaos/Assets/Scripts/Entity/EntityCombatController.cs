@@ -7,10 +7,7 @@ public class EntityCombatController : MonoBehaviour
 {
     protected EntityStatsController Stats;
     protected Animator Anim;
-    protected float AttackCooldown = 0f;
-
-    public float attackRate = 1f;
-    public float attackRadius = 2f;
+    protected float AttackCooldown;
 
     private void Awake()
     {
@@ -20,13 +17,15 @@ public class EntityCombatController : MonoBehaviour
 
     private void Update()
     {
+        // Reduce attack cooldown counter
         AttackCooldown -= Time.deltaTime;
     }
 
-    protected IEnumerator PerformDamage(EntityStatsController targetStats, float damageDelay)
+    protected IEnumerator PerformDamage(EntityStatsController targetStats, int damageValue, float damageDelay)
     {
         yield return new WaitForSeconds(damageDelay);
 
-        targetStats.TakeDamage(Stats, Stats.baseDamage.GetValue());
+        // Applies damage to targetStats
+        targetStats.TakeDamage(Stats, damageValue);
     }
 }
