@@ -13,4 +13,9 @@ public class PlayerRangedCombatController : PlayerCombatController
     {
         
     }
+    
+    protected override void UltimateAbility()
+    {
+        // TODO implement melee class ultimate ability
+    }
 }

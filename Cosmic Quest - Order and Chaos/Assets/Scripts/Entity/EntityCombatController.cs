@@ -8,6 +8,9 @@ public class EntityCombatController : MonoBehaviour
     protected EntityStatsController Stats;
     protected Animator Anim;
     protected float AttackCooldown;
+    
+    // Entity layer mask constant for entity raycasting checks
+    protected const int EntityLayer = 1 << 9;
 
     private void Awake()
     {
@@ -27,5 +30,13 @@ public class EntityCombatController : MonoBehaviour
 
         // Applies damage to targetStats
         targetStats.TakeDamage(Stats, damageValue);
+    }
+    
+    protected IEnumerator LaunchProjectile(GameObject projectile, Vector3 direction, float launchDelay)
+    {
+        yield return new WaitForSeconds(launchDelay);
+        
+        // Launch projectile from projectile pool
+        Debug.Log("Projectile launched!");
     }
 }

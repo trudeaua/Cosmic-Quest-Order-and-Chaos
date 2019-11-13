@@ -19,29 +19,38 @@ public class EntityStatsController : MonoBehaviour
     public bool isDead { get; protected set; }
 
     // Common base stats
-    public Stat baseDamage;
-    public Stat baseDefense;
+    public Stat damage;
+    public Stat defense;
 
     public CharacterColour characterColour = CharacterColour.None;
 
     private void Awake()
     {
-        health = new RegenerableStat(100, 0, 0, 0f);
-
-        // Add combat class stat modifiers to base stats
-        //baseDamage.AddModifier(combatClass.baseDamageModifier);
-        //baseDefense.AddModifier(combatClass.baseDefenseModifier);
+        health.Init();
     }
 
-    public virtual void TakeDamage(EntityStatsController attacker, int damage)
+    public virtual void TakeDamage(EntityStatsController attacker, int damageValue)
     {
         // Calculate any changes based on stats and modifiers here first
-        health.Subtract(damage);
+        int hitValue = damageValue - ComputeDefenseModifier();
+        health.Subtract(hitValue < 0 ? 0 : hitValue);
 
         if (health.currentValue == 0)
         {
             Die();
         }
+    }
+    
+    public virtual int ComputeDamageModifer()
+    {
+        int baseHit = Random.Range(0, damage.GetBaseValue());
+        return damage.GetValue() - baseHit;
+    }
+
+    public virtual int ComputeDefenseModifier()
+    {
+        int baseDefense = Random.Range(0, defense.GetBaseValue());
+        return defense.GetValue() - baseDefense;
     }
 
     protected virtual void Die()

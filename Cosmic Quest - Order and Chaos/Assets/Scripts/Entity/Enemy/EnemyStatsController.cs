@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyStatsController : EntityStatsController
 {
-    public override void TakeDamage(EntityStatsController attacker, int damage)
+    public override void TakeDamage(EntityStatsController attacker, int damageValue)
     {
         // ignore attacks if already dead
         if (isDead)
@@ -19,8 +19,9 @@ public class EnemyStatsController : EntityStatsController
         }
 
         // Calculate any changes based on stats and modifiers here first
-        health.Subtract(damage);
-        Debug.Log(transform.name + " took " + damage + " damage.");
+        int hitValue = damageValue - ComputeDefenseModifier();
+        health.Subtract(hitValue < 0 ? 0 : hitValue);
+        Debug.Log(transform.name + " took " + hitValue + " damage.");
 
         if (health.currentValue == 0)
         {
