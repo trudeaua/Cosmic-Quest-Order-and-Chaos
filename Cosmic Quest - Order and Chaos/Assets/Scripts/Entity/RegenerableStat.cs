@@ -5,20 +5,15 @@ using UnityEngine;
 [System.Serializable]
 public class RegenerableStat
 {
-    public int maxValue { get; private set; }
-    public int minValue { get; private set; }
+    public int maxValue;
+    public int minValue;
     public int currentValue { get; private set; }
     [SerializeField] private int regenAmount;
     [SerializeField] private float regenRate;
     private float _lastRegenTime;
 
-    public RegenerableStat(int maxValue, int minValue, int regenAmount, float regenRate)
+    public void Init()
     {
-        this.maxValue = maxValue;
-        this.minValue = minValue;
-        this.regenAmount = regenAmount;
-        this.regenRate = regenRate;
-
         // Initialize current value to the maximum value
         currentValue = maxValue;
     }

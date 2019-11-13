@@ -21,7 +21,7 @@ public class EnemyCombatController : EntityCombatController
                 if (hit.transform.CompareTag("Player"))
                 {
                     // Do damage to player
-                    StartCoroutine(PerformDamage(hit.transform.GetComponent<EntityStatsController>(), Stats.baseDamage.GetValue(), 0.6f));
+                    StartCoroutine(PerformDamage(hit.transform.GetComponent<EntityStatsController>(), Stats.damage.GetValue(), 0.6f));
                 }
             }
         }
