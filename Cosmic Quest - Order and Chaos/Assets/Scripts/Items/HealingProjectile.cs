@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class HealingProjectile : Projectile
 {
-    // Start is called before the first frame update
-    void Start()
+    
+    
+    protected override void OnCollisionEnter(Collision collision)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Collision event
+        Debug.Log(name + " has collided with " + collision);
     }
 }
