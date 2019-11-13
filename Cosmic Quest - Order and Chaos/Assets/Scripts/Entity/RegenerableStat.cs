@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class RegenerableStat
 {
-    public int maxValue { get; }
-    public int minValue { get; }
+    public int maxValue { get; private set; }
+    public int minValue { get; private set; }
     public int currentValue { get; private set; }
     [SerializeField] private int regenAmount;
     [SerializeField] private float regenRate;

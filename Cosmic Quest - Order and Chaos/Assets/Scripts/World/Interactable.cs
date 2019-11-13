@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Base class for player interactable objects
+/// </summary>
 public class Interactable : MonoBehaviour
 {
     [Tooltip("Max distance a transform can be to interact with this")]
     public float radius = 3f;
 
     [Tooltip("Required character colour to interact with")]
-    public CharacterColour colour;
+    public CharacterColour colour = CharacterColour.None;
 
     /// <summary>
-    /// Handles the interaction event when interacted with by an entity
+    /// Handles the interaction event when interacted with a player
     /// </summary>
     /// <param name="target">The Transform which interacted with this object</param>
     public virtual void Interact(Transform target)
@@ -24,7 +27,7 @@ public class Interactable : MonoBehaviour
     }
 
     /// <summary>
-    /// Determines if a given Transform is able to interact
+    /// Determines if a given player is able to interact with this object
     /// </summary>
     /// <param name="target">The Transform attempting to interact with this object</param>
     /// <returns>Whether the Transform can interact with this object</returns>
