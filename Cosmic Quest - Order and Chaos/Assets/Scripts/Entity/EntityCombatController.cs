@@ -18,7 +18,7 @@ public class EntityCombatController : MonoBehaviour
         Anim = GetComponentInChildren<Animator>();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         // Reduce attack cooldown counter
         AttackCooldown -= Time.deltaTime;
