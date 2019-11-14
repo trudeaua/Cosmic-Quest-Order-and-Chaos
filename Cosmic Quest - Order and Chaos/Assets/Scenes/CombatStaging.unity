@@ -126,23 +126,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 737224301907081687}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &460122962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5635172858608059121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 148c1191536caab49b17361f55e0cf68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  primaryAttackCooldown: 0.5
-  secondaryAttackCooldown: 1
-  attackRadius: 2
-  primaryAttackAngle: 45
-  secondaryAttackAngle: 160
 --- !u!1 &807492336
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +171,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.33333334
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: 4f44375d20dbe7e41809388e4d39ca12, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 8e7191e4d4418cb4eaddb5538a5a99d4, type: 2}
 --- !u!4 &807492338
 Transform:
   m_ObjectHideFlags: 0
@@ -496,6 +479,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1906307366}
   - component: {fileID: 1906307365}
+  - component: {fileID: 1906307367}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -530,6 +514,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1906307367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906307364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 131036762b57e245da1be73d14fcc73b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledItems:
+  - pooledAmount: 10
+    pooledObject: {fileID: 9070515875191536467, guid: 89cf1e6c9119eae40a90576421de14d2,
+      type: 3}
+    expandable: 0
+  pooledObjects: []
 --- !u!1 &1951962464
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,10 +1013,10 @@ GameObject:
   - component: {fileID: 5635172858608059125}
   - component: {fileID: 5635172858608059120}
   - component: {fileID: 5635172858608059082}
-  - component: {fileID: 5635172858608059124}
-  - component: {fileID: 460122962}
-  - component: {fileID: 5635172858608059127}
   - component: {fileID: 5635172858608059081}
+  - component: {fileID: 5635172858608059124}
+  - component: {fileID: 5635172858608059127}
+  - component: {fileID: 5635172858608059122}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -1022,6 +1024,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5635172858608059122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5635172858608059121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d7c919668a158459487316debc9da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primaryAttackCooldown: 0.5
+  secondaryAttackCooldown: 1
+  meleeAttackRadius: 2
+  primaryAttackAngle: 100
+  projectileVelocity: 10
+  projectileRange: 20
+  projectilePrefab: {fileID: 9070515875191536467, guid: 89cf1e6c9119eae40a90576421de14d2,
+    type: 3}
 --- !u!114 &5635172858608059124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1045,7 +1067,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5635172858608059121}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -10.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1792390395}
