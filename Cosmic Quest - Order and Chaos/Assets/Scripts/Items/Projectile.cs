@@ -1,33 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UI;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
     private float _velocity;
     private float _range;
-    
-    private bool _launched;
+
     private Vector3 _initialPosition;
 
     private const float ProjectileHeight = 1f;
-    
-    private void Start()
+
+    private void Awake()
     {
-        _launched = false;
         _initialPosition = transform.position;
     }
 
     private void Update()
     {
-        if (!_launched)
-            return;
-        
-        // Move the projectile
-        transform.Translate(Time.deltaTime * _velocity * transform.forward);
-        
-        // Check for any collisions
+        transform.Translate(_velocity * Time.deltaTime * transform.forward, Space.World);
         
         // Check if projectile has reached its maximum range
         if ((transform.position - _initialPosition).sqrMagnitude >= _range * _range)
@@ -51,18 +42,22 @@ public class Projectile : MonoBehaviour
         
         // Set self active and begin launch
         gameObject.SetActive(true);
-        _launched = true;
     }
 
-    protected virtual void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         // Collision event
-        Debug.Log(name + " has collided with " + collision);
+        OnCollision(other);
+    }
+
+    protected virtual void OnCollision(Collider col)
+    {
+        Debug.Log(name + " has collided with " + col.gameObject.name);
+        gameObject.SetActive(false);
     }
 
     protected virtual void EndLaunch()
     {
-        _launched = false;
         gameObject.SetActive(false);
     }
 }

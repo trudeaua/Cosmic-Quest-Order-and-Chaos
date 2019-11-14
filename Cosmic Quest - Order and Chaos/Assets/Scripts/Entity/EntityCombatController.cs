@@ -32,11 +32,12 @@ public class EntityCombatController : MonoBehaviour
         targetStats.TakeDamage(Stats, damageValue);
     }
     
-    protected IEnumerator LaunchProjectile(GameObject projectile, Vector3 direction, float launchDelay)
+    protected IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float velocity, float range, float launchDelay)
     {
         yield return new WaitForSeconds(launchDelay);
         
         // Launch projectile from projectile pool
-        Debug.Log("Projectile launched!");
+        GameObject projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab);
+        projectile.GetComponent<Projectile>().Launch(transform, direction, velocity, range);
     }
 }
