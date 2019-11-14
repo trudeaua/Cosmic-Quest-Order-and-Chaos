@@ -55,7 +55,7 @@ public class PlayerCombatController : EntityCombatController
     /// <param name="radius">The range of the attack</param>
     /// <param name="sweepAngle">The angular distance in degrees of the attacks FOV.
     /// If set to 360 or left unset then the player can attack in any direction.</param>
-    /// <returns></returns>
+    /// <returns>Whether the player can damage the enemy</returns>
     protected bool CanDamageTarget(Vector3 target, float radius, float sweepAngle = 360f)
     {
         // TODO need to rethink hitboxes or standardize projecting from y = 1

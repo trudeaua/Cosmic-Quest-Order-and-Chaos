@@ -18,6 +18,15 @@ public class RegenerableStat
         currentValue = maxValue;
     }
 
+    public void Add(int amount)
+    {
+        currentValue += amount;
+        if (currentValue > maxValue)
+        {
+            currentValue = maxValue;
+        }
+    }
+    
     public void Subtract(int amount)
     {
         currentValue -= amount;

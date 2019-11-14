@@ -8,6 +8,7 @@ public class ObjectPoolItem
     public int pooledAmount;
     public GameObject pooledObject;
     public bool expandable;
+    public List<GameObject> pooledObjects;
 }
 
 public class ObjectPooler : MonoBehaviour
@@ -22,44 +23,47 @@ public class ObjectPooler : MonoBehaviour
     #endregion
 
     public List<ObjectPoolItem> pooledItems;
-    public List<GameObject> pooledObjects;
     
     private void Start()
     {
-        pooledObjects = new List<GameObject>();
-
         foreach (ObjectPoolItem item in pooledItems)
         {
             for (int i = 0; i < item.pooledAmount; i++)
             {
                 GameObject obj = Instantiate(item.pooledObject);
                 obj.SetActive(false);
-                pooledObjects.Add(obj);
+                item.pooledObjects.Add(obj);
             }
         }
     }
 
     public GameObject GetPooledObject(GameObject prefab)
     {
-        foreach (var obj in pooledObjects)
+        foreach (ObjectPoolItem item in pooledItems)
         {
-            if (!obj.activeInHierarchy && obj == prefab)
+            if (item.pooledObject == prefab)
             {
-                return obj;
+                foreach (var obj in item.pooledObjects)
+                {
+                    if (!obj.activeInHierarchy)
+                    {
+                        return obj;
+                    }
+                }
+                
+                // See if we can expand the pool if no objects available
+                if (item.expandable)
+                {
+                    GameObject newObject = Instantiate(item.pooledObject);
+                    newObject.SetActive(false);
+                    item.pooledObjects.Add(newObject);
+                    return newObject;
+                }
+
+                return null;
             }
         }
 
-        foreach (ObjectPoolItem item in pooledItems)
-        {
-            if (item.pooledObject == prefab && item.expandable)
-            {
-                GameObject obj = Instantiate(item.pooledObject);
-                obj.SetActive(false);
-                pooledObjects.Add(obj);
-                return obj;
-            }
-        }
-        
         return null;
     }
 }

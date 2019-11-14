@@ -6,10 +6,11 @@ public class Projectile : MonoBehaviour
 {
     private float _velocity;
     private float _range;
-
     private Vector3 _initialPosition;
 
     private const float ProjectileHeight = 1f;
+
+    protected EntityStatsController LauncherStats;
 
     private void Awake()
     {
@@ -27,13 +28,14 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    public void Launch(Transform launcher, Vector3 direction, float velocity, float range)
+    public void Launch(EntityStatsController launcherStats, Vector3 direction, float velocity, float range)
     {
+        LauncherStats = launcherStats;
         _velocity = velocity;
         _range = range;
         
         // Set position just in front of launcher
-        _initialPosition = launcher.position + launcher.forward;
+        _initialPosition = launcherStats.transform.position + launcherStats.transform.forward;
         _initialPosition.y = ProjectileHeight;
         transform.position = _initialPosition;
         
