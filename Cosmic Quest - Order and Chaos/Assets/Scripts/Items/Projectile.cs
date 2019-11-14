@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour
     private float _velocity;
     private float _range;
     private Vector3 _initialPosition;
+    private Rigidbody _rb;
 
     private const float ProjectileHeight = 1f;
 
@@ -15,11 +16,12 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         _initialPosition = transform.position;
+        _rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        transform.Translate(_velocity * Time.deltaTime * transform.forward, Space.World);
+        //transform.Translate(_velocity * Time.deltaTime * transform.forward, Space.World);
         
         // Check if projectile has reached its maximum range
         if ((transform.position - _initialPosition).sqrMagnitude >= _range * _range)
@@ -28,10 +30,9 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    public void Launch(EntityStatsController launcherStats, Vector3 direction, float velocity, float range)
+    public void Launch(EntityStatsController launcherStats, Vector3 direction, float launchForce, float range)
     {
         LauncherStats = launcherStats;
-        _velocity = velocity;
         _range = range;
         
         // Set position just in front of launcher
@@ -44,17 +45,16 @@ public class Projectile : MonoBehaviour
         
         // Set self active and begin launch
         gameObject.SetActive(true);
+        
+        // Reset forces and apply launch force to the rigidbody
+        _rb.velocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
+        _rb.AddForce(launchForce * transform.forward);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        // Collision event
-        OnCollision(other);
-    }
-
-    protected virtual void OnCollision(Collider col)
-    {
-        Debug.Log(name + " has collided with " + col.gameObject.name);
+        Debug.Log(name + " has collided with " + other.gameObject.name);
         gameObject.SetActive(false);
     }
 
