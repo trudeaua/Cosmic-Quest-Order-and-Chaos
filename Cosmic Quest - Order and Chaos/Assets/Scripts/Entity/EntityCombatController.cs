@@ -38,6 +38,6 @@ public class EntityCombatController : MonoBehaviour
         
         // Launch projectile from projectile pool
         GameObject projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab);
-        projectile.GetComponent<Projectile>().Launch(transform, direction, velocity, range);
+        projectile.GetComponent<Projectile>().Launch(Stats, direction, velocity, range);
     }
 }
