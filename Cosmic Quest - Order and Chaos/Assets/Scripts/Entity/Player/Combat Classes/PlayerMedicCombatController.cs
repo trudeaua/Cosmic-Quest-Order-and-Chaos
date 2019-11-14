@@ -7,16 +7,12 @@ public class PlayerMedicCombatController : PlayerCombatController
 {
     [Tooltip("The maximum range the player's melee attack can reach")]
     public float meleeAttackRadius = 2f;
-    
     [Tooltip("The angular distance around the player where enemies are affected by the primary attack")]
     public float primaryAttackAngle = 100f;
-
-    [Tooltip("The velocity at which the healing projectile will travel")]
-    public float projectileVelocity = 10f;
-
+    [Tooltip("The force to launch the healing projectile at")]
+    public float secondaryAttackLaunchForce = 500f;
     [Tooltip("The range which the healing projectile can travel")]
-    public float projectileRange = 20f;
-    
+    public float secondaryAttackRange = 20f;
     [Tooltip("The prefab for the healing projectile")]
     public GameObject projectilePrefab;
     
@@ -47,7 +43,7 @@ public class PlayerMedicCombatController : PlayerCombatController
         AttackCooldown = secondaryAttackCooldown;
         
         // Launch projectile in the direction the player is facing
-        StartCoroutine(LaunchProjectile(projectilePrefab, transform.forward, projectileVelocity, projectileRange, 0.5f));
+        StartCoroutine(LaunchProjectile(projectilePrefab, transform.forward, secondaryAttackLaunchForce, secondaryAttackRange, 0.5f));
     }
     
     protected override void UltimateAbility()

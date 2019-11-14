@@ -29,27 +29,27 @@ public class EntityStatsController : MonoBehaviour
         health.Init();
     }
 
-    public virtual void TakeDamage(EntityStatsController attacker, int damageValue)
+    public virtual void TakeDamage(EntityStatsController attacker, float damageValue)
     {
         // Calculate any changes based on stats and modifiers here first
-        int hitValue = damageValue - ComputeDefenseModifier();
+        float hitValue = damageValue - ComputeDefenseModifier();
         health.Subtract(hitValue < 0 ? 0 : hitValue);
 
-        if (health.currentValue == 0)
+        if (Mathf.Approximately(health.currentValue, 0f))
         {
             Die();
         }
     }
     
-    public virtual int ComputeDamageModifer()
+    public virtual float ComputeDamageModifer()
     {
-        int baseHit = Random.Range(0, damage.GetBaseValue());
+        float baseHit = Random.Range(0, damage.GetBaseValue());
         return damage.GetValue() - baseHit;
     }
 
-    public virtual int ComputeDefenseModifier()
+    public virtual float ComputeDefenseModifier()
     {
-        int baseDefense = Random.Range(0, defense.GetBaseValue());
+        float baseDefense = Random.Range(0, defense.GetBaseValue());
         return defense.GetValue() - baseDefense;
     }
 
