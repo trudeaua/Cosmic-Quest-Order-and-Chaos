@@ -6,10 +6,13 @@ using UnityEngine.Serialization;
 
 public class PlayerMeleeCombatController : PlayerCombatController
 {
+    [Header("Primary Attack")]
     [Tooltip("The maximum range the player's attack can reach")]
-    public float attackRadius = 2f;
+    public float primaryAttackRadius = 2f;
     [Tooltip("The angular distance around the player where enemies are affected by the primary attack")]
     public float primaryAttackAngle = 45f;
+    
+    [Header("Secondary Attack")]
     [Tooltip("The angular distance around the player where enemies are affected by the secondary attack")]
     public float secondaryAttackAngle = 160f;
     
@@ -21,10 +24,10 @@ public class PlayerMeleeCombatController : PlayerCombatController
         AttackCooldown = primaryAttackCooldown;
         
         // Check all enemies within attack radius of the player
-        List<Transform> enemies = GetSurroundingEnemies(attackRadius);
+        List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
         
         // Attack any enemies within the attack sweep and range
-        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy.position, attackRadius, primaryAttackAngle)))
+        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy.position, primaryAttackRadius, primaryAttackAngle)))
         {
             // TODO can this attack affect multiple enemies?
             // Calculate and perform damage
@@ -40,10 +43,10 @@ public class PlayerMeleeCombatController : PlayerCombatController
         AttackCooldown = secondaryAttackCooldown;
         
         // Check all enemies within attack radius of the player
-        List<Transform> enemies = GetSurroundingEnemies(attackRadius);
+        List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
         
         // Attack any enemies within the attack sweep and range
-        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy.position, attackRadius, secondaryAttackAngle)))
+        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy.position, primaryAttackRadius, secondaryAttackAngle)))
         {
             // Calculate and perform damage
             StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));

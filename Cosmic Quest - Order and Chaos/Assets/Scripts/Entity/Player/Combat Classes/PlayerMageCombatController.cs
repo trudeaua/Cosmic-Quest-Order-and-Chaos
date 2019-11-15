@@ -6,12 +6,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerMageCombatController : PlayerCombatController
 {
+    [Header("Primary Attack")]
     [Tooltip("The distance the primary projectile attack can travel")]
     public float primaryAttackRange = 20f;
     [Tooltip("The force to launch the primary attack projectile at")]
     public float primaryAttackLaunchForce = 500f;
     [Tooltip("The projectile prefab for the primary attack")]
     public GameObject primaryProjectilePrefab;
+    
+    [Header("Secondary Attack")]
     [Tooltip("The distance the secondary attack will reach")]
     public float secondaryAttackRange = 3f;
     [Tooltip("The secondary attack projected angle of AOE in degrees")]
