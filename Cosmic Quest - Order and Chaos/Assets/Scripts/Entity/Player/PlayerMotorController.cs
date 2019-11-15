@@ -64,9 +64,21 @@ public class PlayerMotorController : MonoBehaviour
             // Rotate towards direction of movement
             _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, Quaternion.LookRotation(inputMoveDirection, Vector3.up), rotationSpeed * Time.deltaTime));
         }
+        // Animate player legs, legs will still move as they attack
+        if (_moveInput != Vector2.zero)
+        {
+            _anim.SetLayerWeight(1, 1);
+        }
+        // Don't animate player legs
+        else
+        {
+            _anim.SetLayerWeight(1, 0);
+
+        }
 
         // Trigger walking animation
         _anim.SetFloat("WalkSpeed", _moveInput == Vector2.zero ? 0f : _moveInput.magnitude);
+        _anim.SetFloat("Direction", Vector3.Angle(inputMoveDirection, inputLookDirection) < 90 ? 1f * (_moveInput.magnitude + speed*0.03f) : -1f *(_moveInput.magnitude + speed*0.03f) );
 
         // Apply movement speed
         inputMoveDirection *= speed * Time.deltaTime;
