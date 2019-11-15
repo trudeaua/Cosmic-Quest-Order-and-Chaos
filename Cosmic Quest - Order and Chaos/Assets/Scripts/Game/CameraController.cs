@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
 
     private Camera _camera;
     private List<GameObject> _players;
+    private float _invTanOfView;
     private float _zOffset;
     private Vector3 _target;
     
@@ -35,10 +36,18 @@ public class CameraController : MonoBehaviour
 
         // Calculate the Z offset based on the current camera angle and height
         if (Mathf.Approximately(transform.rotation.eulerAngles.x, 90f))
+        {
             // If looking straight down then there is no offset
             _zOffset = 0f;
+            _invTanOfView = 1f;
+        }
         else
-            _zOffset = transform.position.y * Mathf.Tan(transform.rotation.x);
+        {
+            // Cache the inverse tan of the camera angle for performance
+            _invTanOfView = 1 / Mathf.Tan(transform.rotation.eulerAngles.x * Mathf.Deg2Rad);
+            _zOffset = transform.position.y * _invTanOfView;
+        }
+            
 
         // Set the initial camera target and move the camera to it
         _target = FindPlayersCenter();
@@ -72,39 +81,39 @@ public class CameraController : MonoBehaviour
 
         foreach (GameObject player in _players)
         {
-            Vector3 playerPos = _camera.WorldToViewportPoint(player.transform.position);
+            Vector3 viewportPos = _camera.WorldToViewportPoint(player.transform.position);
 
-            if (playerPos.x < moveBoundary)
+            if (viewportPos.x < moveBoundary)
             {
                 // Player is on the left of the screen
-                viewportOffset.x -= moveBoundary - playerPos.x;
+                viewportOffset.x -= moveBoundary - viewportPos.x;
 
-                if (playerPos.x < deadBoundary)
+                if (viewportPos.x < deadBoundary)
                     deadZone |= 1 << (int) ScreenEdge.Left;
             }
-            else if (playerPos.x > 1f - moveBoundary)
+            else if (viewportPos.x > 1f - moveBoundary)
             {
                 // Player is on the right of the screen
-                viewportOffset.x += playerPos.x - (1f - moveBoundary);
+                viewportOffset.x += viewportPos.x - (1f - moveBoundary);
 
-                if (playerPos.x > 1f - deadBoundary)
+                if (viewportPos.x > 1f - deadBoundary)
                     deadZone |= 1 << (int) ScreenEdge.Right;
             }
 
-            if (playerPos.y < moveBoundary)
+            if (viewportPos.y < moveBoundary)
             {
                 // Player is on the bottom of the screen
-                viewportOffset.y -= moveBoundary - playerPos.y;
+                viewportOffset.y -= moveBoundary - viewportPos.y;
                 
-                if (playerPos.x < deadBoundary)
+                if (viewportPos.x < deadBoundary)
                     deadZone |= 1 << (int) ScreenEdge.Bottom;
             }
-            else if (playerPos.y > 1f - moveBoundary)
+            else if (viewportPos.y > 1f - moveBoundary)
             {
                 // Player is on the top of the screen
-                viewportOffset.y += playerPos.y - (1f - moveBoundary);
+                viewportOffset.y += viewportPos.y - (1f - moveBoundary);
                 
-                if (playerPos.y > 1f - deadBoundary)
+                if (viewportPos.y > 1f - deadBoundary)
                     deadZone |= 1 << (int) ScreenEdge.Top;
             }
         }
@@ -132,21 +141,48 @@ public class CameraController : MonoBehaviour
 
         return positionOffset;
     }
-    
-    // TODO return the edge coordinate to reduce stuttery motion
-    public ScreenEdge IsPositionInDeadzone(Vector3 position)
-    {
-        Vector3 playerPos = _camera.WorldToViewportPoint(position);
 
-        if (playerPos.x < deadBoundary)
-            return ScreenEdge.Left;
-        if (playerPos.x > 1f - deadBoundary)
-            return ScreenEdge.Right;
-        if (playerPos.y < deadBoundary) 
-            return ScreenEdge.Bottom;
-        if (playerPos.y > 1f - deadBoundary)
-            return ScreenEdge.Top;
-        return ScreenEdge.None;
+    /// <summary>
+    /// Clamps a given target position to a position within the screen boundaries.
+    /// If the given position is not outside of the screen boundaries, then the same
+    /// position is returned.
+    /// </summary>
+    /// <param name="targetPos">The position to clamp within the screen boundaries</param>
+    /// <returns>The clamped position</returns>
+    public Vector3 ClampToScreenEdge(Vector3 targetPos)
+    {
+        Vector3 viewportPos = _camera.WorldToViewportPoint(targetPos);
+        Vector3 edgePos;
+
+        // Handle clamping along the x-axis
+        if (viewportPos.x < deadBoundary)
+        {
+            // Left edge
+            edgePos = _camera.ViewportToWorldPoint(new Vector3(deadBoundary, 0f, 0f));
+            targetPos.x = edgePos.x;
+        }
+        else if (viewportPos.x > 1f - deadBoundary)
+        {
+            // Right edge
+            edgePos = _camera.ViewportToWorldPoint(new Vector3(1f - deadBoundary, 0f, 0f));
+            targetPos.x = edgePos.x;
+        }
+        
+        // Handle clamping along the z-axis
+        if (viewportPos.y < deadBoundary)
+        {
+            // Bottom edge
+            edgePos = _camera.ViewportToWorldPoint(new Vector3(0f, deadBoundary, 0f));
+            targetPos.z = edgePos.z + ((edgePos.y - targetPos.y) * _invTanOfView);
+        }
+        else if (viewportPos.y > 1f - deadBoundary)
+        {
+            // Top edge
+            edgePos = _camera.ViewportToWorldPoint(new Vector3(0f, 1f - deadBoundary, 0f));
+            targetPos.z = edgePos.z + ((edgePos.y - targetPos.y) * _invTanOfView);
+        }
+
+        return targetPos;
     }
 
     private Vector3 FindPlayersCenter()
