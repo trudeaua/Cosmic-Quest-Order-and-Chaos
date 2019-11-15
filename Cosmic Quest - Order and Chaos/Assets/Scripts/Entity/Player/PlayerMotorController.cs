@@ -74,23 +74,7 @@ public class PlayerMotorController : MonoBehaviour
         // Apply movement speed
         inputMoveDirection *= speed * Time.deltaTime;
 
-        // Determine if player is at edge of the viewport
-        CameraController.ScreenEdge edge = _cameraController.IsPositionInDeadzone(_rb.position + inputMoveDirection);
-        switch (edge)
-        {
-            case CameraController.ScreenEdge.Left:
-            case CameraController.ScreenEdge.Right:
-                // Cancel x-axis motion component
-                inputMoveDirection.x = 0f;
-                break;
-            case CameraController.ScreenEdge.Top:
-            case CameraController.ScreenEdge.Bottom:
-                // Cancel z-axis motion component
-                inputMoveDirection.z = 0f;
-                break;
-        }
-        
-        _rb.MovePosition(_rb.position + inputMoveDirection);
+        _rb.MovePosition(_cameraController.ClampToScreenEdge(_rb.position + inputMoveDirection));
     }
 
     private void OnMove(InputValue value)
