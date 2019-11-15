@@ -19,11 +19,14 @@ public class PlayerMotorController : MonoBehaviour
 
     private Vector3 _moveDirection;
     private Vector3 _lookDirection;
+    
+    private CameraController _cameraController;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
+        _cameraController = Camera.main.GetComponent<CameraController>();
     }
 
     private void OnEnable()
@@ -71,7 +74,22 @@ public class PlayerMotorController : MonoBehaviour
         // Apply movement speed
         inputMoveDirection *= speed * Time.deltaTime;
 
-        // Move position
+        // Determine if player is at edge of the viewport
+        CameraController.ScreenEdge edge = _cameraController.IsPositionInDeadzone(_rb.position + inputMoveDirection);
+        switch (edge)
+        {
+            case CameraController.ScreenEdge.Left:
+            case CameraController.ScreenEdge.Right:
+                // Cancel x-axis motion component
+                inputMoveDirection.x = 0f;
+                break;
+            case CameraController.ScreenEdge.Top:
+            case CameraController.ScreenEdge.Bottom:
+                // Cancel z-axis motion component
+                inputMoveDirection.z = 0f;
+                break;
+        }
+        
         _rb.MovePosition(_rb.position + inputMoveDirection);
     }
 

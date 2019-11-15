@@ -24,17 +24,19 @@ public class EntityCombatController : MonoBehaviour
         AttackCooldown -= Time.deltaTime;
     }
 
-    protected IEnumerator PerformDamage(EntityStatsController targetStats, float damageValue, float damageDelay)
+    protected IEnumerator PerformDamage(EntityStatsController targetStats, float damageValue, float damageDelay = 0f)
     {
-        yield return new WaitForSeconds(damageDelay);
+        if (damageDelay > 0f)
+            yield return new WaitForSeconds(damageDelay);
 
         // Applies damage to targetStats
         targetStats.TakeDamage(Stats, damageValue);
     }
     
-    protected IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float launchDelay)
+    protected IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float launchDelay = 0f)
     {
-        yield return new WaitForSeconds(launchDelay);
+        if (launchDelay > 0f)
+            yield return new WaitForSeconds(launchDelay);
         
         // Launch projectile from projectile pool
         GameObject projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab);

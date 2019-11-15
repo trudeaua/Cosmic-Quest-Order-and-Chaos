@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class PlayerMedicCombatController : PlayerCombatController
 {
+    [Header("Primary Attack")]
     [Tooltip("The maximum range the player's melee attack can reach")]
-    public float meleeAttackRadius = 2f;
+    public float primaryAttackRadius = 2f;
     [Tooltip("The angular distance around the player where enemies are affected by the primary attack")]
     public float primaryAttackAngle = 100f;
+    
+    [Header("Secondary Attack")]
     [Tooltip("The force to launch the healing projectile at")]
     public float secondaryAttackLaunchForce = 500f;
     [Tooltip("The range which the healing projectile can travel")]
@@ -24,10 +27,10 @@ public class PlayerMedicCombatController : PlayerCombatController
         AttackCooldown = primaryAttackCooldown;
         
         // Check all enemies within attack radius of the player
-        List<Transform> enemies = GetSurroundingEnemies(meleeAttackRadius);
+        List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
         
         // Attack any enemies within the attack sweep and range
-        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy.position, meleeAttackRadius, primaryAttackAngle)))
+        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy.position, primaryAttackRadius, primaryAttackAngle)))
         {
             // TODO can this attack affect multiple enemies?
             // Calculate and perform damage

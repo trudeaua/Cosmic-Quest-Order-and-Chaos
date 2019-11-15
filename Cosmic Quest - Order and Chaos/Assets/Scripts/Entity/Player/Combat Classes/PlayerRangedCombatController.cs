@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerRangedCombatController : PlayerCombatController
 {
+    [Header("Primary Attack")]
     [Tooltip("The distance the primary attack arrow can travel")]
     public float primaryAttackRange = 20f;
     [Tooltip("Time in seconds to charge primary attack to full power")]
@@ -46,7 +47,7 @@ public class PlayerRangedCombatController : PlayerCombatController
         AttackCooldown = primaryAttackCooldown;
         
         // Launch projectile in the direction the player is facing
-        StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, 0.5f));
+        StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange));
     }
     
     protected override void SecondaryAttack()
