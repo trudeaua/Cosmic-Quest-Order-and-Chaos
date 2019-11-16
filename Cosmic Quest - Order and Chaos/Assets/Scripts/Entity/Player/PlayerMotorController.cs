@@ -27,6 +27,9 @@ public class PlayerMotorController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         _cameraController = Camera.main.GetComponent<CameraController>();
+        
+        // TODO Temporary - player should be registered after lobby
+        PlayerManager.Instance.RegisterPlayer(gameObject);
     }
 
     private void OnEnable()
@@ -39,12 +42,6 @@ public class PlayerMotorController : MonoBehaviour
     {
         // Set kinematic when disabled so the player stops moving
         _rb.isKinematic = true;
-    }
-
-    private void Start()
-    {
-        // TODO Temporary - player should be registered after lobby
-        PlayerManager.Instance.RegisterPlayer(gameObject);
     }
 
     private void FixedUpdate()

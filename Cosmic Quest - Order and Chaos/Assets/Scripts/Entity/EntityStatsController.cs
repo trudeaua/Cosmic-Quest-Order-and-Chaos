@@ -24,7 +24,10 @@ public class EntityStatsController : MonoBehaviour
 
     public CharacterColour characterColour = CharacterColour.None;
 
-    private void Awake()
+    // Entity layer mask constant for entity raycasting checks
+    public const int EntityLayer = 1 << 9;
+    
+    protected virtual void Awake()
     {
         health.Init();
     }

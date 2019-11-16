@@ -35,7 +35,7 @@ public class PlayerCombatController : EntityCombatController
     {
         List<Transform> enemies = new List<Transform>();
         Collider[] hits = new Collider[32]; // TODO is 32 hits an okay amount to initialize to?
-        int numHits = Physics.OverlapSphereNonAlloc(transform.position, radius, hits, EntityLayer);
+        int numHits = Physics.OverlapSphereNonAlloc(transform.position, radius, hits, EntityStatsController.EntityLayer);
 
         for (int i = 0; i < numHits; i++)
         {

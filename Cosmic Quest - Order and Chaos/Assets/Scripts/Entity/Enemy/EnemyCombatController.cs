@@ -1,29 +1,64 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyCombatController : EntityCombatController
 {
-    public float attackRate = 1f;
-    public float attackRadius = 2f;
-    
-    public void PrimaryAttack()
+    public float attackCooldown = 1f;
+    public float attackRadius = 3f;
+    public float attackAngle = 45f;
+
+    protected List<GameObject> Players;
+
+    private void Start()
     {
-        // TODO temporary combat architecture
-        if (AttackCooldown <= 0f)
+        Players = PlayerManager.Instance.players;
+    }
+
+    public virtual void PrimaryAttack()
+    {
+        if (AttackCooldown > 0f)
+            return;
+        
+        AttackCooldown = attackCooldown;
+
+        Anim.SetTrigger("Stab Attack");
+
+        // Attack any enemies within the attack sweep and range
+        foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
         {
-            AttackCooldown = 1f / attackRate;
+            // Calculate and perform damage
+            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
+        }
+    }
+    
+    /// <summary>
+    /// Determines if the enemy can deal damage to a player
+    /// </summary>
+    /// <param name="target">The position of the target player</param>
+    /// <param name="radius">The range of the attack</param>
+    /// <param name="sweepAngle">The angular distance in degrees of the attacks FOV.
+    /// If set to 360 or left unset then the enemy can attack in any direction.</param>
+    /// <returns>Whether the enemy can damage the player</returns>
+    protected bool CanDamageTarget(Vector3 target, float radius, float sweepAngle = 360f)
+    {
+        // TODO need to rethink hitboxes or standardize projecting from y = 1
+        Vector3 pos = transform.position;
+        pos.y = 1f;
+        Vector3 rayDirection = target - pos;
+        rayDirection.y = 0;
 
-            Anim.SetTrigger("Stab Attack");
-
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hit, attackRadius))
+        if (Mathf.Approximately(sweepAngle, 360f) || Vector3.Angle(rayDirection, transform.forward) <= sweepAngle * 0.5f)
+        {
+            // Check if enemy is within player's sight
+            if (Physics.Raycast(pos, rayDirection, out RaycastHit hit, radius))
             {
-                if (hit.transform.CompareTag("Player"))
-                {
-                    // Do damage to player
-                    StartCoroutine(PerformDamage(hit.transform.GetComponent<EntityStatsController>(), Stats.damage.GetValue(), 0.6f));
-                }
+                return hit.transform.CompareTag("Player");
             }
         }
+
+        return false;
     }
 }
