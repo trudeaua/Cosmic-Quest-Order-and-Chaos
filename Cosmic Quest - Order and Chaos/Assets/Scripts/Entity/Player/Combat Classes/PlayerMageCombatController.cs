@@ -43,6 +43,9 @@ public class PlayerMageCombatController : PlayerCombatController
         
         // Launch projectile in the direction the player is facing
         StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, primaryAttackLaunchForce, primaryAttackRange, 0.5f));
+        
+        // Cast spell animation
+        Anim.SetTrigger("Punch");
     }
     
     protected override void SecondaryAttack()

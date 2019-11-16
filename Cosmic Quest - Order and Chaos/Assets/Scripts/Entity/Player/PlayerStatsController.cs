@@ -18,8 +18,15 @@ public class PlayerStatsController : EntityStatsController
     
     protected override void Die()
     {
-        Debug.Log("Player died");
+        Debug.Log(transform.name + " died.");
         isDead = true;
+        StartCoroutine(PlayerDeath());
+    }
+    
+    private IEnumerator PlayerDeath()
+    {
+        Anim.SetTrigger("Die");
+        yield return new WaitForSeconds(2.5f);
         transform.gameObject.SetActive(false);
     }
 }

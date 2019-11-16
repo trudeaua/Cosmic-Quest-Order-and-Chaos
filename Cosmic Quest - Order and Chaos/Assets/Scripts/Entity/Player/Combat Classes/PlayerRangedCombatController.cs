@@ -45,9 +45,12 @@ public class PlayerRangedCombatController : PlayerCombatController
             return;
 
         AttackCooldown = primaryAttackCooldown;
-        
+
         // Launch projectile in the direction the player is facing
-        StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange));
+        StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, 0.3f));
+        
+        // Bow release animation
+        Anim.SetTrigger("Punch");
     }
     
     protected override void SecondaryAttack()

@@ -18,7 +18,7 @@ public class EnemyBrainController : MonoBehaviour
     [Tooltip("The time in seconds between decisions on which player to aggro")]
     public float decisionDelay = 0.5f;
 
-    public Transform currentTarget { get; private set; }
+    private TargetPlayer _currentTarget;
     
     private EnemyStatsController _stats;
     private EnemyCombatController _combat;
@@ -89,7 +89,7 @@ public class EnemyBrainController : MonoBehaviour
         TargetPlayer newTarget = GetTopAggroTarget();
         if (newTarget != null)
         {
-            currentTarget = newTarget.Player.transform;
+            _currentTarget = newTarget;
             return;
         }
         
@@ -97,20 +97,29 @@ public class EnemyBrainController : MonoBehaviour
         newTarget = GetClosestTarget();
         if (newTarget != null)
         {
-            currentTarget = newTarget.Player.transform;
+            _currentTarget = newTarget;
             return;
         }
 
         // 3. No target
-        currentTarget = null;
+        _currentTarget = null;
     }
 
     private void MakeCombatDecision()
     {
-        if (!currentTarget)
+        if (_currentTarget is null)
             return;
 
-        float distance = (currentTarget.position - transform.position).sqrMagnitude;
+        // Choose a new target if the current one is now dead
+        if (_currentTarget.Stats.isDead)
+        {
+            MakeTargetDecision();
+            if (_currentTarget is null)
+                return;
+        }
+            
+        
+        float distance = (_currentTarget.Player.transform.position - transform.position).sqrMagnitude;
         if (distance <= _combat.attackRadius * _combat.attackRadius)
         {
             _combat.PrimaryAttack();
@@ -162,6 +171,11 @@ public class EnemyBrainController : MonoBehaviour
         return false;
     }
 
+    public Transform GetCurrentTarget()
+    {
+        return _currentTarget?.Player.transform;
+    }
+    
     public void OnDamageTaken(GameObject player, float damageAmount)
     {
         // Update aggro value with amount of damage taken
