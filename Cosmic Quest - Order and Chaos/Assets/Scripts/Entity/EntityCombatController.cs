@@ -8,9 +8,6 @@ public class EntityCombatController : MonoBehaviour
     protected EntityStatsController Stats;
     protected Animator Anim;
     protected float AttackCooldown;
-    
-    // Entity layer mask constant for entity raycasting checks
-    protected const int EntityLayer = 1 << 9;
 
     private void Awake()
     {
