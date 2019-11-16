@@ -32,13 +32,18 @@ public class EntityStatsController : MonoBehaviour
         health.Init();
     }
 
+    protected virtual void Update()
+    {
+        health.Regen();
+    }
+
     public virtual void TakeDamage(EntityStatsController attacker, float damageValue)
     {
         // Calculate any changes based on stats and modifiers here first
         float hitValue = damageValue - ComputeDefenseModifier();
         health.Subtract(hitValue < 0 ? 0 : hitValue);
 
-        if (Mathf.Approximately(health.currentValue, 0f))
+        if (Mathf.Approximately(health.CurrentValue, 0f))
         {
             Die();
         }
