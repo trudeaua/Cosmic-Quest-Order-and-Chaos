@@ -36,6 +36,9 @@ public class PlayerMedicCombatController : PlayerCombatController
             // Calculate and perform damage
             StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
         }
+        
+        // Primary attack animation
+        Anim.SetTrigger("Primary Attack");
     }
     
     protected override void SecondaryAttack()
@@ -47,6 +50,9 @@ public class PlayerMedicCombatController : PlayerCombatController
         
         // Launch projectile in the direction the player is facing
         StartCoroutine(LaunchProjectile(projectilePrefab, transform.forward, secondaryAttackLaunchForce, secondaryAttackRange, 0.5f));
+        
+        // Launch orb animation
+        Anim.SetTrigger("Punch");
     }
     
     protected override void UltimateAbility()

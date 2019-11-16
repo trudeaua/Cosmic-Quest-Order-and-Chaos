@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerMotorController : MonoBehaviour
 {
-    public float speed = 6.0f;
+    public float maxVelocity = 6.0f;
+    public float maxAcceleration = 20.0f;
     public float rotationSpeed = 10.0f;
 
     [Tooltip("Max distance of objects that the player can interact with")]
@@ -29,7 +30,7 @@ public class PlayerMotorController : MonoBehaviour
         _cameraController = Camera.main.GetComponent<CameraController>();
         
         // TODO Temporary - player should be registered after lobby
-        PlayerManager.Instance.RegisterPlayer(gameObject);
+        PlayerManager.RegisterPlayer(gameObject);
     }
 
     private void OnEnable()
@@ -68,10 +69,31 @@ public class PlayerMotorController : MonoBehaviour
         // Trigger walking animation
         _anim.SetFloat("WalkSpeed", _moveInput == Vector2.zero ? 0f : _moveInput.magnitude);
 
-        // Apply movement speed
-        inputMoveDirection *= speed * Time.deltaTime;
+        inputMoveDirection *= maxVelocity;
+        AccelerateTo(inputMoveDirection);
 
-        _rb.MovePosition(_cameraController.ClampToScreenEdge(_rb.position + inputMoveDirection));
+        // Don't clamp if player is stationary
+        if (inputMoveDirection != Vector3.zero)
+        {
+            Vector3 clamped = _cameraController.ClampToScreenEdge(_rb.position);
+            if (clamped != _rb.position)
+            {
+                // TODO weird behaviour with gravity when position is clamped
+                clamped.y = _rb.position.y;
+                _rb.MovePosition(clamped);
+            }
+        }
+    }
+
+    private void AccelerateTo(Vector3 targetVelocity)
+    {
+        Vector3 dV = targetVelocity - _rb.velocity;
+        Vector3 accel = dV / Time.fixedDeltaTime;
+
+        if (accel.sqrMagnitude > maxAcceleration * maxAcceleration)
+            accel = accel.normalized * maxAcceleration;
+        
+        _rb.AddForce(accel, ForceMode.Acceleration);
     }
 
     private void OnMove(InputValue value)

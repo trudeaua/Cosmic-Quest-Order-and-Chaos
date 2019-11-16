@@ -18,7 +18,8 @@ public class EntityCombatController : MonoBehaviour
     protected virtual void Update()
     {
         // Reduce attack cooldown counter
-        AttackCooldown -= Time.deltaTime;
+        if (AttackCooldown > 0f)
+            AttackCooldown -= Time.deltaTime;
     }
 
     protected IEnumerator PerformDamage(EntityStatsController targetStats, float damageValue, float damageDelay = 0f)
