@@ -5,25 +5,29 @@ using UnityEngine;
 [System.Serializable]
 public class RegenerableStat
 {
-    public int maxValue { get; private set; }
-    public int minValue { get; private set; }
-    public int currentValue { get; private set; }
-    [SerializeField] private int regenAmount;
-    [SerializeField] private float regenRate;
+    public float maxValue;
+    public float minValue;
+    public float currentValue { get; private set; }
+    [SerializeField] private float regenAmount = 0f;
+    [SerializeField] private float regenRate = 0f;
     private float _lastRegenTime;
 
-    public RegenerableStat(int maxValue, int minValue, int regenAmount, float regenRate)
+    public void Init()
     {
-        this.maxValue = maxValue;
-        this.minValue = minValue;
-        this.regenAmount = regenAmount;
-        this.regenRate = regenRate;
-
         // Initialize current value to the maximum value
         currentValue = maxValue;
     }
 
-    public void Subtract(int amount)
+    public void Add(float amount)
+    {
+        currentValue += amount;
+        if (currentValue > maxValue)
+        {
+            currentValue = maxValue;
+        }
+    }
+    
+    public void Subtract(float amount)
     {
         currentValue -= amount;
         if (currentValue < minValue)
@@ -34,7 +38,7 @@ public class RegenerableStat
 
     public void Regen()
     {
-        if (currentValue == maxValue || Time.time - _lastRegenTime < regenRate)
+        if (Mathf.Approximately(currentValue, maxValue) || Time.time - _lastRegenTime < regenRate)
             return;
 
         _lastRegenTime = Time.time;

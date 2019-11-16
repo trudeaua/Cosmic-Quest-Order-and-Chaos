@@ -2,15 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyBrainController))]
 public class EnemyStatsController : EntityStatsController
 {
-    public override void TakeDamage(EntityStatsController attacker, int damage)
+    private EnemyBrainController _brain;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        _brain = GetComponent<EnemyBrainController>();
+    }
+
+    public override void TakeDamage(EntityStatsController attacker, float damageValue)
     {
         // ignore attacks if already dead
         if (isDead)
             return;
-
-        // TODO keep track of who did damage to the enemy last?
 
         if (characterColour != CharacterColour.None && attacker.characterColour == characterColour)
         {
@@ -19,10 +27,15 @@ public class EnemyStatsController : EntityStatsController
         }
 
         // Calculate any changes based on stats and modifiers here first
-        health.Subtract(damage);
-        Debug.Log(transform.name + " took " + damage + " damage.");
+        float hitValue = damageValue - ComputeDefenseModifier();
+        health.Subtract(hitValue < 0 ? 0 : hitValue);
+        
+        // Pass damage information to brain
+        _brain.OnDamageTaken(attacker.gameObject, hitValue);
+        
+        Debug.Log(transform.name + " took " + hitValue + " damage.");
 
-        if (health.currentValue == 0)
+        if (Mathf.Approximately(health.currentValue, 0f))
         {
             Die();
         }
