@@ -12,6 +12,8 @@ public class PlayerCombatController : EntityCombatController
     {
         // Implement me
         Debug.Log("Player's base primary attack triggered");
+        Anim.SetTrigger("PrimaryAttack");
+        Anim.SetBool("Combo", !Anim.GetBool("Combo"));
     }
 
     protected virtual void SecondaryAttack()

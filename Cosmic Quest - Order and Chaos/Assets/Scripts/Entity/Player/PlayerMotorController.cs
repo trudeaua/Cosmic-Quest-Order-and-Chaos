@@ -26,10 +26,11 @@ public class PlayerMotorController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
+        Debug.Log(_anim.name);
         _cameraController = Camera.main.GetComponent<CameraController>();
         
         // TODO Temporary - player should be registered after lobby
-        PlayerManager.Instance.RegisterPlayer(gameObject);
+        //PlayerManager.Instance.RegisterPlayer(gameObject);
     }
 
     private void OnEnable()
@@ -64,16 +65,27 @@ public class PlayerMotorController : MonoBehaviour
             // Rotate towards direction of movement
             _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, Quaternion.LookRotation(inputMoveDirection, Vector3.up), rotationSpeed * Time.deltaTime));
         }
+        // for overriding legs when player is moving
+        var walkLayerIndex = _anim.GetLayerIndex("WalkLayer");
+        // for overriding torso when mage/healer is running
+        var idleLayerIndex = _anim.GetLayerIndex("IdleLayer");
         // Animate player legs, legs will still move as they attack
         if (_moveInput != Vector2.zero)
         {
-            _anim.SetLayerWeight(1, 1);
+            _anim.SetLayerWeight(walkLayerIndex, .9f);
+            if (_anim.GetLayerIndex("IdleLayer") >= 0)
+            {
+                _anim.SetLayerWeight(idleLayerIndex, 1);
+            }
         }
         // Don't animate player legs
         else
         {
-            _anim.SetLayerWeight(1, 0);
-
+            _anim.SetLayerWeight(walkLayerIndex, 0);
+            if (_anim.GetLayerIndex("IdleLayer") >= 0)
+            {
+                _anim.SetLayerWeight(idleLayerIndex, 0);
+            }
         }
 
         // Trigger walking animation
