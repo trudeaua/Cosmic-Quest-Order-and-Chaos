@@ -19,11 +19,17 @@ public class PlayerMotorController : MonoBehaviour
 
     private Vector3 _moveDirection;
     private Vector3 _lookDirection;
+    
+    private CameraController _cameraController;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
+        _cameraController = Camera.main.GetComponent<CameraController>();
+        
+        // TODO Temporary - player should be registered after lobby
+        PlayerManager.Instance.RegisterPlayer(gameObject);
     }
 
     private void OnEnable()
@@ -36,12 +42,6 @@ public class PlayerMotorController : MonoBehaviour
     {
         // Set kinematic when disabled so the player stops moving
         _rb.isKinematic = true;
-    }
-
-    private void Start()
-    {
-        // TODO Temporary - player should be registered after lobby
-        PlayerManager.Instance.RegisterPlayer(gameObject);
     }
 
     private void FixedUpdate()
@@ -83,8 +83,7 @@ public class PlayerMotorController : MonoBehaviour
         // Apply movement speed
         inputMoveDirection *= speed * Time.deltaTime;
 
-        // Move position
-        _rb.MovePosition(_rb.position + inputMoveDirection);
+        _rb.MovePosition(_cameraController.ClampToScreenEdge(_rb.position + inputMoveDirection));
     }
 
     private void OnMove(InputValue value)

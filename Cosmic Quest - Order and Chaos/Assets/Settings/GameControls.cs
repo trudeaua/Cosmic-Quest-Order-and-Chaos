@@ -39,7 +39,7 @@ public class GameControls : IInputActionCollection
                     ""id"": ""4376de81-1207-42e1-8154-ed6200a68419"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press""
+                    ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""SecondaryAttack"",
@@ -47,7 +47,7 @@ public class GameControls : IInputActionCollection
                     ""id"": ""7fcc6c30-bd3c-41a9-92de-0f7a4fa0d592"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Press""
+                    ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""Interact"",
