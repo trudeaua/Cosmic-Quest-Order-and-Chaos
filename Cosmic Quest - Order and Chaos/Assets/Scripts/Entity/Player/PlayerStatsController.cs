@@ -8,8 +8,10 @@ public class PlayerStatsController : EntityStatsController
     public RegenerableStat stamina;
     public RegenerableStat mana;
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+        
         stamina.Regen();
         mana.Regen();
     }

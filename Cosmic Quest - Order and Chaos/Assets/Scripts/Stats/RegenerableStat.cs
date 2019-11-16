@@ -7,45 +7,47 @@ public class RegenerableStat
 {
     public float maxValue;
     public float minValue;
-    public float currentValue { get; private set; }
+    public float CurrentValue { get; private set; }
     [SerializeField] private float regenAmount = 0f;
-    [SerializeField] private float regenRate = 0f;
-    private float _lastRegenTime;
+    [SerializeField] private float regenPeriod = 0f;
+    private float _regenTimer = 0f;
 
     public void Init()
     {
         // Initialize current value to the maximum value
-        currentValue = maxValue;
+        CurrentValue = maxValue;
     }
 
     public void Add(float amount)
     {
-        currentValue += amount;
-        if (currentValue > maxValue)
+        CurrentValue += amount;
+        if (CurrentValue > maxValue)
         {
-            currentValue = maxValue;
+            CurrentValue = maxValue;
         }
     }
     
     public void Subtract(float amount)
     {
-        currentValue -= amount;
-        if (currentValue < minValue)
+        CurrentValue -= amount;
+        if (CurrentValue < minValue)
         {
-            currentValue = minValue;
+            CurrentValue = minValue;
         }
     }
 
     public void Regen()
     {
-        if (Mathf.Approximately(currentValue, maxValue) || Time.time - _lastRegenTime < regenRate)
+        if (Mathf.Approximately(CurrentValue, maxValue))
             return;
 
-        _lastRegenTime = Time.time;
-        currentValue += regenAmount;
-        if (currentValue > maxValue)
+        if (_regenTimer > 0f)
         {
-            currentValue = maxValue;
+            _regenTimer -= Time.deltaTime;
+            return;
         }
+
+        Add(regenAmount);
+        _regenTimer = regenPeriod;
     }
 }

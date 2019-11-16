@@ -35,7 +35,7 @@ public class EnemyStatsController : EntityStatsController
         
         Debug.Log(transform.name + " took " + hitValue + " damage.");
 
-        if (Mathf.Approximately(health.currentValue, 0f))
+        if (Mathf.Approximately(health.CurrentValue, 0f))
         {
             Die();
         }
