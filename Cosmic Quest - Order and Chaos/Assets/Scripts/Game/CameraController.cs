@@ -11,17 +11,17 @@ public class CameraController : MonoBehaviour
 
     private Camera _camera;
     private List<GameObject> _players;
+    private float _playerHeight;
     private float _invTanOfView;
     private float _zOffset;
     private Vector3 _target;
     
-    public enum ScreenEdge
+    private enum ScreenEdge
     {
         Top,
         Right,
         Bottom,
-        Left,
-        None
+        Left
     }
 
     private void Awake()
@@ -32,7 +32,12 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         // Grab player GameObjects from the player manager
-        _players = PlayerManager.Instance.players;
+        _players = PlayerManager.players;
+
+        if (_players.Count > 0)
+            _playerHeight = _players[0].GetComponent<CapsuleCollider>().height / 2f;
+        else
+            _playerHeight = 1f;
 
         // Calculate the Z offset based on the current camera angle and height
         if (Mathf.Approximately(transform.rotation.eulerAngles.x, 90f))
@@ -47,7 +52,6 @@ public class CameraController : MonoBehaviour
             _invTanOfView = 1 / Mathf.Tan(transform.rotation.eulerAngles.x * Mathf.Deg2Rad);
             _zOffset = transform.position.y * _invTanOfView;
         }
-            
 
         // Set the initial camera target and move the camera to it
         _target = FindPlayersCenter();
@@ -81,7 +85,7 @@ public class CameraController : MonoBehaviour
 
         foreach (GameObject player in _players)
         {
-            Vector3 viewportPos = _camera.WorldToViewportPoint(player.transform.position);
+            Vector3 viewportPos = _camera.WorldToViewportPoint(player.transform.position + new Vector3(0f, _playerHeight, 0f));
 
             if (viewportPos.x < moveBoundary)
             {
@@ -151,6 +155,7 @@ public class CameraController : MonoBehaviour
     /// <returns>The clamped position</returns>
     public Vector3 ClampToScreenEdge(Vector3 targetPos)
     {
+        targetPos += new Vector3(0f, _playerHeight, 0f);
         Vector3 viewportPos = _camera.WorldToViewportPoint(targetPos);
         Vector3 edgePos;
 
@@ -182,7 +187,7 @@ public class CameraController : MonoBehaviour
             targetPos.z = edgePos.z + ((edgePos.y - targetPos.y) * _invTanOfView);
         }
 
-        return targetPos;
+        return targetPos - new Vector3(0f, _playerHeight, 0f);;
     }
 
     private Vector3 FindPlayersCenter()

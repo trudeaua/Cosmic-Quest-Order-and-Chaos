@@ -33,6 +33,9 @@ public class PlayerMeleeCombatController : PlayerCombatController
             // Calculate and perform damage
             StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
         }
+        
+        // Primary attack animation
+        Anim.SetTrigger("Primary Attack");
     }
     
     protected override void SecondaryAttack()
@@ -51,6 +54,9 @@ public class PlayerMeleeCombatController : PlayerCombatController
             // Calculate and perform damage
             StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
         }
+        
+        // Secondary attack animation
+        Anim.SetTrigger("Primary Attack");
     }
     
     protected override void UltimateAbility()

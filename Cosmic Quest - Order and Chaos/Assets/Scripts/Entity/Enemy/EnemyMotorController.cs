@@ -29,7 +29,7 @@ public class EnemyMotorController : MonoBehaviour
             return;
 
         // Ensure current target is up to date
-        _currentTarget = _brain.currentTarget;
+        _currentTarget = _brain.GetCurrentTarget();
         
         // Follow current aggro decision
         if (_currentTarget)
@@ -49,7 +49,10 @@ public class EnemyMotorController : MonoBehaviour
 
     private void FaceTarget()
     {
-        Vector3 direction = (_brain.currentTarget.position - transform.position).normalized;
+        if (_currentTarget is null)
+            return;
+        
+        Vector3 direction = (_currentTarget.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
