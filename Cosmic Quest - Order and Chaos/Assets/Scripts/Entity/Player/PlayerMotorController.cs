@@ -72,9 +72,17 @@ public class PlayerMotorController : MonoBehaviour
         inputMoveDirection *= maxVelocity;
         AccelerateTo(inputMoveDirection);
 
-        Vector3 clamped = _cameraController.ClampToScreenEdge(_rb.position);
-        if (clamped != _rb.position)
-            _rb.MovePosition(clamped);
+        // Don't clamp if player is stationary
+        if (inputMoveDirection != Vector3.zero)
+        {
+            Vector3 clamped = _cameraController.ClampToScreenEdge(_rb.position);
+            if (clamped != _rb.position)
+            {
+                // TODO weird behaviour with gravity when position is clamped
+                clamped.y = _rb.position.y;
+                _rb.MovePosition(clamped);
+            }
+        }
     }
 
     private void AccelerateTo(Vector3 targetVelocity)

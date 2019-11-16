@@ -24,12 +24,16 @@ public class EntityStatsController : MonoBehaviour
 
     public CharacterColour characterColour = CharacterColour.None;
 
+    protected Animator Anim;
+    
     // Entity layer mask constant for entity raycasting checks
     public const int EntityLayer = 1 << 9;
     
     protected virtual void Awake()
     {
         health.Init();
+
+        Anim = GetComponentInChildren<Animator>();
     }
 
     protected virtual void Update()
@@ -39,6 +43,10 @@ public class EntityStatsController : MonoBehaviour
 
     public virtual void TakeDamage(EntityStatsController attacker, float damageValue)
     {
+        // Ignore attacks if already dead
+        if (isDead)
+            return;
+        
         // Calculate any changes based on stats and modifiers here first
         float hitValue = damageValue - ComputeDefenseModifier();
         health.Subtract(hitValue < 0 ? 0 : hitValue);

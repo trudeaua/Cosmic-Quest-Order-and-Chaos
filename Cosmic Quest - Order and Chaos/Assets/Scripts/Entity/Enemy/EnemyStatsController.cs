@@ -16,7 +16,7 @@ public class EnemyStatsController : EntityStatsController
 
     public override void TakeDamage(EntityStatsController attacker, float damageValue)
     {
-        // ignore attacks if already dead
+        // Ignore attacks if already dead
         if (isDead)
             return;
 
@@ -48,10 +48,9 @@ public class EnemyStatsController : EntityStatsController
         StartCoroutine(EnemyDeath());
     }
 
-    // TODO need to disable enemy on death and just show animation
     private IEnumerator EnemyDeath()
     {
-        GetComponentInChildren<Animator>().SetTrigger("Die");
+        Anim.SetTrigger("Die");
         yield return new WaitForSeconds(1.1f);
         transform.gameObject.SetActive(false);
     }
