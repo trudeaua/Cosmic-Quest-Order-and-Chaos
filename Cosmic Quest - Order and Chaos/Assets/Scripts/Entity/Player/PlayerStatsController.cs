@@ -8,16 +8,25 @@ public class PlayerStatsController : EntityStatsController
     public RegenerableStat stamina;
     public RegenerableStat mana;
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+        
         stamina.Regen();
         mana.Regen();
     }
     
     protected override void Die()
     {
-        Debug.Log("Player died");
+        Debug.Log(transform.name + " died.");
         isDead = true;
+        StartCoroutine(PlayerDeath());
+    }
+    
+    private IEnumerator PlayerDeath()
+    {
+        Anim.SetTrigger("Die");
+        yield return new WaitForSeconds(2.5f);
         transform.gameObject.SetActive(false);
     }
 }

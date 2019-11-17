@@ -5,22 +5,25 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     #region Singleton
-    public static PlayerManager Instance;
+    private static PlayerManager _instance;
 
     private void Awake()
     {
-        Instance = this;
+        if (_instance == null)
+            _instance = this;
+        else
+            Debug.LogWarning("Only one player manager should be in the scene!");
     }
     #endregion
 
-    public List<GameObject> players;
+    public static List<GameObject> players = new List<GameObject>();
 
-    public void RegisterPlayer(GameObject player)
+    public static void RegisterPlayer(GameObject player)
     {
         players.Add(player);
     }
 
-    public void DeregisterPlayer(GameObject player)
+    public static void DeregisterPlayer(GameObject player)
     {
         players.Remove(player);
     }
