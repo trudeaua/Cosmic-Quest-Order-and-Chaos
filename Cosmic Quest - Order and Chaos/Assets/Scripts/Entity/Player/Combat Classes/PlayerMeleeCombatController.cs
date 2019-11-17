@@ -27,7 +27,7 @@ public class PlayerMeleeCombatController : PlayerCombatController
         List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
         
         // Attack any enemies within the attack sweep and range
-        foreach (Transform enemy in enemies.Where(enemy => CanDamageTarget(enemy.position, primaryAttackRadius, primaryAttackAngle)))
+        foreach (Transform enemy in enemies.Where(enemy => CanDamageTarget(enemy, primaryAttackRadius, primaryAttackAngle)))
         {
             // TODO can this attack affect multiple enemies?
             // Calculate and perform damage
@@ -35,7 +35,7 @@ public class PlayerMeleeCombatController : PlayerCombatController
         }
         
         // Primary attack animation
-        Anim.SetTrigger("Primary Attack");
+        Anim.SetTrigger("PrimaryAttack");
     }
     
     protected override void SecondaryAttack()
@@ -49,14 +49,14 @@ public class PlayerMeleeCombatController : PlayerCombatController
         List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
         
         // Attack any enemies within the attack sweep and range
-        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy.position, primaryAttackRadius, secondaryAttackAngle)))
+        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, primaryAttackRadius, secondaryAttackAngle)))
         {
             // Calculate and perform damage
             StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
         }
         
         // Secondary attack animation
-        Anim.SetTrigger("Primary Attack");
+        Anim.SetTrigger("SecondaryAttack");
     }
     
     protected override void UltimateAbility()

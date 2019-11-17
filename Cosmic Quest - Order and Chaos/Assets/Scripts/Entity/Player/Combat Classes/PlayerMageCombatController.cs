@@ -7,60 +7,65 @@ using UnityEngine.InputSystem;
 public class PlayerMageCombatController : PlayerCombatController
 {
     [Header("Primary Attack")]
-    [Tooltip("The distance the primary projectile attack can travel")]
-    public float primaryAttackRange = 20f;
-    [Tooltip("The force to launch the primary attack projectile at")]
-    public float primaryAttackLaunchForce = 500f;
-    [Tooltip("The projectile prefab for the primary attack")]
-    public GameObject primaryProjectilePrefab;
-    
-    [Header("Secondary Attack")]
     [Tooltip("The distance the secondary attack will reach")]
-    public float secondaryAttackRange = 3f;
+    public float primaryAttackRange = 3f;
     [Tooltip("The secondary attack projected angle of AOE in degrees")]
-    public float secondaryAttackAngle = 60f;
+    public float primaryAttackAngle = 60f;
     [Tooltip("The damage per second of the secondary attack")]
-    public float secondaryAttackDps = 5f;
-    
-    private bool _isSecondaryActive = false;
+    public float primaryAttackDps = 5f;
+
+    [Header("Secondary Attack")]
+    [Tooltip("The radius of the AOE effect")]
+    public float secondaryAttackRadius = 8f;
+    [Tooltip("The explosive force of the AOE effect")]
+    public float secondaryAttackForce = 500f;
+
+    private bool _isPrimaryActive = false;
 
     protected override void Update()
     {
         base.Update();
 
-        if (_isSecondaryActive)
+        if (_isPrimaryActive)
         {
-            SecondaryAttack();
+            PrimaryAttack();
         }
     }
 
     protected override void PrimaryAttack()
     {
-        if (AttackCooldown > 0)
-            return;
-
-        AttackCooldown = primaryAttackCooldown;
+        // Check all enemies within attack radius of the player
+        List<Transform> enemies = GetSurroundingEnemies(primaryAttackRange);
         
-        // Launch projectile in the direction the player is facing
-        StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, primaryAttackLaunchForce, primaryAttackRange, 0.5f));
+        // Attack any enemies within the attack sweep and range
+        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, primaryAttackRange, primaryAttackAngle)))
+        {
+            // Calculate and perform damage at DPS rate
+            enemy.GetComponent<EntityStatsController>().TakeDamage(Stats, primaryAttackDps, Time.deltaTime);
+        }
         
         // Cast spell animation
-        Anim.SetTrigger("Punch");
+        Anim.SetTrigger("PrimaryAttack");
     }
     
     protected override void SecondaryAttack()
     {
-        // TODO this may be an inefficient way to do this...
+        if (AttackCooldown > 0)
+            return;
+
+        AttackCooldown = secondaryAttackCooldown;
         
         // Check all enemies within attack radius of the player
-        List<Transform> enemies = GetSurroundingEnemies(secondaryAttackRange);
+        List<Transform> enemies = GetSurroundingEnemies(secondaryAttackRadius);
         
-        // Attack any enemies within the attack sweep and range
-        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy.position, secondaryAttackRange, secondaryAttackAngle)))
+        // Attack any enemies within the AOE range
+        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, secondaryAttackRadius)))
         {
-            // Calculate and perform damage at DPS rate
-            enemy.GetComponent<EntityStatsController>().TakeDamage(Stats, secondaryAttackDps * Time.deltaTime);
+            StartCoroutine(PerformExplosiveDamage(enemy.GetComponent<EntityStatsController>(), 
+                Stats.damage.GetValue(), 2f, secondaryAttackForce, transform.position, secondaryAttackRadius, 0.6f));
         }
+        
+        Anim.SetTrigger("SecondaryAttack");
     }
     
     protected override void UltimateAbility()
@@ -68,9 +73,9 @@ public class PlayerMageCombatController : PlayerCombatController
         // TODO implement melee class ultimate ability
     }
 
-    protected override void OnSecondaryAttack(InputValue value)
+    protected override void OnPrimaryAttack(InputValue value)
     {
         // Ensure secondary is only activated on button down
-        _isSecondaryActive = value.isPressed;
+        _isPrimaryActive = value.isPressed;
     }
 }

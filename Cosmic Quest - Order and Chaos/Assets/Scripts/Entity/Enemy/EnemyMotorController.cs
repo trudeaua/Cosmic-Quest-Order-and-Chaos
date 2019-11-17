@@ -32,7 +32,7 @@ public class EnemyMotorController : MonoBehaviour
         _currentTarget = _brain.GetCurrentTarget();
         
         // Follow current aggro decision
-        if (_currentTarget)
+        if (_currentTarget && _agent.enabled)
         {
             _agent.SetDestination(_currentTarget.position);
 

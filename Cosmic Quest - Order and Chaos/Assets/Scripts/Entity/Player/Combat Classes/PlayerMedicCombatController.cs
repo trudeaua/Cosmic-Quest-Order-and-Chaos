@@ -30,7 +30,7 @@ public class PlayerMedicCombatController : PlayerCombatController
         List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
         
         // Attack any enemies within the attack sweep and range
-        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy.position, primaryAttackRadius, primaryAttackAngle)))
+        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, primaryAttackRadius, primaryAttackAngle)))
         {
             // TODO can this attack affect multiple enemies?
             // Calculate and perform damage
@@ -38,7 +38,7 @@ public class PlayerMedicCombatController : PlayerCombatController
         }
         
         // Primary attack animation
-        Anim.SetTrigger("Primary Attack");
+        Anim.SetTrigger("PrimaryAttack");
     }
     
     protected override void SecondaryAttack()
@@ -52,7 +52,7 @@ public class PlayerMedicCombatController : PlayerCombatController
         StartCoroutine(LaunchProjectile(projectilePrefab, transform.forward, secondaryAttackLaunchForce, secondaryAttackRange, 0.5f));
         
         // Launch orb animation
-        Anim.SetTrigger("Punch");
+        Anim.SetTrigger("SecondaryAttack");
     }
     
     protected override void UltimateAbility()

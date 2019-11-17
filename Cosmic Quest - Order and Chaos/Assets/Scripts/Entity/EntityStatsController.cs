@@ -6,7 +6,7 @@ public enum CharacterColour
 {
     None,
     Red,
-    Blue,
+    Yellow,
     Green,
     Purple
 }
@@ -25,6 +25,7 @@ public class EntityStatsController : MonoBehaviour
     public CharacterColour characterColour = CharacterColour.None;
 
     protected Animator Anim;
+    protected Rigidbody rb;
     
     // Entity layer mask constant for entity raycasting checks
     public const int EntityLayer = 1 << 9;
@@ -34,6 +35,7 @@ public class EntityStatsController : MonoBehaviour
         health.Init();
 
         Anim = GetComponentInChildren<Animator>();
+        rb = GetComponent<Rigidbody>();
     }
 
     protected virtual void Update()
@@ -41,20 +43,32 @@ public class EntityStatsController : MonoBehaviour
         health.Regen();
     }
 
-    public virtual void TakeDamage(EntityStatsController attacker, float damageValue)
+    public virtual void TakeDamage(EntityStatsController attacker, float damageValue, float timeModifier = 1f)
     {
         // Ignore attacks if already dead
         if (isDead)
             return;
         
         // Calculate any changes based on stats and modifiers here first
-        float hitValue = damageValue - ComputeDefenseModifier();
+        float hitValue = (damageValue - ComputeDefenseModifier()) * timeModifier;
         health.Subtract(hitValue < 0 ? 0 : hitValue);
 
         if (Mathf.Approximately(health.CurrentValue, 0f))
         {
             Die();
         }
+    }
+
+    public virtual void TakeExplosionDamage(EntityStatsController attacker, float maxDamage, float stunTime, 
+        float explosionForce, Vector3 explosionPoint, float explosionRadius)
+    {
+        if (isDead)
+            return;
+        
+        // Calculate damage based on distance from the explosion point
+        float relativeDamage = (Vector3.Distance(explosionPoint, transform.position) / explosionRadius) * maxDamage;
+        TakeDamage(attacker, relativeDamage);
+        rb.AddExplosionForce(explosionForce, explosionPoint, explosionRadius);
     }
     
     public virtual float ComputeDamageModifer()

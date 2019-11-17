@@ -46,21 +46,35 @@ public class PlayerRangedCombatController : PlayerCombatController
 
         AttackCooldown = primaryAttackCooldown;
 
+        float damage = Mathf.Ceil(Stats.damage.GetValue() * _chargePercent);
+        
         // Launch projectile in the direction the player is facing
-        StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, 0.3f));
+        StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, damage,0.3f));
         
         // Bow release animation
-        Anim.SetTrigger("Punch");
+        Anim.SetTrigger("PrimaryAttack");
     }
     
     protected override void SecondaryAttack()
     {
         // TODO implement ranger's secondary attack
+        
+        Anim.SetTrigger("SecondaryAttack");
     }
     
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability
+    }
+    
+    protected IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float damage, float launchDelay = 0f)
+    {
+        if (launchDelay > 0f)
+            yield return new WaitForSeconds(launchDelay);
+        
+        // Launch projectile from projectile pool
+        GameObject projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab);
+        projectile.GetComponent<DamageProjectile>().Launch(Stats, direction, launchForce, range, damage);
     }
 
     protected override void OnPrimaryAttack(InputValue value)

@@ -56,12 +56,12 @@ public class PlayerCombatController : EntityCombatController
     /// <param name="sweepAngle">The angular distance in degrees of the attacks FOV.
     /// If set to 360 or left unset then the player can attack in any direction.</param>
     /// <returns>Whether the player can damage the enemy</returns>
-    protected bool CanDamageTarget(Vector3 target, float radius, float sweepAngle = 360f)
+    protected bool CanDamageTarget(Transform target, float radius, float sweepAngle = 360f)
     {
         // TODO need to rethink hitboxes or standardize projecting from y = 1
         Vector3 pos = transform.position;
         pos.y = 1f;
-        Vector3 rayDirection = target - pos;
+        Vector3 rayDirection = target.position - pos;
         rayDirection.y = 0;
 
         if (Mathf.Approximately(sweepAngle, 360f) || Vector3.Angle(rayDirection, transform.forward) <= sweepAngle * 0.5f)
@@ -69,7 +69,7 @@ public class PlayerCombatController : EntityCombatController
             // Check if enemy is within player's sight
             if (Physics.Raycast(pos, rayDirection, out RaycastHit hit, radius))
             {
-                return hit.transform.CompareTag("Enemy");
+                return hit.transform == target;
             }
         }
 

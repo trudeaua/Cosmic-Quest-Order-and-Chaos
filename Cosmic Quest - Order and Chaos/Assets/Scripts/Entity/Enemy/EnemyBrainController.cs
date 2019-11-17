@@ -24,6 +24,7 @@ public class EnemyBrainController : MonoBehaviour
     private EnemyCombatController _combat;
     private List<TargetPlayer> _targets;
 
+    public bool IsStunned { get; private set; }
     private float _decisionTimer = 0f;
 
     private void Awake()
@@ -45,8 +46,8 @@ public class EnemyBrainController : MonoBehaviour
 
     private void Update()
     {
-        // Prevent enemy activity during death animation
-        if (_stats.isDead)
+        // Prevent enemy activity during death animation or while stunned
+        if (_stats.isDead || IsStunned)
             return;
         
         // Update list of targets
@@ -183,6 +184,11 @@ public class EnemyBrainController : MonoBehaviour
         
         target.Aggro += damageAmount;
         target.IsKnown = true;
+    }
+
+    public void SetStunned(bool isStunned)
+    {
+        IsStunned = isStunned;
     }
 
     private void OnDrawGizmosSelected()
