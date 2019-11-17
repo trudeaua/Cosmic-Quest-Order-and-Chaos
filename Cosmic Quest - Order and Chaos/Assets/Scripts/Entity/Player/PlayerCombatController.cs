@@ -12,22 +12,18 @@ public class PlayerCombatController : EntityCombatController
     {
         // Implement me
         Debug.Log("Player's base primary attack triggered");
-        Anim.SetTrigger("PrimaryAttack");
-        Anim.SetBool("Combo", !Anim.GetBool("Combo"));
     }
 
     protected virtual void SecondaryAttack()
     {
         // Implement me
         Debug.Log("Player's base secondary attack triggered");
-        Anim.SetTrigger("SecondaryAttack");
     }
 
     protected virtual void UltimateAbility()
     {
         // Implement me
         Debug.Log("Player's base ultimate ability triggered");
-        Anim.SetTrigger("UltimateAbility");
     }
     
     /// <summary>

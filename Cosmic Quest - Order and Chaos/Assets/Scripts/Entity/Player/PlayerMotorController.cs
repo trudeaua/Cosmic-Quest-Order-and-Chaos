@@ -27,7 +27,6 @@ public class PlayerMotorController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
-        Debug.Log(_anim.name);
         _cameraController = Camera.main.GetComponent<CameraController>();
         
         // TODO Temporary - player should be registered after lobby
