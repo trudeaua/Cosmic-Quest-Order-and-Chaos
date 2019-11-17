@@ -91,7 +91,7 @@ public class PlayerMotorController : MonoBehaviour
 
         // Trigger walking animation
         _anim.SetFloat("WalkSpeed", _moveInput == Vector2.zero ? 0f : _moveInput.magnitude);
-        _anim.SetFloat("Direction", Vector3.Angle(inputMoveDirection, inputLookDirection) < 90 ? 1f * (_moveInput.magnitude + speed*0.03f) : -1f *(_moveInput.magnitude + speed*0.03f) );
+        _anim.SetFloat("Direction", Vector3.Angle(inputMoveDirection, inputLookDirection) < 90 ? 1f * _moveInput.magnitude : -1f *_moveInput.magnitude );
 
         inputMoveDirection *= maxVelocity;
         AccelerateTo(inputMoveDirection);
