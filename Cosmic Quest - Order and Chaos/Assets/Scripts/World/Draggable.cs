@@ -15,11 +15,11 @@ public class Draggable : Interactable
         // Overriding the interact method from base class
         if (CanInteract(target))
         {
-            if (isHeld)
+            if (isHeld) //drop if held
             {
                 this.Dropped();
             }
-            else
+            else //pick up if in range and not picked up
             {
                 this.PickedUp(target);
             }
@@ -28,7 +28,7 @@ public class Draggable : Interactable
 
     public virtual void Dropped()
     {
-        Debug.Log("Dropped"); //todo, actually implement the 'held' mechanic
+        Debug.Log("Dropped"); 
         this.isHeld = false;
         
            
