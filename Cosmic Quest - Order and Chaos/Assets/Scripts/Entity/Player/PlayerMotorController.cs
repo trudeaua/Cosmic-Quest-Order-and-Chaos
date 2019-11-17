@@ -31,11 +31,7 @@ public class PlayerMotorController : MonoBehaviour
         _cameraController = Camera.main.GetComponent<CameraController>();
         
         // TODO Temporary - player should be registered after lobby
-<<<<<<< HEAD
-        //PlayerManager.Instance.RegisterPlayer(gameObject);
-=======
         PlayerManager.RegisterPlayer(gameObject);
->>>>>>> 13b3e801c8d928a82aa41b21c6f625bc462cda53
     }
 
     private void OnEnable()
