@@ -5,6 +5,7 @@ using UnityEngine;
 public class Room : MonoBehaviour
 {
     public Animator Anim;
+    protected Collider m_Collider;
 
     public virtual bool RocksPositioned ()
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tutorial : Room
+public class TutorialRoom2 : Room
 {
     protected GameObject[] Levers;
 
@@ -10,7 +10,8 @@ public class Tutorial : Room
     void Start()
     {
         Levers = GameObject.FindGameObjectsWithTag("Lever");
-        Anim = gameObject.GetComponent<Animator>();
+        m_Collider = GetComponent<Collider>();
+        Anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -20,6 +21,7 @@ public class Tutorial : Room
         {
             Debug.Log("All levers activated - Open the door.");
             Anim.SetTrigger("OpenDoor");
+            m_Collider.enabled = false;
 
             // This script is no longer needed. Deactivate to reduce impact on performance.
             enabled = false;
