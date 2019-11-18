@@ -672,6 +672,25 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 8.750476
   m_Center: {x: -0.6947185, y: 0, z: -0.0000073716865}
+--- !u!95 &41989212
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41989210}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a5d14edc890c94942bd419acfd538c4e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &44370610
 GameObject:
   m_ObjectHideFlags: 0
@@ -9350,6 +9369,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.5069401
   m_Center: {x: -0.000755631, y: 0.13821252, z: -0.000003453922}
+--- !u!114 &712370198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712370196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d2521239640674cb964ec1de9063d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 3
+  colour: 3
 --- !u!1 &714149825
 GameObject:
   m_ObjectHideFlags: 0
@@ -13870,7 +13903,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1000010815577494, guid: 86fd7aff15116674abc4d1f2b4f43100, type: 3}
       propertyPath: m_TagString
-      value: PurpleRock
+      value: Rock
       objectReference: {fileID: 0}
     - target: {fileID: 4000013102718026, guid: 86fd7aff15116674abc4d1f2b4f43100, type: 3}
       propertyPath: m_LocalPosition.x
@@ -27197,7 +27230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1000011754897670, guid: 93096455553c51a498e46819c76a872f, type: 3}
       propertyPath: m_TagString
-      value: GreenRock
+      value: Rock
       objectReference: {fileID: 0}
     - target: {fileID: 4000010803724518, guid: 93096455553c51a498e46819c76a872f, type: 3}
       propertyPath: m_LocalPosition.x
