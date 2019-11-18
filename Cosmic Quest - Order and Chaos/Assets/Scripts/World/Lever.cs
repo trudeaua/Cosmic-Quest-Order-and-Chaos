@@ -6,13 +6,13 @@ using UnityEngine;
 public class Lever : Interactable
 {
     protected Animator Anim;
-    protected GameObject Player;
+    protected GameObject[] Players;
 
     // Start is called before the first frame update
     void Start()
     {
         Anim = gameObject.GetComponent<Animator>();
-        Player = GameObject.FindGameObjectsWithTag("Player");
+        Players = GameObject.FindGameObjectsWithTag("Player");
     }
 
     // Update is called once per frame
@@ -20,7 +20,10 @@ public class Lever : Interactable
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Interact(Player.transform);
+            foreach (GameObject player in Players)
+            {
+                Interact(player.transform);
+            }
         }
     }
     
@@ -29,8 +32,9 @@ public class Lever : Interactable
         if (CanInteract(target))
         {
             Debug.Log("Interacted with " + target.name);
-            
-            Anim.Play("leverAnimation");
+            Anim.enabled = true;
+            Anim.Play("LeverAnimation");
+            Anim.SetBool("LeverActivated", true);
         }
     }
 

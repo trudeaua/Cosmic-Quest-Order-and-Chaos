@@ -6,7 +6,7 @@ public enum CharacterColour
 {
     None,
     Red,
-    Blue,
+    Yellow,
     Green,
     Purple
 }
