@@ -12,14 +12,16 @@ public class Draggable : Interactable
 
     public override void Interact(Transform target)
     {
-        // Overriding the interact method from base class
-        if (CanInteract(target))
-        {
-            if (isHeld) //drop if held
+
+        if (isHeld) //drop if held
             {
                 this.Dropped();
             }
-            else //pick up if in range and not picked up
+        // Overriding the interact method from base class
+        if (CanInteract(target))
+        {
+            
+            if (!isHeld) //drop if held
             {
                 this.PickedUp(target);
             }
@@ -46,6 +48,7 @@ public class Draggable : Interactable
         
         GetComponent<Rigidbody>().useGravity = false; //stops it from falling
         GetComponent<Rigidbody>().freezeRotation = true; //stops rotation while held
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         GetComponent<BoxCollider>().enabled = false;
         //this.transform.position = target.position; // optional, if we want it to SNAP to destination
         this.transform.parent = target.transform; //making the target the PARENT of this object means it will move with it.
