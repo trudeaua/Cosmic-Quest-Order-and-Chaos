@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerRangedCombatController : PlayerCombatController
 {
-    [Header("PrimaryAttack")]
+    [Header("Primary Attack")]
     [Tooltip("The distance the primary attack arrow can travel")]
     public float primaryAttackRange = 20f;
     [Tooltip("Time in seconds to charge primary attack to full power")]
@@ -61,7 +61,9 @@ public class PlayerRangedCombatController : PlayerCombatController
 
     protected override void UltimateAbility()
     {
+
         // TODO implement melee class ultimate ability
+        Anim.SetTrigger("UltimateAbility");
     }
 
     protected override void OnPrimaryAttack(InputValue value)

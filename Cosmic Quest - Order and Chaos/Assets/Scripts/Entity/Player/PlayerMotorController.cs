@@ -66,11 +66,11 @@ public class PlayerMotorController : MonoBehaviour
             _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, Quaternion.LookRotation(inputMoveDirection, Vector3.up), rotationSpeed * Time.deltaTime));
         }
         // for overriding legs when player is moving
-        var walkLayerIndex = _anim.GetLayerIndex("WalkLayer");
+        int walkLayerIndex = _anim.GetLayerIndex("WalkLayer");
         // for overriding torso when mage/healer is running
-        var idleLayerIndex = _anim.GetLayerIndex("IdleLayer");
+        int idleLayerIndex = _anim.GetLayerIndex("IdleLayer");
         // for overriding legs when ranger is shooting
-        var attackLayerIndex = _anim.GetLayerIndex("AttackLayer");
+        int attackLayerIndex = _anim.GetLayerIndex("AttackLayer");
 
         // Animate player legs, legs will still move as they attack
         if (_moveInput != Vector2.zero)
@@ -103,7 +103,7 @@ public class PlayerMotorController : MonoBehaviour
             }
         }
 
-        var inputLookAngle = Vector3.Angle(inputMoveDirection, inputLookDirection);
+        float inputLookAngle = Vector3.Angle(inputMoveDirection, inputLookDirection);
 
         // Trigger walking animation
         _anim.SetFloat("WalkSpeed", _moveInput == Vector2.zero ? 0f : _moveInput.magnitude);
