@@ -69,28 +69,48 @@ public class PlayerMotorController : MonoBehaviour
         var walkLayerIndex = _anim.GetLayerIndex("WalkLayer");
         // for overriding torso when mage/healer is running
         var idleLayerIndex = _anim.GetLayerIndex("IdleLayer");
+        // for overriding legs when ranger is shooting
+        var attackLayerIndex = _anim.GetLayerIndex("AttackLayer");
+
         // Animate player legs, legs will still move as they attack
         if (_moveInput != Vector2.zero)
         {
+            // override default base layer walk animations
             _anim.SetLayerWeight(walkLayerIndex, .9f);
-            if (_anim.GetLayerIndex("IdleLayer") >= 0)
+            if (idleLayerIndex >= 0)
             {
+                // override default idle for mage/healer
                 _anim.SetLayerWeight(idleLayerIndex, 1);
+            }
+            if (attackLayerIndex >= 0)
+            {
+                // weight must be greater than walk layer weight
+                _anim.SetLayerWeight(attackLayerIndex, 1);
             }
         }
         // Don't animate player legs
         else
         {
             _anim.SetLayerWeight(walkLayerIndex, 0);
-            if (_anim.GetLayerIndex("IdleLayer") >= 0)
+            if (idleLayerIndex >= 0)
             {
                 _anim.SetLayerWeight(idleLayerIndex, 0);
             }
+            if (attackLayerIndex >= 0)
+            {
+                // weight must be greater than walk layer weight
+                _anim.SetLayerWeight(attackLayerIndex, 1);
+            }
         }
+
+        var inputLookAngle = Vector3.Angle(inputMoveDirection, inputLookDirection);
 
         // Trigger walking animation
         _anim.SetFloat("WalkSpeed", _moveInput == Vector2.zero ? 0f : _moveInput.magnitude);
-        _anim.SetFloat("Direction", Vector3.Angle(inputMoveDirection, inputLookDirection) < 90 ? 1f * _moveInput.magnitude : -1f *_moveInput.magnitude );
+        // Set animation playback speed (if moving backwards animation will play in reverse)
+        _anim.SetFloat("Direction", inputLookAngle < 90 ? 1f * _moveInput.magnitude : -1f *_moveInput.magnitude );
+        // Set whether the player should strafe or not
+        _anim.SetBool("Strafe", (inputLookAngle >= 45 && inputLookAngle <= 135) || _anim.GetBool("Charge"));
 
         inputMoveDirection *= maxVelocity;
         AccelerateTo(inputMoveDirection);

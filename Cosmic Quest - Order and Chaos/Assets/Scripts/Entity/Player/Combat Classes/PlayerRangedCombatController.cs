@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerRangedCombatController : PlayerCombatController
 {
-    [Header("Primary Attack")]
+    [Header("PrimaryAttack")]
     [Tooltip("The distance the primary attack arrow can travel")]
     public float primaryAttackRange = 20f;
     [Tooltip("Time in seconds to charge primary attack to full power")]
@@ -50,14 +50,15 @@ public class PlayerRangedCombatController : PlayerCombatController
         StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, 0.3f));
         
         // Bow release animation
-        Anim.SetTrigger("Punch");
+        Anim.SetTrigger("PrimaryAttack");
     }
     
     protected override void SecondaryAttack()
     {
         // TODO implement ranger's secondary attack
+        Anim.SetTrigger("SecondaryAttack");
     }
-    
+
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability
@@ -79,5 +80,6 @@ public class PlayerRangedCombatController : PlayerCombatController
             _primaryAttackLaunchForce = Mathf.Lerp(primaryAttackMinLaunchForce, primaryAttackMaxLaunchForce, _chargePercent);
             PrimaryAttack();
         }
+        Anim.SetBool("Charge", _isPrimaryCharging);
     }
 }
