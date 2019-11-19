@@ -17,7 +17,7 @@ public class TutorialRoom2 : Room
     // Update is called once per frame
     void Update()
     {
-        if (LeversActivated())
+        if (AreLeversActivated())
         {
             Debug.Log("All levers activated - Open the door.");
             Anim.SetTrigger("OpenDoor");
@@ -28,20 +28,24 @@ public class TutorialRoom2 : Room
         }
     }
 
-    public override bool LeversActivated ()
+    public override bool AreLeversActivated ()
     {
-        bool isAllActivated = true;
-        foreach (GameObject lever in Levers)
+        bool leversActivated = true;
+
+        if (Levers != null)
         {
-            Transform handle = lever.transform.Find("Handle");
-            
-            if (!handle.GetComponent<Animator>().GetBool("LeverActivated"))
+            foreach (GameObject lever in Levers)
             {
-                isAllActivated = false;
+                Transform handle = lever.transform.Find("Handle");
+                
+                if (!handle.GetComponent<Animator>().GetBool("LeverActivated"))
+                {
+                    leversActivated = false;
+                }
             }
         }
 
-        return isAllActivated;
+        return leversActivated;
     }
 
 }

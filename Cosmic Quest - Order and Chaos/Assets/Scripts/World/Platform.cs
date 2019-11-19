@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Class for managing rock placement detection
-public class Platform : Interactable
+public class Platform : MonoBehaviour
 {
-    protected Animator Anim;
-    protected GameObject[] Rocks;
+    public Animator Anim;
+    public CharacterColour colour = CharacterColour.None;
 
     // Start is called before the first frame update
     void Start()
@@ -14,25 +14,22 @@ public class Platform : Interactable
         Anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnTriggerEnter (Collider other) 
     {
-
-    }
-
-    public override void Interact(Transform target)
-    {
-        // This function is intended to be overriden
-        if (CanInteract(target))
+        if ((other.tag == "Rock") &&
+            (other.gameObject.GetComponent<Interactable>().colour == colour))
         {
-            Debug.Log("Interacted with " + target.name);
-
+            Anim.SetTrigger("RockPlaced");
         }
     }
 
-    public override bool CanInteract(Transform target)
+    void OnTriggerExit (Collider other)
     {
-        return Vector3.Distance(transform.position, target.transform.position) <= radius &&
-               (target.gameObject.GetComponent<Interactable>().colour == colour);
+        Anim.enabled = true;
+    }
+
+    void PausePlatformAnimationEvent ()
+    {
+        Anim.enabled = false;
     }
 }
