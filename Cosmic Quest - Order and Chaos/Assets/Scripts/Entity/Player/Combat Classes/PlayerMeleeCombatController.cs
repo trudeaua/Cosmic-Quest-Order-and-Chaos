@@ -62,5 +62,7 @@ public class PlayerMeleeCombatController : PlayerCombatController
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability
+        Anim.SetTrigger("UltimateAbility");
+
     }
 }
