@@ -36,7 +36,7 @@ public class Draggable : Interactable
            
         this.transform.parent = null; // unparent so it doesn't follow anymore
         GetComponent<Rigidbody>().useGravity = true; //allow it to drop
-        GetComponent<Rigidbody>().freezeRotation = false; // allow to spin again
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         GetComponent<BoxCollider>().enabled = true;
         
     }
