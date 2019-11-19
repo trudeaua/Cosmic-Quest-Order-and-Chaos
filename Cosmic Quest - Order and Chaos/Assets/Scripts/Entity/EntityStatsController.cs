@@ -66,8 +66,9 @@ public class EntityStatsController : MonoBehaviour
             return;
         
         // Calculate damage based on distance from the explosion point
-        float relativeDamage = (Vector3.Distance(explosionPoint, transform.position) / explosionRadius) * maxDamage;
-        TakeDamage(attacker, relativeDamage);
+        float proximity = (transform.position - explosionPoint).magnitude;
+        float effect = 1 - (proximity / explosionRadius);
+        TakeDamage(attacker, maxDamage * effect);
         rb.AddExplosionForce(explosionForce, explosionPoint, explosionRadius);
     }
     
@@ -87,6 +88,5 @@ public class EntityStatsController : MonoBehaviour
     {
         // Meant to be implemented with any death tasks
         isDead = true;
-        Debug.Log(transform.name + " died.");
     }
 }

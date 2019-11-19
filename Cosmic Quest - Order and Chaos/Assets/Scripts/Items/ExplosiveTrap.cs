@@ -11,6 +11,13 @@ public class ExplosiveTrap : MonoBehaviour
     private bool _isDetonated;
     private EntityStatsController _thrower;
 
+    private Collider[] _hits;
+
+    private void Awake()
+    {
+        _hits = new Collider[32];
+    }
+
     public void PlaceTrap(EntityStatsController thrower, Vector3 position)
     {
         _thrower = thrower;
@@ -23,25 +30,26 @@ public class ExplosiveTrap : MonoBehaviour
     
     private IEnumerator Detonate()
     {
-        Collider[] hits = new Collider[32]; // TODO is 32 hits an okay amount to initialize to?
-        int numHits = Physics.OverlapSphereNonAlloc(transform.position, explosionRadius, hits, EntityStatsController.EntityLayer);
-
-        for (int i = 0; i < numHits; i++)
-        {
-            // TODO Not triggering well... Bad hit detection, bad damage calculation
-            // If enemy can be hit from the point of explosion, then apply explosive damage
-            if (hits[i].transform.CompareTag("Enemy") &&
-                Physics.Linecast(transform.position, hits[i].transform.position, out RaycastHit hit) &&
-                hit.transform.CompareTag("Enemy"))//hit.transform == hits[i].transform)
-            {
-                hits[i].transform.GetComponent<EnemyStatsController>().TakeExplosionDamage(_thrower, maxDamage, stunTime, explosionForce, transform.position, explosionRadius);
-            }
-        }
+        ExplosionEffect();
         
         // Play explosion effect
         yield return new WaitForSeconds(1f);
 
         gameObject.SetActive(false);
+    }
+
+    private void ExplosionEffect()
+    {
+        int numHits = Physics.OverlapSphereNonAlloc(transform.position, explosionRadius, _hits, EntityStatsController.EntityLayer);
+
+        for (int i = 0; i < numHits; i++)
+        {
+            if (!_hits[i].transform.CompareTag("Enemy"))
+                continue;
+            
+            // TODO check for if enemy is behind cover
+            _hits[i].transform.GetComponent<EnemyStatsController>().TakeExplosionDamage(_thrower, maxDamage, stunTime, explosionForce, transform.position, explosionRadius);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

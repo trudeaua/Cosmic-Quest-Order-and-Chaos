@@ -53,8 +53,9 @@ public class EnemyStatsController : EntityStatsController
             return;
         
         // Calculate damage based on distance from the explosion point
-        float relativeDamage = (Vector3.Distance(explosionPoint, transform.position) / explosionRadius) * maxDamage;
-        TakeDamage(attacker, relativeDamage);
+        float proximity = (transform.position - explosionPoint).magnitude;
+        float effect = 1 - (proximity / explosionRadius);
+        TakeDamage(attacker, maxDamage * effect);
 
         StartCoroutine(ApplyExplosiveForce(explosionForce, explosionPoint, explosionRadius, stunTime));
     }
@@ -65,6 +66,8 @@ public class EnemyStatsController : EntityStatsController
         // Set to stunned before applying explosive force
         SetStunned(true);
         rb.isKinematic = false;
+        
+        // TODO change this to AddForce(<force vector>, ForceMode.Impulse);
         rb.AddExplosionForce(explosionForce, explosionPoint, explosionRadius);
         
         // Wait for a moment before re-enabling the navMeshAgent
