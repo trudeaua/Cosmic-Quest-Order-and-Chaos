@@ -14,12 +14,6 @@ public class Lever : Interactable
         Anim = gameObject.GetComponent<Animator>();
         Players = GameObject.FindGameObjectsWithTag("Player");
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     
     public override void Interact(Transform target)
     {

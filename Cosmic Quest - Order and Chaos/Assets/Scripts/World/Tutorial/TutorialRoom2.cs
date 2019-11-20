@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class TutorialRoom2 : Room
 {
-    protected GameObject[] Levers;
-
     // Start is called before the first frame update
     void Start()
     {
-        Levers = GameObject.FindGameObjectsWithTag("Lever");
+        m_Levers = GameObject.FindGameObjectsWithTag("Lever");
         m_Collider = GetComponent<Collider>();
         Anim = GetComponent<Animator>();
     }
@@ -26,26 +24,6 @@ public class TutorialRoom2 : Room
             // This script is no longer needed. Deactivate to reduce impact on performance.
             enabled = false;
         }
-    }
-
-    public override bool AreLeversActivated ()
-    {
-        bool leversActivated = true;
-
-        if (Levers != null)
-        {
-            foreach (GameObject lever in Levers)
-            {
-                Transform handle = lever.transform.Find("Handle");
-                
-                if (!handle.GetComponent<Animator>().GetBool("LeverActivated"))
-                {
-                    leversActivated = false;
-                }
-            }
-        }
-
-        return leversActivated;
     }
 
 }

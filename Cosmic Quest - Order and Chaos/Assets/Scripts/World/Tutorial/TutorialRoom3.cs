@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialRoom1 : Room
+public class TutorialRoom3 : Room
 {
     // Start is called before the first frame update
     void Start()
     {
-        m_Platforms = GameObject.FindGameObjectsWithTag("Platform");
+        m_Enemies = GameObject.FindGameObjectsWithTag("Enemy");
         m_Collider = GetComponent<Collider>();
         Anim = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (AreRocksPositioned())
+        if (AreAllEnemiesKilled())
         {
-            Debug.Log("All rocks activated - Open the door.");
+            Debug.Log("All enemies killed - Open the door.");
             Anim.SetTrigger("OpenDoor");
             m_Collider.enabled = false;
 
@@ -25,5 +26,4 @@ public class TutorialRoom1 : Room
             enabled = false;
         }
     }
-
 }
