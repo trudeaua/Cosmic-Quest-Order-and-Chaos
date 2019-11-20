@@ -9,6 +9,8 @@ public class EntityCombatController : MonoBehaviour
     protected Animator Anim;
     protected float AttackCooldown;
 
+    protected Collider[] Hits = new Collider[32];
+    
     private void Awake()
     {
         Stats = GetComponent<EntityStatsController>();
@@ -29,6 +31,16 @@ public class EntityCombatController : MonoBehaviour
 
         // Applies damage to targetStats
         targetStats.TakeDamage(Stats, damageValue);
+    }
+    
+    protected IEnumerator PerformExplosiveDamage(EntityStatsController targetStats, float maxDamage, float stunTime, 
+        float explosionForce, Vector3 explosionPoint, float explosionRadius, float explosionDelay = 0f)
+    {
+        if (explosionDelay > 0f)
+            yield return new WaitForSeconds(explosionDelay);
+
+        // Applies damage to targetStats
+        targetStats.TakeExplosionDamage(Stats, maxDamage, stunTime, explosionForce, explosionPoint, explosionRadius);
     }
     
     protected IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float launchDelay = 0f)
