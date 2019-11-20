@@ -45,7 +45,7 @@ public class PlayerMageCombatController : PlayerCombatController
         StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, primaryAttackLaunchForce, primaryAttackRange, 0.5f));
         
         // Cast spell animation
-        Anim.SetTrigger("Punch");
+        Anim.SetTrigger("PrimaryAttack");
     }
     
     protected override void SecondaryAttack()
@@ -54,18 +54,22 @@ public class PlayerMageCombatController : PlayerCombatController
         
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(secondaryAttackRange);
-        
+
         // Attack any enemies within the attack sweep and range
         foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy.position, secondaryAttackRange, secondaryAttackAngle)))
         {
             // Calculate and perform damage at DPS rate
             enemy.GetComponent<EntityStatsController>().TakeDamage(Stats, secondaryAttackDps * Time.deltaTime);
         }
+
+        // Secondary attack animation
+        Anim.SetTrigger("SecondaryAttack");
     }
     
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability
+        Anim.SetTrigger("UltimateAbility");
     }
 
     protected override void OnSecondaryAttack(InputValue value)

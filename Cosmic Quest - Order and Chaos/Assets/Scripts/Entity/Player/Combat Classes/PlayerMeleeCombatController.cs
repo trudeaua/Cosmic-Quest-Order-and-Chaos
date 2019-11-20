@@ -35,7 +35,7 @@ public class PlayerMeleeCombatController : PlayerCombatController
         }
         
         // Primary attack animation
-        Anim.SetTrigger("Primary Attack");
+        Anim.SetTrigger("PrimaryAttack");
     }
     
     protected override void SecondaryAttack()
@@ -56,11 +56,13 @@ public class PlayerMeleeCombatController : PlayerCombatController
         }
         
         // Secondary attack animation
-        Anim.SetTrigger("Primary Attack");
+        Anim.SetTrigger("SecondaryAttack");
     }
     
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability
+        Anim.SetTrigger("UltimateAbility");
+
     }
 }

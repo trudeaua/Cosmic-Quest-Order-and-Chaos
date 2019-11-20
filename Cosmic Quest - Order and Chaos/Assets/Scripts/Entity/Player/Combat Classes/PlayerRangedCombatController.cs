@@ -50,17 +50,20 @@ public class PlayerRangedCombatController : PlayerCombatController
         StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, 0.3f));
         
         // Bow release animation
-        Anim.SetTrigger("Punch");
+        Anim.SetTrigger("PrimaryAttack");
     }
     
     protected override void SecondaryAttack()
     {
         // TODO implement ranger's secondary attack
+        Anim.SetTrigger("SecondaryAttack");
     }
-    
+
     protected override void UltimateAbility()
     {
+
         // TODO implement melee class ultimate ability
+        Anim.SetTrigger("UltimateAbility");
     }
 
     protected override void OnPrimaryAttack(InputValue value)
@@ -79,5 +82,6 @@ public class PlayerRangedCombatController : PlayerCombatController
             _primaryAttackLaunchForce = Mathf.Lerp(primaryAttackMinLaunchForce, primaryAttackMaxLaunchForce, _chargePercent);
             PrimaryAttack();
         }
+        Anim.SetBool("Charge", _isPrimaryCharging);
     }
 }
