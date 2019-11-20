@@ -26,6 +26,7 @@ public class EntityStatsController : MonoBehaviour
 
     protected Animator Anim;
     protected Rigidbody rb;
+    protected Collider col;
     
     // Entity layer mask constant for entity raycasting checks
     public const int EntityLayer = 1 << 9;
@@ -36,6 +37,7 @@ public class EntityStatsController : MonoBehaviour
 
         Anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
+        col = GetComponent<Collider>();
     }
 
     protected virtual void Update()
@@ -62,14 +64,33 @@ public class EntityStatsController : MonoBehaviour
     public virtual void TakeExplosionDamage(EntityStatsController attacker, float maxDamage, float stunTime, 
         float explosionForce, Vector3 explosionPoint, float explosionRadius)
     {
+        // Ignore explosions if already dead
         if (isDead)
             return;
         
         // Calculate damage based on distance from the explosion point
-        float proximity = (transform.position - explosionPoint).magnitude;
+        float proximity = (col.ClosestPoint(explosionPoint) - explosionPoint).magnitude;
         float effect = 1 - (proximity / explosionRadius);
+        
+        // TODO slightly strange bug where enemies just beyond the explosion take negative damage? This is a temp fix.
+        if (effect < 0f)
+            return;
+        
         TakeDamage(attacker, maxDamage * effect);
+
+        StartCoroutine(ApplyExplosiveForce(explosionForce, explosionPoint, explosionRadius, stunTime));
+    }
+    
+    protected virtual IEnumerator ApplyExplosiveForce(float explosionForce, Vector3 explosionPoint, float explosionRadius, float stunTime)
+    {
+        // Set to stunned before applying explosive force
+        // TODO
+
+        // TODO change this to AddForce(<force vector>, ForceMode.Impulse);
         rb.AddExplosionForce(explosionForce, explosionPoint, explosionRadius);
+        
+        // Wait for a moment before un-stunning the victim
+        yield return new WaitForSeconds(stunTime);
     }
     
     public virtual float ComputeDamageModifer()

@@ -59,7 +59,7 @@ public class PlayerMageCombatController : PlayerCombatController
         List<Transform> enemies = GetSurroundingEnemies(secondaryAttackRadius);
         
         // Attack any enemies within the AOE range
-        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, secondaryAttackRadius)))
+        foreach (var enemy in enemies)
         {
             StartCoroutine(PerformExplosiveDamage(enemy.GetComponent<EntityStatsController>(), 
                 Stats.damage.GetValue(), 2f, secondaryAttackForce, transform.position, secondaryAttackRadius, 0.6f));

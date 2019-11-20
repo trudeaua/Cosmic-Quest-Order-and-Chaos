@@ -44,24 +44,8 @@ public class EnemyStatsController : EntityStatsController
             Die();
         }
     }
-    
-    public override void TakeExplosionDamage(EntityStatsController attacker, float maxDamage, float stunTime, 
-        float explosionForce, Vector3 explosionPoint, float explosionRadius)
-    {
-        // Ignore explosions if already dead
-        if (isDead)
-            return;
-        
-        // Calculate damage based on distance from the explosion point
-        float proximity = (transform.position - explosionPoint).magnitude;
-        float effect = 1 - (proximity / explosionRadius);
-        TakeDamage(attacker, maxDamage * effect);
 
-        StartCoroutine(ApplyExplosiveForce(explosionForce, explosionPoint, explosionRadius, stunTime));
-    }
-
-    private IEnumerator ApplyExplosiveForce(float explosionForce, Vector3 explosionPoint, float explosionRadius,
-        float stunTime)
+    protected override IEnumerator ApplyExplosiveForce(float explosionForce, Vector3 explosionPoint, float explosionRadius, float stunTime)
     {
         // Set to stunned before applying explosive force
         SetStunned(true);
@@ -95,8 +79,6 @@ public class EnemyStatsController : EntityStatsController
     {
         // Disable the nav and stun the brain
         _agent.enabled = !isStunned;
-        _agent.updatePosition = !isStunned;
-        _agent.updateRotation = !isStunned;
         _brain.SetStunned(isStunned);
     }
 }

@@ -7,7 +7,7 @@ public class PlayerCombatController : EntityCombatController
 {
     [SerializeField] protected float primaryAttackCooldown = 0.5f;
     [SerializeField] protected float secondaryAttackCooldown = 1f;
-    
+
     protected virtual void PrimaryAttack()
     {
         // Implement me
@@ -34,14 +34,13 @@ public class PlayerCombatController : EntityCombatController
     protected List<Transform> GetSurroundingEnemies(float radius)
     {
         List<Transform> enemies = new List<Transform>();
-        Collider[] hits = new Collider[32]; // TODO is 32 hits an okay amount to initialize to?
-        int numHits = Physics.OverlapSphereNonAlloc(transform.position, radius, hits, EntityStatsController.EntityLayer);
+        int numHits = Physics.OverlapSphereNonAlloc(transform.position, radius, Hits, EntityStatsController.EntityLayer);
 
         for (int i = 0; i < numHits; i++)
         {
-            if (hits[i].transform.CompareTag("Enemy"))
+            if (Hits[i].transform.CompareTag("Enemy"))
             {
-                enemies.Add(hits[i].transform);
+                enemies.Add(Hits[i].transform);
             }
         }
 
