@@ -6,28 +6,27 @@ using UnityEngine;
 public class Lever : Interactable
 {
     protected Animator Anim;
-    protected GameObject[] Players;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         Anim = gameObject.GetComponent<Animator>();
-        Players = GameObject.FindGameObjectsWithTag("Player");
+    }
+
+    private void Reset()
+    {
+        // Set default value for interactable fields
+        isTrigger = true;
     }
     
-    public override void Interact(Transform target)
+    public override void StartInteract(Transform target)
     {
-        foreach (GameObject player in Players)
+        if (CanInteract(target))
         {
-            if (CanInteract(target))
-            {
-                Debug.Log("Interacted with " + target.name);
-                Anim.enabled = true;
-                Anim.Play("LeverAnimation");
-                Anim.SetBool("LeverPulled", true);
-            }
+            Debug.Log("Interacted with " + target.name);
+            Anim.enabled = true;
+            Anim.Play("LeverAnimation");
+            Anim.SetBool("LeverPulled", true);
         }
-       
     }
 
     void PauseAnimationEvent ()
