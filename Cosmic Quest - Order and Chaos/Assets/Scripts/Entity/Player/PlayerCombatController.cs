@@ -65,21 +65,11 @@ public class PlayerCombatController : EntityCombatController
 
         if (Mathf.Approximately(sweepAngle, 360f) || Vector3.Angle(rayDirection, transform.forward) <= sweepAngle * 0.5f)
         {
-            Debug.Log("Attack is okay");
-
             // Check if enemy is within player's sight
             if (Physics.Raycast(pos, rayDirection, out RaycastHit hit, radius))
             {
                 return hit.transform == target;
             }
-            else
-            {
-                Debug.Log("Cannot hit target");
-            }
-        }
-        else
-        {
-            Debug.Log("CanDamageTarget not working properly?");
         }
 
         return false;
