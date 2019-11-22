@@ -4,22 +4,13 @@ using UnityEngine;
 
 public class TutorialRoom1 : Room
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        m_Platforms = GameObject.FindGameObjectsWithTag("Platform");
-        m_Collider = GetComponent<Collider>();
-        Anim = GetComponent<Animator>();
-    }
-
     // Update is called once per frame
     void Update()
     {
-        if (AreRocksPositioned())
+        if (this.AreRocksPositioned())
         {
             Debug.Log("All rocks activated - Open the door.");
-            Anim.SetTrigger("OpenDoor");
-            m_Collider.enabled = false;
+            StartCoroutine(SetDoorAnimTrigger());
 
             // This script is no longer needed. Deactivate to reduce impact on performance.
             enabled = false;

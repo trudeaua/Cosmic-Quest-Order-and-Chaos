@@ -37,7 +37,7 @@ public class Draggable : Interactable
         this.transform.parent = null; // unparent so it doesn't follow anymore
         GetComponent<Rigidbody>().useGravity = true; //allow it to drop
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        GetComponent<BoxCollider>().enabled = true;
+        GetComponent<Collider>().enabled = true;
         
     }
 
@@ -49,7 +49,7 @@ public class Draggable : Interactable
         GetComponent<Rigidbody>().useGravity = false; //stops it from falling
         GetComponent<Rigidbody>().freezeRotation = true; //stops rotation while held
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        GetComponent<BoxCollider>().enabled = false;
+        GetComponent<Collider>().enabled = false;
         //this.transform.position = target.position; // optional, if we want it to SNAP to destination
         this.transform.parent = target.transform; //making the target the PARENT of this object means it will move with it.
          

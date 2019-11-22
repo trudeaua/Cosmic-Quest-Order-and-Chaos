@@ -110,7 +110,7 @@ public class PlayerMotorController : MonoBehaviour
         // Set animation playback speed (if moving backwards animation will play in reverse)
         _anim.SetFloat("Direction", inputLookAngle < 90 ? 1f * _moveInput.magnitude : -1f *_moveInput.magnitude );
         // Set whether the player should strafe or not
-        _anim.SetBool("Strafe", (inputLookAngle >= 45 && inputLookAngle <= 135) || _anim.GetBool("Charge"));
+        //_anim.SetBool("Strafe", (inputLookAngle >= 45 && inputLookAngle <= 135) || _anim.GetBool("Charge"));
 
         inputMoveDirection *= maxVelocity;
         AccelerateTo(inputMoveDirection);

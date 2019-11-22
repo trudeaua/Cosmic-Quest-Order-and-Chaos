@@ -7,10 +7,29 @@ public class Room : MonoBehaviour
 {
     public Animator Anim;
     protected Collider m_Collider;  // Collider of the door
-    protected GameObject[] m_Enemies;   // All enemies in the room
+    protected List<GameObject> m_Enemies;   // All enemies in the room
     protected GameObject[] m_Levers;    // All levers in the room
     protected GameObject[] m_Platforms; // All rock platforms in the room
     
+    void Awake ()
+    {
+        // Track all rock platforms in the room
+        m_Platforms = GameObject.FindGameObjectsWithTag("Platform");
+
+        // Track all levers in the room
+        m_Levers = GameObject.FindGameObjectsWithTag("Lever");
+
+        // Populate enemy list with enemies in the room
+        m_Enemies = new List<GameObject>();
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            m_Enemies.Add(enemy);
+        }
+
+        m_Collider = GetComponent<Collider>();
+        Anim = GetComponent<Animator>();
+    }
+
     public virtual bool AreRocksPositioned ()
     {
         bool rocksPositioned = true;
@@ -44,25 +63,39 @@ public class Room : MonoBehaviour
             }
         }
 
-
         return leversActivated;
     }
 
     public virtual bool AreAllEnemiesKilled ()
     {
-        bool enemiesKilled = false;
-
-        // Check if every enemy in the room is dead
+        // Check for dead enemies and remove them from the enemy list
         foreach (GameObject enemy in m_Enemies)
         {
-            enemiesKilled = enemy.gameObject.GetComponent<EntityStatsController>().isDead;
+            if (enemy != null && enemy.GetComponent<EnemyStatsController>().isDead == true)
+            {
+                m_Enemies.Remove(enemy);
+            }
         }
         
-        return enemiesKilled;
+        // If enemy list is empty, all enemies in the room have been killed
+        if (m_Enemies.Count == 0)
+        {   
+            return true;
+        }
+
+        return false;
     }
 
-    public virtual void PauseDoorAnimationEvent()
+    public virtual void PauseDoorAnimEvent()
     {
         Anim.enabled = false;
+    }
+
+    public IEnumerator SetDoorAnimTrigger ()
+    {
+        yield return new WaitForSeconds(1f);
+        Anim.SetTrigger("OpenDoor");
+        m_Collider.enabled = false;
+        yield break;
     }
 }

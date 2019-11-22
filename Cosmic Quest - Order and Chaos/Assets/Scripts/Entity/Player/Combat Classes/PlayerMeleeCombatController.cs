@@ -18,6 +18,7 @@ public class PlayerMeleeCombatController : PlayerCombatController
     
     protected override void PrimaryAttack()
     {
+        Debug.Log("Primary attack charging!");
         if (AttackCooldown > 0)
             return;
 
@@ -26,6 +27,11 @@ public class PlayerMeleeCombatController : PlayerCombatController
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
         
+        if (enemies == null)
+        {
+            Debug.Log("No enemies in range");
+        }
+
         // Attack any enemies within the attack sweep and range
         foreach (Transform enemy in enemies.Where(enemy => CanDamageTarget(enemy.position, primaryAttackRadius, primaryAttackAngle)))
         {
