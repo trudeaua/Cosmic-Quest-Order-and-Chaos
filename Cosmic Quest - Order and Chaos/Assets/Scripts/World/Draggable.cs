@@ -10,38 +10,31 @@ public class Draggable : Interactable
     protected Rigidbody m_Object;
     protected Collider m_Collider;
 
-    private bool isHeld = false;
-
     void Awake ()
     {
         m_Object = GetComponent<Rigidbody>();
         m_Collider = GetComponent<Collider>();
     }
 
-    public override void Interact(Transform target)
+    public override void StartInteract(Transform target)
     {
-
-        if (isHeld) //drop if held
-            {
-                this.Dropped();
-            }
         // Overriding the interact method from base class
         if (CanInteract(target))
         {
-            
-            if (!isHeld) //drop if held
-            {
-                this.PickedUp(target);
-            }
+            PickedUp(target);
         }
+    }
+
+    public override void StopInteract(Transform target)
+    {
+        // Drop the object
+        Dropped();
     }
 
     public virtual void Dropped()
     {
-        Debug.Log("Dropped"); 
-        this.isHeld = false;
-        
-           
+        Debug.Log("Dropped");
+
         this.transform.parent = null; // unparent so it doesn't follow anymore
         m_Object.useGravity = true; //allow it to drop
         m_Object.constraints = RigidbodyConstraints.None;
@@ -52,8 +45,7 @@ public class Draggable : Interactable
     public virtual void PickedUp(Transform target)
     {
         Debug.Log("Picked up by " + target.name);
-        this.isHeld = true;
-        
+
         m_Object.useGravity = false; //stops it from falling
         m_Object.freezeRotation = true; //stops rotation while held
         m_Object.constraints = RigidbodyConstraints.FreezeAll;

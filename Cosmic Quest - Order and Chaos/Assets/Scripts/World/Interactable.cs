@@ -10,20 +10,36 @@ public class Interactable : MonoBehaviour
     [Tooltip("Max distance a transform can be to interact with this")]
     public float radius = 3f;
 
+    [Tooltip("Whether the player must hold down the interact button to interact with this object")]
+    public bool isHeld = false;
+
+    [Tooltip("Whether the interaction is meant to be a triggered-style interaction")]
+    public bool isTrigger = false;
+    
     [Tooltip("Required character colour to interact with")]
     public CharacterColour colour = CharacterColour.None;
 
     /// <summary>
-    /// Handles the interaction event when interacted with a player
+    /// Handles the start of an interaction event with a player
     /// </summary>
-    /// <param name="target">The Transform which interacted with this object</param>
-    public virtual void Interact(Transform target)
+    /// <param name="target">The Transform who interacted with this object</param>
+    public virtual void StartInteract(Transform target)
     {
         // This function is intended to be overriden
         if (CanInteract(target))
         {
-            Debug.Log("Interacted with " + target.name);
+            Debug.Log("Started interaction with " + target.name);
         }
+    }
+    
+    /// <summary>
+    /// Handles the end of the interaction event with a player. This function is not necessary for one-time interactions.
+    /// </summary>
+    /// <param name="target">The Transform who interacted with this object</param>
+    public virtual void StopInteract(Transform target)
+    {
+        // This function is intended to be overriden
+        Debug.Log("Stopped interaction with " + target.name);
     }
 
     /// <summary>
