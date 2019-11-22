@@ -25,7 +25,7 @@ public class PlayerMeleeCombatController : PlayerCombatController
         
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
-        
+
         // Attack any enemies within the attack sweep and range
         foreach (Transform enemy in enemies.Where(enemy => CanDamageTarget(enemy, primaryAttackRadius, primaryAttackAngle)))
         {
