@@ -30,7 +30,7 @@ public class PlayerMedicCombatController : PlayerCombatController
         List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
         
         // Attack any enemies within the attack sweep and range
-        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy.position, primaryAttackRadius, primaryAttackAngle)))
+        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, primaryAttackRadius, primaryAttackAngle)))
         {
             // TODO can this attack affect multiple enemies?
             // Calculate and perform damage

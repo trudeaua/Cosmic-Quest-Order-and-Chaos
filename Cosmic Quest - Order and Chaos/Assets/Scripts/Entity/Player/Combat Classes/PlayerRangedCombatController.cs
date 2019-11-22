@@ -17,6 +17,10 @@ public class PlayerRangedCombatController : PlayerCombatController
     [Tooltip("The arrow prefab for the primary attack")]
     public GameObject primaryProjectilePrefab;
 
+    [Header("Secondary Attack")]
+    [Tooltip("The trap prefab for the secondary attack")]
+    public GameObject secondaryTrapPrefab;
+    
     private bool _isPrimaryCharging;
     private float _primaryChargeTime;
     private float _chargePercent;
@@ -46,8 +50,10 @@ public class PlayerRangedCombatController : PlayerCombatController
 
         AttackCooldown = primaryAttackCooldown;
 
+        float damage = Mathf.Ceil(Stats.damage.GetValue() * _chargePercent);
+        
         // Launch projectile in the direction the player is facing
-        StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, 0.3f));
+        StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, damage, 0.3f));
         
         // Bow release animation
         Anim.SetTrigger("PrimaryAttack");
@@ -55,15 +61,40 @@ public class PlayerRangedCombatController : PlayerCombatController
     
     protected override void SecondaryAttack()
     {
-        // TODO implement ranger's secondary attack
+        if (AttackCooldown > 0)
+            return;
+
+        AttackCooldown = secondaryAttackCooldown;
+        
+        // Place explosive trap
+        StartCoroutine(PlaceTrap(secondaryTrapPrefab, 0.5f));
+        
         Anim.SetTrigger("SecondaryAttack");
     }
-
+    
     protected override void UltimateAbility()
     {
-
         // TODO implement melee class ultimate ability
-        Anim.SetTrigger("UltimateAbility");
+    }
+    
+    private IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float damage, float launchDelay = 0f)
+    {
+        if (launchDelay > 0f)
+            yield return new WaitForSeconds(launchDelay);
+        
+        // Launch projectile from projectile pool
+        GameObject projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab);
+        projectile.GetComponent<DamageProjectile>().Launch(Stats, direction, launchForce, range, damage);
+    }
+
+    private IEnumerator PlaceTrap(GameObject trapPrefab, float spawnDelay = 0f)
+    {
+        if (spawnDelay > 0f)
+            yield return new WaitForSeconds(spawnDelay);
+        
+        // Place trap from object pool in front of the player
+        GameObject trap = ObjectPooler.Instance.GetPooledObject(trapPrefab);
+        trap.GetComponent<ExplosiveTrap>().PlaceTrap(Stats, transform.position + transform.forward);
     }
 
     protected override void OnPrimaryAttack(InputValue value)
@@ -82,6 +113,5 @@ public class PlayerRangedCombatController : PlayerCombatController
             _primaryAttackLaunchForce = Mathf.Lerp(primaryAttackMinLaunchForce, primaryAttackMaxLaunchForce, _chargePercent);
             PrimaryAttack();
         }
-        Anim.SetBool("Charge", _isPrimaryCharging);
     }
 }

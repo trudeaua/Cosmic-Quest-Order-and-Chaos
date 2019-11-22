@@ -21,8 +21,6 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        //transform.Translate(_velocity * Time.deltaTime * transform.forward, Space.World);
-        
         // Check if projectile has reached its maximum range
         if ((transform.position - _initialPosition).sqrMagnitude >= _range * _range)
         {
