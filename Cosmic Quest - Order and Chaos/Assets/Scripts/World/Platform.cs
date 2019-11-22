@@ -19,7 +19,7 @@ public class Platform : MonoBehaviour
         if ((other.tag == "Rock") &&
             (other.gameObject.GetComponent<Interactable>().colour == colour))
         {
-            Anim.SetTrigger("RockPlaced");
+            Anim.SetTrigger("PlatformActivated");
         }
     }
 

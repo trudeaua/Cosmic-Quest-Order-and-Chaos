@@ -9,7 +9,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: LeverActivated
+    m_ConditionEvent: LeverPulled
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 9147164214339886045}
@@ -60,7 +60,7 @@ AnimatorController:
   m_Name: Lever
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: LeverActivated
+  - m_Name: LeverPulled
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -171,7 +171,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: LeverActivated
+    m_ConditionEvent: LeverPulled
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2906100681472395520}

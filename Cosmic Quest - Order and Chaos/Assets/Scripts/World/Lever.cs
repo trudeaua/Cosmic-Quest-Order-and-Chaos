@@ -24,7 +24,7 @@ public class Lever : Interactable
                 Debug.Log("Interacted with " + target.name);
                 Anim.enabled = true;
                 Anim.Play("LeverAnimation");
-                Anim.SetBool("LeverActivated", true);
+                Anim.SetBool("LeverPulled", true);
             }
         }
        
