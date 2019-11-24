@@ -12,6 +12,7 @@ public class ExplosiveTrap : MonoBehaviour
     private EntityStatsController _thrower;
 
     private Collider[] _hits;
+    public GameObject explosiveTrapVFX;
 
     private void Awake()
     {
@@ -28,18 +29,16 @@ public class ExplosiveTrap : MonoBehaviour
         gameObject.SetActive(true);
     }
     
-    private IEnumerator Detonate()
+    private void Detonate()
     {
         ExplosionEffect();
-        
         // Play explosion effect
-        yield return new WaitForSeconds(1f);
-
         gameObject.SetActive(false);
     }
 
     private void ExplosionEffect()
     {
+        PerformExplosionAnimation();
         int numHits = Physics.OverlapSphereNonAlloc(transform.position, explosionRadius, _hits, EntityStatsController.EntityLayer);
 
         for (int i = 0; i < numHits; i++)
@@ -57,7 +56,33 @@ public class ExplosiveTrap : MonoBehaviour
         if (other.CompareTag("Enemy") && !_isDetonated)
         {
             _isDetonated = true;
-            StartCoroutine(Detonate());
+            Detonate();
         }
+    }
+
+    protected void PerformExplosionAnimation()
+    {
+        GameObject vfx;
+
+        vfx = Instantiate(explosiveTrapVFX, gameObject.transform.position, Quaternion.identity);
+
+        var ps = GetFirstPS(vfx);
+
+        Destroy(vfx, ps.main.duration + ps.main.startLifetime.constantMax + 1);
+    }
+
+    private ParticleSystem GetFirstPS(GameObject vfx)
+    {
+        var ps = vfx.GetComponent<ParticleSystem>();
+        if (ps == null && vfx.transform.childCount > 0)
+        {
+            foreach (Transform t in vfx.transform)
+            {
+                ps = t.GetComponent<ParticleSystem>();
+                if (ps != null)
+                    return ps;
+            }
+        }
+        return ps;
     }
 }

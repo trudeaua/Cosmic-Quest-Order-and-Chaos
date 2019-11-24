@@ -16,7 +16,8 @@ public class PlayerMeleeCombatController : PlayerCombatController
     [Header("Secondary Attack")]
     [Tooltip("The angular distance around the player where enemies are affected by the secondary attack")]
     public float secondaryAttackAngle = 160f;
-
+    public GameObject secondaryVFX;
+    
     protected override void PrimaryAttack()
     {
         if (AttackCooldown > 0)
@@ -45,7 +46,8 @@ public class PlayerMeleeCombatController : PlayerCombatController
             return;
         
         AttackCooldown = secondaryAttackCooldown;
-        
+        StartCoroutine(CreateVFX(secondaryVFX, gameObject.transform, gameObject.transform.rotation, 0.6f));
+
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
         
