@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class PlayerMeleeCombatController : PlayerCombatController
@@ -15,7 +16,9 @@ public class PlayerMeleeCombatController : PlayerCombatController
     [Header("Secondary Attack")]
     [Tooltip("The angular distance around the player where enemies are affected by the secondary attack")]
     public float secondaryAttackAngle = 160f;
-    
+    private bool _isPrimaryCharging;
+    private bool _isSecondaryCharging;
+
     protected override void PrimaryAttack()
     {
         if (AttackCooldown > 0)
@@ -35,7 +38,8 @@ public class PlayerMeleeCombatController : PlayerCombatController
         }
         
         // Primary attack animation
-        Anim.SetTrigger("PrimaryAttack");
+        // Anim.SetBool("PrimaryAttack", true);
+        Anim.SetBool("Combo", !Anim.GetBool("Combo"));
     }
     
     protected override void SecondaryAttack()
@@ -56,7 +60,7 @@ public class PlayerMeleeCombatController : PlayerCombatController
         }
         
         // Secondary attack animation
-        Anim.SetTrigger("SecondaryAttack");
+        // Anim.SetBool("SecondaryAttack", true);
     }
     
     protected override void UltimateAbility()
@@ -64,5 +68,35 @@ public class PlayerMeleeCombatController : PlayerCombatController
         // TODO implement melee class ultimate ability
         Anim.SetTrigger("UltimateAbility");
 
+    }
+
+    protected override void OnPrimaryAttack(InputValue value)
+    {
+        bool isPressed = value.isPressed;
+        Anim.SetBool("PrimaryAttack", isPressed);
+        if (isPressed)
+        {
+            _isPrimaryCharging = true;
+        }
+        else
+        {
+            _isPrimaryCharging = false;
+            PrimaryAttack();
+        }
+    }
+
+    protected override void OnSecondaryAttack(InputValue value)
+    {
+        bool isPressed = value.isPressed;
+        Anim.SetBool("SecondaryAttack", isPressed);
+        if (isPressed)
+        {
+            _isSecondaryCharging = true;
+        }
+        else
+        {
+            _isSecondaryCharging = false;
+            SecondaryAttack();
+        }
     }
 }

@@ -20,13 +20,13 @@ public class PlayerStatsController : EntityStatsController
     {
         Debug.Log(transform.name + " died.");
         isDead = true;
-        StartCoroutine(PlayerDeath());
+        //StartCoroutine(PlayerDeath());
     }
     
-    private IEnumerator PlayerDeath()
+    private void PlayerDeath()
     {
-        Anim.SetTrigger("Die");
-        yield return new WaitForSeconds(2.5f);
-        transform.gameObject.SetActive(false);
+        //Anim.SetTrigger("Die");
+        //yield return new WaitForSeconds(2.5f);
+        //transform.gameObject.SetActive(false);
     }
 }

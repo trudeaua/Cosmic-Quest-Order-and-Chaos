@@ -21,6 +21,7 @@ public class PlayerMageCombatController : PlayerCombatController
     public float secondaryAttackForce = 500f;
 
     private bool _isPrimaryActive = false;
+    private bool _isSecondaryCharging;
 
     protected override void Update()
     {
@@ -45,7 +46,7 @@ public class PlayerMageCombatController : PlayerCombatController
         }
         
         // Cast spell animation
-        Anim.SetTrigger("PrimaryAttack");
+        // Anim.SetBool("PrimaryAttack", true);
     }
     
     protected override void SecondaryAttack()
@@ -64,18 +65,43 @@ public class PlayerMageCombatController : PlayerCombatController
             StartCoroutine(PerformExplosiveDamage(enemy.GetComponent<EntityStatsController>(), 
                 Stats.damage.GetValue(), 2f, secondaryAttackForce, transform.position, secondaryAttackRadius, 0.6f));
         }
-        
-        Anim.SetTrigger("SecondaryAttack");
+
+       // Anim.SetBool("SecondaryAttack", true);
     }
     
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability
+        Anim.SetTrigger("UltimateAbility");
     }
 
     protected override void OnPrimaryAttack(InputValue value)
     {
-        // Ensure secondary is only activated on button down
         _isPrimaryActive = value.isPressed;
+        Anim.SetBool("PrimaryAttack", _isPrimaryActive);
+        if (_isPrimaryActive)
+        {
+            _isPrimaryActive = true;
+        }
+        else
+        {
+            _isPrimaryActive = false;
+            PrimaryAttack();
+        }
+    }
+
+    protected override void OnSecondaryAttack(InputValue value)
+    {
+        bool isPressed = value.isPressed;
+        Anim.SetBool("SecondaryAttack", isPressed);
+        if (isPressed)
+        {
+            _isSecondaryCharging = true;
+        }
+        else
+        {
+            _isSecondaryCharging = false;
+            SecondaryAttack();
+        }
     }
 }

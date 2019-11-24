@@ -22,6 +22,7 @@ public class PlayerRangedCombatController : PlayerCombatController
     public GameObject secondaryTrapPrefab;
     
     private bool _isPrimaryCharging;
+    private bool _isSecondaryCharging;
     private float _primaryChargeTime;
     private float _chargePercent;
     private float _primaryAttackLaunchForce;
@@ -56,7 +57,7 @@ public class PlayerRangedCombatController : PlayerCombatController
         StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, damage, 0.3f));
         
         // Bow release animation
-        Anim.SetTrigger("PrimaryAttack");
+        //Anim.SetBool("PrimaryAttack", true);
     }
     
     protected override void SecondaryAttack()
@@ -69,14 +70,15 @@ public class PlayerRangedCombatController : PlayerCombatController
         // Place explosive trap
         StartCoroutine(PlaceTrap(secondaryTrapPrefab, 0.5f));
         
-        Anim.SetTrigger("SecondaryAttack");
+        //Anim.SetBool("SecondaryAttack", true);
     }
     
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability
+        Anim.SetTrigger("UltimateAbility");
     }
-    
+
     private IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float damage, float launchDelay = 0f)
     {
         if (launchDelay > 0f)
@@ -99,7 +101,10 @@ public class PlayerRangedCombatController : PlayerCombatController
 
     protected override void OnPrimaryAttack(InputValue value)
     {
-        if (value.isPressed)
+        bool isPressed = value.isPressed;
+        Anim.SetBool("PrimaryAttack", isPressed);
+        Anim.SetBool("Strafe", isPressed);
+        if (isPressed)
         {
             _isPrimaryCharging = true;
             _primaryChargeTime = 0f;
@@ -112,6 +117,21 @@ public class PlayerRangedCombatController : PlayerCombatController
             _chargePercent = Mathf.InverseLerp(0f, primaryAttackChargeTime,_primaryChargeTime);
             _primaryAttackLaunchForce = Mathf.Lerp(primaryAttackMinLaunchForce, primaryAttackMaxLaunchForce, _chargePercent);
             PrimaryAttack();
+        }
+    }
+
+    protected override void OnSecondaryAttack(InputValue value)
+    {
+        bool isPressed = value.isPressed;
+        Anim.SetBool("SecondaryAttack", isPressed);
+        if (isPressed)
+        {
+            _isSecondaryCharging = true;
+        }
+        else
+        {
+            _isSecondaryCharging = false;
+            SecondaryAttack();
         }
     }
 }
