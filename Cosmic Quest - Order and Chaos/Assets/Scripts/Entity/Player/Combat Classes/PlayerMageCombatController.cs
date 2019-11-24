@@ -21,7 +21,6 @@ public class PlayerMageCombatController : PlayerCombatController
     public float secondaryAttackForce = 500f;
 
     private bool _isPrimaryActive = false;
-    private bool _isSecondaryCharging;
 
     protected override void Update()
     {
@@ -44,9 +43,6 @@ public class PlayerMageCombatController : PlayerCombatController
             // Calculate and perform damage at DPS rate
             enemy.GetComponent<EntityStatsController>().TakeDamage(Stats, primaryAttackDps, Time.deltaTime);
         }
-        
-        // Cast spell animation
-        // Anim.SetBool("PrimaryAttack", true);
     }
     
     protected override void SecondaryAttack()
@@ -65,8 +61,6 @@ public class PlayerMageCombatController : PlayerCombatController
             StartCoroutine(PerformExplosiveDamage(enemy.GetComponent<EntityStatsController>(), 
                 Stats.damage.GetValue(), 2f, secondaryAttackForce, transform.position, secondaryAttackRadius, 0.6f));
         }
-
-       // Anim.SetBool("SecondaryAttack", true);
     }
     
     protected override void UltimateAbility()
@@ -81,11 +75,6 @@ public class PlayerMageCombatController : PlayerCombatController
         Anim.SetBool("PrimaryAttack", _isPrimaryActive);
         if (_isPrimaryActive)
         {
-            _isPrimaryActive = true;
-        }
-        else
-        {
-            _isPrimaryActive = false;
             PrimaryAttack();
         }
     }
@@ -96,11 +85,6 @@ public class PlayerMageCombatController : PlayerCombatController
         Anim.SetBool("SecondaryAttack", isPressed);
         if (isPressed)
         {
-            _isSecondaryCharging = true;
-        }
-        else
-        {
-            _isSecondaryCharging = false;
             SecondaryAttack();
         }
     }

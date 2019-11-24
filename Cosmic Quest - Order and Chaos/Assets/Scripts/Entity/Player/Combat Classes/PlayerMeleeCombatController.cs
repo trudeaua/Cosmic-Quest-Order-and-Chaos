@@ -16,8 +16,6 @@ public class PlayerMeleeCombatController : PlayerCombatController
     [Header("Secondary Attack")]
     [Tooltip("The angular distance around the player where enemies are affected by the secondary attack")]
     public float secondaryAttackAngle = 160f;
-    private bool _isPrimaryCharging;
-    private bool _isSecondaryCharging;
 
     protected override void PrimaryAttack()
     {
@@ -38,7 +36,6 @@ public class PlayerMeleeCombatController : PlayerCombatController
         }
         
         // Primary attack animation
-        // Anim.SetBool("PrimaryAttack", true);
         Anim.SetBool("Combo", !Anim.GetBool("Combo"));
     }
     
@@ -58,9 +55,6 @@ public class PlayerMeleeCombatController : PlayerCombatController
             // Calculate and perform damage
             StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
         }
-        
-        // Secondary attack animation
-        // Anim.SetBool("SecondaryAttack", true);
     }
     
     protected override void UltimateAbility()
@@ -76,11 +70,6 @@ public class PlayerMeleeCombatController : PlayerCombatController
         Anim.SetBool("PrimaryAttack", isPressed);
         if (isPressed)
         {
-            _isPrimaryCharging = true;
-        }
-        else
-        {
-            _isPrimaryCharging = false;
             PrimaryAttack();
         }
     }
@@ -90,12 +79,7 @@ public class PlayerMeleeCombatController : PlayerCombatController
         bool isPressed = value.isPressed;
         Anim.SetBool("SecondaryAttack", isPressed);
         if (isPressed)
-        {
-            _isSecondaryCharging = true;
-        }
-        else
-        {
-            _isSecondaryCharging = false;
+        { 
             SecondaryAttack();
         }
     }

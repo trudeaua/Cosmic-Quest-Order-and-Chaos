@@ -22,7 +22,6 @@ public class PlayerRangedCombatController : PlayerCombatController
     public GameObject secondaryTrapPrefab;
     
     private bool _isPrimaryCharging;
-    private bool _isSecondaryCharging;
     private float _primaryChargeTime;
     private float _chargePercent;
     private float _primaryAttackLaunchForce;
@@ -55,9 +54,6 @@ public class PlayerRangedCombatController : PlayerCombatController
         
         // Launch projectile in the direction the player is facing
         StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, damage, 0.3f));
-        
-        // Bow release animation
-        //Anim.SetBool("PrimaryAttack", true);
     }
     
     protected override void SecondaryAttack()
@@ -69,8 +65,6 @@ public class PlayerRangedCombatController : PlayerCombatController
         
         // Place explosive trap
         StartCoroutine(PlaceTrap(secondaryTrapPrefab, 0.5f));
-        
-        //Anim.SetBool("SecondaryAttack", true);
     }
     
     protected override void UltimateAbility()
@@ -126,11 +120,6 @@ public class PlayerRangedCombatController : PlayerCombatController
         Anim.SetBool("SecondaryAttack", isPressed);
         if (isPressed)
         {
-            _isSecondaryCharging = true;
-        }
-        else
-        {
-            _isSecondaryCharging = false;
             SecondaryAttack();
         }
     }

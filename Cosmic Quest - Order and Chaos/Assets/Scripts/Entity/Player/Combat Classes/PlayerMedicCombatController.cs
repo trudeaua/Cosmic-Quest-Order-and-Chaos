@@ -19,8 +19,6 @@ public class PlayerMedicCombatController : PlayerCombatController
     public float secondaryAttackRange = 20f;
     [Tooltip("The prefab for the healing projectile")]
     public GameObject projectilePrefab;
-    private bool _isSecondaryCharging;
-    private bool _isPrimaryCharging;
 
     protected override void PrimaryAttack()
     {
@@ -39,9 +37,6 @@ public class PlayerMedicCombatController : PlayerCombatController
             // Calculate and perform damage
             StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
         }
-        
-        // Primary attack animation
-        // Anim.SetBool("PrimaryAttack", true);
     }
     
     protected override void SecondaryAttack()
@@ -53,9 +48,6 @@ public class PlayerMedicCombatController : PlayerCombatController
         
         // Launch projectile in the direction the player is facing
         StartCoroutine(LaunchProjectile(projectilePrefab, transform.forward, secondaryAttackLaunchForce, secondaryAttackRange, 0.5f));
-        
-        // Launch orb animation
-        // Anim.SetBool("SecondaryAttack", true);
     }
     
     protected override void UltimateAbility()
@@ -71,11 +63,6 @@ public class PlayerMedicCombatController : PlayerCombatController
         Anim.SetBool("PrimaryAttack", isPressed);
         if (isPressed)
         {
-            _isPrimaryCharging = true;
-        }
-        else
-        {
-            _isPrimaryCharging = false;
             PrimaryAttack();
         }
     }
@@ -86,11 +73,6 @@ public class PlayerMedicCombatController : PlayerCombatController
         Anim.SetBool("SecondaryAttack", isPressed);
         if (isPressed)
         {
-            _isSecondaryCharging = true;
-        }
-        else
-        {
-            _isSecondaryCharging = false;
             SecondaryAttack();
         }
     }
