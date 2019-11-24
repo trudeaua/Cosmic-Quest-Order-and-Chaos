@@ -7,11 +7,11 @@ using UnityEngine.InputSystem;
 public class PlayerMageCombatController : PlayerCombatController
 {
     [Header("Primary Attack")]
-    [Tooltip("The distance the secondary attack will reach")]
+    [Tooltip("The distance the primary attack will reach")]
     public float primaryAttackRange = 3f;
-    [Tooltip("The secondary attack projected angle of AOE in degrees")]
+    [Tooltip("The primary attack projected angle of AOE in degrees")]
     public float primaryAttackAngle = 60f;
-    [Tooltip("The damage per second of the secondary attack")]
+    [Tooltip("The damage per second of the primary attack")]
     public float primaryAttackDps = 5f;
 
     [Header("Secondary Attack")]
