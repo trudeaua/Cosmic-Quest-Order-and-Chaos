@@ -73,10 +73,7 @@ public class PlayerMageCombatController : PlayerCombatController
     {
         _isPrimaryActive = value.isPressed;
         Anim.SetBool("PrimaryAttack", _isPrimaryActive);
-        if (_isPrimaryActive)
-        {
-            PrimaryAttack();
-        }
+        PrimaryAttack();
     }
 
     protected override void OnSecondaryAttack(InputValue value)
