@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -50,12 +51,13 @@ public class EnemyStatsController : EntityStatsController
 
     public void ShowDamage(float damage, float duration = 0.5f)
     {
-        Vector3 offset = new Vector3(0, 2f, 0); // Want to do this dynamically based off enemy height
+        Vector3 offset = new Vector3(0, 5f, 0); // Want to do this dynamically based off enemy height
         float x = 1f, y = 0.5f;
         Vector3 random = new Vector3(Random.Range(-x, x), Random.Range(-y, y));
 
         GameObject text = Instantiate(FloatingText, transform.position + offset + random, Quaternion.identity, transform);
-        text.GetComponent<TextMesh>().text = damage.ToString("F1");
+        text.GetComponent<TMP_Text>().text = damage.ToString("F1");
+
         Destroy(text, duration);
     }
 
