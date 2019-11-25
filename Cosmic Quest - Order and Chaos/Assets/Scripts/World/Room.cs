@@ -73,24 +73,24 @@ public class Room : MonoBehaviour
     }
 
     // Returns whether all enemies in the room have been killed
-    public virtual bool AreAllEnemiesKilled ()
+    public virtual bool AreAllEnemiesKilled()
     {
         // If enemy list is empty, all enemies in the room have been killed
         if (m_Enemies.Count == 0)
-        {   
+        {
             return true;
         }
 
         // Check for dead enemies and remove them from the enemy list
         foreach (GameObject enemy in m_Enemies)
         {
-            if (enemy != null && enemy.GetComponent<EnemyStatsController>().isDead == true)
+            if (!enemy.GetComponent<EnemyStatsController>().isDead)
             {
-                m_Enemies.Remove(enemy);
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 
     public virtual void PauseDoorAnimEvent()
