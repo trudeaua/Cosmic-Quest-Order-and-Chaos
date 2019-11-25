@@ -54,9 +54,6 @@ public class PlayerRangedCombatController : PlayerCombatController
         
         // Launch projectile in the direction the player is facing
         StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, damage, 0.3f));
-        
-        // Bow release animation
-        Anim.SetTrigger("PrimaryAttack");
     }
     
     protected override void SecondaryAttack()
@@ -68,15 +65,14 @@ public class PlayerRangedCombatController : PlayerCombatController
         
         // Place explosive trap
         StartCoroutine(PlaceTrap(secondaryTrapPrefab, 0.5f));
-        
-        Anim.SetTrigger("SecondaryAttack");
     }
     
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability
+        Anim.SetTrigger("UltimateAbility");
     }
-    
+
     private IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float damage, float launchDelay = 0f)
     {
         if (launchDelay > 0f)
@@ -99,7 +95,10 @@ public class PlayerRangedCombatController : PlayerCombatController
 
     protected override void OnPrimaryAttack(InputValue value)
     {
-        if (value.isPressed)
+        bool isPressed = value.isPressed;
+        Anim.SetBool("PrimaryAttack", isPressed);
+        Anim.SetBool("Strafe", isPressed);
+        if (isPressed)
         {
             _isPrimaryCharging = true;
             _primaryChargeTime = 0f;
@@ -112,6 +111,16 @@ public class PlayerRangedCombatController : PlayerCombatController
             _chargePercent = Mathf.InverseLerp(0f, primaryAttackChargeTime,_primaryChargeTime);
             _primaryAttackLaunchForce = Mathf.Lerp(primaryAttackMinLaunchForce, primaryAttackMaxLaunchForce, _chargePercent);
             PrimaryAttack();
+        }
+    }
+
+    protected override void OnSecondaryAttack(InputValue value)
+    {
+        bool isPressed = value.isPressed;
+        Anim.SetBool("SecondaryAttack", isPressed);
+        if (isPressed)
+        {
+            SecondaryAttack();
         }
     }
 }

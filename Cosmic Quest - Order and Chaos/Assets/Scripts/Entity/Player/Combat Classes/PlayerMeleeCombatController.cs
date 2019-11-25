@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class PlayerMeleeCombatController : PlayerCombatController
@@ -15,6 +16,7 @@ public class PlayerMeleeCombatController : PlayerCombatController
     [Header("Secondary Attack")]
     [Tooltip("The angular distance around the player where enemies are affected by the secondary attack")]
     public float secondaryAttackAngle = 160f;
+    public GameObject secondaryVFX;
     
     protected override void PrimaryAttack()
     {
@@ -35,7 +37,7 @@ public class PlayerMeleeCombatController : PlayerCombatController
         }
         
         // Primary attack animation
-        Anim.SetTrigger("PrimaryAttack");
+        Anim.SetBool("Combo", !Anim.GetBool("Combo"));
     }
     
     protected override void SecondaryAttack()
@@ -44,7 +46,8 @@ public class PlayerMeleeCombatController : PlayerCombatController
             return;
         
         AttackCooldown = secondaryAttackCooldown;
-        
+        StartCoroutine(CreateVFX(secondaryVFX, gameObject.transform, gameObject.transform.rotation, 0.6f));
+
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
         
@@ -54,9 +57,6 @@ public class PlayerMeleeCombatController : PlayerCombatController
             // Calculate and perform damage
             StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
         }
-        
-        // Secondary attack animation
-        Anim.SetTrigger("SecondaryAttack");
     }
     
     protected override void UltimateAbility()
@@ -64,5 +64,25 @@ public class PlayerMeleeCombatController : PlayerCombatController
         // TODO implement melee class ultimate ability
         Anim.SetTrigger("UltimateAbility");
 
+    }
+
+    protected override void OnPrimaryAttack(InputValue value)
+    {
+        bool isPressed = value.isPressed;
+        Anim.SetBool("PrimaryAttack", isPressed);
+        if (isPressed)
+        {
+            PrimaryAttack();
+        }
+    }
+
+    protected override void OnSecondaryAttack(InputValue value)
+    {
+        bool isPressed = value.isPressed;
+        Anim.SetBool("SecondaryAttack", isPressed);
+        if (isPressed)
+        { 
+            SecondaryAttack();
+        }
     }
 }
