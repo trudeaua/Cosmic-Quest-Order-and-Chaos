@@ -70,6 +70,7 @@ public class EnemyBrainController : MonoBehaviour
     {
         foreach (TargetPlayer target in _targets)
         {
+  
             if (CanSee(target))
             {
                 // Set player to known state
