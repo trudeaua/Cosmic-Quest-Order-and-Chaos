@@ -23,9 +23,13 @@ public class Platform : MonoBehaviour
         }
     }
 
-    void OnTriggerExit (Collider other)
+    void OnTriggerExit(Collider other)
     {
-        Anim.enabled = true;
+        if ((other.tag == "Rock") &&
+            (other.gameObject.GetComponent<Interactable>().colour == colour))
+        {
+            Anim.enabled = true;
+        }
     }
 
     void PausePlatformAnimationEvent ()
