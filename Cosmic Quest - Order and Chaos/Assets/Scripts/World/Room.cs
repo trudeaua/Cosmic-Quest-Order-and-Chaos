@@ -21,10 +21,22 @@ public class Room : MonoBehaviour
 
         // Populate enemy list with enemies in the room
         m_Enemies = new List<GameObject>();
-        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        /*        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+                {
+                    m_Enemies.Add(enemy);
+                }*/
+
+        Transform[] allChildren = transform.parent.GetComponentsInChildren<Transform>();
+
+        foreach (Transform child in allChildren)
         {
-            m_Enemies.Add(enemy);
+            if (child.gameObject.tag == "Enemy")
+            {
+                m_Enemies.Add(child.gameObject);
+            }
         }
+
+        Debug.Log("Number of enemies = " + m_Enemies.Count);
 
         m_Collider = GetComponent<Collider>();
         Anim = GetComponent<Animator>();
@@ -78,12 +90,14 @@ public class Room : MonoBehaviour
         // If enemy list is empty, all enemies in the room have been killed
         if (m_Enemies.Count == 0)
         {
+           
             return true;
         }
 
         // Check for dead enemies and remove them from the enemy list
         foreach (GameObject enemy in m_Enemies)
         {
+            Debug.Log("Enemy state: " + enemy.GetComponent<EnemyStatsController>().isDead);
             if (!enemy.GetComponent<EnemyStatsController>().isDead)
             {
                 return false;

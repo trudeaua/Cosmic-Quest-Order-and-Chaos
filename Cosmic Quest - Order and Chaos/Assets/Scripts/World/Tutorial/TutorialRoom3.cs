@@ -7,7 +7,7 @@ public class TutorialRoom3 : Room
     // Update is called once per frame
     void Update()
     {
-        if (this.AreAllEnemiesKilled())
+        if (AreAllEnemiesKilled())
         {
             Debug.Log("All enemies killed - Open the door.");
             StartCoroutine(SetDoorAnimTrigger());
