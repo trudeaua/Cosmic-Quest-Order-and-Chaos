@@ -71,7 +71,7 @@ MonoBehaviour:
   m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 1
+  m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &3655003554428477910
@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 933598478517421472}
   - component: {fileID: 5109665323222665907}
   - component: {fileID: 37541509223356723}
+  - component: {fileID: 4475085195198039898}
   m_Layer: 9
   m_Name: PlayerBars
   m_TagString: Untagged
@@ -191,6 +192,20 @@ MonoBehaviour:
   BillboardY: 1
   BillboardZ: 1
   OffsetToCamera: 0
+--- !u!114 &4475085195198039898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3655003554428477910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c556fba1c92f124dbd8d0c882eb2a10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 2498722707488000737}
+  manaBar: {fileID: 6935951201817996818}
 --- !u!1 &4122077817774022178
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,6 +427,6 @@ MonoBehaviour:
   m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 1
+  m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1

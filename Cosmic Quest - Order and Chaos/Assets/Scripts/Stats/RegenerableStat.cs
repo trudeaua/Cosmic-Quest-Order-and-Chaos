@@ -7,9 +7,14 @@ public class RegenerableStat
 {
     public float maxValue;
     public float minValue;
-    public float CurrentValue { get; private set; }
     [SerializeField] private float regenAmount = 0f;
     [SerializeField] private float regenPeriod = 0f;
+
+    public delegate void OnValueChanged(float currentValue);
+    public OnValueChanged onCurrentValueChanged;
+    
+    public float CurrentValue { get; private set; }
+    
     private float _regenTimer = 0f;
 
     public void Init()
@@ -25,6 +30,10 @@ public class RegenerableStat
         {
             CurrentValue = maxValue;
         }
+        else
+        {
+            onCurrentValueChanged?.Invoke(CurrentValue);
+        }
     }
     
     public void Subtract(float amount)
@@ -33,6 +42,10 @@ public class RegenerableStat
         if (CurrentValue < minValue)
         {
             CurrentValue = minValue;
+        }
+        else
+        {
+            onCurrentValueChanged?.Invoke(CurrentValue);
         }
     }
 
