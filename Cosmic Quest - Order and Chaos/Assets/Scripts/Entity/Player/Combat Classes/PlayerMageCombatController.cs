@@ -43,9 +43,6 @@ public class PlayerMageCombatController : PlayerCombatController
             // Calculate and perform damage at DPS rate
             enemy.GetComponent<EntityStatsController>().TakeDamage(Stats, primaryAttackDps, Time.deltaTime);
         }
-        
-        // Cast spell animation
-        Anim.SetTrigger("PrimaryAttack");
     }
     
     protected override void SecondaryAttack()
@@ -64,18 +61,27 @@ public class PlayerMageCombatController : PlayerCombatController
             StartCoroutine(PerformExplosiveDamage(enemy.GetComponent<EntityStatsController>(), 
                 Stats.damage.GetValue(), 2f, secondaryAttackForce, transform.position, secondaryAttackRadius, 0.6f));
         }
-        
-        Anim.SetTrigger("SecondaryAttack");
     }
     
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability
+        Anim.SetTrigger("UltimateAbility");
     }
 
     protected override void OnPrimaryAttack(InputValue value)
     {
-        // Ensure secondary is only activated on button down
         _isPrimaryActive = value.isPressed;
+        Anim.SetBool("PrimaryAttack", _isPrimaryActive);
+    }
+
+    protected override void OnSecondaryAttack(InputValue value)
+    {
+        bool isPressed = value.isPressed;
+        Anim.SetBool("SecondaryAttack", isPressed);
+        if (isPressed)
+        {
+            SecondaryAttack();
+        }
     }
 }

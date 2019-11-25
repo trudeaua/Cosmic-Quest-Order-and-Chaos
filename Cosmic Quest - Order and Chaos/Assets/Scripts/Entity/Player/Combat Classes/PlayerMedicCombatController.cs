@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMedicCombatController : PlayerCombatController
 {
@@ -18,7 +19,7 @@ public class PlayerMedicCombatController : PlayerCombatController
     public float secondaryAttackRange = 20f;
     [Tooltip("The prefab for the healing projectile")]
     public GameObject projectilePrefab;
-    
+
     protected override void PrimaryAttack()
     {
         if (AttackCooldown > 0)
@@ -36,9 +37,6 @@ public class PlayerMedicCombatController : PlayerCombatController
             // Calculate and perform damage
             StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
         }
-        
-        // Primary attack animation
-        Anim.SetTrigger("PrimaryAttack");
     }
     
     protected override void SecondaryAttack()
@@ -50,9 +48,6 @@ public class PlayerMedicCombatController : PlayerCombatController
         
         // Launch projectile in the direction the player is facing
         StartCoroutine(LaunchProjectile(projectilePrefab, transform.forward, secondaryAttackLaunchForce, secondaryAttackRange, 0.5f));
-        
-        // Launch orb animation
-        Anim.SetTrigger("SecondaryAttack");
     }
     
     protected override void UltimateAbility()
@@ -60,5 +55,25 @@ public class PlayerMedicCombatController : PlayerCombatController
         // TODO implement melee class ultimate ability
         Anim.SetTrigger("UltimateAbility");
 
+    }
+
+    protected override void OnPrimaryAttack(InputValue value)
+    {
+        bool isPressed = value.isPressed;
+        Anim.SetBool("PrimaryAttack", isPressed);
+        if (isPressed)
+        {
+            PrimaryAttack();
+        }
+    }
+
+    protected override void OnSecondaryAttack(InputValue value)
+    {
+        bool isPressed = value.isPressed;
+        Anim.SetBool("SecondaryAttack", isPressed);
+        if (isPressed)
+        {
+            SecondaryAttack();
+        }
     }
 }

@@ -25,7 +25,6 @@ public class PlayerMotorController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         _cameraController = Camera.main.GetComponent<CameraController>();
-        
         // TODO Temporary - player should be registered after lobby
         PlayerManager.RegisterPlayer(gameObject);
     }
@@ -64,40 +63,23 @@ public class PlayerMotorController : MonoBehaviour
         }
         // for overriding legs when player is moving
         int walkLayerIndex = _anim.GetLayerIndex("WalkLayer");
-        // for overriding torso when mage/healer is running
-        int idleLayerIndex = _anim.GetLayerIndex("IdleLayer");
         // for overriding legs when ranger is shooting
         int attackLayerIndex = _anim.GetLayerIndex("AttackLayer");
-
+        if (attackLayerIndex >= 0)
+        {
+            // weight must be greater than walk layer weight
+            _anim.SetLayerWeight(attackLayerIndex, 1);
+        }
         // Animate player legs, legs will still move as they attack
         if (_moveInput != Vector2.zero)
         {
             // override default base layer walk animations
             _anim.SetLayerWeight(walkLayerIndex, .9f);
-            if (idleLayerIndex >= 0)
-            {
-                // override default idle for mage/healer
-                _anim.SetLayerWeight(idleLayerIndex, 1);
-            }
-            if (attackLayerIndex >= 0)
-            {
-                // weight must be greater than walk layer weight
-                _anim.SetLayerWeight(attackLayerIndex, 1);
-            }
         }
         // Don't animate player legs
         else
         {
             _anim.SetLayerWeight(walkLayerIndex, 0);
-            if (idleLayerIndex >= 0)
-            {
-                _anim.SetLayerWeight(idleLayerIndex, 0);
-            }
-            if (attackLayerIndex >= 0)
-            {
-                // weight must be greater than walk layer weight
-                _anim.SetLayerWeight(attackLayerIndex, 1);
-            }
         }
 
         float inputLookAngle = Vector3.Angle(inputMoveDirection, inputLookDirection);
@@ -107,7 +89,7 @@ public class PlayerMotorController : MonoBehaviour
         // Set animation playback speed (if moving backwards animation will play in reverse)
         _anim.SetFloat("Direction", inputLookAngle < 90 ? 1f * _moveInput.magnitude : -1f *_moveInput.magnitude );
         // Set whether the player should strafe or not
-        _anim.SetBool("Strafe", (inputLookAngle >= 45 && inputLookAngle <= 135) || _anim.GetBool("Charge"));
+        _anim.SetBool("Strafe", (inputLookAngle >= 45 && inputLookAngle <= 135));
 
         inputMoveDirection *= maxVelocity;
         AccelerateTo(inputMoveDirection);
