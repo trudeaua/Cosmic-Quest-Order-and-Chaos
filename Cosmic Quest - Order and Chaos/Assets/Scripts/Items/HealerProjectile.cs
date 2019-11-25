@@ -18,7 +18,9 @@ public class HealerProjectile : Projectile
             PlayerStatsController player = col.GetComponent<PlayerStatsController>();
             player.health.Add(Random.Range(5, 10)); // TODO may need to calculate health differently?
         }
-        
-        gameObject.SetActive(false);
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

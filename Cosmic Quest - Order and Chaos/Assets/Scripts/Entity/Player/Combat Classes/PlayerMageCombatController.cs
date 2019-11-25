@@ -19,6 +19,7 @@ public class PlayerMageCombatController : PlayerCombatController
     public float secondaryAttackRadius = 8f;
     [Tooltip("The explosive force of the AOE effect")]
     public float secondaryAttackForce = 500f;
+    public GameObject secondaryVFX;
 
     private bool _isPrimaryActive = false;
 
@@ -51,7 +52,8 @@ public class PlayerMageCombatController : PlayerCombatController
             return;
 
         AttackCooldown = secondaryAttackCooldown;
-        
+        StartCoroutine(CreateVFX(secondaryVFX, gameObject.transform, Quaternion.identity));
+
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(secondaryAttackRadius);
         
