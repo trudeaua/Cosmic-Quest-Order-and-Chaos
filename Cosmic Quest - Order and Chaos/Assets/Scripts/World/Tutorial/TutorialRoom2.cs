@@ -9,7 +9,6 @@ public class TutorialRoom2 : Room
     {
         if (AreLeversPulled())
         {
-            Debug.Log("All levers pulled - Open the door.");
             StartCoroutine(SetDoorAnimTrigger());
 
             // This script is no longer needed. Deactivate to reduce impact on performance.

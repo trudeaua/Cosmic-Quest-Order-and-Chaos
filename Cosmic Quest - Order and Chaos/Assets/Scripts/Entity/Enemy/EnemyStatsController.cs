@@ -29,7 +29,6 @@ public class EnemyStatsController : EntityStatsController
 
         if (characterColour != CharacterColour.None && attacker.characterColour != characterColour)
         {
-            Debug.Log("Attack was ineffective against this colour!");
             return;
         }
 

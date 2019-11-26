@@ -9,7 +9,6 @@ public class TutorialRoom3 : Room
     {
         if (AreAllEnemiesKilled())
         {
-            Debug.Log("All enemies killed - Open the door.");
             StartCoroutine(SetDoorAnimTrigger());
 
             // This script is no longer needed. Deactivate to reduce impact on performance.

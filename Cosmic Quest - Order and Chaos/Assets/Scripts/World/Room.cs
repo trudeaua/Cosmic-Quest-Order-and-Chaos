@@ -34,8 +34,6 @@ public class Room : MonoBehaviour
             }
         }
 
-        Debug.Log("Number of enemies = " + m_Enemies.Count);
-
         m_Collider = GetComponent<Collider>();
         Anim = GetComponent<Animator>();
     }
