@@ -83,7 +83,7 @@ public class Room : MonoBehaviour
     }
 
     // Returns whether all enemies in the room have been killed
-    public virtual bool AreAllEnemiesKilled()
+    public virtual bool AreAllEnemiesKilled ()
     {
         // If enemy list is empty, all enemies in the room have been killed
         if (m_Enemies.Count == 0)
@@ -95,7 +95,6 @@ public class Room : MonoBehaviour
         // Check for dead enemies and remove them from the enemy list
         foreach (GameObject enemy in m_Enemies)
         {
-            Debug.Log("Enemy state: " + enemy.GetComponent<EnemyStatsController>().isDead);
             if (!enemy.GetComponent<EnemyStatsController>().isDead)
             {
                 return false;
