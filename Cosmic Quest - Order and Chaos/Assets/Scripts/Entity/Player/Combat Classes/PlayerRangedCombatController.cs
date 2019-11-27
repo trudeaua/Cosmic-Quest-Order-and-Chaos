@@ -17,6 +17,7 @@ public class PlayerRangedCombatController : PlayerCombatController
     [Tooltip("The arrow prefab for the primary attack")]
     public GameObject primaryProjectilePrefab;
 
+
     [Header("Secondary Attack")]
     [Tooltip("The trap prefab for the secondary attack")]
     public GameObject secondaryTrapPrefab;
@@ -38,7 +39,7 @@ public class PlayerRangedCombatController : PlayerCombatController
             {
                 // Set to max charge time and stop counting charge time
                 _primaryChargeTime = primaryAttackChargeTime;
-                _isPrimaryCharging = false;
+                //_isPrimaryCharging = false;
             }
         }
     }
@@ -47,13 +48,13 @@ public class PlayerRangedCombatController : PlayerCombatController
     {
         if (AttackCooldown > 0)
             return;
-
         AttackCooldown = primaryAttackCooldown;
 
         float damage = Mathf.Ceil(Stats.damage.GetValue() * _chargePercent);
         
         // Launch projectile in the direction the player is facing
         StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, damage, 0.3f));
+        Anim.SetBool("PrimaryAttack", false);
     }
     
     protected override void SecondaryAttack()
@@ -96,15 +97,16 @@ public class PlayerRangedCombatController : PlayerCombatController
     protected override void OnPrimaryAttack(InputValue value)
     {
         bool isPressed = value.isPressed;
-        Anim.SetBool("PrimaryAttack", isPressed);
-        Anim.SetBool("Strafe", isPressed);
-        if (isPressed)
+        Debug.Log(!isPressed +" " + (AttackCooldown <= 0) + " " + _isPrimaryCharging);
+        if (isPressed && AttackCooldown <= 0 && !_isPrimaryCharging)
         {
             _isPrimaryCharging = true;
             _primaryChargeTime = 0f;
+            Anim.SetBool("PrimaryAttack", true);
         }
-        else
+        else if (!isPressed && AttackCooldown <= 0 && _isPrimaryCharging)
         {
+            Anim.SetBool("PrimaryAttack", true);
             _isPrimaryCharging = false;
             
             // Convert charge time to launch force
@@ -112,15 +114,26 @@ public class PlayerRangedCombatController : PlayerCombatController
             _primaryAttackLaunchForce = Mathf.Lerp(primaryAttackMinLaunchForce, primaryAttackMaxLaunchForce, _chargePercent);
             PrimaryAttack();
         }
+        else
+        {
+            Anim.SetBool("PrimaryAttack", false);
+        }
     }
 
     protected override void OnSecondaryAttack(InputValue value)
     {
         bool isPressed = value.isPressed;
-        Anim.SetBool("SecondaryAttack", isPressed);
-        if (isPressed)
+        if (AttackCooldown <= 0)
         {
-            SecondaryAttack();
+            Anim.SetBool("SecondaryAttack", isPressed);
+            if (isPressed)
+            {
+                SecondaryAttack();
+            }
+        }
+        else
+        {
+            Anim.SetBool("SecondaryAttack", false);
         }
     }
 }

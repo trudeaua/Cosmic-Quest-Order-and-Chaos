@@ -82,14 +82,19 @@ public class PlayerMotorController : MonoBehaviour
             _anim.SetLayerWeight(walkLayerIndex, 0);
         }
 
-        float inputLookAngle = Vector3.Angle(inputMoveDirection, inputLookDirection);
+        float signedInputLookAngle = Vector3.SignedAngle(inputMoveDirection, inputLookDirection, Vector3.up);
+        float inputLookAngle = Mathf.Abs(signedInputLookAngle);
 
         // Trigger walking animation
         _anim.SetFloat("WalkSpeed", _moveInput == Vector2.zero ? 0f : _moveInput.magnitude);
         // Set animation playback speed (if moving backwards animation will play in reverse)
         _anim.SetFloat("Direction", inputLookAngle < 90 ? 1f * _moveInput.magnitude : -1f *_moveInput.magnitude );
+        // Set whether the strafe animation should be mirrored or not
+        _anim.SetBool("MirrorStrafe", 
+            (signedInputLookAngle >= 95f && signedInputLookAngle <= 145f) || 
+            (signedInputLookAngle >= -95f && signedInputLookAngle <= -35f));
         // Set whether the player should strafe or not
-        _anim.SetBool("Strafe", (inputLookAngle >= 45 && inputLookAngle <= 135));
+        _anim.SetBool("Strafe", (inputLookAngle >= 35f && inputLookAngle <= 145f));
 
         inputMoveDirection *= maxVelocity;
         AccelerateTo(inputMoveDirection);

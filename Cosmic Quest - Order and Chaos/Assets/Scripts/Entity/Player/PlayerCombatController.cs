@@ -1,12 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerCombatController : EntityCombatController
 {
-    [SerializeField] protected float primaryAttackCooldown = 0.5f;
-    [SerializeField] protected float secondaryAttackCooldown = 1f;
+    [SerializeField] protected float primaryAttackCooldown;
+    [SerializeField] protected float secondaryAttackCooldown;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        DetermineCooldowns();
+    }
 
     protected virtual void PrimaryAttack()
     {
@@ -80,7 +87,7 @@ public class PlayerCombatController : EntityCombatController
         // Only trigger attack on button down by default
         if (value.isPressed)
         {
-            PrimaryAttack();
+            //PrimaryAttack();
         }
     }
     
@@ -127,5 +134,41 @@ public class PlayerCombatController : EntityCombatController
             }
         }
         return ps;
+    }
+
+    /// <summary>
+    /// Determines attack cooldown times based on the animations in the Animator Controller
+    /// </summary>
+    protected virtual void DetermineCooldowns()
+    {
+        primaryAttackCooldown = 0f;
+        secondaryAttackCooldown = 0f;
+
+        // access the AC state machine's base layer
+        AnimatorController ac = Anim.runtimeAnimatorController as AnimatorController;
+        AnimatorStateMachine sm = ac.layers[0].stateMachine;
+
+        for (int i = 0; i < sm.states.Length; i++)
+        {
+            // Determine the length of the entire primary attack
+            ChildAnimatorState state = sm.states[i];
+            if (state.state.name.Contains("PrimaryAttack"))
+            {
+                AnimationClip clip = state.state.motion as AnimationClip;
+                if (clip != null)
+                {
+                    primaryAttackCooldown += clip.length / state.state.speed;
+                }
+            }
+            // Determine the length of the entire secondary attack
+            if (state.state.name.Contains("SecondaryAttack"))
+            {
+                AnimationClip clip = state.state.motion as AnimationClip;
+                if (clip != null)
+                {
+                    secondaryAttackCooldown += clip.length / state.state.speed;
+                }
+            }
+        }
     }
 }

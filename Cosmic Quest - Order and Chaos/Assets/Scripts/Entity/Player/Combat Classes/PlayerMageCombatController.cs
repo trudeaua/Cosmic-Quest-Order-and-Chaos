@@ -27,10 +27,10 @@ public class PlayerMageCombatController : PlayerCombatController
     {
         base.Update();
 
-        if (_isPrimaryActive)
-        {
-            PrimaryAttack();
-        }
+        //if (_isPrimaryActive)
+        //{
+        //    PrimaryAttack();
+        //}
     }
 
     protected override void PrimaryAttack()
@@ -74,16 +74,36 @@ public class PlayerMageCombatController : PlayerCombatController
     protected override void OnPrimaryAttack(InputValue value)
     {
         _isPrimaryActive = value.isPressed;
-        Anim.SetBool("PrimaryAttack", _isPrimaryActive);
+
+        if (AttackCooldown <= 0 && !Anim.GetBool("SecondaryAttack"))
+        {
+            Anim.SetBool("PrimaryAttack", _isPrimaryActive);
+
+            if (_isPrimaryActive)
+            {
+                PrimaryAttack();
+            }
+        }
+        else
+        {
+            Anim.SetBool("PrimaryAttack", false);
+        }
     }
 
     protected override void OnSecondaryAttack(InputValue value)
     {
         bool isPressed = value.isPressed;
-        Anim.SetBool("SecondaryAttack", isPressed);
-        if (isPressed)
+        if (AttackCooldown <= 0 && !Anim.GetBool("PrimaryAttack"))
         {
-            SecondaryAttack();
+            Anim.SetBool("SecondaryAttack", isPressed);
+            if (isPressed)
+            {
+                SecondaryAttack();
+            }
+        }
+        else
+        {
+            Anim.SetBool("SecondaryAttack", false);
         }
     }
 }
