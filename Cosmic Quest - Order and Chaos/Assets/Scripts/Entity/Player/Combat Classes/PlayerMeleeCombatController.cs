@@ -88,15 +88,16 @@ public class PlayerMeleeCombatController : PlayerCombatController
         bool isPressed = value.isPressed;
         if (AttackCooldown <= 0)
         {
-            Anim.SetBool("SecondaryAttack", isPressed);
+            //Anim.SetBool("SecondaryAttack", isPressed);
             if (isPressed)
             {
+                Anim.SetTrigger("SecondaryAttack");
                 SecondaryAttack();
             }
         }
-        else
-        {
-            Anim.SetBool("SecondaryAttack", false);
-        }
+        //else
+        //{
+        //    Anim.SetBool("SecondaryAttack", false);
+        //}
     }
 }

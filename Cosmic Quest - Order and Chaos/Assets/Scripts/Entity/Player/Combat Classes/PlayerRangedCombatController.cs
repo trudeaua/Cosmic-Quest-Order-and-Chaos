@@ -97,7 +97,6 @@ public class PlayerRangedCombatController : PlayerCombatController
     protected override void OnPrimaryAttack(InputValue value)
     {
         bool isPressed = value.isPressed;
-        Debug.Log(!isPressed +" " + (AttackCooldown <= 0) + " " + _isPrimaryCharging);
         if (isPressed && AttackCooldown <= 0 && !_isPrimaryCharging)
         {
             _isPrimaryCharging = true;
@@ -125,15 +124,16 @@ public class PlayerRangedCombatController : PlayerCombatController
         bool isPressed = value.isPressed;
         if (AttackCooldown <= 0)
         {
-            Anim.SetBool("SecondaryAttack", isPressed);
+            //Anim.SetBool("SecondaryAttack", isPressed);
             if (isPressed)
             {
+                Anim.SetTrigger("SecondaryAttack");
                 SecondaryAttack();
             }
         }
-        else
-        {
-            Anim.SetBool("SecondaryAttack", false);
-        }
+        //else
+        //{
+        //    Anim.SetBool("SecondaryAttack", false);
+        //}
     }
 }

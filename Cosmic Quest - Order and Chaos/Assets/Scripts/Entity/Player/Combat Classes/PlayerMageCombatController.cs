@@ -75,7 +75,7 @@ public class PlayerMageCombatController : PlayerCombatController
     {
         _isPrimaryActive = value.isPressed;
 
-        if (AttackCooldown <= 0 && !Anim.GetBool("SecondaryAttack"))
+        if (AttackCooldown <= 0)
         {
             Anim.SetBool("PrimaryAttack", _isPrimaryActive);
         }
@@ -90,15 +90,17 @@ public class PlayerMageCombatController : PlayerCombatController
         bool isPressed = value.isPressed;
         if (AttackCooldown <= 0 && !Anim.GetBool("PrimaryAttack"))
         {
-            Anim.SetBool("SecondaryAttack", isPressed);
+            //Anim.SetBool("SecondaryAttack", isPressed);
+
             if (isPressed)
             {
+                Anim.SetTrigger("SecondaryAttack");
                 SecondaryAttack();
             }
         }
-        else
-        {
-            Anim.SetBool("SecondaryAttack", false);
-        }
+        //else
+        //{
+        //    Anim.SetBool("SecondaryAttack", false);
+        //}
     }
 }
