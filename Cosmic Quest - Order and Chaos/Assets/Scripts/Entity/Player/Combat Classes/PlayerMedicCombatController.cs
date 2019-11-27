@@ -48,8 +48,6 @@ public class PlayerMedicCombatController : PlayerCombatController
         
         // Launch projectile in the direction the player is facing
         StartCoroutine(LaunchProjectile(projectilePrefab, transform.forward, secondaryAttackLaunchForce, secondaryAttackRange, 0.5f));
-        Anim.SetBool("SecondaryAttack", false);
-
     }
 
     protected override void UltimateAbility()

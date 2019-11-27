@@ -37,7 +37,7 @@ public class PlayerMeleeCombatController : PlayerCombatController
         }
         
         // Primary attack animation
-        Anim.SetBool("Combo", !Anim.GetBool("Combo"));
+        //Anim.SetBool("Combo", !Anim.GetBool("Combo"));
     }
     
     protected override void SecondaryAttack()
@@ -69,20 +69,34 @@ public class PlayerMeleeCombatController : PlayerCombatController
     protected override void OnPrimaryAttack(InputValue value)
     {
         bool isPressed = value.isPressed;
-        Anim.SetBool("PrimaryAttack", isPressed);
-        if (isPressed)
+        if (AttackCooldown <= 0)
         {
-            PrimaryAttack();
+            Anim.SetBool("PrimaryAttack", isPressed);
+            if (isPressed)
+            {
+                PrimaryAttack();
+            }
+        }
+        else
+        {
+            Anim.SetBool("PrimaryAttack", false);
         }
     }
 
     protected override void OnSecondaryAttack(InputValue value)
     {
         bool isPressed = value.isPressed;
-        Anim.SetBool("SecondaryAttack", isPressed);
-        if (isPressed)
-        { 
-            SecondaryAttack();
+        if (AttackCooldown <= 0)
+        {
+            Anim.SetBool("SecondaryAttack", isPressed);
+            if (isPressed)
+            {
+                SecondaryAttack();
+            }
+        }
+        else
+        {
+            Anim.SetBool("SecondaryAttack", false);
         }
     }
 }
