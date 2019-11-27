@@ -8,6 +8,7 @@ public class Room : MonoBehaviour
     public Animator Anim;   // Door animation to be played when all puzzles have been solved
     protected Collider m_Collider;  // Collider of the door
     protected List<GameObject> m_Enemies;   // All enemies in the room
+    protected Transform[] children_enemies;
     protected GameObject[] m_Levers;    // All levers in the room
     protected GameObject[] m_Platforms; // All rock platforms in the room
     
@@ -21,9 +22,16 @@ public class Room : MonoBehaviour
 
         // Populate enemy list with enemies in the room
         m_Enemies = new List<GameObject>();
-        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+
+        // TODO: Find better way of tracking all enemies in a room
+        children_enemies = transform.parent.GetComponentsInChildren<Transform>();
+
+        foreach (Transform child in children_enemies)
         {
-            m_Enemies.Add(enemy);
+            if (child.gameObject.tag == "Enemy")
+            {
+                m_Enemies.Add(child.gameObject);
+            }
         }
 
         m_Collider = GetComponent<Collider>();
@@ -77,20 +85,21 @@ public class Room : MonoBehaviour
     {
         // If enemy list is empty, all enemies in the room have been killed
         if (m_Enemies.Count == 0)
-        {   
+        {
+           
             return true;
         }
 
         // Check for dead enemies and remove them from the enemy list
         foreach (GameObject enemy in m_Enemies)
         {
-            if (enemy != null && enemy.GetComponent<EnemyStatsController>().isDead == true)
+            if (!enemy.GetComponent<EnemyStatsController>().isDead)
             {
-                m_Enemies.Remove(enemy);
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 
     public virtual void PauseDoorAnimEvent()
