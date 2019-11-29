@@ -49,7 +49,7 @@ public class PlayerMedicCombatController : PlayerCombatController
         // Launch projectile in the direction the player is facing
         StartCoroutine(LaunchProjectile(projectilePrefab, transform.forward, secondaryAttackLaunchForce, secondaryAttackRange, 0.5f));
     }
-    
+
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability
@@ -60,20 +60,31 @@ public class PlayerMedicCombatController : PlayerCombatController
     protected override void OnPrimaryAttack(InputValue value)
     {
         bool isPressed = value.isPressed;
-        Anim.SetBool("PrimaryAttack", isPressed);
-        if (isPressed)
+        if (AttackCooldown <= 0)
         {
-            PrimaryAttack();
+            Anim.SetBool("PrimaryAttack", isPressed);
+            if (isPressed)
+            {
+                PrimaryAttack();
+            }
+        }
+        else
+        {
+            Anim.SetBool("PrimaryAttack", false);
         }
     }
 
     protected override void OnSecondaryAttack(InputValue value)
     {
         bool isPressed = value.isPressed;
-        Anim.SetBool("SecondaryAttack", isPressed);
-        if (isPressed)
+        if (AttackCooldown <= 0)
         {
-            SecondaryAttack();
+            //Anim.SetBool("SecondaryAttack", isPressed);
+            if (isPressed)
+            {
+                Anim.SetTrigger("SecondaryAttack");
+                SecondaryAttack();
+            }
         }
     }
 }
