@@ -95,9 +95,5 @@ public class PlayerMeleeCombatController : PlayerCombatController
                 SecondaryAttack();
             }
         }
-        //else
-        //{
-        //    Anim.SetBool("SecondaryAttack", false);
-        //}
     }
 }

@@ -86,9 +86,5 @@ public class PlayerMedicCombatController : PlayerCombatController
                 SecondaryAttack();
             }
         }
-        //else
-        //{
-        //    Anim.SetBool("SecondaryAttack", false);
-        //}
     }
 }

@@ -54,7 +54,6 @@ public class PlayerRangedCombatController : PlayerCombatController
         
         // Launch projectile in the direction the player is facing
         StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, damage, 0.3f));
-        Anim.SetBool("PrimaryAttack", false);
     }
     
     protected override void SecondaryAttack()
@@ -105,17 +104,14 @@ public class PlayerRangedCombatController : PlayerCombatController
         }
         else if (!isPressed && AttackCooldown <= 0 && _isPrimaryCharging)
         {
-            Anim.SetBool("PrimaryAttack", true);
             _isPrimaryCharging = false;
             
             // Convert charge time to launch force
             _chargePercent = Mathf.InverseLerp(0f, primaryAttackChargeTime,_primaryChargeTime);
             _primaryAttackLaunchForce = Mathf.Lerp(primaryAttackMinLaunchForce, primaryAttackMaxLaunchForce, _chargePercent);
             PrimaryAttack();
-        }
-        else
-        {
             Anim.SetBool("PrimaryAttack", false);
+
         }
     }
 
@@ -131,9 +127,5 @@ public class PlayerRangedCombatController : PlayerCombatController
                 SecondaryAttack();
             }
         }
-        //else
-        //{
-        //    Anim.SetBool("SecondaryAttack", false);
-        //}
     }
 }

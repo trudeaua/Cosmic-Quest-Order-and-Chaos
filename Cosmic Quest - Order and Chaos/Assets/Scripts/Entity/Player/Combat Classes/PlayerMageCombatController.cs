@@ -80,7 +80,7 @@ public class PlayerMageCombatController : PlayerCombatController
     protected override void OnSecondaryAttack(InputValue value)
     {
         bool isPressed = value.isPressed;
-        if (AttackCooldown <= 0 && !Anim.GetBool("PrimaryAttack"))
+        if (AttackCooldown <= 0 && !_isPrimaryActive)
         {
             if (isPressed)
             {
