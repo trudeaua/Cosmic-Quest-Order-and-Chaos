@@ -11,7 +11,7 @@ public class EntityCombatController : MonoBehaviour
 
     protected Collider[] Hits = new Collider[32];
     
-    private void Awake()
+    protected virtual void Awake()
     {
         Stats = GetComponent<EntityStatsController>();
         Anim = GetComponentInChildren<Animator>();
