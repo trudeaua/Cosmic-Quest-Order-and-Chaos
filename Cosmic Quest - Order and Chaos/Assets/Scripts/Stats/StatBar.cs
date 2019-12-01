@@ -12,7 +12,7 @@ public class StatBar : MonoBehaviour
     private void Awake()
     {
         PlayerStatsController stats = transform.root.GetComponent<PlayerStatsController>();
-        _healthStat = stats.health;
+        _healthStat = stats.health as RegenerableStat;
         _manaStat = stats.mana;
     }
 
