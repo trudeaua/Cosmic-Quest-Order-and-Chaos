@@ -1,86 +1,95 @@
 ﻿using System;
+using UnityEditor.UIElements;
 using UnityEngine;
-using NSubstitute;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem.LowLevel;
 
-[RequireComponent(typeof(PlayerMotorController))]
-[RequireComponent(typeof(PlayerCombatController))]
-[RequireComponent(typeof(PlayerInteractionController))]
-public class PlayerInputMock : MonoBehaviour
+public class PlayerInputMock
 {
-    public enum MockGamepad
+    public readonly Gamepad Gamepad = null;
+
+    public enum MockInput
     {
         LeftStick,
         RightStick,
-        RightButton,
-        RightBumper,
-        ButtonSouth,
-        ButtonNorth
-    }
-
-    public void Set(MockGamepad control, Vector2 input)
-    {
-        if (input.sqrMagnitude > 1f)
-            throw new Exception("Input vector too large. Must have a magnitude no greater than 1.");
-        
-        switch (control)
-        {
-            case MockGamepad.LeftStick:
-                SendMessage("OnMove", input, SendMessageOptions.DontRequireReceiver);
-                break;
-            case MockGamepad.RightStick:
-                SendMessage("OnLook", input, SendMessageOptions.DontRequireReceiver);
-                break;
-            default:
-                throw new Exception("Received invalid control");
-        }
-    }
-
-    public void Press(MockGamepad control)
-    {
-        InputValue inputValue = Substitute.For<InputValue>();
-        inputValue.isPressed.Returns(true);
-        
-        switch (control)
-        {
-            case MockGamepad.RightButton:
-                SendMessage("OnPrimaryAttack", inputValue, SendMessageOptions.DontRequireReceiver);
-                break;
-            case MockGamepad.RightBumper:
-                SendMessage("OnSecondaryAttack", inputValue, SendMessageOptions.DontRequireReceiver);
-                break;
-            case MockGamepad.ButtonNorth:
-                SendMessage("OnUltimateAbility", inputValue, SendMessageOptions.DontRequireReceiver);
-                break;
-            case MockGamepad.ButtonSouth:
-                SendMessage("OnInteract", inputValue, SendMessageOptions.DontRequireReceiver);
-                break;
-            default:
-                throw new Exception("Received invalid control");
-        }
+        RightShoulder,
+        RightTrigger,
+        ButtonNorth,
+        ButtonSouth
     }
     
-    public void Release(MockGamepad control)
+    public PlayerInputMock()
     {
-        InputValue inputValue = Substitute.For<InputValue>();
-        inputValue.isPressed.Returns(false);
+        Gamepad = Gamepad.all.Count == 0 ? InputSystem.AddDevice<Gamepad>() : Gamepad.all[0];
+    }
+    
+    public void Set(MockInput control, Vector2 input)
+    {
+        if (input.sqrMagnitude > 1f)
+            throw new Exception("Input vector must have a magnitude no greater than 1!");
+        
+        using (StateEvent.From(Gamepad, out var eventPtr))
+        {
+            switch (control)
+            {
+                case MockInput.LeftStick:
+                    Gamepad.leftStick.WriteValueIntoEvent(input, eventPtr);
+                    break;
+                case MockInput.RightStick:
+                    Gamepad.leftStick.WriteValueIntoEvent(input, eventPtr);
+                    break;
+                default:
+                    throw new Exception("Invalid gamepad input control");
+            }
+            
+            InputSystem.QueueEvent(eventPtr);
+            InputSystem.Update();
+        }
+    }
+
+    public void Press(MockInput control)
+    {
+        GamepadState newState;
         
         switch (control)
         {
-            case MockGamepad.RightButton:
-                SendMessage("OnPrimaryAttack", inputValue, SendMessageOptions.DontRequireReceiver);
-                break;
-            case MockGamepad.RightBumper:
-                SendMessage("OnSecondaryAttack", inputValue, SendMessageOptions.DontRequireReceiver);
-                break;
-            case MockGamepad.ButtonNorth:
-                SendMessage("OnUltimateAbility", inputValue, SendMessageOptions.DontRequireReceiver);
-                break;
-            case MockGamepad.ButtonSouth:
-                SendMessage("OnInteract", inputValue, SendMessageOptions.DontRequireReceiver);
+            case MockInput.RightShoulder:
+                newState = new GamepadState { buttons = (uint)GamepadButton.RightShoulder };
                 break;
             default:
-                throw new Exception("Received invalid control");
+                throw new Exception("Invalid gamepad input control!");
         }
+        
+        InputSystem.QueueStateEvent(Gamepad, newState);
+        InputSystem.Update();
+    }
+
+    public void Press(InputControl control)
+    {
+        void SetUpAndQueueEvent(InputEventPtr eventPtr)
+        {
+            control.WriteValueIntoEvent(1, eventPtr);
+            InputSystem.QueueEvent(eventPtr);
+        }
+        
+        using (DeltaStateEvent.From(control, out var eventPtr))
+            SetUpAndQueueEvent(eventPtr);
+        
+        InputSystem.Update();
+    }
+    
+    public void Release(InputControl control)
+    {
+        void SetUpAndQueueEvent(InputEventPtr eventPtr)
+        {
+            control.WriteValueIntoEvent(0, eventPtr);
+            InputSystem.QueueEvent(eventPtr);
+        }
+        
+        using (DeltaStateEvent.From(control, out var eventPtr))
+            SetUpAndQueueEvent(eventPtr);
+        
+        InputSystem.Update();
     }
 }

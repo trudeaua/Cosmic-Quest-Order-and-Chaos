@@ -15,22 +15,22 @@ public class CameraBillboard : MonoBehaviour
     public bool BillboardY = true;
     public bool BillboardZ = true;
     public float OffsetToCamera;
-    protected Vector3 localStartPosition;
+    
+    private Vector3 _localStartPosition;
+    private Camera _camera;
 
-    // Use this for initialization
-    void Start()
+    private void Start()
     {
-        localStartPosition = transform.localPosition;
+        _localStartPosition = transform.localPosition;
+        _camera = Camera.main;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.forward,
-                                                               Camera.main.transform.rotation * Vector3.up);
+        transform.LookAt(transform.position + _camera.transform.rotation * Vector3.forward, _camera.transform.rotation * Vector3.up);
         if(!BillboardX || !BillboardY || !BillboardZ)
             transform.rotation = Quaternion.Euler(BillboardX ? transform.rotation.eulerAngles.x : 0f, BillboardY ? transform.rotation.eulerAngles.y : 0f, BillboardZ ? transform.rotation.eulerAngles.z : 0f);
-        transform.localPosition = localStartPosition;
+        transform.localPosition = _localStartPosition;
         transform.position = transform.position + transform.rotation * Vector3.forward * OffsetToCamera;
     }
 }

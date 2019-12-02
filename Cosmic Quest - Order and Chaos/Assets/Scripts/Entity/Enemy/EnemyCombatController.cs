@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyBrainController))]
 public class EnemyCombatController : EntityCombatController
 {
     public float attackCooldown = 1f;
