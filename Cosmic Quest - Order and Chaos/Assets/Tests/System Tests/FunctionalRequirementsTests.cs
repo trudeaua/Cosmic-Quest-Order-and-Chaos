@@ -24,7 +24,7 @@ public class FunctionalRequirementsTests
     public IEnumerator SetUp()
     {
         // Load Test scene
-        AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("TestScene_Alex", LoadSceneMode.Single);
+        AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Single);
                 
         // Wait for scene to load
         float timer = 0;
