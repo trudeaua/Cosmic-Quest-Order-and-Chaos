@@ -2,13 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICameraController
-{
-    Vector3 ClampToScreenEdge(Vector3 targetPos);
-}
-
 [RequireComponent(typeof(Camera))]
-public class CameraController : MonoBehaviour, ICameraController
+public class CameraController : MonoBehaviour
 {
     public float speed = 5f;
     public float moveBoundary = 0.2f;
