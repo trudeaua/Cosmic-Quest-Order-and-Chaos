@@ -2,7 +2,6 @@
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyStatsController))]
-[RequireComponent(typeof(EnemyCombatController))]
 public class EnemyBrainController : MonoBehaviour
 {
     private class TargetPlayer
@@ -37,7 +36,7 @@ public class EnemyBrainController : MonoBehaviour
     {
         // Initialize target array
         _targets = new List<TargetPlayer>();
-        foreach (GameObject player in PlayerManager.players)
+        foreach (GameObject player in PlayerManager.Players)
         {
             TargetPlayer target = new TargetPlayer {Player = player, Stats = player.GetComponent<EntityStatsController>()};
             _targets.Add(target);
@@ -109,7 +108,7 @@ public class EnemyBrainController : MonoBehaviour
 
     private void MakeCombatDecision()
     {
-        if (_currentTarget is null)
+        if (_currentTarget is null || _combat is null)
             return;
 
         // Choose a new target if the current one is now dead
@@ -119,7 +118,6 @@ public class EnemyBrainController : MonoBehaviour
             if (_currentTarget is null)
                 return;
         }
-            
         
         float distance = (_currentTarget.Player.transform.position - transform.position).sqrMagnitude;
         if (distance <= _combat.attackRadius * _combat.attackRadius)
