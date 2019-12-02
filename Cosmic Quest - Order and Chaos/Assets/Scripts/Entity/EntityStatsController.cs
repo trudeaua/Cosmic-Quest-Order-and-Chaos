@@ -105,7 +105,7 @@ public class EntityStatsController : MonoBehaviour, IEntityStatsController
 
     public virtual float ComputeDamageModifer()
     {
-        float baseHit = Random.Range(0, damage.GetBaseValue());
+        float baseHit = Random.Range(0, damage.GetBaseValue() - 1); // never want to do 0 damage
         return damage.GetValue() - baseHit;
     }
 
