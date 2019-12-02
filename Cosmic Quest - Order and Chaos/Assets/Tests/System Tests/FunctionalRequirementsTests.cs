@@ -1,23 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
 public class FunctionalRequirementsTests
 {
-    private GameObject magePlayer;
-    private GameObject meleePlayer;
-    private GameObject healerPlayer;
-    private GameObject rangedPlayer;
-    private GameObject enemy;
-    private PlayerStatsController magePlayerStats;
-    private PlayerStatsController meleePlayerStats;
-    private PlayerStatsController healerPlayerStats;
-    private PlayerStatsController rangedPlayerStats;
-    private EnemyStatsController enemyStats;
+    private PlayerInputMock _inputMock = null;
     readonly float timeToWait = 1;
 
     [UnitySetUp]
@@ -25,7 +14,7 @@ public class FunctionalRequirementsTests
     {
         // Load Test scene
         AsyncOperation sceneLoading = SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Single);
-                
+
         // Wait for scene to load
         float timer = 0;
         while (!sceneLoading.isDone)
@@ -40,40 +29,27 @@ public class FunctionalRequirementsTests
 
         Assert.IsTrue(sceneLoading.isDone, "Scene load timed out! The scene could not be loaded.");
 
-        magePlayer = GameObject.Find("Mage Player");
-        magePlayerStats = magePlayer.GetComponent<PlayerStatsController>();
-        magePlayer.SetActive(false);
+        if (_inputMock is null)
+            _inputMock = new PlayerInputMock();
 
-        meleePlayer = GameObject.Find("Melee Player");
-        meleePlayerStats = meleePlayer.GetComponent<PlayerStatsController>();
-        meleePlayer.SetActive(false);
-
-        healerPlayer = GameObject.Find("Healer Player");
-        healerPlayerStats = healerPlayer.GetComponent<PlayerStatsController>();
-        healerPlayer.SetActive(false);
-
-        rangedPlayer = GameObject.Find("Ranged Player");
-        rangedPlayerStats = rangedPlayer.GetComponent<PlayerStatsController>();
-        rangedPlayer.SetActive(false);
-
-        enemy = GameObject.Find("Enemy");
-        enemyStats = enemy.GetComponent<EnemyStatsController>();
-        enemy.SetActive(false);
-
-        magePlayerStats.characterColour = CharacterColour.Green;
-        meleePlayerStats.characterColour = CharacterColour.Red;
-        healerPlayerStats.characterColour = CharacterColour.Purple;
-        rangedPlayerStats.characterColour = CharacterColour.Yellow;
-        enemyStats.characterColour = CharacterColour.Green;
     }
 
     [UnityTearDown]
     public IEnumerator TearDown()
     {
-        PlayerManager.DeregisterPlayer(magePlayer);
-        PlayerManager.DeregisterPlayer(meleePlayer);
-        PlayerManager.DeregisterPlayer(healerPlayer);
-        PlayerManager.DeregisterPlayer(rangedPlayer);
+        // destroy all players
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            Object.Destroy(player);
+            // destroy all players
+        }
+        // destroy all enemies
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            Object.Destroy(enemy);
+        }
         yield return null;
     }
 
@@ -81,8 +57,14 @@ public class FunctionalRequirementsTests
     [UnityTest]
     public IEnumerator FunctionalRequirements_PlayerShouldTakeDamageFromEnemy()
     {
-        magePlayer.SetActive(true);
-        enemy.SetActive(true);
+        GameObject magePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController magePlayerStats = magePlayer.GetComponent<PlayerStatsController>();
+        GameObject enemy = Object.Instantiate(TestResourceManager.Instance.GetResource("Enemy"), Vector3.zero, Quaternion.identity);
+        EnemyStatsController enemyStats = enemy.GetComponent<EnemyStatsController>();
+
+        magePlayer.transform.position = new Vector3(0, 0, -2);
+        enemy.transform.Rotate(new Vector3(0, 1, 0), 180);
+
         float initialHp = magePlayerStats.health.CurrentValue;
 
         yield return new WaitForEndOfFrame();
@@ -101,8 +83,13 @@ public class FunctionalRequirementsTests
     [UnityTest]
     public IEnumerator FunctionalRequirements_PlayerShouldBeRemovedFromSceneWhenItDies()
     {
-        magePlayer.SetActive(true);
-        enemy.SetActive(true);
+        GameObject magePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController magePlayerStats = magePlayer.GetComponent<PlayerStatsController>();
+        GameObject enemy = Object.Instantiate(TestResourceManager.Instance.GetResource("Enemy"), Vector3.zero, Quaternion.identity);
+        EnemyStatsController enemyStats = enemy.GetComponent<EnemyStatsController>();
+
+        magePlayer.transform.position = new Vector3(0, 0, -2);
+        enemy.transform.Rotate(new Vector3(0, 1, 0), 180);
 
         magePlayerStats.health.maxValue = 1;
         magePlayerStats.health.Init();
@@ -131,8 +118,13 @@ public class FunctionalRequirementsTests
     [UnityTest]
     public IEnumerator FunctionalRequirements_EnemyShouldBeRemovedFromSceneWhenItDies()
     {
-        magePlayer.SetActive(true);
-        enemy.SetActive(true);
+        GameObject magePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController magePlayerStats = magePlayer.GetComponent<PlayerStatsController>();
+        GameObject enemy = Object.Instantiate(TestResourceManager.Instance.GetResource("Enemy"), Vector3.zero, Quaternion.identity);
+        EnemyStatsController enemyStats = enemy.GetComponent<EnemyStatsController>();
+
+        magePlayer.transform.position = new Vector3(0, 0, -2);
+        enemy.transform.Rotate(new Vector3(0, 1, 0), 180);
 
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
@@ -163,8 +155,13 @@ public class FunctionalRequirementsTests
     [UnityTest]
     public IEnumerator FunctionalRequirements_EnemyShouldTakeDamageFromPlayer()
     {
-        magePlayer.SetActive(true);
-        enemy.SetActive(true);
+        GameObject magePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController magePlayerStats = magePlayer.GetComponent<PlayerStatsController>();
+        GameObject enemy = Object.Instantiate(TestResourceManager.Instance.GetResource("Enemy"), Vector3.zero, Quaternion.identity);
+        EnemyStatsController enemyStats = enemy.GetComponent<EnemyStatsController>();
+
+        magePlayer.transform.position = new Vector3(0, 0, -2);
+        enemy.transform.Rotate(new Vector3(0, 1, 0), 180);
 
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
@@ -183,8 +180,14 @@ public class FunctionalRequirementsTests
     [UnityTest]
     public IEnumerator FunctionalRequirements_PlayerShouldBeDamagedByEnemiesOfAnyColour()
     {
-        magePlayer.SetActive(true);
-        enemy.SetActive(true);
+        GameObject magePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController magePlayerStats = magePlayer.GetComponent<PlayerStatsController>();
+        GameObject enemy = Object.Instantiate(TestResourceManager.Instance.GetResource("Enemy"), Vector3.zero, Quaternion.identity);
+        EnemyStatsController enemyStats = enemy.GetComponent<EnemyStatsController>();
+
+        magePlayer.transform.position = new Vector3(0, 0, -2);
+        enemy.transform.Rotate(new Vector3(0, 1, 0), 180);
+
         enemyStats.characterColour = CharacterColour.Red;
         float initialHp = magePlayerStats.health.CurrentValue;
 
@@ -203,10 +206,18 @@ public class FunctionalRequirementsTests
     [UnityTest]
     public IEnumerator FunctionalRequirements_EnemyShouldOnlyBeDamagedByPlayersOfSameColour()
     {
+        GameObject magePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController magePlayerStats = magePlayer.GetComponent<PlayerStatsController>();
+        GameObject meleePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Melee Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController meleePlayerStats = meleePlayer.GetComponent<PlayerStatsController>();
+        GameObject enemy = Object.Instantiate(TestResourceManager.Instance.GetResource("Enemy"), Vector3.zero, Quaternion.identity);
+        EnemyStatsController enemyStats = enemy.GetComponent<EnemyStatsController>();
 
-        magePlayer.SetActive(true);
-        meleePlayer.SetActive(true);
-        enemy.SetActive(true);
+        magePlayer.transform.position = new Vector3(0, 0, -2);
+        enemy.transform.Rotate(new Vector3(0, 1, 0), 180);
+
+        magePlayerStats.characterColour = CharacterColour.Green;
+        meleePlayerStats.characterColour = CharacterColour.Red;
 
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
@@ -229,10 +240,19 @@ public class FunctionalRequirementsTests
     [UnityTest]
     public IEnumerator FunctionalRequirements_EachPlayerShouldHaveAUniqueColour()
     {
-        magePlayer.SetActive(true);
-        meleePlayer.SetActive(true);
-        healerPlayer.SetActive(true);
-        rangedPlayer.SetActive(true);
+        GameObject magePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController magePlayerStats = magePlayer.GetComponent<PlayerStatsController>();
+        GameObject meleePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Melee Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController meleePlayerStats = meleePlayer.GetComponent<PlayerStatsController>();
+        GameObject healerPlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Healer Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController healerPlayerStats = healerPlayer.GetComponent<PlayerStatsController>();
+        GameObject rangedPlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Ranged Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController rangedPlayerStats = rangedPlayer.GetComponent<PlayerStatsController>();
+
+        magePlayer.transform.position = new Vector3(-4, 0, -2);
+        meleePlayer.transform.position = new Vector3(-2, 0, -2);
+        healerPlayer.transform.position = new Vector3(0, 0, -2);
+        rangedPlayer.transform.position = new Vector3(2, 0, -2);
 
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
@@ -251,11 +271,17 @@ public class FunctionalRequirementsTests
     [UnityTest]
     public IEnumerator FunctionalRequirements_HealthBarShouldBeVisibleAboveAllEntities()
     {
-        magePlayer.SetActive(true);
-        meleePlayer.SetActive(true);
-        healerPlayer.SetActive(true);
-        rangedPlayer.SetActive(true);
-        enemy.SetActive(true);
+        GameObject magePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        GameObject meleePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Melee Player"), Vector3.zero, Quaternion.identity);
+        GameObject healerPlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Healer Player"), Vector3.zero, Quaternion.identity);
+        GameObject rangedPlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Ranged Player"), Vector3.zero, Quaternion.identity);
+        GameObject enemy = Object.Instantiate(TestResourceManager.Instance.GetResource("Enemy"), Vector3.zero, Quaternion.identity);
+
+        magePlayer.transform.position = new Vector3(-4, 0, -2);
+        meleePlayer.transform.position = new Vector3(-2, 0, -2);
+        healerPlayer.transform.position = new Vector3(0, 0, -2);
+        rangedPlayer.transform.position = new Vector3(2, 0, -2);
+        enemy.transform.Rotate(new Vector3(0, 1, 0), 180);
 
         yield return new WaitForEndOfFrame();
         EntityStatsController[] entities = Object.FindObjectsOfType<EntityStatsController>();
@@ -272,8 +298,11 @@ public class FunctionalRequirementsTests
     [UnityTest]
     public IEnumerator FunctionalRequirements_EnemiesShouldFollowAPlayerWithinTheirVicinity()
     {
-        magePlayer.SetActive(true);
-        enemy.SetActive(true);
+        GameObject magePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        GameObject enemy = Object.Instantiate(TestResourceManager.Instance.GetResource("Enemy"), Vector3.zero, Quaternion.identity);
+
+        magePlayer.transform.position = new Vector3(0, 0, -2);
+        enemy.transform.Rotate(new Vector3(0, 1, 0), 180);
 
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
@@ -294,9 +323,13 @@ public class FunctionalRequirementsTests
     [UnityTest]
     public IEnumerator FunctionalRequirements_PlayersShouldBeAbleToInteractWithObjects()
     {
-        magePlayer.SetActive(true);
+        GameObject magePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController magePlayerStats = magePlayer.GetComponent<PlayerStatsController>();
+        magePlayerStats.characterColour = CharacterColour.Green;
 
-        GameObject lever = GameObject.Find("VRLever");
+        magePlayer.transform.position = new Vector3(0, 0, -2);
+
+        GameObject lever = Object.Instantiate(TestResourceManager.Instance.GetResource("Lever"), Vector3.zero, Quaternion.identity);
         lever.transform.position = new Vector3(0, 0, 0);
         Interactable handle = lever.GetComponentInChildren<Interactable>();
         handle.colour = CharacterColour.Green;
@@ -315,10 +348,23 @@ public class FunctionalRequirementsTests
     [UnityTest]
     public IEnumerator FunctionalRequirements_PlayersShouldOnlyBeAbleToInteractWithObjectsOfTheirColour()
     {
-        magePlayer.SetActive(true);
-        meleePlayer.SetActive(true);
+        GameObject magePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController magePlayerStats = magePlayer.GetComponent<PlayerStatsController>();
+        GameObject meleePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Melee Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController meleePlayerStats = meleePlayer.GetComponent<PlayerStatsController>();
+        GameObject healerPlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Healer Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController healerPlayerStats = healerPlayer.GetComponent<PlayerStatsController>();
+        GameObject rangedPlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Ranged Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController rangedPlayerStats = rangedPlayer.GetComponent<PlayerStatsController>();
+        magePlayerStats.characterColour = CharacterColour.Green;
+        meleePlayerStats.characterColour = CharacterColour.Red;
+        healerPlayerStats.characterColour = CharacterColour.Purple;
+        rangedPlayerStats.characterColour = CharacterColour.Yellow;
 
-        GameObject lever = GameObject.Find("VRLever");
+        magePlayer.transform.position = new Vector3(0, 0, -2);
+        meleePlayer.transform.position = new Vector3(-2, 0, -2);
+
+        GameObject lever = Object.Instantiate(TestResourceManager.Instance.GetResource("Lever"), Vector3.zero, Quaternion.identity);
         lever.transform.position = new Vector3(0, 0, 0);
         Interactable handle = lever.GetComponentInChildren<Interactable>();
         handle.colour = CharacterColour.Red;

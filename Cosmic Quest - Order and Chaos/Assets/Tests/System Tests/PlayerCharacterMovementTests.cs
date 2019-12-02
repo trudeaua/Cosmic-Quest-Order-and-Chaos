@@ -4,22 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Utilities;
 
 public class PlayerCharacterMovementTests
 {
-    private GameObject magePlayer;
-    private GameObject meleePlayer;
-    private GameObject healerPlayer;
-    private GameObject rangedPlayer;
-    private GameObject enemy;
-    private PlayerStatsController magePlayerStats;
-    private PlayerStatsController meleePlayerStats;
-    private PlayerStatsController healerPlayerStats;
-    private PlayerStatsController rangedPlayerStats;
-    private EnemyStatsController enemyStats;
-    readonly float timeToWait = 1;
-
     private PlayerInputMock _inputMock = null;
 
     [UnitySetUp]
@@ -45,40 +32,18 @@ public class PlayerCharacterMovementTests
         if (_inputMock is null)
             _inputMock = new PlayerInputMock();
 
-        magePlayer = GameObject.Find("Mage Player");
-        magePlayerStats = magePlayer.GetComponent<PlayerStatsController>();
-        magePlayer.SetActive(true);
-
-        meleePlayer = GameObject.Find("Melee Player");
-        meleePlayerStats = meleePlayer.GetComponent<PlayerStatsController>();
-        meleePlayer.SetActive(false);
-
-        healerPlayer = GameObject.Find("Healer Player");
-        healerPlayerStats = healerPlayer.GetComponent<PlayerStatsController>();
-        healerPlayer.SetActive(false);
-
-        rangedPlayer = GameObject.Find("Ranged Player");
-        rangedPlayerStats = rangedPlayer.GetComponent<PlayerStatsController>();
-        rangedPlayer.SetActive(false);
-
-        enemy = GameObject.Find("Enemy");
-        enemyStats = enemy.GetComponent<EnemyStatsController>();
-        enemy.SetActive(false);
-
-        magePlayerStats.characterColour = CharacterColour.Green;
-        meleePlayerStats.characterColour = CharacterColour.Red;
-        healerPlayerStats.characterColour = CharacterColour.Purple;
-        rangedPlayerStats.characterColour = CharacterColour.Yellow;
-        enemyStats.characterColour = CharacterColour.Green;
+        // Enable required components
+        GameObject.Find("GameManager").SetActive(true);
+        GameObject.Find("Main Camera").SetActive(true);
     }
 
     [UnityTearDown]
     public IEnumerator TearDown()
     {
-        PlayerManager.DeregisterPlayer(magePlayer);
-        PlayerManager.DeregisterPlayer(meleePlayer);
-        PlayerManager.DeregisterPlayer(healerPlayer);
-        PlayerManager.DeregisterPlayer(rangedPlayer);
+        Object.Destroy(GameObject.FindWithTag("Player"));
+        GameObject.Find("Main Camera").SetActive(false);
+        GameObject.Find("GameManager").SetActive(false);
+
         yield return null;
     }
 
@@ -87,24 +52,20 @@ public class PlayerCharacterMovementTests
     [UnityTest]
     public IEnumerator PlayerCharacter_MoveToTheRightWithLeftJoystick()
     {
-        GameObject player = magePlayer;
+        GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+
         Vector3 initialPos = player.transform.position;
+        PlayerInput input = player.GetComponent<PlayerInput>();
+        _inputMock.SetInputToMockGamepad(input);
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                player.GetComponent<PlayerInput>().SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
 
-        _inputMock.Set(PlayerInputMock.MockInput.LeftStick, Vector2.right);
-        _inputMock.Set(PlayerInputMock.MockInput.RightStick, Vector2.up);
+        _inputMock.Press(_inputMock.Gamepad.leftStick, Vector2.right);
+        _inputMock.Press(_inputMock.Gamepad.rightStick, Vector2.up);
+        yield return new WaitForSeconds(1f);
+        _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
+        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
+
+        yield return new WaitForSeconds(1f); 
         yield return new WaitForSeconds(1f);
 
         Assert.Greater(player.transform.position.x, initialPos.x, "Player did not move to the right on input");
@@ -113,24 +74,19 @@ public class PlayerCharacterMovementTests
     [UnityTest]
     public IEnumerator PlayerCharacter_MoveToTheLeftWithLeftJoystick()
     {
-        GameObject player = magePlayer;
+        GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        
         Vector3 initialPos = player.transform.position;
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                player.GetComponent<PlayerInput>().SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
+        PlayerInput input = player.GetComponent<PlayerInput>();
+        _inputMock.SetInputToMockGamepad(input);
 
-        _inputMock.Set(PlayerInputMock.MockInput.LeftStick, Vector2.left);
-        _inputMock.Set(PlayerInputMock.MockInput.RightStick, Vector2.up);
+        _inputMock.Press(_inputMock.Gamepad.leftStick, Vector2.left);
+        _inputMock.Press(_inputMock.Gamepad.rightStick, Vector2.up);
+        yield return new WaitForSeconds(1f);
+        _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
+        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
+
         yield return new WaitForSeconds(1f);
 
         Assert.Less(player.transform.position.x, initialPos.x, "Player did not move to the left on input");
@@ -139,24 +95,19 @@ public class PlayerCharacterMovementTests
     [UnityTest]
     public IEnumerator PlayerCharacter_MoveForwardWithLeftJoystick()
     {
-        GameObject player = magePlayer;
+        GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        
         Vector3 initialPos = player.transform.position;
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                player.GetComponent<PlayerInput>().SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
+        PlayerInput input = player.GetComponent<PlayerInput>();
+        _inputMock.SetInputToMockGamepad(input);
 
-        _inputMock.Set(PlayerInputMock.MockInput.LeftStick, Vector2.up);
-        _inputMock.Set(PlayerInputMock.MockInput.RightStick, Vector2.up);
+        _inputMock.Press(_inputMock.Gamepad.leftStick, Vector2.up);
+        _inputMock.Press(_inputMock.Gamepad.rightStick, Vector2.up);
+        yield return new WaitForSeconds(1f);
+        _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
+        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
+
         yield return new WaitForSeconds(1f);
 
         Assert.Greater(player.transform.position.z, initialPos.z, "Player did not move forward on input");
@@ -165,24 +116,19 @@ public class PlayerCharacterMovementTests
     [UnityTest]
     public IEnumerator PlayerCharacter_MoveBackwardsWithLeftJoystick()
     {
-        GameObject player = magePlayer;
+        GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        
         Vector3 initialPos = player.transform.position;
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                player.GetComponent<PlayerInput>().SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
+        PlayerInput input = player.GetComponent<PlayerInput>();
+        _inputMock.SetInputToMockGamepad(input);
 
-        _inputMock.Set(PlayerInputMock.MockInput.LeftStick, Vector2.down);
-        _inputMock.Set(PlayerInputMock.MockInput.RightStick, Vector2.up);
+        _inputMock.Press(_inputMock.Gamepad.leftStick, Vector2.down);
+        _inputMock.Press(_inputMock.Gamepad.rightStick, Vector2.up);
+        yield return new WaitForSeconds(1f);
+        _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
+        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
+
         yield return new WaitForSeconds(1f);
 
         Assert.Less(player.transform.position.z, initialPos.z, "Player did not move backwards on input");
@@ -193,22 +139,15 @@ public class PlayerCharacterMovementTests
     [UnityTest]
     public IEnumerator PlayerCharacter_LookRightWithRightJoystick()
     {
-        GameObject player = magePlayer;
+        GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                player.GetComponent<PlayerInput>().SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
+        PlayerInput input = player.GetComponent<PlayerInput>();
+        _inputMock.SetInputToMockGamepad(input);
 
-        _inputMock.Set(PlayerInputMock.MockInput.RightStick, Vector2.right);
+        _inputMock.Press(_inputMock.Gamepad.rightStick, Vector2.right);
+        yield return new WaitForSeconds(1f);
+        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
+
         yield return new WaitForSeconds(1f);
 
         Assert.AreEqual(player.transform.eulerAngles.y, 90f, 1f, "Player did not look right on input");
@@ -217,22 +156,14 @@ public class PlayerCharacterMovementTests
     [UnityTest]
     public IEnumerator PlayerCharacter_LookLeftWithRightJoystick()
     {
-        GameObject player = magePlayer;
+        GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        
+        PlayerInput input = player.GetComponent<PlayerInput>();
+        _inputMock.SetInputToMockGamepad(input);
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                player.GetComponent<PlayerInput>().SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
-
-        _inputMock.Set(PlayerInputMock.MockInput.RightStick, Vector2.left);
+        _inputMock.Press(_inputMock.Gamepad.rightStick, Vector2.left);
+        yield return new WaitForSeconds(1f);
+        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
         yield return new WaitForSeconds(1f);
 
         Assert.AreEqual(player.transform.eulerAngles.y, 270f, 1f, "Player did not look left on input");
@@ -241,22 +172,15 @@ public class PlayerCharacterMovementTests
     [UnityTest]
     public IEnumerator PlayerCharacter_LookForwardWithRightJoystick()
     {
-        GameObject player = magePlayer;
+        GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                player.GetComponent<PlayerInput>().SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
+        PlayerInput input = player.GetComponent<PlayerInput>();
+        _inputMock.SetInputToMockGamepad(input);
 
-        _inputMock.Set(PlayerInputMock.MockInput.RightStick, Vector2.up);
+        _inputMock.Press(_inputMock.Gamepad.rightStick, Vector2.up);
+        yield return new WaitForSeconds(1f);
+        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
+
         yield return new WaitForSeconds(1f);
 
         Assert.AreEqual(player.transform.eulerAngles.y, 0f, 1f, "Player did not look forward on input");
@@ -265,22 +189,15 @@ public class PlayerCharacterMovementTests
     [UnityTest]
     public IEnumerator PlayerCharacter_LookBackwardWithRightJoystick()
     {
-        GameObject player = magePlayer;
+        GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        
+        PlayerInput input = player.GetComponent<PlayerInput>();
+        _inputMock.SetInputToMockGamepad(input);
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                player.GetComponent<PlayerInput>().SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
+        _inputMock.Press(_inputMock.Gamepad.rightStick, Vector2.down);
+        yield return new WaitForSeconds(1f);
+        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
 
-        _inputMock.Set(PlayerInputMock.MockInput.RightStick, Vector2.down);
         yield return new WaitForSeconds(1f);
 
         Assert.AreEqual(player.transform.eulerAngles.y, 180f, 1f, "Player did not look backwards on input");
@@ -291,25 +208,19 @@ public class PlayerCharacterMovementTests
     [UnityTest]
     public IEnumerator PlayerCharacter_MoveForwardAndLeftWhileLookingDownToTheRightUsingBothJoysticks()
     {
-        GameObject player = magePlayer;
+        GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        
         Vector3 initialPos = player.transform.position;
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                player.GetComponent<PlayerInput>().SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
+        PlayerInput input = player.GetComponent<PlayerInput>();
+        _inputMock.SetInputToMockGamepad(input);
 
-        _inputMock.Set(PlayerInputMock.MockInput.LeftStick, (Vector2.up + Vector2.left).normalized);
-        yield return null;
-        _inputMock.Set(PlayerInputMock.MockInput.RightStick, (Vector2.down + Vector2.right).normalized);
+        _inputMock.Press(_inputMock.Gamepad.leftStick, (Vector2.up + Vector2.left).normalized);
+        _inputMock.Press(_inputMock.Gamepad.rightStick, (Vector2.down + Vector2.right).normalized);
+        yield return new WaitForSeconds(1f);
+        _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
+        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
+
         yield return new WaitForSeconds(1f);
 
         Assert.Greater(player.transform.position.z, initialPos.z, "Player did not move forward on input");
@@ -320,25 +231,19 @@ public class PlayerCharacterMovementTests
     [UnityTest]
     public IEnumerator PlayerCharacter_MoveForwardAndRightWhileLookingDownToTheLeftUsingBothJoysticks()
     {
-        GameObject player = magePlayer;
+        GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        
         Vector3 initialPos = player.transform.position;
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                player.GetComponent<PlayerInput>().SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
+        PlayerInput input = player.GetComponent<PlayerInput>();
+        _inputMock.SetInputToMockGamepad(input);
 
-        _inputMock.Set(PlayerInputMock.MockInput.LeftStick, (Vector2.up + Vector2.right).normalized);
-        yield return null;
-        _inputMock.Set(PlayerInputMock.MockInput.RightStick, (Vector2.down + Vector2.left).normalized);
+        _inputMock.Press(_inputMock.Gamepad.leftStick, (Vector2.up + Vector2.right).normalized);
+        _inputMock.Press(_inputMock.Gamepad.rightStick, (Vector2.down + Vector2.left).normalized);
+        yield return new WaitForSeconds(1f);
+        _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
+        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
+
         yield return new WaitForSeconds(1f);
 
         Assert.Greater(player.transform.position.z, initialPos.z, "Player did not move forward on input");
@@ -349,25 +254,19 @@ public class PlayerCharacterMovementTests
     [UnityTest]
     public IEnumerator PlayerCharacter_MoveBackwardAndLeftWhileLookingUpToTheRightUsingBothJoysticks()
     {
-        GameObject player = magePlayer;
+        GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+
         Vector3 initialPos = player.transform.position;
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                player.GetComponent<PlayerInput>().SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
+        PlayerInput input = player.GetComponent<PlayerInput>();
+        _inputMock.SetInputToMockGamepad(input);
 
-        _inputMock.Set(PlayerInputMock.MockInput.LeftStick, (Vector2.down + Vector2.left).normalized);
-        yield return null;
-        _inputMock.Set(PlayerInputMock.MockInput.RightStick, (Vector2.up + Vector2.right).normalized);
+        _inputMock.Press(_inputMock.Gamepad.leftStick, (Vector2.down + Vector2.left).normalized);
+        _inputMock.Press(_inputMock.Gamepad.rightStick, (Vector2.up + Vector2.right).normalized);
+        yield return new WaitForSeconds(1f);
+        _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
+        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
+
         yield return new WaitForSeconds(1f);
 
         Assert.Less(player.transform.position.z, initialPos.z, "Player did not move backward on input");
@@ -378,25 +277,19 @@ public class PlayerCharacterMovementTests
     [UnityTest]
     public IEnumerator PlayerCharacter_MoveBackwardAndRightWhileLookingUpToTheLeftUsingBothJoysticks()
     {
-        GameObject player = magePlayer;
+        GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+
         Vector3 initialPos = player.transform.position;
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                player.GetComponent<PlayerInput>().SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
+        PlayerInput input = player.GetComponent<PlayerInput>();
+        _inputMock.SetInputToMockGamepad(input);
 
-        _inputMock.Set(PlayerInputMock.MockInput.LeftStick, (Vector2.down + Vector2.right).normalized);
-        yield return null;
-        _inputMock.Set(PlayerInputMock.MockInput.RightStick, (Vector2.up + Vector2.left).normalized);
+        _inputMock.Press(_inputMock.Gamepad.leftStick, (Vector2.down + Vector2.right).normalized);
+        _inputMock.Press(_inputMock.Gamepad.rightStick, (Vector2.up + Vector2.left).normalized);
+        yield return new WaitForSeconds(1f);
+        _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
+        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
+
         yield return new WaitForSeconds(1f);
 
         Assert.Less(player.transform.position.z, initialPos.z, "Player did not move backward on input");

@@ -1,24 +1,12 @@
 ﻿using System;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Utilities;
 
 public class PlayerInputMock
 {
     public readonly Gamepad Gamepad = null;
-
-    public enum MockInput
-    {
-        LeftStick,
-        RightStick,
-        RightShoulder,
-        RightTrigger,
-        ButtonNorth,
-        ButtonSouth
-    }
     
     public PlayerInputMock()
     {
@@ -39,71 +27,63 @@ public class PlayerInputMock
         }
     }
     
-    public void Set(MockInput control, Vector2 input)
+    private void SetUpAndQueueEvent(InputEventPtr eventPtr, InputControl control, Vector2 val)
     {
-        if (input.sqrMagnitude > 1f)
-            throw new Exception("Input vector must have a magnitude no greater than 1!");
-        using (StateEvent.From(Gamepad, out var eventPtr))
-        {
-            switch (control)
-            {
-                case MockInput.LeftStick:
-                    Gamepad.leftStick.WriteValueIntoEvent(input, eventPtr);
-                    break;
-                case MockInput.RightStick:
-                    Gamepad.rightStick.WriteValueIntoEvent(input, eventPtr);
-                    break;
-                default:
-                    throw new Exception("Invalid gamepad input control");
-            }
-            
-            InputSystem.QueueEvent(eventPtr);
-            InputSystem.Update();
-        }
+        control.WriteValueIntoEvent(val, eventPtr);
+        InputSystem.QueueEvent(eventPtr);
     }
 
-    public void Press(MockInput control)
+    private void SetUpAndQueueEvent(InputEventPtr eventPtr, InputControl control, float val)
     {
-        GamepadState newState;
-        
-        switch (control)
-        {
-            case MockInput.RightShoulder:
-                newState = new GamepadState { buttons = (uint)GamepadButton.RightShoulder };
-                break;
-            default:
-                throw new Exception("Invalid gamepad input control!");
-        }
-        
-        InputSystem.QueueStateEvent(Gamepad, newState);
-        InputSystem.Update();
+        control.WriteValueIntoEvent(val, eventPtr);
+        InputSystem.QueueEvent(eventPtr);
     }
 
     public void Press(InputControl control)
     {
-        void SetUpAndQueueEvent(InputEventPtr eventPtr)
-        {
-            control.WriteValueIntoEvent(1f, eventPtr);
-            InputSystem.QueueEvent(eventPtr);
-        }
-
         using (DeltaStateEvent.From(control, out var eventPtr))
-            SetUpAndQueueEvent(eventPtr);
+            SetUpAndQueueEvent(eventPtr, control, 1f);
         
         InputSystem.Update();
     }
     
     public void Release(InputControl control)
     {
-        void SetUpAndQueueEvent(InputEventPtr eventPtr)
-        {
-            control.WriteValueIntoEvent(0f, eventPtr);
-            InputSystem.QueueEvent(eventPtr);
-        }
-
         using (DeltaStateEvent.From(control, out var eventPtr))
-            SetUpAndQueueEvent(eventPtr);
-        
+        SetUpAndQueueEvent(eventPtr, control, 0f);
+
         InputSystem.Update();
+    }
+
+    public void Press(InputControl control, Vector2 input)
+    {
+        using (DeltaStateEvent.From(control, out var eventPtr))
+            SetUpAndQueueEvent(eventPtr, control, input);
+
+        InputSystem.Update();
+    }
+
+    public void Release(InputControl control, Vector2 input)
+    {
+        using (DeltaStateEvent.From(control, out var eventPtr))
+            SetUpAndQueueEvent(eventPtr, control, input);
+
+        InputSystem.Update();
+    }
+
+    public void SetInputToMockGamepad(PlayerInput input)
+    {
+        // Change the input device to the Mock Gamepad
+        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
+        foreach (InputDevice d in devices)
+        {
+            if (d.name == "MockGamepad")
+            {
+                InputDevice[] dev = new InputDevice[1];
+                dev[0] = d;
+                input.SwitchCurrentControlScheme("Gamepad", dev);
+                break;
+            }
+        }
     }
 }

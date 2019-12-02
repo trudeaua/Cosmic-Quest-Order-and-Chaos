@@ -2,24 +2,11 @@
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Utilities;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
 public class PlayerCharacterCombatTests
 {
-    private GameObject magePlayer;
-    private GameObject meleePlayer;
-    private GameObject healerPlayer;
-    private GameObject rangedPlayer;
-    private GameObject enemy;
-    private PlayerStatsController magePlayerStats;
-    private PlayerStatsController meleePlayerStats;
-    private PlayerStatsController healerPlayerStats;
-    private PlayerStatsController rangedPlayerStats;
-    private EnemyStatsController enemyStats;
-    readonly float timeToWait = 1;
-
     private PlayerInputMock _inputMock = null;
 
     [UnitySetUp]
@@ -45,40 +32,24 @@ public class PlayerCharacterCombatTests
         if (_inputMock is null)
             _inputMock = new PlayerInputMock();
 
-        magePlayer = GameObject.Find("Mage Player");
-        magePlayerStats = magePlayer.GetComponent<PlayerStatsController>();
-        magePlayer.SetActive(false);
-
-        meleePlayer = GameObject.Find("Melee Player");
-        meleePlayerStats = meleePlayer.GetComponent<PlayerStatsController>();
-        meleePlayer.SetActive(false);
-
-        healerPlayer = GameObject.Find("Healer Player");
-        healerPlayerStats = healerPlayer.GetComponent<PlayerStatsController>();
-        healerPlayer.SetActive(false);
-
-        rangedPlayer = GameObject.Find("Ranged Player");
-        rangedPlayerStats = rangedPlayer.GetComponent<PlayerStatsController>();
-        rangedPlayer.SetActive(false);
-
-        enemy = GameObject.Find("Enemy");
-        enemyStats = enemy.GetComponent<EnemyStatsController>();
-        enemy.SetActive(false);
-
-        magePlayerStats.characterColour = CharacterColour.Green;
-        meleePlayerStats.characterColour = CharacterColour.Red;
-        healerPlayerStats.characterColour = CharacterColour.Purple;
-        rangedPlayerStats.characterColour = CharacterColour.Yellow;
-        enemyStats.characterColour = CharacterColour.Green;
     }
 
     [UnityTearDown]
     public IEnumerator TearDown()
     {
-        PlayerManager.DeregisterPlayer(magePlayer);
-        PlayerManager.DeregisterPlayer(meleePlayer);
-        PlayerManager.DeregisterPlayer(healerPlayer);
-        PlayerManager.DeregisterPlayer(rangedPlayer);
+        // destroy all players
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players)
+        {
+            Object.Destroy(player);
+        // destroy all players
+        }
+        // destroy all enemies
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            Object.Destroy(enemy);
+        }
         yield return null;
     }
 
@@ -89,6 +60,11 @@ public class PlayerCharacterCombatTests
     [UnityTest]
     public IEnumerator PlayerCombat_MeleePlayerCanDamageEnemyWithPrimaryAndSecondaryAttacks()
     {
+        GameObject meleePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Melee Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController meleePlayerStats = meleePlayer.GetComponent<PlayerStatsController>();
+        GameObject enemy = Object.Instantiate(TestResourceManager.Instance.GetResource("Enemy"), Vector3.zero, Quaternion.identity);
+        EnemyStatsController enemyStats = enemy.GetComponent<EnemyStatsController>();
+
         Vector3 attackPos = new Vector3(0, 0, -2.5f);
 
         meleePlayer.SetActive(true);
@@ -97,18 +73,8 @@ public class PlayerCharacterCombatTests
         var input = meleePlayer.GetComponent<PlayerInput>();
         input.enabled = true;
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                input.SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
+        _inputMock.SetInputToMockGamepad(input);
+
         meleePlayer.transform.position = attackPos;
 
         float initialHealth = enemyStats.health.CurrentValue;
@@ -135,6 +101,11 @@ public class PlayerCharacterCombatTests
     [UnityTest]
     public IEnumerator PlayerCombat_MagePlayerCanDamageEnemyWithPrimaryAndSecondaryAttacks()
     {
+        GameObject magePlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController magePlayerStats = magePlayer.GetComponent<PlayerStatsController>();
+        GameObject enemy = Object.Instantiate(TestResourceManager.Instance.GetResource("Enemy"), Vector3.zero, Quaternion.identity);
+        EnemyStatsController enemyStats = enemy.GetComponent<EnemyStatsController>();
+
         Vector3 attackPos = new Vector3(0, 0, -2.5f);
 
         magePlayer.SetActive(true);
@@ -143,18 +114,8 @@ public class PlayerCharacterCombatTests
         var input = magePlayer.GetComponent<PlayerInput>();
         input.enabled = true;
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                input.SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
+        _inputMock.SetInputToMockGamepad(input);
+
         magePlayer.transform.position = attackPos;
 
         float initialHealth = enemyStats.health.CurrentValue;
@@ -182,6 +143,11 @@ public class PlayerCharacterCombatTests
     [UnityTest]
     public IEnumerator PlayerCombat_HealerPlayerCanDamageEnemyWithPrimaryAndSecondaryAttacks()
     {
+        GameObject healerPlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Healer Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController healerPlayerStats = healerPlayer.GetComponent<PlayerStatsController>();
+        GameObject enemy = Object.Instantiate(TestResourceManager.Instance.GetResource("Enemy"), Vector3.zero, Quaternion.identity);
+        EnemyStatsController enemyStats = enemy.GetComponent<EnemyStatsController>();
+
         Vector3 attackPos = new Vector3(0, 0, -2.5f);
 
         healerPlayer.SetActive(true);
@@ -190,18 +156,8 @@ public class PlayerCharacterCombatTests
         var input = healerPlayer.GetComponent<PlayerInput>();
         input.enabled = true;
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                input.SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
+        _inputMock.SetInputToMockGamepad(input);
+
         healerPlayer.transform.position = attackPos;
 
         float initialHealth = enemyStats.health.CurrentValue;
@@ -230,6 +186,11 @@ public class PlayerCharacterCombatTests
     [UnityTest]
     public IEnumerator PlayerCombat_RangedPlayerCanDamageEnemyWithPrimaryAndSecondaryAttacks()
     {
+        GameObject rangedPlayer = Object.Instantiate(TestResourceManager.Instance.GetResource("Ranged Player"), Vector3.zero, Quaternion.identity);
+        PlayerStatsController rangedPlayerStats = rangedPlayer.GetComponent<PlayerStatsController>();
+        GameObject enemy = Object.Instantiate(TestResourceManager.Instance.GetResource("Enemy"), Vector3.zero, Quaternion.identity);
+        EnemyStatsController enemyStats = enemy.GetComponent<EnemyStatsController>();
+
         Vector3 attackPos = new Vector3(0, 0, -2.5f);
 
         rangedPlayer.SetActive(true);
@@ -238,18 +199,8 @@ public class PlayerCharacterCombatTests
         var input = rangedPlayer.GetComponent<PlayerInput>();
         input.enabled = true;
 
-        // Change the input device to the Mock Gamepad
-        ReadOnlyArray<InputDevice> devices = InputSystem.devices;
-        foreach (InputDevice d in devices)
-        {
-            if (d.name == "MockGamepad")
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                input.SwitchCurrentControlScheme("Gamepad", dev);
-                break;
-            }
-        }
+        _inputMock.SetInputToMockGamepad(input);
+
         rangedPlayer.transform.position = attackPos;
 
         float initialHealth = enemyStats.health.CurrentValue;
