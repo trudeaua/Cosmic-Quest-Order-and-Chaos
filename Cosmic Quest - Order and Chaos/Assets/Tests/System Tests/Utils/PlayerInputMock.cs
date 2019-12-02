@@ -106,10 +106,4 @@ public class PlayerInputMock
         
         InputSystem.Update();
     }
-
-    void DumpToConsole(object obj)
-    {
-        var output = JsonUtility.ToJson(obj, true);
-        Debug.Log(output);
-    }
 }

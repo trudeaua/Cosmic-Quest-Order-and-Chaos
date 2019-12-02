@@ -259,7 +259,6 @@ public class FunctionalRequirementsTests
 
         yield return new WaitForEndOfFrame();
         EntityStatsController[] entities = Object.FindObjectsOfType<EntityStatsController>();
-        Debug.Log(entities.Length);
         foreach(EntityStatsController entity in entities)
         {
             StatBar bar = entity.GetComponentInChildren<StatBar>();
