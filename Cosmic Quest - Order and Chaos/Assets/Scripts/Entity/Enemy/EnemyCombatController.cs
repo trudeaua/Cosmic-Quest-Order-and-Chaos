@@ -14,7 +14,7 @@ public class EnemyCombatController : EntityCombatController
 
     private void Start()
     {
-        Players = PlayerManager.players;
+        Players = PlayerManager.Players;
     }
 
     public virtual void PrimaryAttack()

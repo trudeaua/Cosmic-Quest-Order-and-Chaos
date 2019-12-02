@@ -10,7 +10,6 @@ public class CameraController : MonoBehaviour
     public float deadBoundary = 0.05f;
 
     private Camera _camera;
-    private List<GameObject> _players;
     private float _playerHeight;
     private float _invTanOfView;
     private float _zOffset;
@@ -31,11 +30,8 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        // Grab player GameObjects from the player manager
-        _players = PlayerManager.players;
-
-        if (_players.Count > 0)
-            _playerHeight = _players[0].GetComponent<CapsuleCollider>().height / 2f;
+        if (PlayerManager.Players.Count > 0)
+            _playerHeight = PlayerManager.Players[0].GetComponent<CapsuleCollider>().height / 2f;
         else
             _playerHeight = 1f;
 
@@ -83,7 +79,7 @@ public class CameraController : MonoBehaviour
 
         byte deadZone = 0;
 
-        foreach (GameObject player in _players)
+        foreach (GameObject player in PlayerManager.Players)
         {
             Vector3 viewportPos = _camera.WorldToViewportPoint(player.transform.position + new Vector3(0f, _playerHeight, 0f));
 
@@ -192,9 +188,9 @@ public class CameraController : MonoBehaviour
 
     private Vector3 FindPlayersCenter()
     {
-        if (_players.Count == 1)
+        if (PlayerManager.Players.Count == 1)
         {
-            return new Vector3(_players[0].transform.position.x, 0, _players[0].transform.position.z);
+            return new Vector3(PlayerManager.Players[0].transform.position.x, 0, PlayerManager.Players[0].transform.position.z);
         }
 
         float xMin = float.MaxValue;
@@ -202,7 +198,7 @@ public class CameraController : MonoBehaviour
         float zMin = float.MaxValue;
         float zMax = float.MinValue;
 
-        foreach (GameObject player in _players)
+        foreach (GameObject player in PlayerManager.Players)
         {
             if (player.activeSelf)
             {

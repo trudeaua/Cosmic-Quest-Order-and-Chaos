@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -39,6 +38,12 @@ public class PlayerMotorController : MonoBehaviour
     {
         // Set kinematic when disabled so the player stops moving
         _rb.isKinematic = true;
+    }
+
+    private void OnDestroy()
+    {
+        // Ensure there's no invalid references hanging around
+        PlayerManager.DeregisterPlayer(gameObject);
     }
 
     private void FixedUpdate()
@@ -123,8 +128,22 @@ public class PlayerMotorController : MonoBehaviour
         _moveInput = value.Get<Vector2>();
     }
 
+    private void OnMove(Vector2 value)
+    {
+        if (!TestUtility.IsRunningInTest)
+            throw new Exception("Do not use this method outside of PlayerInputMock!");
+        _moveInput = value;
+    }
+
     private void OnLook(InputValue value)
     {
         _lookInput = value.Get<Vector2>();
+    }
+    
+    private void OnLook(Vector2 value)
+    {
+        if (!TestUtility.IsRunningInTest)
+            throw new Exception("Do not use this method outside of PlayerInputMock!");
+        _lookInput = value;
     }
 }

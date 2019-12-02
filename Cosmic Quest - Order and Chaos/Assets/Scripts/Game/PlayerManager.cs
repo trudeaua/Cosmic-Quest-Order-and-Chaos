@@ -16,15 +16,15 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
-    public static List<GameObject> players = new List<GameObject>();
+    public static readonly List<GameObject> Players = new List<GameObject>();
 
     public static void RegisterPlayer(GameObject player)
     {
-        players.Add(player);
+        Players.Add(player);
     }
 
     public static void DeregisterPlayer(GameObject player)
     {
-        players.Remove(player);
+        Players.Remove(player);
     }
 }
