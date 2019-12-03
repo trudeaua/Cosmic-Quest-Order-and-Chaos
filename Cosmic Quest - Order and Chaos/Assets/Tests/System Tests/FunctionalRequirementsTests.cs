@@ -6,7 +6,6 @@ using UnityEngine.TestTools;
 
 public class FunctionalRequirementsTests
 {
-    private PlayerInputMock _inputMock = null;
     readonly float timeToWait = 1;
 
     [UnitySetUp]
@@ -28,10 +27,6 @@ public class FunctionalRequirementsTests
         }
 
         Assert.IsTrue(sceneLoading.isDone, "Scene load timed out! The scene could not be loaded.");
-
-        if (_inputMock is null)
-            _inputMock = new PlayerInputMock();
-
     }
 
     [UnityTearDown]
