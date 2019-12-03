@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -39,6 +38,12 @@ public class PlayerMotorController : MonoBehaviour
     {
         // Set kinematic when disabled so the player stops moving
         _rb.isKinematic = true;
+    }
+
+    private void OnDestroy()
+    {
+        // Ensure there's no invalid references hanging around
+        PlayerManager.DeregisterPlayer(gameObject);
     }
 
     private void FixedUpdate()
@@ -127,6 +132,7 @@ public class PlayerMotorController : MonoBehaviour
     {
         _moveInput = value.Get<Vector2>();
     }
+
 
     private void OnLook(InputValue value)
     {

@@ -30,10 +30,8 @@ public class RegenerableStat
         {
             CurrentValue = maxValue;
         }
-        else
-        {
-            onCurrentValueChanged?.Invoke(CurrentValue);
-        }
+        
+        onCurrentValueChanged?.Invoke(CurrentValue);
     }
     
     public void Subtract(float amount)
@@ -43,10 +41,8 @@ public class RegenerableStat
         {
             CurrentValue = minValue;
         }
-        else
-        {
-            onCurrentValueChanged?.Invoke(CurrentValue);
-        }
+        
+        onCurrentValueChanged?.Invoke(CurrentValue);
     }
 
     public void Regen()

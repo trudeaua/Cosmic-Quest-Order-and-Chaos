@@ -11,7 +11,17 @@ public enum CharacterColour
     Purple
 }
 
-public class EntityStatsController : MonoBehaviour
+public interface IEntityStatsController
+{
+    bool isDead { get; }
+
+    float ComputeDamageModifer();
+    float ComputeDefenseModifier();
+    void TakeDamage(EntityStatsController attacker, float damageValue, float timeModifier = 1);
+    void TakeExplosionDamage(EntityStatsController attacker, float maxDamage, float stunTime, float explosionForce, Vector3 explosionPoint, float explosionRadius);
+}
+
+public class EntityStatsController : MonoBehaviour, IEntityStatsController
 {
     // Common entity regenerable stats
     public RegenerableStat health;
@@ -27,10 +37,10 @@ public class EntityStatsController : MonoBehaviour
     protected Animator Anim;
     protected Rigidbody rb;
     protected Collider col;
-    
+
     // Entity layer mask constant for entity raycasting checks
     public const int EntityLayer = 1 << 9;
-    
+
     protected virtual void Awake()
     {
         health.Init();
@@ -42,7 +52,8 @@ public class EntityStatsController : MonoBehaviour
 
     protected virtual void Update()
     {
-        health.Regen();
+        if (!isDead)
+            health.Regen();
     }
 
     public virtual void TakeDamage(EntityStatsController attacker, float damageValue, float timeModifier = 1f)
@@ -50,7 +61,7 @@ public class EntityStatsController : MonoBehaviour
         // Ignore attacks if already dead
         if (isDead)
             return;
-        
+
         // Calculate any changes based on stats and modifiers here first
         float hitValue = (damageValue - ComputeDefenseModifier()) * timeModifier;
         health.Subtract(hitValue < 0 ? 0 : hitValue);
@@ -61,26 +72,26 @@ public class EntityStatsController : MonoBehaviour
         }
     }
 
-    public virtual void TakeExplosionDamage(EntityStatsController attacker, float maxDamage, float stunTime, 
+    public virtual void TakeExplosionDamage(EntityStatsController attacker, float maxDamage, float stunTime,
         float explosionForce, Vector3 explosionPoint, float explosionRadius)
     {
         // Ignore explosions if already dead
         if (isDead)
             return;
-        
+
         // Calculate damage based on distance from the explosion point
         float proximity = (col.ClosestPoint(explosionPoint) - explosionPoint).magnitude;
         float effect = 1 - (proximity / explosionRadius);
-        
+
         // TODO slightly strange bug where enemies just beyond the explosion take negative damage? This is a temp fix.
         if (effect < 0f)
             return;
-        
+
         TakeDamage(attacker, maxDamage * effect);
 
         StartCoroutine(ApplyExplosiveForce(explosionForce, explosionPoint, explosionRadius, stunTime));
     }
-    
+
     protected virtual IEnumerator ApplyExplosiveForce(float explosionForce, Vector3 explosionPoint, float explosionRadius, float stunTime)
     {
         // Set to stunned before applying explosive force
@@ -88,14 +99,14 @@ public class EntityStatsController : MonoBehaviour
 
         // TODO change this to AddForce(<force vector>, ForceMode.Impulse);
         rb.AddExplosionForce(explosionForce, explosionPoint, explosionRadius);
-        
+
         // Wait for a moment before un-stunning the victim
         yield return new WaitForSeconds(stunTime);
     }
-    
+
     public virtual float ComputeDamageModifer()
     {
-        float baseHit = Random.Range(0, damage.GetBaseValue());
+        float baseHit = Random.Range(0, damage.GetBaseValue() - 1); // never want to do 0 damage
         return damage.GetValue() - baseHit;
     }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyBrainController))]
 public class EnemyCombatController : EntityCombatController
 {
     public float attackCooldown = 1f;
@@ -14,7 +15,7 @@ public class EnemyCombatController : EntityCombatController
 
     private void Start()
     {
-        Players = PlayerManager.players;
+        Players = PlayerManager.Players;
     }
 
     public virtual void PrimaryAttack()
