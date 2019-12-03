@@ -42,14 +42,15 @@ public class PlayerCharacterCombatTests
         foreach (GameObject player in players)
         {
             Object.Destroy(player);
-        // destroy all players
         }
+        
         // destroy all enemies
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)
         {
             Object.Destroy(enemy);
         }
+        
         yield return null;
     }
 
@@ -98,6 +99,7 @@ public class PlayerCharacterCombatTests
         yield return new WaitForSeconds(1f);
         Assert.Less(enemyStats.health.CurrentValue, initialHealth, "Melee player was unable to damage the enemy with secondary attack!");
     }
+    
     [UnityTest]
     public IEnumerator PlayerCombat_MagePlayerCanDamageEnemyWithPrimaryAndSecondaryAttacks()
     {

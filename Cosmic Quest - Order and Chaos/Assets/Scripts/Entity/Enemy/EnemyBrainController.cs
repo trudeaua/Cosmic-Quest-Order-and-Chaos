@@ -69,7 +69,6 @@ public class EnemyBrainController : MonoBehaviour
     {
         foreach (TargetPlayer target in _targets)
         {
-  
             if (CanSee(target))
             {
                 // Set player to known state
@@ -164,7 +163,7 @@ public class EnemyBrainController : MonoBehaviour
 
     private bool CanSee(TargetPlayer target)
     {
-        if (Physics.Linecast(transform.position, target.Player.transform.position, out RaycastHit hit))
+        if (Physics.Linecast(transform.position + Vector3.up, target.Player.transform.position + Vector3.up, out RaycastHit hit))
         {
             return (target.Player.transform.position - transform.position).sqrMagnitude <= aggroRadius * aggroRadius && hit.transform.gameObject == target.Player;
         }

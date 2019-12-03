@@ -52,7 +52,8 @@ public class EntityStatsController : MonoBehaviour, IEntityStatsController
 
     protected virtual void Update()
     {
-        health.Regen();
+        if (!isDead)
+            health.Regen();
     }
 
     public virtual void TakeDamage(EntityStatsController attacker, float damageValue, float timeModifier = 1f)

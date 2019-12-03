@@ -60,15 +60,11 @@ public class PlayerCharacterMovementTests
 
 
         _inputMock.Press(_inputMock.Gamepad.leftStick, Vector2.right);
-        _inputMock.Press(_inputMock.Gamepad.rightStick, Vector2.up);
         yield return new WaitForSeconds(1f);
         _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
-        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
-
-        yield return new WaitForSeconds(1f); 
-        yield return new WaitForSeconds(1f);
 
         Assert.Greater(player.transform.position.x, initialPos.x, "Player did not move to the right on input");
+        Assert.AreEqual(player.transform.rotation.eulerAngles.y, 90f, 1f, "Player did not look in the direction of travel");
     }
     
     [UnityTest]
@@ -82,35 +78,29 @@ public class PlayerCharacterMovementTests
         _inputMock.SetInputToMockGamepad(input);
 
         _inputMock.Press(_inputMock.Gamepad.leftStick, Vector2.left);
-        _inputMock.Press(_inputMock.Gamepad.rightStick, Vector2.up);
         yield return new WaitForSeconds(1f);
         _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
-        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
-
-        yield return new WaitForSeconds(1f);
 
         Assert.Less(player.transform.position.x, initialPos.x, "Player did not move to the left on input");
+        Assert.AreEqual(player.transform.rotation.eulerAngles.y, 270f, 1f, "Player did not look in the direction of travel");
     }
     
     [UnityTest]
     public IEnumerator PlayerCharacter_MoveForwardWithLeftJoystick()
     {
         GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
-        
+        player.transform.Rotate(new Vector3(0, 180f, 0), Space.World);
         Vector3 initialPos = player.transform.position;
 
         PlayerInput input = player.GetComponent<PlayerInput>();
         _inputMock.SetInputToMockGamepad(input);
 
         _inputMock.Press(_inputMock.Gamepad.leftStick, Vector2.up);
-        _inputMock.Press(_inputMock.Gamepad.rightStick, Vector2.up);
         yield return new WaitForSeconds(1f);
         _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
-        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
-
-        yield return new WaitForSeconds(1f);
 
         Assert.Greater(player.transform.position.z, initialPos.z, "Player did not move forward on input");
+        Assert.AreEqual(player.transform.rotation.eulerAngles.y, 0f, 1f, "Player did not look in the direction of travel");
     }
     
     [UnityTest]
@@ -124,14 +114,11 @@ public class PlayerCharacterMovementTests
         _inputMock.SetInputToMockGamepad(input);
 
         _inputMock.Press(_inputMock.Gamepad.leftStick, Vector2.down);
-        _inputMock.Press(_inputMock.Gamepad.rightStick, Vector2.up);
         yield return new WaitForSeconds(1f);
         _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
-        _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
-
-        yield return new WaitForSeconds(1f);
 
         Assert.Less(player.transform.position.z, initialPos.z, "Player did not move backwards on input");
+        Assert.AreEqual(player.transform.rotation.eulerAngles.y, 180f, 1f, "Player did not look in the direction of travel");
     }
     
     // Basic Player Look Direction Tests
@@ -148,8 +135,6 @@ public class PlayerCharacterMovementTests
         yield return new WaitForSeconds(1f);
         _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
 
-        yield return new WaitForSeconds(1f);
-
         Assert.AreEqual(player.transform.eulerAngles.y, 90f, 1f, "Player did not look right on input");
     }
     
@@ -164,7 +149,6 @@ public class PlayerCharacterMovementTests
         _inputMock.Press(_inputMock.Gamepad.rightStick, Vector2.left);
         yield return new WaitForSeconds(1f);
         _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
-        yield return new WaitForSeconds(1f);
 
         Assert.AreEqual(player.transform.eulerAngles.y, 270f, 1f, "Player did not look left on input");
     }
@@ -173,15 +157,13 @@ public class PlayerCharacterMovementTests
     public IEnumerator PlayerCharacter_LookForwardWithRightJoystick()
     {
         GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
-
+        player.transform.Rotate(new Vector3(0, 180f, 0), Space.World);
         PlayerInput input = player.GetComponent<PlayerInput>();
         _inputMock.SetInputToMockGamepad(input);
 
         _inputMock.Press(_inputMock.Gamepad.rightStick, Vector2.up);
         yield return new WaitForSeconds(1f);
         _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
-
-        yield return new WaitForSeconds(1f);
 
         Assert.AreEqual(player.transform.eulerAngles.y, 0f, 1f, "Player did not look forward on input");
     }
@@ -198,15 +180,13 @@ public class PlayerCharacterMovementTests
         yield return new WaitForSeconds(1f);
         _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
 
-        yield return new WaitForSeconds(1f);
-
         Assert.AreEqual(player.transform.eulerAngles.y, 180f, 1f, "Player did not look backwards on input");
     }
     
     // Movement and Look Direction Combined Tests
     
     [UnityTest]
-    public IEnumerator PlayerCharacter_MoveForwardAndLeftWhileLookingDownToTheRightUsingBothJoysticks()
+    public IEnumerator PlayerCharacter_MoveForwardLeftLookingDownRight()
     {
         GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
         
@@ -221,15 +201,13 @@ public class PlayerCharacterMovementTests
         _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
         _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
 
-        yield return new WaitForSeconds(1f);
-
         Assert.Greater(player.transform.position.z, initialPos.z, "Player did not move forward on input");
         Assert.Less(player.transform.position.x, initialPos.x, "Player did not move to the left on input");
         Assert.AreEqual(player.transform.rotation.eulerAngles.y, 135f, 1f, "Player did not look in the correct direction on input");
     }
 
     [UnityTest]
-    public IEnumerator PlayerCharacter_MoveForwardAndRightWhileLookingDownToTheLeftUsingBothJoysticks()
+    public IEnumerator PlayerCharacter_MoveForwardRightLookingDownLeft()
     {
         GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
         
@@ -244,15 +222,13 @@ public class PlayerCharacterMovementTests
         _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
         _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
 
-        yield return new WaitForSeconds(1f);
-
         Assert.Greater(player.transform.position.z, initialPos.z, "Player did not move forward on input");
         Assert.Greater(player.transform.position.x, initialPos.x, "Player did not move to the right on input");
         Assert.AreEqual(player.transform.rotation.eulerAngles.y, 225f, 1f, "Player did not look in the correct direction on input");
     }
 
     [UnityTest]
-    public IEnumerator PlayerCharacter_MoveBackwardAndLeftWhileLookingUpToTheRightUsingBothJoysticks()
+    public IEnumerator PlayerCharacter_MoveBackwardLeftLookingUpRight()
     {
         GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
 
@@ -267,15 +243,13 @@ public class PlayerCharacterMovementTests
         _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
         _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
 
-        yield return new WaitForSeconds(1f);
-
         Assert.Less(player.transform.position.z, initialPos.z, "Player did not move backward on input");
         Assert.Less(player.transform.position.x, initialPos.x, "Player did not move to the left on input");
         Assert.AreEqual(player.transform.rotation.eulerAngles.y, 45f, 1f, "Player did not look in the correct direction on input");
     }
 
     [UnityTest]
-    public IEnumerator PlayerCharacter_MoveBackwardAndRightWhileLookingUpToTheLeftUsingBothJoysticks()
+    public IEnumerator PlayerCharacter_MoveBackwardRightLookingUpLeft()
     {
         GameObject player = Object.Instantiate(TestResourceManager.Instance.GetResource("Mage Player"), Vector3.zero, Quaternion.identity);
 
@@ -289,8 +263,6 @@ public class PlayerCharacterMovementTests
         yield return new WaitForSeconds(1f);
         _inputMock.Release(_inputMock.Gamepad.leftStick, Vector2.zero);
         _inputMock.Release(_inputMock.Gamepad.rightStick, Vector2.zero);
-
-        yield return new WaitForSeconds(1f);
 
         Assert.Less(player.transform.position.z, initialPos.z, "Player did not move backward on input");
         Assert.Greater(player.transform.position.x, initialPos.x, "Player did not move to the right on input");
