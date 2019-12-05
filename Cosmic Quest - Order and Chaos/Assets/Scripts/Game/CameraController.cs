@@ -91,16 +91,17 @@ public class CameraController : MonoBehaviour
         }
 
         // Handle clamping along the z-axis
-        if (screenPos.y < deadBoundary)
+        float scaledDeadBoundary = deadBoundary + (_playerHeight * _invTanOfView);
+        if (screenPos.y < scaledDeadBoundary)
         {
             // Bottom edge
-            edgePos = _camera.ScreenToWorldPoint(new Vector3(0f, deadBoundary, 0f));
+            edgePos = _camera.ScreenToWorldPoint(new Vector3(0f, scaledDeadBoundary, 0f));
             targetPos.z = edgePos.z + ((edgePos.y - targetPos.y) * _invTanOfView);
         }
-        else if (screenPos.y > Screen.height - deadBoundary)
+        else if (screenPos.y > Screen.height - scaledDeadBoundary)
         {
             // Top edge
-            edgePos = _camera.ScreenToWorldPoint(new Vector3(0f, Screen.height - deadBoundary, 0f));
+            edgePos = _camera.ScreenToWorldPoint(new Vector3(0f, Screen.height - scaledDeadBoundary, 0f));
             targetPos.z = edgePos.z + ((edgePos.y - targetPos.y) * _invTanOfView);
         }
 
