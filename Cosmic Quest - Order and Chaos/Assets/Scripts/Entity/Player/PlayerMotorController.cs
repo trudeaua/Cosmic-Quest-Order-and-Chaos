@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerMotorController : MonoBehaviour
 {
     public float maxVelocity = 6.0f;
-    public float maxAcceleration = 20.0f;
+    public float maxAcceleration = 25.0f;
     public float rotationSpeed = 10.0f;
 
     private Rigidbody _rb;
@@ -104,14 +104,14 @@ public class PlayerMotorController : MonoBehaviour
         inputMoveDirection *= maxVelocity;
         AccelerateTo(inputMoveDirection);
 
+        // TODO add proper gravity to players. Should be able to detect if currently on the "ground", which is when it apply gravity
+
         // Don't clamp if player is stationary
         if (inputMoveDirection != Vector3.zero)
         {
             Vector3 clamped = _cameraController.ClampToScreenEdge(_rb.position);
             if (clamped != _rb.position)
             {
-                // TODO weird behaviour with gravity when position is clamped
-                clamped.y = _rb.position.y;
                 _rb.MovePosition(clamped);
             }
         }
