@@ -62,6 +62,8 @@ public class PlayerManager : MonoBehaviour
             playerMaterial.SetColor("_OutlineColor", colours.GetColour(characterColour));
             playerMaterial.SetTexture("_MainTex", testPlayerTexture);
             player.GetComponentInChildren<Renderer>().sharedMaterial = playerMaterial;
+
+            AssignWeaponColours(player, colours.GetColour(characterColour));
         }
     }
 
@@ -73,5 +75,28 @@ public class PlayerManager : MonoBehaviour
     public static void DeregisterPlayer(GameObject player)
     {
         Players.Remove(player);
+    }
+
+    private void AssignWeaponColours(GameObject player, Color color)
+    {
+        // Dynamically assign player weapon colours
+        Weapon weapon = player.GetComponentInChildren<Weapon>();
+        Transform[] weaponComponents = weapon.GetComponentsInChildren<Transform>();
+        float intensity = 2.0f;
+        foreach (Transform weaponComponent in weaponComponents)
+        {
+            if (weaponComponent.CompareTag("Weapon Glow"))
+            {
+                Material[] weaponMaterials = weaponComponent.GetComponent<Renderer>().materials;
+                int i = 0;
+                foreach (Material m in weaponMaterials)
+                {
+                    weaponMaterials[i].EnableKeyword("_EMISSION");
+                    weaponMaterials[i].SetColor("_Color", color);
+                    weaponMaterials[i].SetColor("_EmissionColor", color * intensity);
+                    i++;
+                }
+            }
+        }
     }
 }
