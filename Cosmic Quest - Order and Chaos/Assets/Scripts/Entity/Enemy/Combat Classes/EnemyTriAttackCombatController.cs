@@ -16,7 +16,6 @@ public class EnemyTriAttackCombatController : EnemyCombatController
             return;
         
         Anim.SetTrigger("PrimaryAttack");
-        Debug.Log(CanDamageTarget(Players[0].transform.position, attackRadius, attackAngle));
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
