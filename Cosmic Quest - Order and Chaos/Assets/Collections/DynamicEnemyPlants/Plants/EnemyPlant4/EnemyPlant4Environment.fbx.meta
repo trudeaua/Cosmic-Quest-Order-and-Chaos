@@ -1,27 +1,65 @@
 fileFormatVersion: 2
 guid: c32aaf1c691479543a3ca232923d2a61
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: EnemyPlant4Environment
-    100004: EnemyPlant4EnvironmentMesh
-    100006: Head
-    100008: Head_end
-    100010: Tail
-    100012: Tail_end
-    400000: //RootNode
-    400002: EnemyPlant4Environment
-    400004: EnemyPlant4EnvironmentMesh
-    400006: Head
-    400008: Head_end
-    400010: Tail
-    400012: Tail_end
-    2100000: EnemyPlant4Material
-    4300000: EnemyPlant4EnvironmentMesh
-    7400000: EnemyPlant4Environment|Idle
-    9500000: //RootNode
-    13700000: EnemyPlant4EnvironmentMesh
+  serializedVersion: 26
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: //RootNode
+  - first:
+      1: 100002
+    second: EnemyPlant4Environment
+  - first:
+      1: 100004
+    second: EnemyPlant4EnvironmentMesh
+  - first:
+      1: 100006
+    second: Head
+  - first:
+      1: 100008
+    second: Head_end
+  - first:
+      1: 100010
+    second: Tail
+  - first:
+      1: 100012
+    second: Tail_end
+  - first:
+      4: 400000
+    second: //RootNode
+  - first:
+      4: 400002
+    second: EnemyPlant4Environment
+  - first:
+      4: 400004
+    second: EnemyPlant4EnvironmentMesh
+  - first:
+      4: 400006
+    second: Head
+  - first:
+      4: 400008
+    second: Head_end
+  - first:
+      4: 400010
+    second: Tail
+  - first:
+      4: 400012
+    second: Tail_end
+  - first:
+      21: 2100000
+    second: EnemyPlant4Material
+  - first:
+      43: 4300000
+    second: EnemyPlant4EnvironmentMesh
+  - first:
+      74: 7400000
+    second: EnemyPlant4Environment|Idle
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: EnemyPlant4EnvironmentMesh
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -58,6 +96,7 @@ ModelImporter:
     - serializedVersion: 16
       name: EnemyPlant4Environment|Idle
       takeName: EnemyPlant4Environment|Idle
+      internalID: 0
       firstFrame: 0
       lastFrame: 100
       wrapMode: 0
@@ -67,7 +106,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -90,6 +129,7 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -97,18 +137,19 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -117,10 +158,11 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -130,6 +172,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

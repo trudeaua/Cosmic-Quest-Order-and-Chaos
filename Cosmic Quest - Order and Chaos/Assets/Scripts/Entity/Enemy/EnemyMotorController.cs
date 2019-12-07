@@ -43,8 +43,8 @@ public class EnemyMotorController : MonoBehaviour
             }
         }
 
-        // Set walk animation
-        _anim.SetBool("Walk Forward", _agent.velocity != Vector3.zero);
+        // Trigger walking animation
+        _anim.SetFloat("WalkSpeed", _agent.velocity.magnitude);
     }
 
     private void FaceTarget()

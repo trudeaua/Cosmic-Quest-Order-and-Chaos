@@ -2,12 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Animations;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyBrainController))]
 public class EnemyCombatController : EntityCombatController
 {
-    public float attackCooldown = 1f;
+    public float primaryAttackCooldown = 1f;
+    public float primaryAttackDelay = 0.6f;
+    
     public float attackRadius = 3f;
     public float attackAngle = 45f;
 
@@ -23,9 +26,9 @@ public class EnemyCombatController : EntityCombatController
         if (AttackCooldown > 0f)
             return;
         
-        AttackCooldown = attackCooldown;
+        AttackCooldown = primaryAttackCooldown;
 
-        Anim.SetTrigger("Stab Attack");
+        Anim.SetTrigger("PrimaryAttack");
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
@@ -34,7 +37,41 @@ public class EnemyCombatController : EntityCombatController
             StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
         }
     }
-    
+
+    public virtual void SecondaryAttack()
+    {
+        if (AttackCooldown > 0f)
+            return;
+
+        AttackCooldown = primaryAttackDelay;
+
+        Anim.SetTrigger("SecondaryAttack");
+
+        // Attack any enemies within the attack sweep and range
+        foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
+        {
+            // Calculate and perform damage
+            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
+        }
+    }
+
+    public virtual void Spell()
+    {
+        if (AttackCooldown > 0f)
+            return;
+
+        AttackCooldown = primaryAttackDelay;
+
+        Anim.SetTrigger("Spell");
+
+        // Attack any enemies within the attack sweep and range
+        foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
+        {
+            // Calculate and perform damage
+            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
+        }
+    }
+
     /// <summary>
     /// Determines if the enemy can deal damage to a player
     /// </summary>

@@ -52,4 +52,31 @@ public class EntityCombatController : MonoBehaviour
         GameObject projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab);
         projectile.GetComponent<Projectile>().Launch(Stats, direction, launchForce, range);
     }
+
+    protected IEnumerator CreateVFX(GameObject vfxPrefab, Transform transform, Quaternion rotation, float delay = 0f)
+    {
+        if (delay > 0f)
+            yield return new WaitForSeconds(delay);
+
+        GameObject vfx = Instantiate(vfxPrefab, transform.position, rotation);
+
+        var ps = GetFirstPS(vfx);
+
+        Destroy(vfx, ps.main.duration + ps.main.startLifetime.constantMax + 1);
+    }
+
+    private ParticleSystem GetFirstPS(GameObject vfx)
+    {
+        var ps = vfx.GetComponent<ParticleSystem>();
+        if (ps == null && vfx.transform.childCount > 0)
+        {
+            foreach (Transform t in vfx.transform)
+            {
+                ps = t.GetComponent<ParticleSystem>();
+                if (ps != null)
+                    return ps;
+            }
+        }
+        return ps;
+    }
 }

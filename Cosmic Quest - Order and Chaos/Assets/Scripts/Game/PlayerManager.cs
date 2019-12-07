@@ -89,6 +89,7 @@ public class PlayerManager : MonoBehaviour
             {
                 Material[] weaponMaterials = weaponComponent.GetComponent<Renderer>().materials;
                 int i = 0;
+                // the bow has more than 1 material assigned to one of its weapon parts
                 foreach (Material m in weaponMaterials)
                 {
                     weaponMaterials[i].EnableKeyword("_EMISSION");

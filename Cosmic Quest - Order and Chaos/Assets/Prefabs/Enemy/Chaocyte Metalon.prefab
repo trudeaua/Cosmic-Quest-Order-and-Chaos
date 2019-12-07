@@ -242,7 +242,7 @@ Animator:
   m_GameObject: {fileID: 3998384542858485005}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 85362401b9de12a46825d364b33c2734, type: 3}
-  m_Controller: {fileID: 9100000, guid: 4fe64d4532eb6da41b3a776fb600fa24, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5b786700324137b45a4344283a561f7c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -901,7 +901,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3998384542858485077}
-  m_LocalRotation: {x: -0.14529927, y: -0.69201744, z: 0.1452994, w: 0.6920175}
+  m_LocalRotation: {x: -0.14529927, y: -0.6920174, z: 0.1452994, w: 0.69201744}
   m_LocalPosition: {x: -0.000000052145573, y: 0.4358183, z: -1.1929562}
   m_LocalScale: {x: 0.9999998, y: 0.9999998, z: 1}
   m_Children: []
@@ -1567,11 +1567,11 @@ GameObject:
   - component: {fileID: 9167914555847376910}
   - component: {fileID: 9167914555847376944}
   - component: {fileID: 9167914555847376947}
-  - component: {fileID: 9167914555847376908}
   - component: {fileID: 9167914555847376911}
   - component: {fileID: 9167914555847376946}
+  - component: {fileID: 1980769448}
   m_Layer: 9
-  m_Name: Enemy
+  m_Name: Metalon Chaocyte
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1655,21 +1655,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbf61d82ceec0f41ae64dc94dab4842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9167914555847376908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9167914555847376949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c809a1d83694cec4b98f7793b0e3eeb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackCooldown: 1
-  attackRadius: 4
-  attackAngle: 45
 --- !u!114 &9167914555847376911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1708,3 +1693,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aggroRadius: 10
   decisionDelay: 0.5
+--- !u!114 &1980769448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9167914555847376949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca4e6cfd366a0174f89b2425827bb279, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primaryAttackCooldown: 0.9
+  primaryAttackDelay: 0.3
+  attackRadius: 3.5
+  attackAngle: 45
+  secondaryAttackCooldown: 1.1
+  secondaryAttackDelay: 0.44
+  spellCooldown: 1.1
+  spellAttackDelay: 0.28

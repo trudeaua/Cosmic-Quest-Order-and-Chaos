@@ -86,7 +86,7 @@ public class EnemyStatsController : EntityStatsController
     private IEnumerator EnemyDeath()
     {
         Anim.SetTrigger("Die");
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSeconds(5.0f);
         transform.gameObject.SetActive(false);
     }
 
