@@ -132,7 +132,7 @@ public class EnemyBrainController : MonoBehaviour
                     _combat.SecondaryAttack();
                     break;
                 case 2:
-                    _combat.Spell();
+                    _combat.TertiaryAttack();
                     break;
             }
         }

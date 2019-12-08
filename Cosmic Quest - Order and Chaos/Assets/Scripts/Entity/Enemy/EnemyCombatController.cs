@@ -22,60 +22,26 @@ public class EnemyCombatController : EntityCombatController
     private void Start()
     {
         Players = PlayerManager.Players;
+        // Create a VFX where the enemy will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the enemy colour
         StartCoroutine(CreateVFX(spawnVFX, new Vector3(gameObject.transform.position.x, 0.1f, gameObject.transform.position.z), 
-            Quaternion.identity, pl.GetColour(Stats.characterColour), 0.5f));
+            Quaternion.identity, PlayerManager.colours.GetColour(Stats.characterColour), 0.5f));
+        // "Spawn" the enemy (they float up through the stage)
         StartCoroutine(Spawn(gameObject, 0.05f, 0.9f));
     }
 
     public virtual void PrimaryAttack()
     {
-        if (AttackCooldown > 0f)
-            return;
-        
-        AttackCooldown = primaryAttackCooldown;
-
-        Anim.SetTrigger("PrimaryAttack");
-
-        // Attack any enemies within the attack sweep and range
-        foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
-        {
-            // Calculate and perform damage
-            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
-        }
+        Debug.Log(gameObject.name + "'s primary attack triggered");
     }
 
     public virtual void SecondaryAttack()
     {
-        if (AttackCooldown > 0f)
-            return;
-
-        AttackCooldown = primaryAttackDelay;
-
-        Anim.SetTrigger("SecondaryAttack");
-
-        // Attack any enemies within the attack sweep and range
-        foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
-        {
-            // Calculate and perform damage
-            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
-        }
+        Debug.Log(gameObject.name + "'s secondary attack triggered");
     }
 
-    public virtual void Spell()
+    public virtual void TertiaryAttack()
     {
-        if (AttackCooldown > 0f)
-            return;
-
-        AttackCooldown = primaryAttackDelay;
-
-        Anim.SetTrigger("Spell");
-
-        // Attack any enemies within the attack sweep and range
-        foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
-        {
-            // Calculate and perform damage
-            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
-        }
+        Debug.Log(gameObject.name + "'s tertiary attack triggered");
     }
 
     /// <summary>
@@ -108,6 +74,7 @@ public class EnemyCombatController : EntityCombatController
 
     protected override IEnumerator Spawn(GameObject obj, float speed = 0.05F, float delay = 0)
     {
+        // weird stuff happens when the nav mesh is enabled during the spawn
         obj.GetComponent<NavMeshAgent>().enabled = false;
         yield return base.Spawn(obj, speed, delay);
         obj.GetComponent<NavMeshAgent>().enabled = true;

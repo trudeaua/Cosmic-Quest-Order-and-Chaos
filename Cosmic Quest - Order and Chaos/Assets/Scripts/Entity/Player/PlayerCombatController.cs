@@ -12,7 +12,10 @@ public class PlayerCombatController : EntityCombatController
 
     protected virtual void Start()
     {
-        StartCoroutine(CreateVFX(spawnVFX, new Vector3(gameObject.transform.position.x, 0.1f, gameObject.transform.position.z), Quaternion.identity, pl.GetColour(Stats.characterColour), 0.5f));
+        // Create a VFX where the player will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the player colour
+        StartCoroutine(CreateVFX(spawnVFX, new Vector3(gameObject.transform.position.x, 0.1f, gameObject.transform.position.z), 
+            Quaternion.identity, PlayerManager.colours.GetColour(Stats.characterColour), 0.5f));
+        // "Spawn" the player (they float up through the stage)
         StartCoroutine(Spawn(gameObject, 0.08f, 0.9f));
     }
 

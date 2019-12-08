@@ -23,14 +23,4 @@ public class EnemySingleAttackCombatController : EnemyCombatController
 
         AttackCooldown = primaryAttackCooldown;
     }
-
-    public override void SecondaryAttack()
-    {
-        PrimaryAttack();
-    }
-
-    public override void Spell()
-    {
-        PrimaryAttack();
-    }
 }

@@ -38,7 +38,7 @@ public class PlayerManager : MonoBehaviour
 
     public static readonly List<GameObject> Players = new List<GameObject>();
 
-    public PlayerColours colours = new PlayerColours();
+    public static PlayerColours colours = new PlayerColours();
     
     // TODO change this to a pool of textures, or assigned to a player at class selection
     public Texture testPlayerTexture;
@@ -58,8 +58,6 @@ public class PlayerManager : MonoBehaviour
             playerMaterial.SetColor("_OutlineColor", playerColour);
             playerMaterial.SetTexture("_MainTex", testPlayerTexture);
             player.GetComponentInChildren<Renderer>().sharedMaterial = playerMaterial;
-
-            AssignWeaponColours(player, playerColour);
         }
     }
 
@@ -76,29 +74,5 @@ public class PlayerManager : MonoBehaviour
     public static void DeregisterPlayer(GameObject player)
     {
         Players.Remove(player);
-    }
-
-    private void AssignWeaponColours(GameObject player, Color color)
-    {
-        // Dynamically assign player weapon colours
-        Weapon weapon = player.GetComponentInChildren<Weapon>();
-        Transform[] weaponComponents = weapon.GetComponentsInChildren<Transform>();
-        float intensity = 2.0f;
-        foreach (Transform weaponComponent in weaponComponents)
-        {
-            if (weaponComponent.CompareTag("Weapon Glow"))
-            {
-                Material[] weaponMaterials = weaponComponent.GetComponent<Renderer>().materials;
-                int i = 0;
-                // the bow has more than 1 material assigned to one of its weapon parts
-                foreach (Material m in weaponMaterials)
-                {
-                    weaponMaterials[i].EnableKeyword("_EMISSION");
-                    weaponMaterials[i].SetColor("_Color", color);
-                    weaponMaterials[i].SetColor("_EmissionColor", color * intensity);
-                    i++;
-                }
-            }
-        }
     }
 }

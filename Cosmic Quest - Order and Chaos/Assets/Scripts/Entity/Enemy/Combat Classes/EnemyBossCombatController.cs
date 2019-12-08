@@ -8,9 +8,9 @@ public class EnemyBossCombatController : EnemyCombatController
 {
     public float secondaryAttackCooldown = 1f;
     public float secondaryAttackDelay = 0.6f;
-    public float spellCooldown = 1f;
-    public float spellAttackDelay = 0.6f;
-    public GameObject spellVFX;
+    public float tertiaryAttackCooldown = 1f;
+    public float tertiaryAttackDelay = 0.6f;
+    public GameObject tertiaryAttackVFX;
     public override void PrimaryAttack()
     {
         if (AttackCooldown > 0f)
@@ -43,20 +43,21 @@ public class EnemyBossCombatController : EnemyCombatController
         AttackCooldown = secondaryAttackCooldown;
     }
 
-    public override void Spell()
+    public override void TertiaryAttack()
     {
         if (AttackCooldown > 0f)
             return;
 
-        Anim.SetTrigger("Spell");
-        StartCoroutine(CreateVFX(spellVFX, gameObject.transform.position, gameObject.transform.rotation, pl.GetColour(Stats.characterColour), spellAttackDelay * 0.5f));
+        Anim.SetTrigger("TertiaryAttack");
+        StartCoroutine(CreateVFX(tertiaryAttackVFX, gameObject.transform.position, gameObject.transform.rotation, 
+            PlayerManager.colours.GetColour(Stats.characterColour), tertiaryAttackDelay * 0.5f));
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
         {
             // Calculate and perform damage
-            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), spellAttackDelay * 0.5f));
+            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), tertiaryAttackDelay * 0.5f));
         }
-        AttackCooldown = spellCooldown;
+        AttackCooldown = tertiaryAttackCooldown;
     }
 }

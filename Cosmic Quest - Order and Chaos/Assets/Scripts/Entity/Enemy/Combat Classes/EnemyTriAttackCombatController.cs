@@ -8,8 +8,8 @@ public class EnemyTriAttackCombatController : EnemyCombatController
 {
     public float secondaryAttackCooldown = 1f;
     public float secondaryAttackDelay = 0.6f;
-    public float spellCooldown = 1f;
-    public float spellAttackDelay = 0.6f;
+    public float tertiaryAttackCooldown = 1f;
+    public float tertiaryAttackDelay = 0.6f;
     public override void PrimaryAttack()
     {
         if (AttackCooldown > 0f)
@@ -45,20 +45,20 @@ public class EnemyTriAttackCombatController : EnemyCombatController
         AttackCooldown = secondaryAttackCooldown;
     }
 
-    public override void Spell()
+    public override void TertiaryAttack()
     {
         if (AttackCooldown > 0f)
             return;
 
-        Anim.SetTrigger("Spell");
+        Anim.SetTrigger("TertiaryAttack");
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
         {
             // Calculate and perform damage
-            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), spellAttackDelay));
+            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), tertiaryAttackDelay));
         }
 
-        AttackCooldown = spellCooldown;
+        AttackCooldown = tertiaryAttackCooldown;
     }
 }

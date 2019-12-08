@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
     private Vector3 _initialPosition;
     private Rigidbody _rb;
 
-    private const float ProjectileHeight = 1f;
+    private const float ProjectileHeight = 1.1f;
 
     protected EntityStatsController LauncherStats;
 
@@ -35,7 +35,7 @@ public class Projectile : MonoBehaviour
         
         // Set position just in front of launcher
         _initialPosition = launcherStats.transform.position + launcherStats.transform.forward;
-        _initialPosition.y = ProjectileHeight + 0.1f;
+        _initialPosition.y = ProjectileHeight;
         transform.position = _initialPosition;
         
         // Set rotation to launch direction

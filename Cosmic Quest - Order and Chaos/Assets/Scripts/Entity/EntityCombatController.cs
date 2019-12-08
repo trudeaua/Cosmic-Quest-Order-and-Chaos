@@ -10,8 +10,6 @@ public class EntityCombatController : MonoBehaviour
     protected float AttackCooldown;
 
     protected Collider[] Hits = new Collider[32];
-    protected PlayerColours pl = new PlayerColours();
-
 
     protected virtual void Awake()
     {

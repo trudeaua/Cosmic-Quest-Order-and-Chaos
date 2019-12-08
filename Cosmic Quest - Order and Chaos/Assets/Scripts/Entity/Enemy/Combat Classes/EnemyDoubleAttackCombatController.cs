@@ -41,9 +41,4 @@ public class EnemyDoubleAttackCombatController : EnemyCombatController
 
         AttackCooldown = secondaryAttackCooldown;
     }
-
-    public override void Spell()
-    {
-        PrimaryAttack();
-    }
 }

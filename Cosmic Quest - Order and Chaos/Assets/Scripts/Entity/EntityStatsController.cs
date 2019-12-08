@@ -44,7 +44,6 @@ public class EntityStatsController : MonoBehaviour
     {
         if (!isDead)
             health.Regen();
-        Debug.Log(health.CurrentValue);
     }
 
     public virtual void TakeDamage(EntityStatsController attacker, float damageValue, float timeModifier = 1f)

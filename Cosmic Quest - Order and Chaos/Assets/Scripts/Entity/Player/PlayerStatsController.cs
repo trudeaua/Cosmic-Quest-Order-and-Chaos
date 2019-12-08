@@ -24,6 +24,11 @@ public class PlayerStatsController : EntityStatsController
         Anim.enabled = true;
     }
 
+    private void Start()
+    {
+        // colour the player's weapon
+        AssignWeaponColour(gameObject, PlayerManager.colours.GetColour(characterColour));
+    }
 
     protected override void Update()
     {
@@ -61,5 +66,42 @@ public class PlayerStatsController : EntityStatsController
             collider.enabled = enable;
         }
         thisCollider.enabled = !enable;
+    }
+
+    private void AssignWeaponColour(GameObject player, Color color)
+    {
+        // Get the player weapon
+        Transform[] children = player.GetComponentsInChildren<Transform>();
+        GameObject weapon = null;
+        for (int i = 0; i < children.Length; i++)
+        {
+            if (children[i].CompareTag("Weapon"))
+            {
+                weapon = children[i].gameObject;
+                break;
+            }
+        }
+        // Dynamically assign player weapon colours
+        if (weapon != null)
+        {
+            Transform[] weaponComponents = weapon.GetComponentsInChildren<Transform>();
+            float intensity = 2.0f;
+            foreach (Transform weaponComponent in weaponComponents)
+            {
+                if (weaponComponent.CompareTag("Weapon Glow"))
+                {
+                    Material[] weaponMaterials = weaponComponent.GetComponent<Renderer>().materials;
+                    int i = 0;
+                    // the bow has more than 1 material assigned to one of its weapon parts
+                    foreach (Material m in weaponMaterials)
+                    {
+                        weaponMaterials[i].EnableKeyword("_EMISSION");
+                        weaponMaterials[i].SetColor("_Color", color);
+                        weaponMaterials[i].SetColor("_EmissionColor", color * intensity);
+                        i++;
+                    }
+                }
+            }
+        }
     }
 }

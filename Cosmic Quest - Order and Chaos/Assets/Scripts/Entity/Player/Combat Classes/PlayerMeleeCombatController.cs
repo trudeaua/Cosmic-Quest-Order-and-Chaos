@@ -48,7 +48,8 @@ public class PlayerMeleeCombatController : PlayerCombatController
             return;
         
         AttackCooldown = secondaryAttackCooldown;
-        StartCoroutine(CreateVFX(secondaryVFX, gameObject.transform.position, gameObject.transform.rotation, pl.GetColour(Stats.characterColour),  0.6f));
+        StartCoroutine(CreateVFX(secondaryVFX, gameObject.transform.position, gameObject.transform.rotation, 
+            PlayerManager.colours.GetColour(Stats.characterColour),  0.6f));
 
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(secondaryAttackRadius);
@@ -99,7 +100,6 @@ public class PlayerMeleeCombatController : PlayerCombatController
     private IEnumerator FinishPrimaryAttack()
     {
         yield return new WaitForSeconds(primaryAttackCooldown);
-        Debug.Log(primaryAttackCooldown);
         Anim.SetBool("PrimaryAttack", false);
     }
 }
