@@ -11,17 +11,7 @@ public enum CharacterColour
     Purple
 }
 
-public interface IEntityStatsController
-{
-    bool isDead { get; }
-
-    float ComputeDamageModifer();
-    float ComputeDefenseModifier();
-    void TakeDamage(EntityStatsController attacker, float damageValue, float timeModifier = 1);
-    void TakeExplosionDamage(EntityStatsController attacker, float maxDamage, float stunTime, float explosionForce, Vector3 explosionPoint, float explosionRadius);
-}
-
-public class EntityStatsController : MonoBehaviour, IEntityStatsController
+public class EntityStatsController : MonoBehaviour
 {
     // Common entity regenerable stats
     public RegenerableStat health;
@@ -54,6 +44,7 @@ public class EntityStatsController : MonoBehaviour, IEntityStatsController
     {
         if (!isDead)
             health.Regen();
+        Debug.Log(health.CurrentValue);
     }
 
     public virtual void TakeDamage(EntityStatsController attacker, float damageValue, float timeModifier = 1f)
@@ -61,7 +52,7 @@ public class EntityStatsController : MonoBehaviour, IEntityStatsController
         // Ignore attacks if already dead
         if (isDead)
             return;
-
+        Anim.SetTrigger("TakeDamage");
         // Calculate any changes based on stats and modifiers here first
         float hitValue = (damageValue - ComputeDefenseModifier()) * timeModifier;
         health.Subtract(hitValue < 0 ? 0 : hitValue);

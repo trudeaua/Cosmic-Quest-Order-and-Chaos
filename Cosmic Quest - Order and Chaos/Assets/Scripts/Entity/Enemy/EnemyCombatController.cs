@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(EnemyBrainController))]
 public class EnemyCombatController : EntityCombatController
@@ -14,11 +15,16 @@ public class EnemyCombatController : EntityCombatController
     public float attackRadius = 3f;
     public float attackAngle = 45f;
 
+    public GameObject spawnVFX;
+
     protected List<GameObject> Players;
 
     private void Start()
     {
         Players = PlayerManager.Players;
+        StartCoroutine(CreateVFX(spawnVFX, new Vector3(gameObject.transform.position.x, 0.1f, gameObject.transform.position.z), 
+            Quaternion.identity, pl.GetColour(Stats.characterColour), 0.5f));
+        StartCoroutine(Spawn(gameObject, 0.05f, 0.9f));
     }
 
     public virtual void PrimaryAttack()
@@ -98,5 +104,12 @@ public class EnemyCombatController : EntityCombatController
         }
 
         return false;
+    }
+
+    protected override IEnumerator Spawn(GameObject obj, float speed = 0.05F, float delay = 0)
+    {
+        obj.GetComponent<NavMeshAgent>().enabled = false;
+        yield return base.Spawn(obj, speed, delay);
+        obj.GetComponent<NavMeshAgent>().enabled = true;
     }
 }

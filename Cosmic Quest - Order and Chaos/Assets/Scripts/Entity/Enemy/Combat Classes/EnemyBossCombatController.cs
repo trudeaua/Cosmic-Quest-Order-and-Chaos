@@ -49,13 +49,13 @@ public class EnemyBossCombatController : EnemyCombatController
             return;
 
         Anim.SetTrigger("Spell");
-        StartCoroutine(CreateVFX(spellVFX, gameObject.transform, gameObject.transform.rotation, spellAttackDelay * 0.5f));
+        StartCoroutine(CreateVFX(spellVFX, gameObject.transform.position, gameObject.transform.rotation, pl.GetColour(Stats.characterColour), spellAttackDelay * 0.5f));
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
         {
             // Calculate and perform damage
-            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), spellAttackDelay));
+            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), spellAttackDelay * 0.5f));
         }
         AttackCooldown = spellCooldown;
     }

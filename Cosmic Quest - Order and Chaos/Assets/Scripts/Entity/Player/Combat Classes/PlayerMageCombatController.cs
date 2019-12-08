@@ -52,7 +52,7 @@ public class PlayerMageCombatController : PlayerCombatController
             return;
 
         AttackCooldown = secondaryAttackCooldown;
-        StartCoroutine(CreateVFX(secondaryVFX, gameObject.transform, Quaternion.identity));
+        StartCoroutine(CreateVFX(secondaryVFX, gameObject.transform.position, Quaternion.identity, pl.GetColour(Stats.characterColour)));
 
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(secondaryAttackRadius);

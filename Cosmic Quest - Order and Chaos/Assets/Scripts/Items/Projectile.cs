@@ -35,7 +35,7 @@ public class Projectile : MonoBehaviour
         
         // Set position just in front of launcher
         _initialPosition = launcherStats.transform.position + launcherStats.transform.forward;
-        _initialPosition.y = ProjectileHeight;
+        _initialPosition.y = ProjectileHeight + 0.1f;
         transform.position = _initialPosition;
         
         // Set rotation to launch direction

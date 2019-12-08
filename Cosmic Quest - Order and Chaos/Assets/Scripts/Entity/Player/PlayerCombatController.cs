@@ -8,11 +8,12 @@ public class PlayerCombatController : EntityCombatController
 {
     [SerializeField] protected float primaryAttackCooldown;
     [SerializeField] protected float secondaryAttackCooldown;
+    public GameObject spawnVFX;
 
-    protected override void Awake()
+    protected virtual void Start()
     {
-        base.Awake();
-        DetermineCooldowns();
+        StartCoroutine(CreateVFX(spawnVFX, new Vector3(gameObject.transform.position.x, 0.1f, gameObject.transform.position.z), Quaternion.identity, pl.GetColour(Stats.characterColour), 0.5f));
+        StartCoroutine(Spawn(gameObject, 0.08f, 0.9f));
     }
 
     protected virtual void PrimaryAttack()
@@ -106,42 +107,6 @@ public class PlayerCombatController : EntityCombatController
         if (value.isPressed)
         {
             UltimateAbility();
-        }
-    }
-
-    /// <summary>
-    /// Determines attack cooldown times based on the animations in the Animator Controller
-    /// </summary>
-    protected virtual void DetermineCooldowns()
-    {
-        primaryAttackCooldown = 0f;
-        secondaryAttackCooldown = 0f;
-
-        // access the AC state machine's base layer
-        AnimatorController ac = Anim.runtimeAnimatorController as AnimatorController;
-        AnimatorStateMachine sm = ac.layers[0].stateMachine;
-
-        for (int i = 0; i < sm.states.Length; i++)
-        {
-            // Determine the length of the entire primary attack
-            ChildAnimatorState state = sm.states[i];
-            if (state.state.name.Contains("PrimaryAttack"))
-            {
-                AnimationClip clip = state.state.motion as AnimationClip;
-                if (clip != null)
-                {
-                    primaryAttackCooldown += clip.length / state.state.speed;
-                }
-            }
-            // Determine the length of the entire secondary attack
-            if (state.state.name.Contains("SecondaryAttack"))
-            {
-                AnimationClip clip = state.state.motion as AnimationClip;
-                if (clip != null)
-                {
-                    secondaryAttackCooldown += clip.length / state.state.speed;
-                }
-            }
         }
     }
 }
