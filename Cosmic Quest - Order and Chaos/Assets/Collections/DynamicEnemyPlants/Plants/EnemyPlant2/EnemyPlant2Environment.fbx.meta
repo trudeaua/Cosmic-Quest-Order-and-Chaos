@@ -1,31 +1,77 @@
 fileFormatVersion: 2
 guid: a4e593ec699702c4f8df3ba4707220fd
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: Armature
-    100002: Arms
-    100004: Arms_end
-    100006: //RootNode
-    100008: EnemyPlant2Mesh
-    100010: Head
-    100012: Head_end
-    100014: Root
-    400000: Armature
-    400002: Arms
-    400004: Arms_end
-    400006: //RootNode
-    400008: EnemyPlant2Mesh
-    400010: Head
-    400012: Head_end
-    400014: Root
-    2100000: EnemyPlant2Material
-    4300000: EnemyPlant2Mesh
-    7400000: Idle
-    7400002: EnemyPlant2Environment|Idle1
-    9500000: //RootNode
-    11100000: //RootNode
-    13700000: EnemyPlant2Mesh
+  serializedVersion: 26
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Armature
+  - first:
+      1: 100002
+    second: Arms
+  - first:
+      1: 100004
+    second: Arms_end
+  - first:
+      1: 100006
+    second: //RootNode
+  - first:
+      1: 100008
+    second: EnemyPlant2Mesh
+  - first:
+      1: 100010
+    second: Head
+  - first:
+      1: 100012
+    second: Head_end
+  - first:
+      1: 100014
+    second: Root
+  - first:
+      4: 400000
+    second: Armature
+  - first:
+      4: 400002
+    second: Arms
+  - first:
+      4: 400004
+    second: Arms_end
+  - first:
+      4: 400006
+    second: //RootNode
+  - first:
+      4: 400008
+    second: EnemyPlant2Mesh
+  - first:
+      4: 400010
+    second: Head
+  - first:
+      4: 400012
+    second: Head_end
+  - first:
+      4: 400014
+    second: Root
+  - first:
+      21: 2100000
+    second: EnemyPlant2Material
+  - first:
+      43: 4300000
+    second: EnemyPlant2Mesh
+  - first:
+      74: 7400000
+    second: Idle
+  - first:
+      74: 7400002
+    second: EnemyPlant2Environment|Idle1
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      111: 11100000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: EnemyPlant2Mesh
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -62,6 +108,7 @@ ModelImporter:
     - serializedVersion: 16
       name: EnemyPlant2Environment|Idle1
       takeName: Armature|Idle
+      internalID: 0
       firstFrame: 0
       lastFrame: 60
       wrapMode: 0
@@ -71,7 +118,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -94,6 +141,7 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -101,18 +149,19 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -121,10 +170,11 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -134,6 +184,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 1

@@ -36,7 +36,7 @@ public class EnemyStatsController : EntityStatsController
         float hitValue = (damageValue - ComputeDefenseModifier()) * timeModifier;
         health.Subtract(hitValue < 0 ? 0 : hitValue);
         ShowDamage(hitValue);
-
+        Anim.SetTrigger("TakeDamage");
         // Pass damage information to brain
         _brain.OnDamageTaken(attacker.gameObject, hitValue);
         
@@ -55,7 +55,7 @@ public class EnemyStatsController : EntityStatsController
         Vector3 random = new Vector3(Random.Range(-x, x), Random.Range(-y, y));
 
         GameObject text = Instantiate(FloatingText, transform.position + offset + random, Quaternion.identity, transform);
-        text.GetComponent<TMP_Text>().text = damage.ToString("F1");
+        text.GetComponent<TMP_Text>().text = damage.ToString("F2");
 
         Destroy(text, duration);
     }
@@ -86,7 +86,7 @@ public class EnemyStatsController : EntityStatsController
     private IEnumerator EnemyDeath()
     {
         Anim.SetTrigger("Die");
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSeconds(5.0f);
         transform.gameObject.SetActive(false);
     }
 

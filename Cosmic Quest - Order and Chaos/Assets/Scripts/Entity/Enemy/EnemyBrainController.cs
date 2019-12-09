@@ -121,7 +121,20 @@ public class EnemyBrainController : MonoBehaviour
         float distance = (_currentTarget.Player.transform.position - transform.position).sqrMagnitude;
         if (distance <= _combat.attackRadius * _combat.attackRadius)
         {
-            _combat.PrimaryAttack();
+            // TODO make decision on whether to do primary attack, secondary attack, or spell (when applicable).
+            // For now it's random and they all do the same damage
+            int whichAttack = Random.Range(0, 3);
+            switch (whichAttack) {
+                case 0:
+                    _combat.PrimaryAttack();
+                    break;
+                case 1:
+                    _combat.SecondaryAttack();
+                    break;
+                case 2:
+                    _combat.TertiaryAttack();
+                    break;
+            }
         }
     }
 

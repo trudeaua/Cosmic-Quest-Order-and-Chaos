@@ -75,7 +75,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 6.684874e-10, y: 0.0052617434, z: -8.0763185e-10}
+  m_ConnectedAnchor: {x: 0.0000000019672628, y: 0.0052617434, z: 8.212743e-10}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
@@ -754,6 +754,50 @@ Transform:
   m_Father: {fileID: 6017618322313362530}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2540289223264831835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4936964896807725293}
+  - component: {fileID: 2297593507006745267}
+  m_Layer: 0
+  m_Name: Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4936964896807725293
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2540289223264831835}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5006512736335366412}
+  m_Father: {fileID: 6527494867312825266}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2297593507006745267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2540289223264831835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a969a631510dbc94ea7f6d375943f4d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2660156615512673812
 GameObject:
   m_ObjectHideFlags: 0
@@ -829,7 +873,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0033552186, y: 0.007905632, z: 0.00082375214}
+  m_ConnectedAnchor: {x: -0.0033552207, y: 0.007905631, z: 0.0008237568}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -968,7 +1012,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0.003219512, z: -5.216592e-10}
+  m_ConnectedAnchor: {x: -6.9757966e-10, y: 0.003219512, z: -0.0000000029081733}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -1107,7 +1151,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 1.5292573e-10, y: 0.011286064, z: 0.0011590635}
+  m_ConnectedAnchor: {x: -4.909913e-10, y: 0.011286064, z: 0.0011590617}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -1738,7 +1782,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.000000001266016, y: 0.004707752, z: -1.16414524e-10}
+  m_ConnectedAnchor: {x: 9.1677016e-10, y: 0.00470775, z: -1.16414524e-10}
   serializedVersion: 2
   m_SwingAxis: {x: 1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -1861,7 +1905,7 @@ Transform:
   m_Children:
   - {fileID: 4412814135564410425}
   - {fileID: 8449390661424697712}
-  - {fileID: 5006512736335366412}
+  - {fileID: 4936964896807725293}
   m_Father: {fileID: 563517519923227643}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2129,7 +2173,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0020152912, y: 0.0005846304, z: 0.0000000013699021}
+  m_ConnectedAnchor: {x: 0.0020152915, y: 0.0005846304, z: 0.000000004862419}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
@@ -2260,8 +2304,8 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -2314,7 +2358,7 @@ MonoBehaviour:
     m_ActionName: Player/Primary Attack[/XInputControllerWindows/rightShoulder,/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
-  m_DefaultActionMap: 9c4661d3-068a-4bc4-880d-e45624c55b69
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &6347770635181394819
@@ -2391,7 +2435,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primaryAttackCooldown: 0.5
   secondaryAttackCooldown: 4
-  primaryAttackRange: 3
+  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
+  primaryAttackRange: 4
   primaryAttackAngle: 60
   primaryAttackDps: 5
   secondaryAttackRadius: 8
@@ -2473,7 +2518,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -8.657917e-10, y: 0.005261747, z: 2.6739133e-10}
+  m_ConnectedAnchor: {x: 1.0458619e-10, y: 0.0052617462, z: 0.000000003869898}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
@@ -2706,7 +2751,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0020152912, y: 0.00058463047, z: 0.000000001507336}
+  m_ConnectedAnchor: {x: -0.0020152924, y: 0.00058463047, z: 0.0000000049995967}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
@@ -2876,7 +2921,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -2.037254e-10, y: 0.004707757, z: 0.0000000040163237}
+  m_ConnectedAnchor: {x: -0.0000000025320155, y: 0.0047077565, z: 0.0000000050640603}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -2985,7 +3030,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0033552188, y: 0.007905632, z: 0.00082375266}
+  m_ConnectedAnchor: {x: 0.0033552195, y: 0.007905631, z: 0.00082375726}
   serializedVersion: 2
   m_SwingAxis: {x: 1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -3024,27 +3069,57 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 6527494867312825266}
+    m_TransformParent: {fileID: 4936964896807725293}
     m_Modifications:
     - target: {fileID: -927199367670048503, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_Name
-      value: Purple Staff
+      value: Staff
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_TagString
       value: Weapon
       objectReference: {fileID: 0}
+    - target: {fileID: -8052994932809076077, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Staff Large Decoration
+      objectReference: {fileID: 0}
+    - target: {fileID: -8052994932809076077, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
+    - target: {fileID: -4473984409997532297, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Staff Small Decoration
+      objectReference: {fileID: 0}
+    - target: {fileID: -4473984409997532297, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
+    - target: {fileID: -3869127443668809106, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Staff Top Gem
+      objectReference: {fileID: 0}
+    - target: {fileID: -3164220449637510858, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Discs
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.0008
+      value: 0.0008000004
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0016
+      value: 0.0016000114
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
@@ -3059,22 +3134,22 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.00000006332993
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 0.000000023705066
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
@@ -3094,18 +3169,98 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1
+      value: 0.10000007
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.17
+      value: 0.17000006
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.1
+      value: 0.10000004
       objectReference: {fileID: 0}
+    - target: {fileID: 856365191234717131, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
+    - target: {fileID: -7455685359145607950, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Remaining Discs
+      objectReference: {fileID: 0}
+    - target: {fileID: -6236743471014415788, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Disc 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6236743471014415788, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
+    - target: {fileID: -4861924686910468554, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
+    - target: {fileID: 1135244083771908629, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Disc 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1135244083771908629, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
+    - target: {fileID: 5218053877760515484, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
+    - target: {fileID: 5984388485589536855, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Remaining Discs
+      objectReference: {fileID: 0}
+    - target: {fileID: -9064309303332522412, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Disc 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -9064309303332522412, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
+    - target: {fileID: -7114577863419070732, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Disc 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -7114577863419070732, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
+    - target: {fileID: 2406916848136235212, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
+    - target: {fileID: 8662461212079705727, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
+    - target: {fileID: -135972579220929086, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7d0103c003ce0e4f8184ead0f3694e9, type: 3}
 --- !u!4 &5006512736335366412 stripped

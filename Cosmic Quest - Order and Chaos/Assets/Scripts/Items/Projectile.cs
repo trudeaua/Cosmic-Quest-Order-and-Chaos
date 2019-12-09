@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
     private Vector3 _initialPosition;
     private Rigidbody _rb;
 
-    private const float ProjectileHeight = 1f;
+    private const float ProjectileHeight = 1.1f;
 
     protected EntityStatsController LauncherStats;
 

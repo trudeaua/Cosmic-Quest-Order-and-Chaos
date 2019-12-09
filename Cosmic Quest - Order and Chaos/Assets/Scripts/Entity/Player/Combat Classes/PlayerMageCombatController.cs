@@ -52,7 +52,7 @@ public class PlayerMageCombatController : PlayerCombatController
             return;
 
         AttackCooldown = secondaryAttackCooldown;
-        StartCoroutine(CreateVFX(secondaryVFX, gameObject.transform, Quaternion.identity));
+        StartCoroutine(CreateVFX(secondaryVFX, gameObject.transform.position, Quaternion.identity, PlayerManager.colours.GetColour(Stats.characterColour)));
 
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(secondaryAttackRadius);
@@ -75,13 +75,11 @@ public class PlayerMageCombatController : PlayerCombatController
     {
         _isPrimaryActive = value.isPressed && AttackCooldown <= 0;
         Anim.SetBool("PrimaryAttack", _isPrimaryActive);
-        Debug.Log("Primary");
     }
 
     protected override void OnSecondaryAttack(InputValue value)
     {
         bool isPressed = value.isPressed;
-        Debug.Log("Secondary");
         if (AttackCooldown <= 0 && !_isPrimaryActive)
         {
             if (isPressed)

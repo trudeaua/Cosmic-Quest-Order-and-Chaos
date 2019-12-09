@@ -1,48 +1,128 @@
 fileFormatVersion: 2
 guid: 31a488cc1655af94191b6ca9f0c29193
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: ArmLower.L
-    100002: ArmLower.R
-    100004: ArmUpper.L
-    100006: ArmUpper.L_end
-    100008: ArmUpper.R
-    100010: ArmUpper.R_end
-    100012: //RootNode
-    100014: EnemyPlant4
-    100016: EnemyPlant4Mesh
-    100018: Head
-    100020: Head_end
-    100022: Root
-    100024: Stem1
-    100026: Stem2
-    100028: Stem3
-    400000: ArmLower.L
-    400002: ArmLower.R
-    400004: ArmUpper.L
-    400006: ArmUpper.L_end
-    400008: ArmUpper.R
-    400010: ArmUpper.R_end
-    400012: //RootNode
-    400014: EnemyPlant4
-    400016: EnemyPlant4Mesh
-    400018: Head
-    400020: Head_end
-    400022: Root
-    400024: Stem1
-    400026: Stem2
-    400028: Stem3
-    2100000: EnemyPlant4Material
-    4300000: EnemyPlant4Mesh
-    7400000: EnemyPlant4|Death
-    7400002: EnemyPlant4|Idle
-    7400004: EnemyPlant4|IdleReady
-    7400006: EnemyPlant4|MeleeAttack
-    7400008: EnemyPlant4|RangeAttack
-    7400010: EnemyPlant4|Spell
-    9500000: //RootNode
-    13700000: EnemyPlant4Mesh
+  serializedVersion: 26
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: ArmLower.L
+  - first:
+      1: 100002
+    second: ArmLower.R
+  - first:
+      1: 100004
+    second: ArmUpper.L
+  - first:
+      1: 100006
+    second: ArmUpper.L_end
+  - first:
+      1: 100008
+    second: ArmUpper.R
+  - first:
+      1: 100010
+    second: ArmUpper.R_end
+  - first:
+      1: 100012
+    second: //RootNode
+  - first:
+      1: 100014
+    second: EnemyPlant4
+  - first:
+      1: 100016
+    second: EnemyPlant4Mesh
+  - first:
+      1: 100018
+    second: Head
+  - first:
+      1: 100020
+    second: Head_end
+  - first:
+      1: 100022
+    second: Root
+  - first:
+      1: 100024
+    second: Stem1
+  - first:
+      1: 100026
+    second: Stem2
+  - first:
+      1: 100028
+    second: Stem3
+  - first:
+      4: 400000
+    second: ArmLower.L
+  - first:
+      4: 400002
+    second: ArmLower.R
+  - first:
+      4: 400004
+    second: ArmUpper.L
+  - first:
+      4: 400006
+    second: ArmUpper.L_end
+  - first:
+      4: 400008
+    second: ArmUpper.R
+  - first:
+      4: 400010
+    second: ArmUpper.R_end
+  - first:
+      4: 400012
+    second: //RootNode
+  - first:
+      4: 400014
+    second: EnemyPlant4
+  - first:
+      4: 400016
+    second: EnemyPlant4Mesh
+  - first:
+      4: 400018
+    second: Head
+  - first:
+      4: 400020
+    second: Head_end
+  - first:
+      4: 400022
+    second: Root
+  - first:
+      4: 400024
+    second: Stem1
+  - first:
+      4: 400026
+    second: Stem2
+  - first:
+      4: 400028
+    second: Stem3
+  - first:
+      21: 2100000
+    second: EnemyPlant4Material
+  - first:
+      43: 4300000
+    second: EnemyPlant4Mesh
+  - first:
+      74: 7400000
+    second: EnemyPlant4|Death
+  - first:
+      74: 7400002
+    second: EnemyPlant4|Idle
+  - first:
+      74: 7400004
+    second: EnemyPlant4|IdleReady
+  - first:
+      74: 7400006
+    second: EnemyPlant4|MeleeAttack
+  - first:
+      74: 7400008
+    second: EnemyPlant4|RangeAttack
+  - first:
+      74: 7400010
+    second: EnemyPlant4|Spell
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: EnemyPlant4Mesh
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -79,6 +159,7 @@ ModelImporter:
     - serializedVersion: 16
       name: EnemyPlant4|Death
       takeName: EnemyPlant4|Death
+      internalID: 0
       firstFrame: 0
       lastFrame: 34
       wrapMode: 0
@@ -107,6 +188,7 @@ ModelImporter:
     - serializedVersion: 16
       name: EnemyPlant4|Idle
       takeName: EnemyPlant4|Idle
+      internalID: 0
       firstFrame: 0
       lastFrame: 100
       wrapMode: 0
@@ -116,7 +198,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -135,6 +217,7 @@ ModelImporter:
     - serializedVersion: 16
       name: EnemyPlant4|IdleReady
       takeName: EnemyPlant4|IdleReady
+      internalID: 0
       firstFrame: 0
       lastFrame: 100
       wrapMode: 0
@@ -144,7 +227,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -163,6 +246,7 @@ ModelImporter:
     - serializedVersion: 16
       name: EnemyPlant4|MeleeAttack
       takeName: EnemyPlant4|MeleeAttack
+      internalID: 0
       firstFrame: 0
       lastFrame: 15
       wrapMode: 0
@@ -191,6 +275,7 @@ ModelImporter:
     - serializedVersion: 16
       name: EnemyPlant4|RangeAttack
       takeName: EnemyPlant4|RangeAttack
+      internalID: 0
       firstFrame: 0
       lastFrame: 15
       wrapMode: 0
@@ -219,6 +304,7 @@ ModelImporter:
     - serializedVersion: 16
       name: EnemyPlant4|Spell
       takeName: EnemyPlant4|Spell
+      internalID: 0
       firstFrame: 0
       lastFrame: 30
       wrapMode: 0
@@ -251,6 +337,7 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -258,18 +345,19 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -278,10 +366,11 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -291,6 +380,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

@@ -2,39 +2,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(EnemyBrainController))]
 public class EnemyCombatController : EntityCombatController
 {
-    public float attackCooldown = 1f;
+    public float primaryAttackCooldown = 1f;
+    public float primaryAttackDelay = 0.6f;
+    
     public float attackRadius = 3f;
     public float attackAngle = 45f;
+
+    public GameObject spawnVFX;
 
     protected List<GameObject> Players;
 
     private void Start()
     {
         Players = PlayerManager.Players;
+        // Create a VFX where the enemy will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the enemy colour
+        StartCoroutine(CreateVFX(spawnVFX, new Vector3(gameObject.transform.position.x, 0.1f, gameObject.transform.position.z), 
+            Quaternion.identity, PlayerManager.colours.GetColour(Stats.characterColour), 0.5f));
+        // "Spawn" the enemy (they float up through the stage)
+        StartCoroutine(Spawn(gameObject, 0.05f, 0.9f));
     }
 
     public virtual void PrimaryAttack()
     {
-        if (AttackCooldown > 0f)
-            return;
-        
-        AttackCooldown = attackCooldown;
-
-        Anim.SetTrigger("Stab Attack");
-
-        // Attack any enemies within the attack sweep and range
-        foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
-        {
-            // Calculate and perform damage
-            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
-        }
+        Debug.Log(gameObject.name + "'s primary attack triggered");
     }
-    
+
+    public virtual void SecondaryAttack()
+    {
+        Debug.Log(gameObject.name + "'s secondary attack triggered");
+    }
+
+    public virtual void TertiaryAttack()
+    {
+        Debug.Log(gameObject.name + "'s tertiary attack triggered");
+    }
+
     /// <summary>
     /// Determines if the enemy can deal damage to a player
     /// </summary>
@@ -61,5 +70,13 @@ public class EnemyCombatController : EntityCombatController
         }
 
         return false;
+    }
+
+    protected override IEnumerator Spawn(GameObject obj, float speed = 0.05F, float delay = 0)
+    {
+        // weird stuff happens when the nav mesh is enabled during the spawn
+        obj.GetComponent<NavMeshAgent>().enabled = false;
+        yield return base.Spawn(obj, speed, delay);
+        obj.GetComponent<NavMeshAgent>().enabled = true;
     }
 }
