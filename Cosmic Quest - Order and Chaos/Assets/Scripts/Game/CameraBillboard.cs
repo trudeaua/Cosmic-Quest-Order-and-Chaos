@@ -1,12 +1,3 @@
-/*
- * https://gist.github.com/ditzel/6ca74cd88765b98dfffebc2aafce667b
- * Rotates an object towards the currently active camera
- * 
- * 1. Attach CameraBillboard component to a canvas or a game object
- * 2. Specify the offset and you're done
- * 
- **/
-
 using UnityEngine;
 
 public class CameraBillboard : MonoBehaviour
@@ -15,22 +6,22 @@ public class CameraBillboard : MonoBehaviour
     public bool BillboardY = true;
     public bool BillboardZ = true;
     public float OffsetToCamera;
-    
-    private Vector3 _localStartPosition;
-    private Camera _camera;
+    protected Vector3 localStartPosition;
 
-    private void Start()
+    // Use this for initialization
+    void Start()
     {
-        _localStartPosition = transform.localPosition;
-        _camera = Camera.main;
+        localStartPosition = transform.localPosition;
     }
 
-    private void FixedUpdate()
+    // Update is called once per frame
+    void Update()
     {
-        transform.LookAt(transform.position + _camera.transform.rotation * Vector3.forward, _camera.transform.rotation * Vector3.up);
-        if(!BillboardX || !BillboardY || !BillboardZ)
+        transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.forward,
+                                                               Camera.main.transform.rotation * Vector3.up);
+        if (!BillboardX || !BillboardY || !BillboardZ)
             transform.rotation = Quaternion.Euler(BillboardX ? transform.rotation.eulerAngles.x : 0f, BillboardY ? transform.rotation.eulerAngles.y : 0f, BillboardZ ? transform.rotation.eulerAngles.z : 0f);
-        transform.localPosition = _localStartPosition;
+        transform.localPosition = localStartPosition;
         transform.position = transform.position + transform.rotation * Vector3.forward * OffsetToCamera;
     }
 }
