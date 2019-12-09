@@ -53,12 +53,12 @@ public class EntityCombatController : MonoBehaviour
         projectile.GetComponent<Projectile>().Launch(Stats, direction, launchForce, range);
     }
 
-    protected IEnumerator CreateVFX(GameObject vfxPrefab, Transform transform, Quaternion rotation, float delay = 0f)
+    protected IEnumerator CreateVFX(GameObject vfxPrefab, Vector3 position, Quaternion rotation, float delay = 0f)
     {
         if (delay > 0f)
             yield return new WaitForSeconds(delay);
 
-        GameObject vfx = Instantiate(vfxPrefab, transform.position, rotation);
+        GameObject vfx = Instantiate(vfxPrefab, position, rotation);
 
         var ps = GetFirstPS(vfx);
 
