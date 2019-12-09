@@ -66,11 +66,9 @@ public class PlayerMedicCombatController : PlayerCombatController
             if (isPressed)
             {
                 PrimaryAttack();
+                // Play full animation then set the bool to false
+                StartCoroutine(FinishPrimaryAttack());
             }
-        }
-        else
-        {
-            Anim.SetBool("PrimaryAttack", false);
         }
     }
 
@@ -79,12 +77,17 @@ public class PlayerMedicCombatController : PlayerCombatController
         bool isPressed = value.isPressed;
         if (AttackCooldown <= 0)
         {
-            //Anim.SetBool("SecondaryAttack", isPressed);
             if (isPressed)
             {
                 Anim.SetTrigger("SecondaryAttack");
                 SecondaryAttack();
             }
         }
+    }
+
+    private IEnumerator FinishPrimaryAttack()
+    {
+        yield return new WaitForSeconds(primaryAttackCooldown);
+        Anim.SetBool("PrimaryAttack", false);
     }
 }

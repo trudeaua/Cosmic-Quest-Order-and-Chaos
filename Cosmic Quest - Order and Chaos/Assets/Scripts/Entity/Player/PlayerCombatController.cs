@@ -8,11 +8,15 @@ public class PlayerCombatController : EntityCombatController
 {
     [SerializeField] protected float primaryAttackCooldown;
     [SerializeField] protected float secondaryAttackCooldown;
+    public GameObject spawnVFX;
 
-    protected override void Awake()
+    protected virtual void Start()
     {
-        base.Awake();
-        DetermineCooldowns();
+        // Create a VFX where the player will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the player colour
+        StartCoroutine(CreateVFX(spawnVFX, new Vector3(gameObject.transform.position.x, 0.1f, gameObject.transform.position.z), 
+            Quaternion.identity, PlayerManager.colours.GetColour(Stats.characterColour), 0.5f));
+        // "Spawn" the player (they float up through the stage)
+        StartCoroutine(Spawn(gameObject, 0.08f, 0.9f));
     }
 
     protected virtual void PrimaryAttack()
@@ -106,69 +110,6 @@ public class PlayerCombatController : EntityCombatController
         if (value.isPressed)
         {
             UltimateAbility();
-        }
-    }
-
-    protected IEnumerator CreateVFX(GameObject vfxPrefab, Transform transform, Quaternion rotation, float delay = 0f)
-    {
-        if (delay > 0f)
-            yield return new WaitForSeconds(delay);
-
-        GameObject vfx = Instantiate(vfxPrefab, transform.position, rotation);
-
-        var ps = GetFirstPS(vfx);
-
-        Destroy(vfx, ps.main.duration + ps.main.startLifetime.constantMax + 1);
-    }
-
-    private ParticleSystem GetFirstPS(GameObject vfx)
-    {
-        var ps = vfx.GetComponent<ParticleSystem>();
-        if (ps == null && vfx.transform.childCount > 0)
-        {
-            foreach (Transform t in vfx.transform)
-            {
-                ps = t.GetComponent<ParticleSystem>();
-                if (ps != null)
-                    return ps;
-            }
-        }
-        return ps;
-    }
-
-    /// <summary>
-    /// Determines attack cooldown times based on the animations in the Animator Controller
-    /// </summary>
-    protected virtual void DetermineCooldowns()
-    {
-        primaryAttackCooldown = 0f;
-        secondaryAttackCooldown = 0f;
-
-        // access the AC state machine's base layer
-        AnimatorController ac = Anim.runtimeAnimatorController as AnimatorController;
-        AnimatorStateMachine sm = ac.layers[0].stateMachine;
-
-        for (int i = 0; i < sm.states.Length; i++)
-        {
-            // Determine the length of the entire primary attack
-            ChildAnimatorState state = sm.states[i];
-            if (state.state.name.Contains("PrimaryAttack"))
-            {
-                AnimationClip clip = state.state.motion as AnimationClip;
-                if (clip != null)
-                {
-                    primaryAttackCooldown += clip.length / state.state.speed;
-                }
-            }
-            // Determine the length of the entire secondary attack
-            if (state.state.name.Contains("SecondaryAttack"))
-            {
-                AnimationClip clip = state.state.motion as AnimationClip;
-                if (clip != null)
-                {
-                    secondaryAttackCooldown += clip.length / state.state.speed;
-                }
-            }
         }
     }
 }

@@ -1,44 +1,116 @@
 fileFormatVersion: 2
 guid: 81280a602a31e684ab23b2393e87b416
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: Bone
-    100002: Bone.001
-    100004: Bone.003
-    100006: Bone.003_end
-    100008: Bone.004
-    100010: Bone.004_end
-    100012: Bone.005
-    100014: Bone.005_end
-    100016: Bone.006
-    100018: Bone.006_end
-    100020: //RootNode
-    100022: EnemyPlant3Enviromental
-    100024: EnemyPlant3EnviromentalMesh
-    400000: Bone
-    400002: Bone.001
-    400004: Bone.003
-    400006: Bone.003_end
-    400008: Bone.004
-    400010: Bone.004_end
-    400012: Bone.005
-    400014: Bone.005_end
-    400016: Bone.006
-    400018: Bone.006_end
-    400020: //RootNode
-    400022: EnemyPlant3Enviromental
-    400024: EnemyPlant3EnviromentalMesh
-    2100000: EnemyPlant3Material
-    2300000: EnemyPlant3EnviromentalMesh
-    3300000: EnemyPlant3EnviromentalMesh
-    4300000: EnemyPlant3EnviromentalMesh
-    7400000: Idle
-    7400002: EnemyPlant3Enviromental|Idle1
-    9500000: //RootNode
-    11100000: //RootNode
-    13700000: EnemyPlant3EnviromentalMesh
-    2186277476908879412: ImportLogs
+  serializedVersion: 26
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Bone
+  - first:
+      1: 100002
+    second: Bone.001
+  - first:
+      1: 100004
+    second: Bone.003
+  - first:
+      1: 100006
+    second: Bone.003_end
+  - first:
+      1: 100008
+    second: Bone.004
+  - first:
+      1: 100010
+    second: Bone.004_end
+  - first:
+      1: 100012
+    second: Bone.005
+  - first:
+      1: 100014
+    second: Bone.005_end
+  - first:
+      1: 100016
+    second: Bone.006
+  - first:
+      1: 100018
+    second: Bone.006_end
+  - first:
+      1: 100020
+    second: //RootNode
+  - first:
+      1: 100022
+    second: EnemyPlant3Enviromental
+  - first:
+      1: 100024
+    second: EnemyPlant3EnviromentalMesh
+  - first:
+      4: 400000
+    second: Bone
+  - first:
+      4: 400002
+    second: Bone.001
+  - first:
+      4: 400004
+    second: Bone.003
+  - first:
+      4: 400006
+    second: Bone.003_end
+  - first:
+      4: 400008
+    second: Bone.004
+  - first:
+      4: 400010
+    second: Bone.004_end
+  - first:
+      4: 400012
+    second: Bone.005
+  - first:
+      4: 400014
+    second: Bone.005_end
+  - first:
+      4: 400016
+    second: Bone.006
+  - first:
+      4: 400018
+    second: Bone.006_end
+  - first:
+      4: 400020
+    second: //RootNode
+  - first:
+      4: 400022
+    second: EnemyPlant3Enviromental
+  - first:
+      4: 400024
+    second: EnemyPlant3EnviromentalMesh
+  - first:
+      21: 2100000
+    second: EnemyPlant3Material
+  - first:
+      23: 2300000
+    second: EnemyPlant3EnviromentalMesh
+  - first:
+      33: 3300000
+    second: EnemyPlant3EnviromentalMesh
+  - first:
+      43: 4300000
+    second: EnemyPlant3EnviromentalMesh
+  - first:
+      74: 7400000
+    second: Idle
+  - first:
+      74: 7400002
+    second: EnemyPlant3Enviromental|Idle1
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      111: 11100000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: EnemyPlant3EnviromentalMesh
+  - first:
+      41386430: 2186277476908879412
+    second: ImportLogs
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -75,6 +147,7 @@ ModelImporter:
     - serializedVersion: 16
       name: EnemyPlant3Enviromental|Idle1
       takeName: EnemyPlant3Enviromental|Idle
+      internalID: 0
       firstFrame: 0
       lastFrame: 100
       wrapMode: 0
@@ -84,7 +157,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -107,6 +180,7 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -114,18 +188,19 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -134,10 +209,11 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -147,6 +223,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 1

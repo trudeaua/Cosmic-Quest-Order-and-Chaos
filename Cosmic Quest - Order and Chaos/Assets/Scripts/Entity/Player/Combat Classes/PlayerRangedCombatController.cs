@@ -120,7 +120,6 @@ public class PlayerRangedCombatController : PlayerCombatController
         bool isPressed = value.isPressed;
         if (AttackCooldown <= 0)
         {
-            //Anim.SetBool("SecondaryAttack", isPressed);
             if (isPressed)
             {
                 Anim.SetTrigger("SecondaryAttack");
