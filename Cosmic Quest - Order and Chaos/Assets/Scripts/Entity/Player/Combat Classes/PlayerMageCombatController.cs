@@ -11,14 +11,18 @@ public class PlayerMageCombatController : PlayerCombatController
     public float primaryAttackRange = 3f;
     [Tooltip("The primary attack projected angle of AOE in degrees")]
     public float primaryAttackAngle = 60f;
-    [Tooltip("The damage per second of the primary attack")]
-    public float primaryAttackDps = 5f;
+    [Tooltip("How often the damage is applied (every n frames)")]
+    public int primaryAttackDelay = 3;
+
+    [Tooltip("Visual effect for primary attack")]
+    public GameObject primaryVFX;
 
     [Header("Secondary Attack")]
     [Tooltip("The radius of the AOE effect")]
     public float secondaryAttackRadius = 8f;
     [Tooltip("The explosive force of the AOE effect")]
     public float secondaryAttackForce = 500f;
+    [Tooltip("Visual effect for secondary attack")]
     public GameObject secondaryVFX;
 
     private bool _isPrimaryActive = false;
@@ -35,14 +39,20 @@ public class PlayerMageCombatController : PlayerCombatController
 
     protected override void PrimaryAttack()
     {
+        Vector3 vfxPos = gameObject.transform.position + gameObject.transform.forward * 1.5f + new Vector3(0, 2f);
+        StartCoroutine(CreateVFX(primaryVFX, vfxPos, gameObject.transform.rotation));
+        if (AttackCooldown > 0) return;
+        AttackCooldown = primaryAttackDelay * Time.deltaTime;
+
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(primaryAttackRange);
         
         // Attack any enemies within the attack sweep and range
         foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, primaryAttackRange, primaryAttackAngle)))
         {
-            // Calculate and perform damage at DPS rate
-            enemy.GetComponent<EntityStatsController>().TakeDamage(Stats, primaryAttackDps, Time.deltaTime);
+            float baseDamage = Stats.damage.GetValue() / 5f;
+            float damage = Random.Range(baseDamage * 0.9f, baseDamage * 1.1f);
+            enemy.GetComponent<EntityStatsController>().TakeDamage(Stats, damage);
         }
     }
     
