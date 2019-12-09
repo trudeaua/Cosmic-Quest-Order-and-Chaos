@@ -7,7 +7,9 @@ public class ExplosiveTrap : MonoBehaviour
     public float explosionForce = 400f;
     public float explosionRadius = 5f;
     public float stunTime = 2f;
+    public float armTime = 1.5f;
 
+    private bool _isArmed;
     private bool _isDetonated;
     private EntityStatsController _thrower;
 
@@ -24,13 +26,22 @@ public class ExplosiveTrap : MonoBehaviour
         _thrower = thrower;
         _isDetonated = false;
         transform.position = position;
+        _isArmed = false;
         
         // Set self active
         gameObject.SetActive(true);
+        StartCoroutine("ArmTrap");
+    }
+
+    private IEnumerator ArmTrap()
+    {
+        yield return new WaitForSeconds(armTime);
+        _isArmed = true;
     }
     
     private void Detonate()
     {
+        _isDetonated = true;
         ExplosionEffect();
         // Play explosion effect
         gameObject.SetActive(false);
@@ -53,9 +64,16 @@ public class ExplosiveTrap : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy") && !_isDetonated)
+        if (_isArmed && other.CompareTag("Enemy") && !_isDetonated)
         {
-            _isDetonated = true;
+            Detonate();
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (_isArmed && other.CompareTag("Enemy") && !_isDetonated)
+        {
             Detonate();
         }
     }
