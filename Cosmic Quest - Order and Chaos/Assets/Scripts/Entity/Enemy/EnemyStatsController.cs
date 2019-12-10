@@ -13,12 +13,15 @@ public class EnemyStatsController : EntityStatsController
 
     public GameObject FloatingText;
 
+    private Collider _collider;
+
     protected override void Awake()
     {
         base.Awake();
 
         _brain = GetComponent<EnemyBrainController>();
         _agent = GetComponent<NavMeshAgent>();
+        _collider = gameObject.GetComponent<Collider>();
     }
 
     public override void TakeDamage(EntityStatsController attacker, float damageValue)
@@ -50,11 +53,11 @@ public class EnemyStatsController : EntityStatsController
 
     public void ShowDamage(float damage, float duration = 0.5f)
     {
-        Vector3 offset = new Vector3(0, 5f, 0); // Want to do this dynamically based off enemy height
+        Vector3 offset = new Vector3(0, _collider.bounds.size.y + 4f, 0);
         float x = 1f, y = 0.5f;
         Vector3 random = new Vector3(Random.Range(-x, x), Random.Range(-y, y));
 
-        GameObject text = Instantiate(FloatingText, transform.position + offset + random, Quaternion.identity, transform);
+        GameObject text = Instantiate(FloatingText, transform.position + offset + random, Quaternion.identity);
         text.GetComponent<TMP_Text>().text = damage.ToString("F2");
 
         Destroy(text, duration);
