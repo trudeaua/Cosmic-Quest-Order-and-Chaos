@@ -21,7 +21,7 @@ public class EnemyStatsController : EntityStatsController
         _agent = GetComponent<NavMeshAgent>();
     }
 
-    public override void TakeDamage(EntityStatsController attacker, float damageValue, float timeModifier = 1f)
+    public override void TakeDamage(EntityStatsController attacker, float damageValue)
     {
         // Ignore attacks if already dead
         if (isDead)
@@ -33,8 +33,8 @@ public class EnemyStatsController : EntityStatsController
         }
 
         // Calculate any changes based on stats and modifiers here first
-        float hitValue = (damageValue - ComputeDefenseModifier()) * timeModifier;
-        health.Subtract(hitValue < 0 ? 0 : hitValue);
+        float hitValue = Mathf.Max(damageValue - ComputeDefenseModifier(), 0);
+        health.Subtract(hitValue);
         ShowDamage(hitValue);
         Anim.SetTrigger("TakeDamage");
         // Pass damage information to brain
