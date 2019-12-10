@@ -9,6 +9,12 @@ public class PlayerInteractionController : MonoBehaviour
     public float interactionRadius = 4f;
     
     protected Interactable CurrentObject = null;
+    protected Animator Anim;
+
+    protected virtual void Awake()
+    {
+        Anim = gameObject.GetComponentInChildren<Animator>();
+    }
 
     /// <summary>
     /// Used to check if the player is currently interacting with something. This is mostly meant to be used for
@@ -28,6 +34,11 @@ public class PlayerInteractionController : MonoBehaviour
             // If currently interacting with a "non-held" object, stop interacting
             if (CurrentObject)
             {
+                // Decide which animation to do
+                if (CurrentObject is Draggable)
+                {
+                    Anim.SetBool("PickedUp", false);
+                }
                 CurrentObject.StopInteract(transform);
                 CurrentObject = null;
                 return;
@@ -39,12 +50,27 @@ public class PlayerInteractionController : MonoBehaviour
                 Interactable interactable = hit.transform.GetComponent<Interactable>();
                 if (interactable is null)
                     return;
-                
+
+                // Decide which animation to do
+                if (interactable is Draggable)
+                {
+                    Anim.SetBool("PickedUp", true);
+                }
+                else if (interactable is Lever)
+                {
+                    Anim.SetTrigger("InteractStanding");
+                }
+                else if (interactable is Collectable)
+                {
+                    Anim.SetTrigger("InteractGround");
+                }
+
                 // Attempt interaction
                 interactable.StartInteract(transform);
                 
                 if (!interactable.isTrigger)
                     CurrentObject = interactable;
+                
             }
         }
         else if (CurrentObject && CurrentObject.isHeld)
