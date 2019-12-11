@@ -16,11 +16,26 @@ public class PlayerRangedCombatController : PlayerCombatController
     public float primaryAttackMaxLaunchForce = 800f;
     [Tooltip("The arrow prefab for the primary attack")]
     public GameObject primaryProjectilePrefab;
-
+    [Tooltip("Time between when attack starts vs when damage is dealt")]
+    public float primaryAttackDelay = 0.3f;
+    [Tooltip("How long until the player can attack after the primary attack")]
+    public float primaryAttackCooldown;
+    [Tooltip("Weapon audio effect for secondary attack")]
+    [SerializeField] protected EntityAudioClip primaryAttackChargeWeaponSFX;
+    [Tooltip("Weapon audio effect for secondary attack")]
+    [SerializeField] protected EntityAudioClip primaryAttackReleaseWeaponSFX;
 
     [Header("Secondary Attack")]
+    [Tooltip("How long until the player can attack after the secondary attack")]
+    public float secondaryAttackCooldown;
+    [Tooltip("Time between when attack starts vs when damage is dealt")]
+    public float secondaryAttackDelay = 0.5f;
     [Tooltip("The trap prefab for the secondary attack")]
     public GameObject secondaryTrapPrefab;
+    [Tooltip("Weapon audio effect for secondary attack")]
+    [SerializeField] protected EntityAudioClip secondaryAttackWeaponSFX;
+    [Tooltip("Weapon audio effect for secondary attack explosion")]
+    [SerializeField] protected EntityAudioClip secondaryAttackWeaponExplosionSFX;
     
     private bool _isPrimaryCharging;
     private float _primaryChargeTime;
@@ -53,7 +68,7 @@ public class PlayerRangedCombatController : PlayerCombatController
         float damage = Mathf.Ceil(Stats.damage.GetValue() * _chargePercent);
         
         // Launch projectile in the direction the player is facing
-        StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, damage, 0.3f));
+        StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, damage, primaryAttackDelay));
     }
     
     protected override void SecondaryAttack()
@@ -64,7 +79,7 @@ public class PlayerRangedCombatController : PlayerCombatController
         AttackCooldown = secondaryAttackCooldown;
         
         // Place explosive trap
-        StartCoroutine(PlaceTrap(secondaryTrapPrefab, 0.5f));
+        StartCoroutine(PlaceTrap(secondaryTrapPrefab, secondaryAttackDelay));
     }
     
     protected override void UltimateAbility()
@@ -92,7 +107,9 @@ public class PlayerRangedCombatController : PlayerCombatController
         
         // Place trap from object pool in front of the player
         GameObject trap = ObjectPooler.Instance.GetPooledObject(trapPrefab);
-        trap.GetComponent<ExplosiveTrap>().PlaceTrap(Stats, transform.position + transform.forward);
+        ExplosiveTrap explosiveTrap = trap.GetComponent<ExplosiveTrap>();
+        explosiveTrap.SetAudio(secondaryAttackWeaponExplosionSFX);
+        explosiveTrap.PlaceTrap(Stats, transform.position + transform.forward);
     }
 
     protected override void OnPrimaryAttack(InputValue value)
@@ -102,18 +119,19 @@ public class PlayerRangedCombatController : PlayerCombatController
         {
             _isPrimaryCharging = true;
             _primaryChargeTime = 0f;
+            StartCoroutine(Stats.PlayAudio(primaryAttackChargeWeaponSFX));
             Anim.SetBool("PrimaryAttack", true);
         }
         else if (!isPressed && AttackCooldown <= 0 && _isPrimaryCharging)
         {
             _isPrimaryCharging = false;
-            
             // Convert charge time to launch force
             _chargePercent = Mathf.InverseLerp(0f, primaryAttackChargeTime,_primaryChargeTime);
             _primaryAttackLaunchForce = Mathf.Lerp(primaryAttackMinLaunchForce, primaryAttackMaxLaunchForce, _chargePercent);
+            Stats.StopAudio();
+            StartCoroutine(Stats.PlayAudio(primaryAttackReleaseWeaponSFX));
             PrimaryAttack();
             Anim.SetBool("PrimaryAttack", false);
-
         }
     }
 
@@ -124,6 +142,7 @@ public class PlayerRangedCombatController : PlayerCombatController
         {
             if (isPressed)
             {
+                StartCoroutine(Stats.PlayAudio(secondaryAttackWeaponSFX));
                 Anim.SetTrigger("SecondaryAttack");
                 SecondaryAttack();
             }

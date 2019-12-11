@@ -6,10 +6,12 @@ using UnityEngine;
 
 public class EnemyTriAttackCombatController : EnemyCombatController
 {
-    public float secondaryAttackCooldown = 1f;
-    public float secondaryAttackDelay = 0.6f;
-    public float tertiaryAttackCooldown = 1f;
-    public float tertiaryAttackDelay = 0.6f;
+    [SerializeField] protected float secondaryAttackCooldown = 1f;
+    [SerializeField] protected float secondaryAttackDelay = 0.6f;
+    [SerializeField] protected AudioSource secondaryAttackFx;
+    [SerializeField] protected float tertiaryAttackCooldown = 1f;
+    [SerializeField] protected float tertiaryAttackDelay = 0.6f;
+    [SerializeField] protected AudioSource tertiaryAttackFx;
     public override void PrimaryAttack()
     {
         if (AttackCooldown > 0f)

@@ -12,14 +12,27 @@ public class PlayerMeleeCombatController : PlayerCombatController
     public float primaryAttackRadius = 2f;
     [Tooltip("The angular distance around the player where enemies are affected by the primary attack")]
     public float primaryAttackAngle = 45f;
-    
+    [Tooltip("Time between when attack starts vs when damage is dealt")]
+    public float primaryAttackDelay = 0.6f;
+    [Tooltip("How long until the player can attack after the primary attack")]
+    public float primaryAttackCooldown;
+    [Tooltip("Weapon audio effect for secondary attack")]
+    [SerializeField] protected EntityAudioClip primaryAttackWeaponSFX;
+
     [Header("Secondary Attack")]
     [Tooltip("The maximum range the player's attack can reach")]
     public float secondaryAttackRadius = 6.8f;
     [Tooltip("The angular distance around the player where enemies are affected by the secondary attack")]
     public float secondaryAttackAngle = 60f;
+    [Tooltip("Time between when attack starts vs when damage is dealt")]
+    public float secondaryAttackDelay = 0.6f;
+    [Tooltip("How long until the player can attack after the secondary attack")]
+    public float secondaryAttackCooldown;
+    [Tooltip("Visual effect for secondary attack")]
     public GameObject secondaryVFX;
-    
+    [Tooltip("Weapon audio effect for secondary attack")]
+    [SerializeField] protected EntityAudioClip secondaryAttackWeaponSFX;
+
     protected override void PrimaryAttack()
     {
         if (AttackCooldown > 0)
@@ -35,7 +48,7 @@ public class PlayerMeleeCombatController : PlayerCombatController
         {
             // TODO can this attack affect multiple enemies?
             // Calculate and perform damage
-            StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
+            StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), primaryAttackDelay));
         }
         
         // Primary attack animation
@@ -58,7 +71,7 @@ public class PlayerMeleeCombatController : PlayerCombatController
         foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, secondaryAttackRadius, secondaryAttackAngle)))
         {
             // Calculate and perform damage
-            StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
+            StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), secondaryAttackDelay));
         }
     }
     
@@ -74,12 +87,11 @@ public class PlayerMeleeCombatController : PlayerCombatController
         bool isPressed = value.isPressed;
         if (AttackCooldown <= 0)
         {
-            Anim.SetBool("PrimaryAttack", isPressed);
             if (isPressed)
             {
+                StartCoroutine(Stats.PlayAudio(primaryAttackWeaponSFX));
+                Anim.SetTrigger("PrimaryAttack");
                 PrimaryAttack();
-                // Play full animation then set the bool to false
-                StartCoroutine(FinishPrimaryAttack());
             }
         }
     }
@@ -91,15 +103,10 @@ public class PlayerMeleeCombatController : PlayerCombatController
         {
             if (isPressed)
             {
+                StartCoroutine(Stats.PlayAudio(secondaryAttackWeaponSFX));
                 Anim.SetTrigger("SecondaryAttack");
                 SecondaryAttack();
             }
         }
-    }
-
-    private IEnumerator FinishPrimaryAttack()
-    {
-        yield return new WaitForSeconds(primaryAttackCooldown);
-        Anim.SetBool("PrimaryAttack", false);
     }
 }

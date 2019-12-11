@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class EnemyDoubleAttackCombatController : EnemyCombatController
 {
-    public float secondaryAttackCooldown = 1f;
-    public float secondaryAttackDelay = 0.6f;
+    [SerializeField] protected float secondaryAttackCooldown = 1f;
+    [SerializeField] protected float secondaryAttackDelay = 0.6f;
+    [SerializeField] protected AudioSource secondaryAttackFx;
     public override void PrimaryAttack()
     {
         if (AttackCooldown > 0f)

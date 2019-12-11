@@ -12,6 +12,8 @@ public class ExplosiveTrap : MonoBehaviour
     private bool _isArmed;
     private bool _isDetonated;
     private EntityStatsController _thrower;
+    // audio to play on explosion
+    private EntityAudioClip audioClip;
 
     private Collider[] _hits;
     public GameObject explosiveTrapVFX;
@@ -31,6 +33,11 @@ public class ExplosiveTrap : MonoBehaviour
         // Set self active
         gameObject.SetActive(true);
         StartCoroutine("ArmTrap");
+    }
+
+    public void SetAudio(EntityAudioClip audioClip)
+    {
+        this.audioClip = audioClip;
     }
 
     private IEnumerator ArmTrap()
@@ -81,7 +88,7 @@ public class ExplosiveTrap : MonoBehaviour
     protected void PerformExplosionAnimation()
     {
         GameObject vfx;
-
+        StartCoroutine(_thrower.PlayAudio(audioClip));
         vfx = Instantiate(explosiveTrapVFX, gameObject.transform.position, Quaternion.identity);
 
         var ps = GetFirstPS(vfx);

@@ -8,7 +8,6 @@ public class EntityCombatController : MonoBehaviour
     protected EntityStatsController Stats;
     protected Animator Anim;
     protected float AttackCooldown;
-
     protected Collider[] Hits = new Collider[32];
 
     protected virtual void Awake()

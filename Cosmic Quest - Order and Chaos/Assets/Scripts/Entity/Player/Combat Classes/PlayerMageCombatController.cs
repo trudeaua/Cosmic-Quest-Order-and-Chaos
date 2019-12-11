@@ -11,19 +11,29 @@ public class PlayerMageCombatController : PlayerCombatController
     public float primaryAttackRange = 3f;
     [Tooltip("The primary attack projected angle of AOE in degrees")]
     public float primaryAttackAngle = 60f;
-    [Tooltip("How often the damage is applied (every n frames)")]
+    [Tooltip("Time between when attack starts vs when damage is dealt")]
     public int primaryAttackDelay = 3;
-
+    [Tooltip("How long until the player can attack after the primary attack")]
+    public float primaryAttackCooldown;
     [Tooltip("Visual effect for primary attack")]
     public GameObject primaryVFX;
+    [Tooltip("Weapon audio effect for secondary attack")]
+    [SerializeField] protected EntityAudioClip primaryAttackWeaponSFX;
 
     [Header("Secondary Attack")]
     [Tooltip("The radius of the AOE effect")]
     public float secondaryAttackRadius = 8f;
     [Tooltip("The explosive force of the AOE effect")]
     public float secondaryAttackForce = 500f;
+    [Tooltip("How long until the player can attack after the secondary attack")]
+    public float secondaryAttackCooldown;
+    [Tooltip("Time between when attack starts vs when damage is dealt")]
+    public float secondaryAttackDelay = 0.6f;
     [Tooltip("Visual effect for secondary attack")]
     public GameObject secondaryVFX;
+    [Tooltip("Weapon audio effect for secondary attack")]
+    [SerializeField] protected EntityAudioClip secondaryAttackWeaponSFX;
+
 
     private bool _isPrimaryActive = false;
 
@@ -72,7 +82,7 @@ public class PlayerMageCombatController : PlayerCombatController
         foreach (var enemy in enemies)
         {
             StartCoroutine(PerformExplosiveDamage(enemy.GetComponent<EntityStatsController>(), 
-                Stats.damage.GetValue(), 2f, secondaryAttackForce, transform.position, secondaryAttackRadius, 0.6f));
+                Stats.damage.GetValue(), 2f, secondaryAttackForce, transform.position, secondaryAttackRadius, secondaryAttackDelay));
         }
     }
     
@@ -85,6 +95,14 @@ public class PlayerMageCombatController : PlayerCombatController
     protected override void OnPrimaryAttack(InputValue value)
     {
         _isPrimaryActive = value.isPressed && AttackCooldown <= 0;
+        if (_isPrimaryActive)
+        {
+            StartCoroutine(Stats.PlayAudio(primaryAttackWeaponSFX));
+        }
+        else
+        {
+            Stats.StopAudio();
+        }
         Anim.SetBool("PrimaryAttack", _isPrimaryActive);
     }
 
@@ -95,6 +113,7 @@ public class PlayerMageCombatController : PlayerCombatController
         {
             if (isPressed)
             {
+                StartCoroutine(Stats.PlayAudio(secondaryAttackWeaponSFX));
                 Anim.SetTrigger("SecondaryAttack");
                 SecondaryAttack();
             }

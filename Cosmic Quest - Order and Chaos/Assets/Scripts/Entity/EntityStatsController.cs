@@ -11,6 +11,15 @@ public enum CharacterColour
     Purple
 }
 
+[System.Serializable]
+public class EntityAudioClip {
+    public float pitch;
+    public float volume;
+    public AudioClip clip;
+    public float delay;
+    public bool loop;
+}
+
 public class EntityStatsController : MonoBehaviour
 {
     // Common entity regenerable stats
@@ -25,8 +34,11 @@ public class EntityStatsController : MonoBehaviour
     public CharacterColour characterColour = CharacterColour.None;
 
     protected Animator Anim;
+    protected AudioSource Audio;
     protected Rigidbody rb;
     protected Collider col;
+    [SerializeField] protected EntityAudioClip takeDamageVocalSFX;
+    [SerializeField] protected EntityAudioClip playerDeathVocalSFX;
 
     // Entity layer mask constant for entity raycasting checks
     public const int EntityLayer = 1 << 9;
@@ -36,6 +48,7 @@ public class EntityStatsController : MonoBehaviour
         health.Init();
 
         Anim = GetComponentInChildren<Animator>();
+        Audio = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
     }
@@ -51,6 +64,7 @@ public class EntityStatsController : MonoBehaviour
         // Ignore attacks if already dead
         if (isDead)
             return;
+        Anim.ResetTrigger("TakeDamage");
         Anim.SetTrigger("TakeDamage");
         // Calculate any changes based on stats and modifiers here first
         float hitValue = damageValue - ComputeDefenseModifier();
@@ -110,5 +124,23 @@ public class EntityStatsController : MonoBehaviour
     {
         // Meant to be implemented with any death tasks
         isDead = true;
+    }
+
+    public virtual IEnumerator PlayAudio(EntityAudioClip entityAudio)
+    {
+        if (entityAudio.delay > 0)
+        {
+            yield return new WaitForSeconds(entityAudio.delay);
+        }
+        Audio.pitch = entityAudio.pitch;
+        Audio.volume = entityAudio.volume;
+        Audio.loop = entityAudio.loop;
+        Audio.clip = entityAudio.clip;
+        Audio.Play();
+    }
+
+    public virtual void StopAudio()
+    {
+        Audio.Stop();
     }
 }

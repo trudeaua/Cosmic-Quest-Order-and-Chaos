@@ -11,7 +11,13 @@ public class PlayerMedicCombatController : PlayerCombatController
     public float primaryAttackRadius = 2f;
     [Tooltip("The angular distance around the player where enemies are affected by the primary attack")]
     public float primaryAttackAngle = 100f;
-    
+    [Tooltip("Time between when attack starts vs when damage is dealt")]
+    public float primaryAttackDelay = 0.6f;
+    [Tooltip("How long until the player can attack after the primary attack")]
+    public float primaryAttackCooldown;
+    [Tooltip("Weapon audio effect for secondary attack")]
+    [SerializeField] protected EntityAudioClip primaryAttackWeaponSFX;
+
     [Header("Secondary Attack")]
     [Tooltip("The force to launch the healing projectile at")]
     public float secondaryAttackLaunchForce = 500f;
@@ -19,6 +25,15 @@ public class PlayerMedicCombatController : PlayerCombatController
     public float secondaryAttackRange = 20f;
     [Tooltip("The prefab for the healing projectile")]
     public GameObject projectilePrefab;
+    [Tooltip("How long until the player can attack after the secondary attack")]
+    public float secondaryAttackCooldown;
+    [Tooltip("Time between when attack starts vs when damage is dealt")]
+    public float secondaryAttackDelay = 0.6f;
+    [Tooltip("Visual effect for secondary attack")]
+    public GameObject secondaryVFX;
+    [Tooltip("Weapon audio effect for secondary attack")]
+    [SerializeField] protected EntityAudioClip secondaryAttackWeaponSFX;
+
 
     protected override void PrimaryAttack()
     {
@@ -35,7 +50,7 @@ public class PlayerMedicCombatController : PlayerCombatController
         {
             // TODO can this attack affect multiple enemies?
             // Calculate and perform damage
-            StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), 0.6f));
+            StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), primaryAttackDelay));
         }
     }
     
@@ -47,7 +62,7 @@ public class PlayerMedicCombatController : PlayerCombatController
         AttackCooldown = secondaryAttackCooldown;
         
         // Launch projectile in the direction the player is facing
-        StartCoroutine(LaunchProjectile(projectilePrefab, transform.forward, secondaryAttackLaunchForce, secondaryAttackRange, 0.5f));
+        StartCoroutine(LaunchProjectile(projectilePrefab, transform.forward, secondaryAttackLaunchForce, secondaryAttackRange, secondaryAttackDelay));
     }
 
     protected override void UltimateAbility()
@@ -62,12 +77,11 @@ public class PlayerMedicCombatController : PlayerCombatController
         bool isPressed = value.isPressed;
         if (AttackCooldown <= 0)
         {
-            Anim.SetBool("PrimaryAttack", isPressed);
             if (isPressed)
             {
+                StartCoroutine(Stats.PlayAudio(primaryAttackWeaponSFX));
+                Anim.SetTrigger("PrimaryAttack");
                 PrimaryAttack();
-                // Play full animation then set the bool to false
-                StartCoroutine(FinishPrimaryAttack());
             }
         }
     }
@@ -79,15 +93,10 @@ public class PlayerMedicCombatController : PlayerCombatController
         {
             if (isPressed)
             {
+                StartCoroutine(Stats.PlayAudio(secondaryAttackWeaponSFX));
                 Anim.SetTrigger("SecondaryAttack");
                 SecondaryAttack();
             }
         }
-    }
-
-    private IEnumerator FinishPrimaryAttack()
-    {
-        yield return new WaitForSeconds(primaryAttackCooldown);
-        Anim.SetBool("PrimaryAttack", false);
     }
 }

@@ -6,8 +6,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerCombatController : EntityCombatController
 {
-    [SerializeField] protected float primaryAttackCooldown;
-    [SerializeField] protected float secondaryAttackCooldown;
     public GameObject spawnVFX;
 
     protected virtual void Start()

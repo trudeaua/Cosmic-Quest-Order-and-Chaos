@@ -45,6 +45,7 @@ public class PlayerStatsController : EntityStatsController
         Anim.enabled = false;
         EnableRagdoll(true);
         StartCoroutine(PlayerDeath());
+        StartCoroutine(PlayAudio(playerDeathVocalSFX));
     }
     
     private IEnumerator PlayerDeath()
