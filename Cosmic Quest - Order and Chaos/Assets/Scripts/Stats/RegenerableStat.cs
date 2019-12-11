@@ -5,8 +5,7 @@ public class RegenerableStat
 {
     public float maxValue;
     public float minValue;
-    [SerializeField] private float regenAmount = 0f;
-    [SerializeField] private float regenFrequency = 0f;
+    public float regenAmount;
     public float CurrentValue { get; private set; }
     
     public delegate void OnValueChanged(float currentValue);
@@ -70,6 +69,6 @@ public class RegenerableStat
             return;
         }
 
-        Add(regenAmount * regenFrequency * Time.deltaTime);
+        Add(regenAmount * Time.deltaTime);
     }
 }

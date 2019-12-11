@@ -49,7 +49,7 @@ public class EnemyBossCombatController : EnemyCombatController
             return;
 
         Anim.SetTrigger("TertiaryAttack");
-        StartCoroutine(CreateVFX(tertiaryAttackVFX, gameObject.transform.position, gameObject.transform.rotation, 
+        StartCoroutine(VfxHelper.CreateVFX(tertiaryAttackVFX, gameObject.transform.position, gameObject.transform.rotation, 
             PlayerManager.colours.GetColour(Stats.characterColour), tertiaryAttackDelay * 0.5f));
 
         // Attack any enemies within the attack sweep and range

@@ -2183,7 +2183,6 @@ MonoBehaviour:
     maxValue: 100
     minValue: 0
     regenAmount: 1
-    regenFrequency: 2
   damage:
     baseValue: 5
   defense:
@@ -2193,7 +2192,6 @@ MonoBehaviour:
     maxValue: 100
     minValue: 0
     regenAmount: 10
-    regenFrequency: 1
 --- !u!114 &7264181408041424333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2209,14 +2207,46 @@ MonoBehaviour:
   primaryAttackTimeout: 0.5
   secondaryAttackTimeout: 1
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
+  primaryAttackMinDamage: 4
+  primaryAttackMaxDamage: 5
   primaryAttackRange: 20
   primaryAttackChargeTime: 1.5
   primaryAttackMinLaunchForce: 150
   primaryAttackMaxLaunchForce: 800
+  primaryAttackLaunchDelay: 0.3
+  primaryAttackEffectCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  primaryAttackManaDepletion: 25
+  primaryAttackMovementModifier: 0.5
   primaryProjectilePrefab: {fileID: 8766964442698227007, guid: daefe39a199a2674bb5d421ea52854e9,
     type: 3}
-  secondaryTrapPrefab: {fileID: 9157185116791405800, guid: 8b20befda0c4d8e4995dac019d5c7be0,
+  secondaryAttackTrapPrefab: {fileID: 9157185116791405800, guid: 8b20befda0c4d8e4995dac019d5c7be0,
     type: 3}
+  secondaryAttackSpawnDelay: 0.5
+  secondaryAttackManaDepletion: 50
+  secondaryAttackMovementModifier: 0.1
 --- !u!1 &7426571041232957474
 GameObject:
   m_ObjectHideFlags: 0
@@ -3154,14 +3184,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.15
       objectReference: {fileID: 0}
-    - target: {fileID: -3701727588016112575, guid: 9f8d85433d1335d448605742a04e7d97,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
     - target: {fileID: 856365191234717131, guid: 9f8d85433d1335d448605742a04e7d97,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
+    - target: {fileID: -3701727588016112575, guid: 9f8d85433d1335d448605742a04e7d97,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
     m_RemovedComponents: []

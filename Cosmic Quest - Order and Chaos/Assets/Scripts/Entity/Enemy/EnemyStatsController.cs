@@ -16,6 +16,7 @@ public class EnemyStatsController : EntityStatsController
     private float _damageTextCounter = 0f;
     
     public GameObject FloatingText;
+    public GameObject spawnVFX;
 
     private Collider _collider;
 
@@ -28,6 +29,15 @@ public class EnemyStatsController : EntityStatsController
         _collider = gameObject.GetComponent<Collider>();
     }
 
+    private void Start()
+    {
+        // Create a VFX where the enemy will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the enemy colour
+        StartCoroutine(VfxHelper.CreateVFX(spawnVFX, new Vector3(transform.position.x, 0.1f, transform.position.z), 
+            Quaternion.identity, PlayerManager.colours.GetColour(characterColour), 0.5f));
+        // "Spawn" the enemy (they float up through the stage)
+        StartCoroutine(Spawn(gameObject, 0.05f, 0.9f));
+    }
+    
     protected override void Update()
     {
         base.Update();
@@ -117,5 +127,13 @@ public class EnemyStatsController : EntityStatsController
         // Disable the nav and stun the brain
         _agent.enabled = !isStunned;
         _brain.SetStunned(isStunned);
+    }
+    
+    protected override IEnumerator Spawn(GameObject obj, float speed = 0.05F, float delay = 0)
+    {
+        // weird stuff happens when the nav mesh is enabled during the spawn
+        obj.GetComponent<NavMeshAgent>().enabled = false;
+        yield return base.Spawn(obj, speed, delay);
+        obj.GetComponent<NavMeshAgent>().enabled = true;
     }
 }

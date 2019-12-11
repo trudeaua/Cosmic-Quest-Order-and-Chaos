@@ -2418,15 +2418,20 @@ MonoBehaviour:
   primaryAttackTimeout: 0.5
   secondaryAttackTimeout: 4
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
+  primaryAttackMinDamage: 0
+  primaryAttackMaxDamage: 5
   primaryAttackRadius: 3
   primaryAttackSweepAngle: 60
-  primaryAttackDamageFrequency: 1
   primaryAttackManaDepletion: 20
+  primaryAttackMovementModifier: 0.5
   primaryVFX: {fileID: 1634767862067424, guid: 73f960c3d84f6194c9437a721da34230, type: 3}
+  secondaryAttackMinDamage: 2
+  secondaryAttackMaxDamage: 6
   secondaryAttackRadius: 8
   secondaryAttackExplosionForce: 500
   secondaryAttackDamageDelay: 0.6
   secondaryAttackManaDepletion: 50
+  secondaryAttackMovementModifier: 0.5
   secondaryVFX: {fileID: 1426469549788950, guid: b97b870115dcffa43910a02a013598ad,
     type: 3}
 --- !u!1 &6613600106741522969
@@ -3067,16 +3072,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Weapon
       objectReference: {fileID: 0}
-    - target: {fileID: -9064309303332522412, guid: e7d0103c003ce0e4f8184ead0f3694e9,
-        type: 3}
-      propertyPath: m_Name
-      value: Disc 4
-      objectReference: {fileID: 0}
-    - target: {fileID: -9064309303332522412, guid: e7d0103c003ce0e4f8184ead0f3694e9,
-        type: 3}
-      propertyPath: m_TagString
-      value: Weapon Glow
-      objectReference: {fileID: 0}
     - target: {fileID: -8052994932809076077, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_Name
@@ -3087,36 +3082,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Weapon Glow
       objectReference: {fileID: 0}
-    - target: {fileID: -7455685359145607950, guid: e7d0103c003ce0e4f8184ead0f3694e9,
-        type: 3}
-      propertyPath: m_Name
-      value: Remaining Discs
-      objectReference: {fileID: 0}
-    - target: {fileID: -7114577863419070732, guid: e7d0103c003ce0e4f8184ead0f3694e9,
-        type: 3}
-      propertyPath: m_Name
-      value: Disc 3
-      objectReference: {fileID: 0}
-    - target: {fileID: -7114577863419070732, guid: e7d0103c003ce0e4f8184ead0f3694e9,
-        type: 3}
-      propertyPath: m_TagString
-      value: Weapon Glow
-      objectReference: {fileID: 0}
-    - target: {fileID: -6236743471014415788, guid: e7d0103c003ce0e4f8184ead0f3694e9,
-        type: 3}
-      propertyPath: m_Name
-      value: Disc 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -6236743471014415788, guid: e7d0103c003ce0e4f8184ead0f3694e9,
-        type: 3}
-      propertyPath: m_TagString
-      value: Weapon Glow
-      objectReference: {fileID: 0}
-    - target: {fileID: -4861924686910468554, guid: e7d0103c003ce0e4f8184ead0f3694e9,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
     - target: {fileID: -4473984409997532297, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_Name
@@ -3126,6 +3091,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Weapon Glow
+      objectReference: {fileID: 0}
+    - target: {fileID: -3869127443668809106, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Staff Top Gem
+      objectReference: {fileID: 0}
+    - target: {fileID: -3164220449637510858, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Discs
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
@@ -3197,22 +3172,27 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.10000004
       objectReference: {fileID: 0}
-    - target: {fileID: -3869127443668809106, guid: e7d0103c003ce0e4f8184ead0f3694e9,
-        type: 3}
-      propertyPath: m_Name
-      value: Staff Top Gem
-      objectReference: {fileID: 0}
-    - target: {fileID: -3164220449637510858, guid: e7d0103c003ce0e4f8184ead0f3694e9,
-        type: 3}
-      propertyPath: m_Name
-      value: Discs
-      objectReference: {fileID: 0}
-    - target: {fileID: -135972579220929086, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+    - target: {fileID: 856365191234717131, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
-    - target: {fileID: 856365191234717131, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+    - target: {fileID: -7455685359145607950, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Remaining Discs
+      objectReference: {fileID: 0}
+    - target: {fileID: -6236743471014415788, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Disc 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6236743471014415788, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
+    - target: {fileID: -4861924686910468554, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -3227,11 +3207,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Weapon Glow
       objectReference: {fileID: 0}
-    - target: {fileID: 2406916848136235212, guid: e7d0103c003ce0e4f8184ead0f3694e9,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
     - target: {fileID: 5218053877760515484, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -3242,7 +3217,37 @@ PrefabInstance:
       propertyPath: m_Name
       value: Remaining Discs
       objectReference: {fileID: 0}
+    - target: {fileID: -9064309303332522412, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Disc 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -9064309303332522412, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
+    - target: {fileID: -7114577863419070732, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Name
+      value: Disc 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -7114577863419070732, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
+    - target: {fileID: 2406916848136235212, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
     - target: {fileID: 8662461212079705727, guid: e7d0103c003ce0e4f8184ead0f3694e9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
+    - target: {fileID: -135972579220929086, guid: e7d0103c003ce0e4f8184ead0f3694e9,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

@@ -1750,14 +1750,20 @@ MonoBehaviour:
   primaryAttackTimeout: 1
   secondaryAttackTimeout: 2
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
+  primaryAttackMinDamage: 0
+  primaryAttackMaxDamage: 5
   primaryAttackRadius: 3
   primaryAttackSweepAngle: 45
   primaryAttackDamageDelay: 0.6
   primaryAttackManaDepletion: 25
+  primaryAttackMovementModifier: 0.5
+  secondaryAttackMinDamage: 2
+  secondaryAttackMaxDamage: 6
   secondaryAttackRadius: 6.8
   secondaryAttackSweepAngle: 60
   secondaryAttackDamageDelay: 0.6
   secondaryAttackManaDepletion: 50
+  secondaryAttackMovementModifier: 0.5
   secondaryVFX: {fileID: 1157444645554400, guid: 8d757d7da680be745a96124bd9b9fcfe,
     type: 3}
 --- !u!1 &5517715970101247508
@@ -3066,6 +3072,16 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Weapon
       objectReference: {fileID: 0}
+    - target: {fileID: 9101430577481724397, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
+        type: 3}
+      propertyPath: m_Name
+      value: Outer Blade
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101430577481724397, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
     - target: {fileID: -8626751840527039810, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
         type: 3}
       propertyPath: m_Name
@@ -3161,26 +3177,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
-    - target: {fileID: -157825318150610632, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
     - target: {fileID: 5902419001559106108, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
-    - target: {fileID: 9101430577481724397, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
+    - target: {fileID: -157825318150610632, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
         type: 3}
-      propertyPath: m_Name
-      value: Outer Blade
-      objectReference: {fileID: 0}
-    - target: {fileID: 9101430577481724397, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
-        type: 3}
-      propertyPath: m_TagString
-      value: Weapon Glow
-      objectReference: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b93fdd039b162b4bb9183f9c5c297b3, type: 3}
 --- !u!4 &5006512736075784769 stripped
