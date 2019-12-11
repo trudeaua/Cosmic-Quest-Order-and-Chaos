@@ -698,22 +698,17 @@ MonoBehaviour:
     maxValue: 100
     minValue: 0
     regenAmount: 1
-    regenPeriod: 1
+    regenFrequency: 2
   damage:
     baseValue: 5
   defense:
     baseValue: 0
   characterColour: 0
-  stamina:
-    maxValue: 0
-    minValue: 0
-    regenAmount: 0
-    regenPeriod: 0
   mana:
-    maxValue: 0
+    maxValue: 100
     minValue: 0
-    regenAmount: 0
-    regenPeriod: 0
+    regenAmount: 10
+    regenFrequency: 1
 --- !u!114 &749148863823978123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -726,8 +721,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85d7c919668a158459487316debc9da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  primaryAttackCooldown: 1.5
-  secondaryAttackCooldown: 2
+  primaryAttackTimeout: 1.5
+  secondaryAttackTimeout: 2
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
   primaryAttackRadius: 4
   primaryAttackAngle: 100
@@ -3147,16 +3142,21 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Weapon Glow
       objectReference: {fileID: 0}
-    - target: {fileID: 9198531897541347679, guid: bde43346e9f53f34daa40477a4d16b07,
+    - target: {fileID: -157825318150610632, guid: bde43346e9f53f34daa40477a4d16b07,
         type: 3}
-      propertyPath: m_Name
-      value: Halberd Blade
-      objectReference: {fileID: 0}
-    - target: {fileID: 9198531897541347679, guid: bde43346e9f53f34daa40477a4d16b07,
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
+    - target: {fileID: 5586821640661732521, guid: bde43346e9f53f34daa40477a4d16b07,
         type: 3}
-      propertyPath: m_TagString
-      value: Weapon Glow
-      objectReference: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
+    - target: {fileID: 7942737929118864188, guid: bde43346e9f53f34daa40477a4d16b07,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
     - target: {fileID: 9101430577481724397, guid: bde43346e9f53f34daa40477a4d16b07,
         type: 3}
       propertyPath: m_Name
@@ -3167,21 +3167,16 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Weapon Glow
       objectReference: {fileID: 0}
-    - target: {fileID: 5586821640661732521, guid: bde43346e9f53f34daa40477a4d16b07,
+    - target: {fileID: 9198531897541347679, guid: bde43346e9f53f34daa40477a4d16b07,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
-    - target: {fileID: -157825318150610632, guid: bde43346e9f53f34daa40477a4d16b07,
+      propertyPath: m_Name
+      value: Halberd Blade
+      objectReference: {fileID: 0}
+    - target: {fileID: 9198531897541347679, guid: bde43346e9f53f34daa40477a4d16b07,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
-    - target: {fileID: 7942737929118864188, guid: bde43346e9f53f34daa40477a4d16b07,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bde43346e9f53f34daa40477a4d16b07, type: 3}
 --- !u!4 &5006512734901360032 stripped

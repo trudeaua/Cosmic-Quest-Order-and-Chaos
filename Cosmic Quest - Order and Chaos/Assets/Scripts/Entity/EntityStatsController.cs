@@ -43,17 +43,19 @@ public class EntityStatsController : MonoBehaviour
     protected virtual void Update()
     {
         if (!isDead)
-            health.Regen();
+            health.PauseRegen();
     }
 
-    public virtual void TakeDamage(EntityStatsController attacker, float damageValue)
+    public virtual void TakeDamage(EntityStatsController attacker, float damageValue, float timeDelta = 1f)
     {
         // Ignore attacks if already dead
         if (isDead)
             return;
+        
         Anim.SetTrigger("TakeDamage");
+        
         // Calculate any changes based on stats and modifiers here first
-        float hitValue = damageValue - ComputeDefenseModifier();
+        float hitValue = (damageValue - ComputeDefenseModifier()) * timeDelta;
         health.Subtract(hitValue < 0 ? 0 : hitValue);
 
         if (Mathf.Approximately(health.CurrentValue, 0f))

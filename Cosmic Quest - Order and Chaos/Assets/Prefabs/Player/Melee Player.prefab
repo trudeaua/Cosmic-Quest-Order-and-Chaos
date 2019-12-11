@@ -1724,22 +1724,17 @@ MonoBehaviour:
     maxValue: 100
     minValue: 0
     regenAmount: 1
-    regenPeriod: 1
+    regenFrequency: 2
   damage:
     baseValue: 5
   defense:
     baseValue: 0
   characterColour: 0
-  stamina:
-    maxValue: 0
-    minValue: 0
-    regenAmount: 0
-    regenPeriod: 0
   mana:
-    maxValue: 0
+    maxValue: 100
     minValue: 0
-    regenAmount: 0
-    regenPeriod: 0
+    regenAmount: 10
+    regenFrequency: 1
 --- !u!114 &6060052625781106135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1752,13 +1747,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 148c1191536caab49b17361f55e0cf68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  primaryAttackCooldown: 1
-  secondaryAttackCooldown: 2
+  primaryAttackTimeout: 1
+  secondaryAttackTimeout: 2
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
   primaryAttackRadius: 3
-  primaryAttackAngle: 45
+  primaryAttackSweepAngle: 45
+  primaryAttackDamageDelay: 0.6
+  primaryAttackManaDepletion: 25
   secondaryAttackRadius: 6.8
-  secondaryAttackAngle: 60
+  secondaryAttackSweepAngle: 60
+  secondaryAttackDamageDelay: 0.6
+  secondaryAttackManaDepletion: 50
   secondaryVFX: {fileID: 1157444645554400, guid: 8d757d7da680be745a96124bd9b9fcfe,
     type: 3}
 --- !u!1 &5517715970101247508
@@ -3067,6 +3066,26 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Weapon
       objectReference: {fileID: 0}
+    - target: {fileID: -8626751840527039810, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
+        type: 3}
+      propertyPath: m_Name
+      value: Inner Blade
+      objectReference: {fileID: 0}
+    - target: {fileID: -8626751840527039810, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
+    - target: {fileID: -5102530947620581811, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
+        type: 3}
+      propertyPath: m_Name
+      value: Gemstone
+      objectReference: {fileID: 0}
+    - target: {fileID: -5102530947620581811, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3137,41 +3156,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.1000001
       objectReference: {fileID: 0}
-    - target: {fileID: -8626751840527039810, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
-        type: 3}
-      propertyPath: m_Name
-      value: Inner Blade
-      objectReference: {fileID: 0}
-    - target: {fileID: -8626751840527039810, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
-        type: 3}
-      propertyPath: m_TagString
-      value: Weapon Glow
-      objectReference: {fileID: 0}
-    - target: {fileID: -5102530947620581811, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
-        type: 3}
-      propertyPath: m_Name
-      value: Gemstone
-      objectReference: {fileID: 0}
-    - target: {fileID: -5102530947620581811, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
-        type: 3}
-      propertyPath: m_TagString
-      value: Weapon Glow
-      objectReference: {fileID: 0}
-    - target: {fileID: 9101430577481724397, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
-        type: 3}
-      propertyPath: m_Name
-      value: Outer Blade
-      objectReference: {fileID: 0}
-    - target: {fileID: 9101430577481724397, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
-        type: 3}
-      propertyPath: m_TagString
-      value: Weapon Glow
-      objectReference: {fileID: 0}
-    - target: {fileID: 5902419001559106108, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
     - target: {fileID: -3701727588016112575, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
@@ -3182,6 +3166,21 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
+    - target: {fileID: 5902419001559106108, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
+    - target: {fileID: 9101430577481724397, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
+        type: 3}
+      propertyPath: m_Name
+      value: Outer Blade
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101430577481724397, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b93fdd039b162b4bb9183f9c5c297b3, type: 3}
 --- !u!4 &5006512736075784769 stripped

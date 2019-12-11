@@ -6,22 +6,26 @@ using UnityEngine.InputSystem;
 
 public class PlayerMageCombatController : PlayerCombatController
 {
-    [Header("Primary Attack")]
+    [Header("Primary Attack - Flamethrower Spell")]
     [Tooltip("The distance the primary attack will reach")]
-    public float primaryAttackRange = 3f;
-    [Tooltip("The primary attack projected angle of AOE in degrees")]
-    public float primaryAttackAngle = 60f;
-    [Tooltip("How often the damage is applied (every n frames)")]
-    public int primaryAttackDelay = 3;
-
+    public float primaryAttackRadius = 3f;
+    [Tooltip("The angular sweep in front of the player where enemies are affected by the attack")]
+    [Range(0f, 360f)]
+    public float primaryAttackSweepAngle = 60f;
+    [Tooltip("The amount of mana depleted per second")]
+    public float primaryAttackManaDepletion = 20f;
     [Tooltip("Visual effect for primary attack")]
     public GameObject primaryVFX;
 
-    [Header("Secondary Attack")]
+    [Header("Secondary Attack - AOE Explosion")]
     [Tooltip("The radius of the AOE effect")]
     public float secondaryAttackRadius = 8f;
     [Tooltip("The explosive force of the AOE effect")]
-    public float secondaryAttackForce = 500f;
+    public float secondaryAttackExplosionForce = 500f;
+    [Tooltip("The delay before damage is applied to enemies. This is to sync up with the animation")]
+    public float secondaryAttackDamageDelay = 0.6f;
+    [Tooltip("The amount of the player's mana depleted (and necessary) per attack")]
+    public float secondaryAttackManaDepletion = 20f;
     [Tooltip("Visual effect for secondary attack")]
     public GameObject secondaryVFX;
 
@@ -39,29 +43,41 @@ public class PlayerMageCombatController : PlayerCombatController
 
     protected override void PrimaryAttack()
     {
+        // Ensure player has enough mana to perform this attack
+        if ((Stats as PlayerStatsController).mana.CurrentValue < 1f)
+        {
+            // Stop attack if not enough mana
+            _isPrimaryActive = false;
+            Anim.SetBool("PrimaryAttack", false);
+            (Stats as PlayerStatsController).mana.StartRegen();
+            return;
+        }
+
+        (Stats as PlayerStatsController).mana.Subtract(primaryAttackManaDepletion * Time.deltaTime);
+        
         Vector3 vfxPos = gameObject.transform.position + gameObject.transform.forward * 1.5f + new Vector3(0, 2f);
         StartCoroutine(CreateVFX(primaryVFX, vfxPos, gameObject.transform.rotation));
-        if (AttackCooldown > 0) return;
-        AttackCooldown = primaryAttackDelay * Time.deltaTime;
 
         // Check all enemies within attack radius of the player
-        List<Transform> enemies = GetSurroundingEnemies(primaryAttackRange);
+        List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
         
         // Attack any enemies within the attack sweep and range
-        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, primaryAttackRange, primaryAttackAngle)))
+        foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, primaryAttackRadius, primaryAttackSweepAngle)))
         {
-            float baseDamage = Stats.damage.GetValue() / 5f;
-            float damage = Random.Range(baseDamage * 0.9f, baseDamage * 1.1f);
-            enemy.GetComponent<EntityStatsController>().TakeDamage(Stats, damage);
+            // TODO this calculation needs to be changed - currently uses the damage amount as the DPS
+            float baseDamage = Stats.damage.GetValue();
+            enemy.GetComponent<EntityStatsController>().TakeDamage(Stats, baseDamage, Time.deltaTime);
         }
     }
     
     protected override void SecondaryAttack()
     {
-        if (AttackCooldown > 0)
+        // Ensure player has enough mana to perform this attack
+        if (AttackCooldown > 0 || (Stats as PlayerStatsController).mana.CurrentValue < secondaryAttackManaDepletion)
             return;
-
-        AttackCooldown = secondaryAttackCooldown;
+        
+        Anim.SetTrigger("SecondaryAttack");
+        
         StartCoroutine(CreateVFX(secondaryVFX, gameObject.transform.position, Quaternion.identity, PlayerManager.colours.GetColour(Stats.characterColour)));
 
         // Check all enemies within attack radius of the player
@@ -71,8 +87,12 @@ public class PlayerMageCombatController : PlayerCombatController
         foreach (var enemy in enemies)
         {
             StartCoroutine(PerformExplosiveDamage(enemy.GetComponent<EntityStatsController>(), 
-                Stats.damage.GetValue(), 2f, secondaryAttackForce, transform.position, secondaryAttackRadius, 0.6f));
+                Stats.damage.GetValue(), 2f, secondaryAttackExplosionForce, transform.position, secondaryAttackRadius, secondaryAttackDamageDelay));
         }
+        
+        // Reset attack timeout and deplete mana
+        AttackCooldown = secondaryAttackTimeout;
+        (Stats as PlayerStatsController).mana.Subtract(secondaryAttackManaDepletion);
     }
     
     protected override void UltimateAbility()
@@ -83,20 +103,25 @@ public class PlayerMageCombatController : PlayerCombatController
 
     protected override void OnPrimaryAttack(InputValue value)
     {
-        _isPrimaryActive = value.isPressed && AttackCooldown <= 0;
-        Anim.SetBool("PrimaryAttack", _isPrimaryActive);
+        if (value.isPressed)
+        {
+            _isPrimaryActive = true;
+            Anim.SetBool("PrimaryAttack", true);
+            (Stats as PlayerStatsController).mana.PauseRegen();
+        }
+        else
+        {
+            _isPrimaryActive = false;
+            Anim.SetBool("PrimaryAttack", false);
+            (Stats as PlayerStatsController).mana.StartRegen();
+        }
     }
 
     protected override void OnSecondaryAttack(InputValue value)
     {
-        bool isPressed = value.isPressed;
-        if (AttackCooldown <= 0 && !_isPrimaryActive)
+        if (!_isPrimaryActive && value.isPressed)
         {
-            if (isPressed)
-            {
-                Anim.SetTrigger("SecondaryAttack");
-                SecondaryAttack();
-            }
+            SecondaryAttack();
         }
     }
 }

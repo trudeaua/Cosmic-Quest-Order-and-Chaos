@@ -4,10 +4,14 @@ using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerStatsController))]
 public class PlayerCombatController : EntityCombatController
 {
-    [SerializeField] protected float primaryAttackCooldown;
-    [SerializeField] protected float secondaryAttackCooldown;
+    [Tooltip("The minimal cooldown between consecutive attacks. This value should be larger than the time it takes for the entire attack animation")]
+    public float primaryAttackTimeout;
+    [Tooltip("The minimal cooldown between consecutive attacks. This value should be larger than the time it takes for the entire attack animation")]
+    public float secondaryAttackTimeout;
+    
     public GameObject spawnVFX;
 
     protected virtual void Start()
@@ -91,7 +95,7 @@ public class PlayerCombatController : EntityCombatController
         // Only trigger attack on button down by default
         if (value.isPressed)
         {
-            //PrimaryAttack();
+            PrimaryAttack();
         }
     }
     

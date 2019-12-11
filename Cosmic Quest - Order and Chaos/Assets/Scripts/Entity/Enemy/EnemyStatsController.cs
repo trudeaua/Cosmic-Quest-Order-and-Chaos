@@ -11,6 +11,10 @@ public class EnemyStatsController : EntityStatsController
     private EnemyBrainController _brain;
     private NavMeshAgent _agent;
 
+    private float _minTimeBetweenDamageText = 0.5f;
+    private float _damageTextValue = 0f;
+    private float _damageTextCounter = 0f;
+    
     public GameObject FloatingText;
 
     private Collider _collider;
@@ -24,7 +28,15 @@ public class EnemyStatsController : EntityStatsController
         _collider = gameObject.GetComponent<Collider>();
     }
 
-    public override void TakeDamage(EntityStatsController attacker, float damageValue)
+    protected override void Update()
+    {
+        base.Update();
+
+        if (_damageTextCounter > 0f)
+            _damageTextCounter -= Time.deltaTime;
+    }
+
+    public override void TakeDamage(EntityStatsController attacker, float damageValue, float timeDelta = 1f)
     {
         // Ignore attacks if already dead
         if (isDead)
@@ -36,14 +48,13 @@ public class EnemyStatsController : EntityStatsController
         }
 
         // Calculate any changes based on stats and modifiers here first
-        float hitValue = Mathf.Max(damageValue - ComputeDefenseModifier(), 0);
+        float hitValue = Mathf.Max(damageValue - ComputeDefenseModifier(), 0) * timeDelta;
         health.Subtract(hitValue);
         ShowDamage(hitValue);
         Anim.SetTrigger("TakeDamage");
+        
         // Pass damage information to brain
         _brain.OnDamageTaken(attacker.gameObject, hitValue);
-        
-        Debug.Log(transform.name + " took " + hitValue + " damage.");
 
         if (Mathf.Approximately(health.CurrentValue, 0f))
         {
@@ -51,16 +62,24 @@ public class EnemyStatsController : EntityStatsController
         }
     }
 
-    public void ShowDamage(float damage, float duration = 0.5f)
+    private void ShowDamage(float value, float duration = 0.5f)
     {
+        _damageTextValue += value;
+        if (_damageTextCounter > 0f || _damageTextValue < 0.5f)
+            return;
+        
         Vector3 offset = new Vector3(0, _collider.bounds.size.y + 4f, 0);
         float x = 1f, y = 0.5f;
         Vector3 random = new Vector3(Random.Range(-x, x), Random.Range(-y, y));
 
         GameObject text = Instantiate(FloatingText, transform.position + offset + random, Quaternion.identity);
-        text.GetComponent<TMP_Text>().text = damage.ToString("F2");
+        text.GetComponent<TMP_Text>().text = _damageTextValue.ToString("F2");
 
         Destroy(text, duration);
+
+        // Reset the damage text timer between text instances
+        _damageTextCounter = _minTimeBetweenDamageText;
+        _damageTextValue = 0f;
     }
 
     protected override IEnumerator ApplyExplosiveForce(float explosionForce, Vector3 explosionPoint, float explosionRadius, float stunTime)

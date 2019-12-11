@@ -5,10 +5,11 @@ using UnityEngine;
 public class PlayerStatsController : EntityStatsController
 {
     // Player specific stats
-    public RegenerableStat stamina;
     public RegenerableStat mana;
+    
     // player collider
     private Collider thisCollider;
+    
     // ragdoll collider
     private Collider[] ragdollColliders;
     private Rigidbody[] ragdollRigidbodies;
@@ -16,6 +17,8 @@ public class PlayerStatsController : EntityStatsController
     protected override void Awake()
     {
         base.Awake();
+        mana.Init();
+        
         // get the collider attached to the player
         thisCollider = GetComponent<Collider>();
         ragdollColliders = GetComponentsInChildren<Collider>();
@@ -33,9 +36,9 @@ public class PlayerStatsController : EntityStatsController
     protected override void Update()
     {
         base.Update();
-        
-        stamina.Regen();
-        mana.Regen();
+
+        if (!isDead)
+            mana.Regen();
     }
     
     protected override void Die()
@@ -91,14 +94,12 @@ public class PlayerStatsController : EntityStatsController
                 if (weaponComponent.CompareTag("Weapon Glow"))
                 {
                     Material[] weaponMaterials = weaponComponent.GetComponent<Renderer>().materials;
-                    int i = 0;
                     // the bow has more than 1 material assigned to one of its weapon parts
                     foreach (Material m in weaponMaterials)
                     {
-                        weaponMaterials[i].EnableKeyword("_EMISSION");
-                        weaponMaterials[i].SetColor("_Color", color);
-                        weaponMaterials[i].SetColor("_EmissionColor", color * intensity);
-                        i++;
+                        m.EnableKeyword("_EMISSION");
+                        m.SetColor("_Color", color);
+                        m.SetColor("_EmissionColor", color * intensity);
                     }
                 }
             }

@@ -17,7 +17,6 @@ public class PlayerRangedCombatController : PlayerCombatController
     [Tooltip("The arrow prefab for the primary attack")]
     public GameObject primaryProjectilePrefab;
 
-
     [Header("Secondary Attack")]
     [Tooltip("The trap prefab for the secondary attack")]
     public GameObject secondaryTrapPrefab;
@@ -48,7 +47,7 @@ public class PlayerRangedCombatController : PlayerCombatController
     {
         if (AttackCooldown > 0)
             return;
-        AttackCooldown = primaryAttackCooldown;
+        AttackCooldown = primaryAttackTimeout;
 
         float damage = Mathf.Ceil(Stats.damage.GetValue() * _chargePercent);
         
@@ -61,7 +60,7 @@ public class PlayerRangedCombatController : PlayerCombatController
         if (AttackCooldown > 0)
             return;
 
-        AttackCooldown = secondaryAttackCooldown;
+        AttackCooldown = secondaryAttackTimeout;
         
         // Place explosive trap
         StartCoroutine(PlaceTrap(secondaryTrapPrefab, 0.5f));

@@ -25,7 +25,7 @@ public class PlayerMedicCombatController : PlayerCombatController
         if (AttackCooldown > 0)
             return;
 
-        AttackCooldown = primaryAttackCooldown;
+        AttackCooldown = primaryAttackTimeout;
         
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
@@ -44,7 +44,7 @@ public class PlayerMedicCombatController : PlayerCombatController
         if (AttackCooldown > 0)
             return;
 
-        AttackCooldown = secondaryAttackCooldown;
+        AttackCooldown = secondaryAttackTimeout;
         
         // Launch projectile in the direction the player is facing
         StartCoroutine(LaunchProjectile(projectilePrefab, transform.forward, secondaryAttackLaunchForce, secondaryAttackRange, 0.5f));
@@ -87,7 +87,7 @@ public class PlayerMedicCombatController : PlayerCombatController
 
     private IEnumerator FinishPrimaryAttack()
     {
-        yield return new WaitForSeconds(primaryAttackCooldown);
+        yield return new WaitForSeconds(primaryAttackTimeout);
         Anim.SetBool("PrimaryAttack", false);
     }
 }
