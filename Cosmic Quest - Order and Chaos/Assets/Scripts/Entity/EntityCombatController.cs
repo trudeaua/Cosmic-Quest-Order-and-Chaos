@@ -29,6 +29,7 @@ public class EntityCombatController : MonoBehaviour
         if (damageDelay > 0f)
             yield return new WaitForSeconds(damageDelay);
 
+        ResetTakeDamageAnim();
         // Applies damage to targetStats
         targetStats.TakeDamage(Stats, damageValue);
     }
@@ -38,9 +39,14 @@ public class EntityCombatController : MonoBehaviour
     {
         if (explosionDelay > 0f)
             yield return new WaitForSeconds(explosionDelay);
-
+        ResetTakeDamageAnim();
         // Applies damage to targetStats
         targetStats.TakeExplosionDamage(Stats, maxDamage, stunTime, explosionForce, explosionPoint, explosionRadius);
+    }
+
+    protected void ResetTakeDamageAnim()
+    {
+        Anim.ResetTrigger("TakeDamage");
     }
     
     protected IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float launchDelay = 0f)
@@ -50,6 +56,7 @@ public class EntityCombatController : MonoBehaviour
         
         // Launch projectile from projectile pool
         GameObject projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab);
+        ResetTakeDamageAnim();
         projectile.GetComponent<Projectile>().Launch(Stats, direction, launchForce, range);
     }
 
@@ -118,8 +125,8 @@ public class EntityCombatController : MonoBehaviour
     protected virtual IEnumerator Spawn(GameObject obj, float speed = 0.05f, float delay = 0f)
     {
         Collider col = obj.GetComponent<Collider>();
-        float from = -1 * col.bounds.center.y * 4;
-        float to = 0;
+        float from = obj.transform.position.y  - col.bounds.size.y * 2.5f;
+        float to = obj.transform.position.y;
         col.enabled = false;
         obj.transform.position = new Vector3(obj.transform.position.x, from, obj.transform.position.z);
         if (delay > 0)
