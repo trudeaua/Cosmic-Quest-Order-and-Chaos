@@ -16,11 +16,9 @@ public class HiddenHint : Room
         }
     }
 
-    public IEnumerator SetHintAnimTrigger ()
+    public override IEnumerator SetAnimTrigger ()
     {
-
-        yield return new WaitForSeconds(1);
-        Anim.SetTrigger("RevealHint1");
+        Anim.SetTrigger("RevealHint");
         yield break;
     }
 }
