@@ -29,6 +29,8 @@ public class EntityCombatController : MonoBehaviour
         if (damageDelay > 0f)
             yield return new WaitForSeconds(damageDelay);
 
+        ResetTakeDamageAnim();
+        
         // Applies damage to targetStats
         targetStats.TakeDamage(Stats, damageValue);
     }
@@ -38,9 +40,16 @@ public class EntityCombatController : MonoBehaviour
     {
         if (explosionDelay > 0f)
             yield return new WaitForSeconds(explosionDelay);
-
+        
+        ResetTakeDamageAnim();
+        
         // Applies damage to targetStats
         targetStats.TakeExplosionDamage(Stats, maxDamage, stunTime, explosionForce, explosionPoint, explosionRadius);
+    }
+
+    protected void ResetTakeDamageAnim()
+    {
+        Anim.ResetTrigger("TakeDamage");
     }
     
     protected IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float launchDelay = 0f)
@@ -50,6 +59,8 @@ public class EntityCombatController : MonoBehaviour
         
         // Launch projectile from projectile pool
         GameObject projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab);
+        
+        ResetTakeDamageAnim();
         projectile.GetComponent<Projectile>().Launch(Stats, direction, launchForce, range);
     }
 }

@@ -11,10 +11,12 @@ public class PlayerInteractionController : MonoBehaviour
 
     private PlayerCombatController _combat;
     private Interactable _currentObject = null;
+    private Animator _anim;
 
     private void Start()
     {
         _combat = GetComponent<PlayerCombatController>();
+        _anim = gameObject.GetComponentInChildren<Animator>();
     }
 
     /// <summary>
@@ -35,8 +37,15 @@ public class PlayerInteractionController : MonoBehaviour
             // If currently interacting with a "non-held" object, stop interacting
             if (_currentObject)
             {
+                // Decide which animation to do
+                if (_currentObject is Draggable)
+                {
+                    _anim.SetBool("PickedUp", false);
+                }
+                
                 _currentObject.StopInteract(transform);
                 _currentObject = null;
+
                 return;
             }
             
@@ -50,7 +59,21 @@ public class PlayerInteractionController : MonoBehaviour
                 Interactable interactable = hit.transform.GetComponent<Interactable>();
                 if (interactable is null)
                     return;
-                
+
+                // Decide which animation to do
+                if (interactable is Draggable)
+                {
+                    _anim.SetBool("PickedUp", true);
+                }
+                else if (interactable is Lever)
+                {
+                    _anim.SetTrigger("InteractStanding");
+                }
+                else if (interactable is Collectable)
+                {
+                    _anim.SetTrigger("InteractGround");
+                }
+
                 // Attempt interaction
                 interactable.StartInteract(transform);
                 

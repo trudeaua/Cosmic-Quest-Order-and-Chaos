@@ -67,9 +67,10 @@ public class PlayerMageCombatController : PlayerCombatController
             Motor.ResetMovementModifier();
             return;
         }
-
+        
         (Stats as PlayerStatsController).mana.Subtract(primaryAttackManaDepletion * Time.deltaTime);
         
+        ResetTakeDamageAnim();
         Vector3 vfxPos = transform.position + transform.forward * 1.5f + new Vector3(0, 2f);
         StartCoroutine(VfxHelper.CreateVFX(primaryVFX, vfxPos, transform.rotation));
 
