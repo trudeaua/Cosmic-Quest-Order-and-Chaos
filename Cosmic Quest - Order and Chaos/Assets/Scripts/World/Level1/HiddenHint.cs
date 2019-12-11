@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialRoom3 : Room
+public class HiddenHint : Room
 {
     // Update is called once per frame
     void Update()
     {
-        if (AreAllEnemiesKilled())
+        if (ArePlatformsActivated())
         {
             StartCoroutine(SetAnimTrigger());
 
             // This script is no longer needed. Deactivate to reduce impact on performance.
             enabled = false;
         }
+    }
+
+    public IEnumerator SetHintAnimTrigger ()
+    {
+
+        yield return new WaitForSeconds(1);
+        Anim.SetTrigger("RevealHint1");
+        yield break;
     }
 }

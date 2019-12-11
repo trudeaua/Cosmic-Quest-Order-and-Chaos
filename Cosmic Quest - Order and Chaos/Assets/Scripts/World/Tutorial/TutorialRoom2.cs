@@ -9,7 +9,7 @@ public class TutorialRoom2 : Room
     {
         if (AreLeversPulled())
         {
-            StartCoroutine(SetDoorAnimTrigger());
+            StartCoroutine(SetAnimTrigger());
 
             // This script is no longer needed. Deactivate to reduce impact on performance.
             enabled = false;

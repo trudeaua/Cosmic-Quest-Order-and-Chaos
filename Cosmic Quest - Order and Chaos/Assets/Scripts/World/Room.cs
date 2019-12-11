@@ -102,12 +102,12 @@ public class Room : MonoBehaviour
         return true;
     }
 
-    public virtual void PauseDoorAnimEvent()
+    public virtual void PauseAnimEvent()
     {
         Anim.enabled = false;
     }
 
-    public IEnumerator SetDoorAnimTrigger ()
+    public virtual IEnumerator SetAnimTrigger ()
     {
 
         yield return new WaitForSeconds(1);
