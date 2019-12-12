@@ -49,7 +49,6 @@ public class Room : MonoBehaviour
     // Returns whether all rocks have been positioned on their respective platforms
     public virtual bool ArePlatformsActivated ()
     {
-        Debug.Log("Platform count = " + m_Platforms.Count);
         if (m_Platforms == null || m_Platforms.Count == 0) return true;
 
         // Check if every platform in the room has a rock placed on it
@@ -68,7 +67,6 @@ public class Room : MonoBehaviour
     // Returns whether all levers in the room have been pulled
     public virtual bool AreLeversPulled ()
     {
-        Debug.Log("Lever count = " + m_Levers.Count);
          if (m_Levers == null || m_Levers.Count == 0) return true;
 
         // Check if every lever has been activated

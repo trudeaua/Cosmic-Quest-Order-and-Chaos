@@ -12,7 +12,7 @@ public class Lvl1Room1 : Room
     void Awake()
     {
         code = "PGGP";
-        input = new StringBuilder("PGGP", 4);
+        input = new StringBuilder("PGGP", 50);
     }
 
     // Update is called once per frame
@@ -30,7 +30,7 @@ public class Lvl1Room1 : Room
     // Returns whether all levers in the room have been pulled
     public override bool AreLeversPulled ()
     {
-        if (input.Length == 4) input.Clear();
+        if (input.Length > 4) input.Clear();
         
         if (input != null)
         {
@@ -43,22 +43,24 @@ public class Lvl1Room1 : Room
             foreach (GameObject lever in m_Levers)
             {
                 Transform handle = lever.transform.Find("Handle");
-                
+
                 if (handle.GetComponent<Animator>().GetBool("LeverPulled"))
                 {
+                    
                     switch(handle.GetComponent<Lever>().colour)
                     {
                         case (CharacterColour.Green):
-                            input.Append('G');
+                            Debug.Log("Hello Hello");
                             break;
                         case (CharacterColour.Purple):
-                            input.Append('P');
+                            input.Append("P");
                             break;
                     }
+                    
                 }
             }
         }
 
-        return (input.ToString() == code);
+        return (string.Compare(input.ToString(), code) ==0);
     }
 }
