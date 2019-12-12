@@ -36,7 +36,7 @@ public class PlayerCombatController : EntityCombatController
         // Implement me
         Debug.Log("Player's base ultimate ability triggered");
     }
-    
+
     /// <summary>
     /// Returns all the enemies surrounding the player within a given radius
     /// </summary>
@@ -57,7 +57,7 @@ public class PlayerCombatController : EntityCombatController
 
         return enemies;
     }
-    
+
     /// <summary>
     /// Determines if the player can deal damage to an enemy
     /// </summary>
@@ -85,7 +85,7 @@ public class PlayerCombatController : EntityCombatController
 
         return false;
     }
-    
+
     protected IEnumerator TriggerTimeAttackAnimation(string animName, float time)
     {
         Anim.SetBool(animName, true);
@@ -101,7 +101,7 @@ public class PlayerCombatController : EntityCombatController
             PrimaryAttack();
         }
     }
-    
+
     protected virtual void OnSecondaryAttack(InputValue value)
     {
         // Only trigger attack on button down by default

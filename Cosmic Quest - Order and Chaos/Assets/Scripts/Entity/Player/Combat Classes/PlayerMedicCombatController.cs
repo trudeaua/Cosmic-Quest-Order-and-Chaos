@@ -23,6 +23,8 @@ public class PlayerMedicCombatController : PlayerCombatController
     [Tooltip("The percent modifier of movement speed during this attack")]
     [Range(0f, 1f)]
     public float primaryAttackMovementModifier = 0.5f;
+    [Tooltip("Weapon audio effect for primary attack")]
+    [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackWeaponSFX;
     
     [Header("Secondary Attack - Healing Orb")]
     [Tooltip("The force to launch the healing projectile at")]
@@ -38,15 +40,8 @@ public class PlayerMedicCombatController : PlayerCombatController
     public float secondaryAttackMovementModifier = 0.5f;
     [Tooltip("The prefab for the healing projectile")]
     public GameObject projectilePrefab;
-    [Tooltip("How long until the player can attack after the secondary attack")]
-    public float secondaryAttackCooldown;
-    [Tooltip("Time between when attack starts vs when damage is dealt")]
-    public float secondaryAttackDelay = 0.6f;
-    [Tooltip("Visual effect for secondary attack")]
-    public GameObject secondaryVFX;
     [Tooltip("Weapon audio effect for secondary attack")]
-    [SerializeField] protected EntityAudioClip secondaryAttackWeaponSFX;
-
+    [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackWeaponSFX;
 
     protected override void PrimaryAttack()
     {
@@ -55,7 +50,7 @@ public class PlayerMedicCombatController : PlayerCombatController
 
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
-        
+
         // Attack any enemies within the attack sweep and range
         foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, primaryAttackRadius, primaryAttackSweepAngle)))
         {
@@ -64,18 +59,21 @@ public class PlayerMedicCombatController : PlayerCombatController
             float damageValue = Random.Range(primaryAttackMinDamage, primaryAttackMaxDamage + Stats.damage.GetValue());
             StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), damageValue, primaryAttackDamageDelay));
         }
-        
+
         // Trigger primary attack animation
         StartCoroutine(TriggerTimeAttackAnimation("PrimaryAttack", primaryAttackTimeout));
-        
+
+        // Play the attack audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackWeaponSFX));
+
         // Reset attack timeout and deplete mana
         AttackCooldown = primaryAttackTimeout;
         (Stats as PlayerStatsController).mana.Subtract(primaryAttackManaDepletion);
-        
+
         // Apply movement speed modifier
         StartCoroutine(Motor.ApplyTimedMovementModifier(primaryAttackMovementModifier, primaryAttackTimeout));
     }
-    
+
     protected override void SecondaryAttack()
     {
         if (AttackCooldown > 0 || (Stats as PlayerStatsController).mana.CurrentValue < secondaryAttackManaDepletion)
@@ -83,14 +81,17 @@ public class PlayerMedicCombatController : PlayerCombatController
 
         // Launch projectile in the direction the player is facing
         StartCoroutine(LaunchProjectile(projectilePrefab, transform.forward, secondaryAttackLaunchForce, secondaryAttackRange, secondaryAttackLaunchDelay));
-        
+
         // Trigger secondary attack animation
         Anim.SetTrigger("SecondaryAttack");
-        
+
+        // Play the attack audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, secondaryAttackWeaponSFX));
+
         // Reset attack timeout and deplete mana
         AttackCooldown = secondaryAttackTimeout;
         (Stats as PlayerStatsController).mana.Subtract(secondaryAttackManaDepletion);
-        
+
         // Apply movement speed modifier
         StartCoroutine(Motor.ApplyTimedMovementModifier(secondaryAttackMovementModifier, secondaryAttackTimeout));
     }

@@ -6,18 +6,15 @@ using UnityEngine;
 
 public class EnemySingleAttackCombatController : EnemyCombatController
 {
-    [SerializeField] protected float primaryAttackCooldown = 1f;
-    [SerializeField] protected float primaryAttackDelay = 0.6f;
-    [SerializeField] protected EntityAudioClip primaryAttackSFX;
-
     public override void PrimaryAttack()
     {
         if (AttackCooldown > 0f)
             return;
-        
 
-        StartCoroutine(Stats.PlayAudioOverlap(primaryAttackSFX));
+        // animation
         Anim.SetTrigger("PrimaryAttack");
+        // audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackSFX));
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))

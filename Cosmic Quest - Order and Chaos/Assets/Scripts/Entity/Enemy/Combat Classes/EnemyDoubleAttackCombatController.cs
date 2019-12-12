@@ -6,21 +6,18 @@ using UnityEngine;
 
 public class EnemyDoubleAttackCombatController : EnemyCombatController
 {
-    [SerializeField] protected float primaryAttackCooldown = 1f;
-    [SerializeField] protected float primaryAttackDelay = 0.6f;
-    [SerializeField] protected EntityAudioClip primaryAttackSFX;
-
-    [SerializeField] protected float secondaryAttackCooldown = 1f;
-    [SerializeField] protected float secondaryAttackDelay = 0.6f;
-    [SerializeField] protected EntityAudioClip secondaryAttackSFX;
+    public float secondaryAttackCooldown = 1f;
+    public float secondaryAttackDelay = 0.6f;
+    [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackSFX;
 
     public override void PrimaryAttack()
     {
         if (AttackCooldown > 0f)
             return;
-        
-        StartCoroutine(Stats.PlayAudioOverlap(primaryAttackSFX));
+
         Anim.SetTrigger("PrimaryAttack");
+        // audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackSFX));
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
@@ -37,8 +34,9 @@ public class EnemyDoubleAttackCombatController : EnemyCombatController
         if (AttackCooldown > 0f)
             return;
 
-        StartCoroutine(Stats.PlayAudioOverlap(secondaryAttackSFX));
         Anim.SetTrigger("SecondaryAttack");
+        // audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, secondaryAttackSFX));
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))

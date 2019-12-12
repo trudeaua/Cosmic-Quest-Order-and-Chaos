@@ -12,11 +12,14 @@ public class ExplosiveTrap : MonoBehaviour
     private bool _isArmed;
     private bool _isDetonated;
     private EntityStatsController _thrower;
-    // audio to play on explosion
-    private EntityAudioClip audioClip;
 
     private Collider[] _hits;
     public GameObject explosiveTrapVFX;
+
+    // source to play explosion sfx from
+    private AudioSource source;
+    // explosion sfx to play
+    private AudioHelper.EntityAudioClip audioClip;
 
     private void Awake()
     {
@@ -29,14 +32,15 @@ public class ExplosiveTrap : MonoBehaviour
         _isDetonated = false;
         transform.position = position;
         _isArmed = false;
-        
+
         // Set self active
         gameObject.SetActive(true);
         StartCoroutine("ArmTrap");
     }
 
-    public void SetAudio(EntityAudioClip audioClip)
+    public void SetExplosionAudio(AudioSource source, AudioHelper.EntityAudioClip audioClip)
     {
+        this.source = source;
         this.audioClip = audioClip;
     }
 
@@ -45,7 +49,7 @@ public class ExplosiveTrap : MonoBehaviour
         yield return new WaitForSeconds(armTime);
         _isArmed = true;
     }
-    
+
     private void Detonate()
     {
         _isDetonated = true;
@@ -57,13 +61,15 @@ public class ExplosiveTrap : MonoBehaviour
     private void ExplosionEffect()
     {
         PerformExplosionAnimation();
+        // play the explosion sound
+        StartCoroutine(AudioHelper.PlayAudioOverlap(source, audioClip));
         int numHits = Physics.OverlapSphereNonAlloc(transform.position, explosionRadius, _hits, EntityStatsController.EntityLayer);
 
         for (int i = 0; i < numHits; i++)
         {
             if (!_hits[i].transform.CompareTag("Enemy"))
                 continue;
-            
+
             // TODO check for if enemy is behind cover
             _hits[i].transform.GetComponent<EnemyStatsController>().TakeExplosionDamage(_thrower, maxDamage, stunTime, explosionForce, transform.position, explosionRadius);
         }
@@ -88,7 +94,7 @@ public class ExplosiveTrap : MonoBehaviour
     protected void PerformExplosionAnimation()
     {
         GameObject vfx;
-        StartCoroutine(_thrower.PlayAudioOverlap(audioClip));
+
         vfx = Instantiate(explosiveTrapVFX, gameObject.transform.position, Quaternion.identity);
 
         var ps = GetFirstPS(vfx);

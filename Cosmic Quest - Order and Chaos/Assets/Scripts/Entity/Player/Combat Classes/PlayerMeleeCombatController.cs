@@ -21,7 +21,9 @@ public class PlayerMeleeCombatController : PlayerCombatController
     [Tooltip("The percent modifier of movement speed during this attack")]
     [Range(0f, 1f)]
     public float primaryAttackMovementModifier = 0.5f;
-    
+    [Tooltip("Weapon audio effect for primary attack")]
+    [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackWeaponSFX;
+
     [Header("Secondary Attack - Wide Swing")]
     [Tooltip("The minimum base damage that this attack can deal")]
     public float secondaryAttackMinDamage = 2f;
@@ -41,6 +43,8 @@ public class PlayerMeleeCombatController : PlayerCombatController
     public float secondaryAttackMovementModifier = 0.5f;
     [Tooltip("Visual effect for secondary attack")]
     public GameObject secondaryVFX;
+    [Tooltip("Weapon audio effect for secondary attack")]
+    [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackWeaponSFX;
 
     protected override void PrimaryAttack()
     {
@@ -59,33 +63,36 @@ public class PlayerMeleeCombatController : PlayerCombatController
             float damageValue = Random.Range(primaryAttackMinDamage, primaryAttackMaxDamage + Stats.damage.GetValue());
             StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), damageValue, primaryAttackDamageDelay));
         }
-        
+
         // Trigger primary attack animation
         StartCoroutine(TriggerTimeAttackAnimation("PrimaryAttack", primaryAttackTimeout));
-        
+
+        // Play the attack audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackWeaponSFX));
+
         // Reset attack timeout and deplete mana
         AttackCooldown = primaryAttackTimeout;
         (Stats as PlayerStatsController).mana.Subtract(primaryAttackManaDepletion);
-        
+
         // Apply movement speed modifier
         StartCoroutine(Motor.ApplyTimedMovementModifier(primaryAttackMovementModifier, primaryAttackTimeout));
 
         // Primary attack animation
         //Anim.SetBool("Combo", !Anim.GetBool("Combo"));
     }
-    
+
     protected override void SecondaryAttack()
     {
         // Ensure player has enough mana to perform this attack
         if (AttackCooldown > 0 || (Stats as PlayerStatsController).mana.CurrentValue < secondaryAttackManaDepletion)
             return;
 
-        StartCoroutine(VfxHelper.CreateVFX(secondaryVFX, transform.position, transform.rotation, 
+        StartCoroutine(VfxHelper.CreateVFX(secondaryVFX, transform.position + new Vector3(0, 0.01f, 0), transform.rotation,
             PlayerManager.colours.GetColour(Stats.characterColour), secondaryAttackDamageDelay));
 
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(secondaryAttackRadius);
-        
+
         // Attack any enemies within the attack sweep and range
         foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, secondaryAttackRadius, secondaryAttackSweepAngle)))
         {
@@ -93,18 +100,21 @@ public class PlayerMeleeCombatController : PlayerCombatController
             float damageValue = Random.Range(secondaryAttackMinDamage, secondaryAttackMaxDamage + Stats.damage.GetValue());
             StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), damageValue, secondaryAttackDamageDelay));
         }
-        
+
         // Trigger secondary attack animation
         Anim.SetTrigger("SecondaryAttack");
-        
+
+        // Play the attack audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, secondaryAttackWeaponSFX));
+
         // Reset attack timeout and deplete mana
         AttackCooldown = secondaryAttackTimeout;
         (Stats as PlayerStatsController).mana.Subtract(secondaryAttackManaDepletion);
-        
+
         // Apply movement speed modifier
         StartCoroutine(Motor.ApplyTimedMovementModifier(secondaryAttackMovementModifier, secondaryAttackTimeout));
     }
-    
+
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability

@@ -6,13 +6,10 @@ public class PlayerStatsController : EntityStatsController
 {
     // Player specific stats
     public RegenerableStat mana;
-    
-    // Player spawn VFX
-    public GameObject spawnVFX;
-    
+
     // player collider
     private Collider _collider;
-    
+
     // ragdoll collider
     private Collider[] ragdollColliders;
     private Rigidbody[] ragdollRigidbodies;
@@ -21,7 +18,7 @@ public class PlayerStatsController : EntityStatsController
     {
         base.Awake();
         mana.Init();
-        
+
         // get the collider attached to the player
         _collider = GetComponent<Collider>();
         ragdollColliders = GetComponentsInChildren<Collider>();
@@ -33,12 +30,12 @@ public class PlayerStatsController : EntityStatsController
     private void Start()
     {
         Color playerColour = PlayerManager.colours.GetColour(characterColour);
-        
+
         // colour the player's weapon
         AssignWeaponColour(gameObject, playerColour);
-        
+
         // Create a VFX where the player will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the player colour
-        StartCoroutine(VfxHelper.CreateVFX(spawnVFX, new Vector3(transform.position.x, 0.1f, transform.position.z), Quaternion.identity, playerColour, 0.5f));
+        StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0), Quaternion.identity, playerColour, 0.5f));
         // "Spawn" the player (they float up through the stage)
         StartCoroutine(Spawn(gameObject, 0.08f, 0.9f));
     }
@@ -50,7 +47,7 @@ public class PlayerStatsController : EntityStatsController
         if (!isDead)
             mana.Regen();
     }
-    
+
     protected override void Die()
     {
         Debug.Log(transform.name + " died.");
@@ -58,9 +55,9 @@ public class PlayerStatsController : EntityStatsController
         Anim.enabled = false;
         EnableRagdoll(true);
         StartCoroutine(PlayerDeath());
-        StartCoroutine(PlayAudioOverlap(entityDeathVocalSFX));
+        StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, entityDeathVocalSFX));
     }
-    
+
     private IEnumerator PlayerDeath()
     {
         yield return new WaitForSeconds(5.5f);
@@ -87,7 +84,7 @@ public class PlayerStatsController : EntityStatsController
         // Get the player weapon
         Transform[] children = player.GetComponentsInChildren<Transform>();
         GameObject weapon = null;
-        
+
         foreach (var child in children)
         {
             if (child.CompareTag("Weapon"))
@@ -96,7 +93,7 @@ public class PlayerStatsController : EntityStatsController
                 break;
             }
         }
-        
+
         // Dynamically assign player weapon colours
         if (weapon != null)
         {

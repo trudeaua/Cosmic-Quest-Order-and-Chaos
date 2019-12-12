@@ -29,12 +29,12 @@ public class PlayerRangedCombatController : PlayerCombatController
     public float primaryAttackMovementModifier = 0.5f;
     [Tooltip("The arrow prefab for the primary attack")]
     public GameObject primaryProjectilePrefab;
+    [Tooltip("Weapon audio effect for primary attack charge")]
+    [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackChargeWeaponSFX;
+    [Tooltip("Weapon audio effect for primary attack release")]
+    [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackReleaseWeaponSFX;
 
     [Header("Secondary Attack")]
-    [Tooltip("How long until the player can attack after the secondary attack")]
-    public float secondaryAttackCooldown;
-    [Tooltip("Time between when attack starts vs when damage is dealt")]
-    public float secondaryAttackDelay = 0.5f;
     [Tooltip("The trap prefab for the secondary attack")]
     public GameObject secondaryAttackTrapPrefab;
     [Tooltip("The delay before spawning the trap prefab")]
@@ -44,14 +44,18 @@ public class PlayerRangedCombatController : PlayerCombatController
     [Tooltip("The percent modifier of movement speed during this attack")]
     [Range(0f, 1f)]
     public float secondaryAttackMovementModifier = 0.1f;
-    
+    [Tooltip("Weapon audio effect for secondary attack")]
+    [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackWeaponSFX;
+    [Tooltip("Weapon audio effect for secondary attack explosion")]
+    [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackWeaponExplosionSFX;
+
     private bool _isPrimaryCharging;
     private float _primaryChargeTime;
 
     protected override void Update()
     {
         base.Update();
-        
+
         // Handle attack charge ups
         if (_isPrimaryCharging)
         {
@@ -66,19 +70,19 @@ public class PlayerRangedCombatController : PlayerCombatController
 
     protected override void PrimaryAttack()
     {
-        float chargePercent = Mathf.InverseLerp(0f, primaryAttackChargeTime,_primaryChargeTime);
-        
+        float chargePercent = Mathf.InverseLerp(0f, primaryAttackChargeTime, _primaryChargeTime);
+
         float damageValue = primaryAttackEffectCurve.Evaluate(chargePercent) * Random.Range(primaryAttackMinDamage, primaryAttackMaxDamage + Stats.damage.GetValue());
         float primaryAttackLaunchForce = Mathf.Lerp(primaryAttackMinLaunchForce, primaryAttackMaxLaunchForce, primaryAttackEffectCurve.Evaluate(chargePercent));
-        
+
         // Launch projectile in the direction the player is facing
         StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, primaryAttackLaunchForce, primaryAttackRange, damageValue, primaryAttackLaunchDelay));
-        
+
         // Reset attack timeout and deplete mana
         AttackCooldown = primaryAttackTimeout;
         (Stats as PlayerStatsController).mana.Subtract(primaryAttackManaDepletion);
     }
-    
+
     protected override void SecondaryAttack()
     {
         if (AttackCooldown > 0 || (Stats as PlayerStatsController).mana.CurrentValue < secondaryAttackManaDepletion)
@@ -86,18 +90,21 @@ public class PlayerRangedCombatController : PlayerCombatController
 
         // Place explosive trap
         StartCoroutine(PlaceTrap(secondaryAttackTrapPrefab, secondaryAttackSpawnDelay));
-        
+
         // Trigger secondary attack animation
         Anim.SetTrigger("SecondaryAttack");
-        
+
+        // Play the attack audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, secondaryAttackWeaponSFX));
+
         // Reset attack timeout and deplete mana
         AttackCooldown = secondaryAttackTimeout;
         (Stats as PlayerStatsController).mana.Subtract(secondaryAttackManaDepletion);
-        
+
         // Apply movement speed modifier
         StartCoroutine(Motor.ApplyTimedMovementModifier(secondaryAttackMovementModifier, secondaryAttackTimeout));
     }
-    
+
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability
@@ -109,7 +116,7 @@ public class PlayerRangedCombatController : PlayerCombatController
         ResetTakeDamageAnim();
         if (launchDelay > 0f)
             yield return new WaitForSeconds(launchDelay);
-        
+
         // Launch projectile from projectile pool
         GameObject projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab);
         projectile.GetComponent<DamageProjectile>().Launch(Stats, direction, launchForce, range, damage);
@@ -120,11 +127,11 @@ public class PlayerRangedCombatController : PlayerCombatController
         ResetTakeDamageAnim();
         if (spawnDelay > 0f)
             yield return new WaitForSeconds(spawnDelay);
-        
+
         // Place trap from object pool in front of the player
         GameObject trap = ObjectPooler.Instance.GetPooledObject(trapPrefab);
         ExplosiveTrap explosiveTrap = trap.GetComponent<ExplosiveTrap>();
-        explosiveTrap.SetAudio(secondaryAttackWeaponExplosionSFX);
+        explosiveTrap.SetExplosionAudio(WeaponAudio, secondaryAttackWeaponExplosionSFX);
         explosiveTrap.PlaceTrap(Stats, transform.position + transform.forward);
     }
 
@@ -132,13 +139,13 @@ public class PlayerRangedCombatController : PlayerCombatController
     {
         if (AttackCooldown > 0 || (Stats as PlayerStatsController).mana.CurrentValue < primaryAttackManaDepletion)
             return;
-        
+
         if (value.isPressed)
         {
             _isPrimaryCharging = true;
             _primaryChargeTime = 0f;
-            StartCoroutine(Stats.PlayAudioOverlap(primaryAttackChargeWeaponSFX));
             Anim.SetBool("PrimaryAttack", true);
+            StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackChargeWeaponSFX));
             (Stats as PlayerStatsController).mana.PauseRegen();
             Motor.ApplyMovementModifier(primaryAttackMovementModifier);
         }
@@ -146,6 +153,7 @@ public class PlayerRangedCombatController : PlayerCombatController
         {
             _isPrimaryCharging = false;
             Anim.SetBool("PrimaryAttack", false);
+            StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackReleaseWeaponSFX));
             (Stats as PlayerStatsController).mana.StartRegen();
             Motor.ResetMovementModifier();
             PrimaryAttack();

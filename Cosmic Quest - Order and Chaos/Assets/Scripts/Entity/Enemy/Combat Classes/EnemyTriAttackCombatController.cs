@@ -6,25 +6,22 @@ using UnityEngine;
 
 public class EnemyTriAttackCombatController : EnemyCombatController
 {
-    [SerializeField] protected float primaryAttackCooldown = 1f;
-    [SerializeField] protected float primaryAttackDelay = 0.6f;
-    [SerializeField] protected EntityAudioClip primaryAttackSFX;
+    public float secondaryAttackCooldown = 1f;
+    public float secondaryAttackDelay = 0.6f;
+    [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackSFX;
 
-    [SerializeField] protected float secondaryAttackCooldown = 1f;
-    [SerializeField] protected float secondaryAttackDelay = 0.6f;
-    [SerializeField] protected EntityAudioClip secondaryAttackSFX;
-
-    [SerializeField] protected float tertiaryAttackCooldown = 1f;
-    [SerializeField] protected float tertiaryAttackDelay = 0.6f;
-    [SerializeField] protected EntityAudioClip tertiaryAttackSFX;
+    public float tertiaryAttackCooldown = 1f;
+    public float tertiaryAttackDelay = 0.6f;
+    [SerializeField] protected AudioHelper.EntityAudioClip tertiaryAttackSFX;
 
     public override void PrimaryAttack()
     {
         if (AttackCooldown > 0f)
             return;
-        
-        StartCoroutine(Stats.PlayAudioOverlap(primaryAttackSFX));
+
         Anim.SetTrigger("PrimaryAttack");
+        // audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackSFX));
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
@@ -42,8 +39,9 @@ public class EnemyTriAttackCombatController : EnemyCombatController
             return;
 
 
-        StartCoroutine(Stats.PlayAudioOverlap(secondaryAttackSFX));
         Anim.SetTrigger("SecondaryAttack");
+        // audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, secondaryAttackSFX));
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
@@ -60,8 +58,9 @@ public class EnemyTriAttackCombatController : EnemyCombatController
         if (AttackCooldown > 0f)
             return;
 
-        StartCoroutine(Stats.PlayAudioOverlap(tertiaryAttackSFX));
         Anim.SetTrigger("TertiaryAttack");
+        // audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, tertiaryAttackSFX));
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))

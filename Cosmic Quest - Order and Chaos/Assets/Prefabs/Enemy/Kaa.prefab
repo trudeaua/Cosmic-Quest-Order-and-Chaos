@@ -1993,7 +1993,6 @@ MonoBehaviour:
     maxValue: 100
     minValue: 0
     regenAmount: 0
-    regenPeriod: 0
   damage:
     baseValue: 20
   defense:
@@ -2003,20 +2002,19 @@ MonoBehaviour:
     pitch: 0
     volume: 0
     clip: {fileID: 0}
-    type: 0
+    type: 1
     delay: 0
-    cooldown: 0
     loop: 0
   entityDeathVocalSFX:
     pitch: 1.1
     volume: 0.6
     clip: {fileID: 8300000, guid: db42d1b06099849e69113263385e8cb9, type: 3}
-    type: 0
+    type: 1
     delay: 0
-    cooldown: 0
     loop: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
+  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!114 &2574552180633886775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2055,9 +2053,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0849ab24a4e0b46a2c6f5b3585e891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRadius: 8
-  attackAngle: 45
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 1
+    volume: 0.5
+    clip: {fileID: 8300000, guid: db42d1b06099849e69113263385e8cb9, type: 3}
+    type: 0
+    delay: 0
+    loop: 0
   primaryAttackCooldown: 1.75
   primaryAttackDelay: 0.667
   primaryAttackSFX:
@@ -2066,8 +2075,9 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 1e25a77449fdf4891a20708896acd363, type: 3}
     type: 0
     delay: 0.3
-    cooldown: 0
     loop: 0
+  attackRadius: 8
+  attackAngle: 45
   secondaryAttackCooldown: 1.95
   secondaryAttackDelay: 1
   secondaryAttackSFX:
@@ -2076,20 +2086,18 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: d6ebeab5b78374bf8be2dd9cf6f43f09, type: 3}
     type: 0
     delay: 0.8
-    cooldown: 0
     loop: 0
   tertiaryAttackCooldown: 1
   tertiaryAttackDelay: 0.6
+  tertiaryAttackVFX: {fileID: 1502253778071064, guid: 48238db6d3097a944a6a5388c70296bb,
+    type: 3}
   tertiaryAttackSFX:
     pitch: 1
     volume: 0.5
     clip: {fileID: 8300000, guid: 639928e5dc1124f9b9cd2c3ff2ddcd96, type: 3}
     type: 0
     delay: 0.3
-    cooldown: 0
     loop: 0
-  tertiaryAttackVFX: {fileID: 1502253778071064, guid: 48238db6d3097a944a6a5388c70296bb,
-    type: 3}
 --- !u!82 &727148223
 AudioSource:
   m_ObjectHideFlags: 0
