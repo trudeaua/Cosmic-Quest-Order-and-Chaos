@@ -119,8 +119,8 @@ public class PlayerStatsController : EntityStatsController
     protected override IEnumerator Spawn(GameObject obj, float speed = 0.05f, float delay = 0f, float cooldown = 0)
     {
         PlayerMotorController motorController = GetComponent<PlayerMotorController>();
-        motorController.enabled = false;
+        motorController.ApplyMovementModifier(0);
         yield return base.Spawn(obj, speed, delay, cooldown);
-        motorController.enabled = true;
+        motorController.ResetMovementModifier();
     }
 }
