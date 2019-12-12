@@ -2190,6 +2190,7 @@ MonoBehaviour:
   defense:
     baseValue: 0
   characterColour: 0
+  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
   takeDamageVocalSFX:
     pitch: 1.2
     volume: 0.5
@@ -2208,7 +2209,6 @@ MonoBehaviour:
     maxValue: 100
     minValue: 0
     regenAmount: 10
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!114 &7264181408041424333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2235,7 +2235,7 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
-  primaryAttackTimeout: 0.5
+  primaryAttackTimeout: 0.4
   secondaryAttackTimeout: 1
   primaryAttackMinDamage: 4
   primaryAttackMaxDamage: 5

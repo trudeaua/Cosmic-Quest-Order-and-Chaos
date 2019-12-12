@@ -153,6 +153,7 @@ public class PlayerRangedCombatController : PlayerCombatController
         {
             _isPrimaryCharging = false;
             Anim.SetBool("PrimaryAttack", false);
+            AudioHelper.StopAudio(WeaponAudio);
             StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackReleaseWeaponSFX));
             (Stats as PlayerStatsController).mana.StartRegen();
             Motor.ResetMovementModifier();
