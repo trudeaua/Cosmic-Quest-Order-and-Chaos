@@ -85,22 +85,19 @@ public class EntityStatsController : MonoBehaviour
     protected virtual void Update()
     {
         if (!isDead)
-            health.Regen();
+            health.PauseRegen();
     }
 
-    public virtual void TakeDamage(EntityStatsController attacker, float damageValue)
+    public virtual void TakeDamage(EntityStatsController attacker, float damageValue, float timeDelta = 1f)
     {
         // Ignore attacks if already dead
         if (isDead)
             return;
-        Anim.ResetTrigger("TakeDamage");
+        
         Anim.SetTrigger("TakeDamage");
-        if (takeDamageVocalSFX != null)
-        {
-            StartCoroutine(PlayAudioOverlap(takeDamageVocalSFX));
-        }
+        
         // Calculate any changes based on stats and modifiers here first
-        float hitValue = damageValue - ComputeDefenseModifier();
+        float hitValue = (damageValue - ComputeDefenseModifier()) * timeDelta;
         health.Subtract(hitValue < 0 ? 0 : hitValue);
 
         if (Mathf.Approximately(health.CurrentValue, 0f))
@@ -159,50 +156,25 @@ public class EntityStatsController : MonoBehaviour
         isDead = true;
     }
 
-    /// <summary>
-    /// Plays an audio clip that overlaps with currently playing audio clips from one of the entity's audio sources
-    /// </summary>
-    /// <param name="entityAudio">Entity audio clip to play</param>
-    /// <returns>An IEnumerator</returns>
-    public virtual IEnumerator PlayAudioOverlap(EntityAudioClip entityAudio)
+    protected virtual IEnumerator Spawn(GameObject obj, float speed = 0.05f, float delay = 0f)
     {
-        AudioSource audio = entityAudio.type == EntityAudioClip.AudioType.Vocal ? VocalAudio : WeaponAudio;
-        if (entityAudio.delay > 0)
+        Collider col = obj.GetComponent<Collider>();
+        float from = -1 * col.bounds.center.y * 4;
+        float to = 0;
+        col.enabled = false;
+        obj.transform.position = new Vector3(obj.transform.position.x, from, obj.transform.position.z);
+        if (delay > 0)
         {
-            yield return new WaitForSeconds(entityAudio.delay);
+            yield return new WaitForSeconds(delay);
         }
-        audio.pitch = entityAudio.pitch;
-        audio.volume = entityAudio.volume;
-        audio.loop = entityAudio.loop;
-        audio.PlayOneShot(entityAudio.clip);
-    }
-
-    /// <summary>
-    /// Plays an audio clip that interrupts the currently playing audio clip(s) from one of the entity's audio sources
-    /// </summary>
-    /// <param name="entityAudio">Entity audio clip to play</param>
-    /// <returns>An IEnumerator</returns>
-    public virtual IEnumerator PlayAudio(EntityAudioClip entityAudio)
-    {
-        AudioSource audio = entityAudio.type == EntityAudioClip.AudioType.Vocal ? VocalAudio : WeaponAudio;
-        if (entityAudio.delay > 0)
+        Anim.SetTrigger("Spawn");
+        float offset = 0;
+        while (obj.transform.position.y < to)
         {
-            yield return new WaitForSeconds(entityAudio.delay);
+            obj.transform.position = new Vector3(obj.transform.position.x, from + offset, obj.transform.position.z);
+            offset += speed;
+            yield return new WaitForSeconds(0.01f);
         }
-        audio.pitch = entityAudio.pitch;
-        audio.volume = entityAudio.volume;
-        audio.loop = entityAudio.loop;
-        audio.clip = entityAudio.clip;
-        audio.Play();
-    }
-
-    /// <summary>
-    /// Stops the given entity audio clip from playing
-    /// </summary>
-    /// <param name="entityAudio">Entity audio clip to stop playing</param>
-    public virtual void StopAudio(EntityAudioClip entityAudio)
-    {
-        AudioSource audio = entityAudio.type == EntityAudioClip.AudioType.Vocal ? VocalAudio : WeaponAudio;
-        audio.Stop();
+        col.enabled = true;
     }
 }

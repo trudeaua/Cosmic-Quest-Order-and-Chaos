@@ -1725,34 +1725,16 @@ MonoBehaviour:
     maxValue: 100
     minValue: 0
     regenAmount: 1
-    regenPeriod: 1
   damage:
     baseValue: 5
   defense:
     baseValue: 0
   characterColour: 0
-  takeDamageVocalSFX:
-    pitch: 1.2
-    volume: 0.3
-    clip: {fileID: 8300000, guid: 2d07eba8eab06cb45898cb11da4a54e2, type: 3}
-    delay: 0
-    loop: 0
-  playerDeathVocalSFX:
-    pitch: 1.2
-    volume: 0.3
-    clip: {fileID: 8300000, guid: 1734cebdf2bc02842a4652686c07cf90, type: 3}
-    delay: 0
-    loop: 0
-  stamina:
-    maxValue: 0
-    minValue: 0
-    regenAmount: 0
-    regenPeriod: 0
   mana:
-    maxValue: 0
+    maxValue: 100
     minValue: 0
-    regenAmount: 0
-    regenPeriod: 0
+    regenAmount: 10
+  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!114 &6060052625781106135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1765,21 +1747,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 148c1191536caab49b17361f55e0cf68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
+  primaryAttackTimeout: 1
+  secondaryAttackTimeout: 2
+  primaryAttackMinDamage: 0
+  primaryAttackMaxDamage: 5
   primaryAttackRadius: 3
-  primaryAttackAngle: 45
-  primaryAttackDelay: 0.3
-  primaryAttackCooldown: 1
-  primaryAttackWeaponSFX:
-    pitch: 1.5
-    volume: 0.5
-    clip: {fileID: 8300000, guid: 41ca7acbb44e87b48b0fb3a3577cf445, type: 3}
-    delay: 0
-    loop: 0
+  primaryAttackSweepAngle: 45
+  primaryAttackDamageDelay: 0.6
+  primaryAttackManaDepletion: 25
+  primaryAttackMovementModifier: 0.5
+  secondaryAttackMinDamage: 2
+  secondaryAttackMaxDamage: 6
   secondaryAttackRadius: 6.8
-  secondaryAttackAngle: 60
-  secondaryAttackDelay: 0.3
-  secondaryAttackCooldown: 2
+  secondaryAttackSweepAngle: 60
+  secondaryAttackDamageDelay: 0.6
+  secondaryAttackManaDepletion: 50
+  secondaryAttackMovementModifier: 0.5
   secondaryVFX: {fileID: 1157444645554400, guid: 8d757d7da680be745a96124bd9b9fcfe,
     type: 3}
   secondaryAttackWeaponSFX:

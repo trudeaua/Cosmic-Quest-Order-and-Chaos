@@ -699,34 +699,16 @@ MonoBehaviour:
     maxValue: 100
     minValue: 0
     regenAmount: 1
-    regenPeriod: 1
   damage:
     baseValue: 5
   defense:
     baseValue: 0
   characterColour: 0
-  takeDamageVocalSFX:
-    pitch: 0
-    volume: 0
-    clip: {fileID: 0}
-    delay: 0
-    loop: 0
-  playerDeathVocalSFX:
-    pitch: 1.2
-    volume: 0.3
-    clip: {fileID: 8300000, guid: 1734cebdf2bc02842a4652686c07cf90, type: 3}
-    delay: 0
-    loop: 0
-  stamina:
-    maxValue: 0
-    minValue: 0
-    regenAmount: 0
-    regenPeriod: 0
   mana:
-    maxValue: 0
+    maxValue: 100
     minValue: 0
-    regenAmount: 0
-    regenPeriod: 0
+    regenAmount: 10
+  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!114 &749148863823978123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -739,19 +721,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85d7c919668a158459487316debc9da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
+  primaryAttackTimeout: 1.5
+  secondaryAttackTimeout: 2
+  primaryAttackMinDamage: 0
+  primaryAttackMaxDamage: 5
   primaryAttackRadius: 4
-  primaryAttackAngle: 100
-  primaryAttackDelay: 0.6
-  primaryAttackCooldown: 1.5
-  primaryAttackWeaponSFX:
-    pitch: 1
-    volume: 0.5
-    clip: {fileID: 8300000, guid: 41ca7acbb44e87b48b0fb3a3577cf445, type: 3}
-    delay: 0
-    loop: 0
+  primaryAttackSweepAngle: 100
+  primaryAttackDamageDelay: 0.6
+  primaryAttackManaDepletion: 25
+  primaryAttackMovementModifier: 0.5
   secondaryAttackLaunchForce: 500
   secondaryAttackRange: 20
+  secondaryAttackLaunchDelay: 0.5
+  secondaryAttackManaDepletion: 30
+  secondaryAttackMovementModifier: 0.5
   projectilePrefab: {fileID: 9070515875191536467, guid: 89cf1e6c9119eae40a90576421de14d2,
     type: 3}
   secondaryAttackCooldown: 2

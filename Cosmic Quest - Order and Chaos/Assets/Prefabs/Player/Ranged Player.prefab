@@ -2184,34 +2184,16 @@ MonoBehaviour:
     maxValue: 100
     minValue: 0
     regenAmount: 1
-    regenPeriod: 1
   damage:
     baseValue: 5
   defense:
     baseValue: 0
   characterColour: 0
-  takeDamageVocalSFX:
-    pitch: 0
-    volume: 0
-    clip: {fileID: 0}
-    delay: 0
-    loop: 0
-  playerDeathVocalSFX:
-    pitch: 1.2
-    volume: 0.3
-    clip: {fileID: 8300000, guid: 1734cebdf2bc02842a4652686c07cf90, type: 3}
-    delay: 0
-    loop: 0
-  stamina:
-    maxValue: 0
-    minValue: 0
-    regenAmount: 0
-    regenPeriod: 0
   mana:
-    maxValue: 0
+    maxValue: 100
     minValue: 0
-    regenAmount: 0
-    regenPeriod: 0
+    regenAmount: 10
+  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!114 &7264181408041424333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2224,133 +2206,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c46c57e4cbff2d14c8b165ae6a3229e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
+  primaryAttackTimeout: 0.5
+  secondaryAttackTimeout: 1
+  primaryAttackMinDamage: 4
+  primaryAttackMaxDamage: 5
   primaryAttackRange: 20
   primaryAttackChargeTime: 1.5
   primaryAttackMinLaunchForce: 150
   primaryAttackMaxLaunchForce: 800
-  primaryProjectilePrefab: {fileID: 8766964442698227007, guid: daefe39a199a2674bb5d421ea52854e9,
-    type: 3}
-  primaryAttackDelay: 0.1
-  primaryAttackCooldown: 0.5
-  primaryAttackChargeWeaponSFX:
-    pitch: 1
-    volume: 0.5
-    clip: {fileID: 8300000, guid: b2dbb21421afa13498013b7c0e627ca2, type: 3}
-    delay: 0
-    loop: 0
-  primaryAttackReleaseWeaponSFX:
-    pitch: 1
-    volume: 0.5
-    clip: {fileID: 8300000, guid: d35d8c8e1719fdb4cb2b3d2b74445d05, type: 3}
-    delay: 0
-    loop: 0
-  secondaryAttackCooldown: 1
-  secondaryAttackDelay: 0.2
-  secondaryTrapPrefab: {fileID: 9157185116791405800, guid: 8b20befda0c4d8e4995dac019d5c7be0,
-    type: 3}
-  secondaryAttackWeaponSFX:
-    pitch: 0
-    volume: 0
-    clip: {fileID: 0}
-    delay: 0
-    loop: 0
---- !u!82 &2036245268
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7264181408041424334}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
+  primaryAttackLaunchDelay: 0.3
+  primaryAttackEffectCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  primaryAttackManaDepletion: 25
+  primaryAttackMovementModifier: 0.5
+  primaryProjectilePrefab: {fileID: 8766964442698227007, guid: daefe39a199a2674bb5d421ea52854e9,
+    type: 3}
+  secondaryAttackTrapPrefab: {fileID: 9157185116791405800, guid: 8b20befda0c4d8e4995dac019d5c7be0,
+    type: 3}
+  secondaryAttackSpawnDelay: 0.5
+  secondaryAttackManaDepletion: 50
+  secondaryAttackMovementModifier: 0.1
 --- !u!1 &7426571041232957474
 GameObject:
   m_ObjectHideFlags: 0

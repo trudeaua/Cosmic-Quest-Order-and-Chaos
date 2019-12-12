@@ -1,26 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]
 public class RegenerableStat
 {
     public float maxValue;
     public float minValue;
-    [SerializeField] private float regenAmount = 0f;
-    [SerializeField] private float regenPeriod = 0f;
-
+    public float regenAmount;
+    public float CurrentValue { get; private set; }
+    
     public delegate void OnValueChanged(float currentValue);
     public OnValueChanged onCurrentValueChanged;
     
-    public float CurrentValue { get; private set; }
-    
-    private float _regenTimer = 0f;
+    private bool _pauseRegen = false;
+    private float _pauseTimer = 0f;
 
     public void Init()
     {
         // Initialize current value to the maximum value
         CurrentValue = maxValue;
+        _pauseRegen = false;
+        _pauseTimer = 0f;
     }
 
     public void Add(float amount)
@@ -34,7 +33,7 @@ public class RegenerableStat
         onCurrentValueChanged?.Invoke(CurrentValue);
     }
     
-    public void Subtract(float amount)
+    public void Subtract(float amount, float delayRegen = 0f)
     {
         CurrentValue -= amount;
         if (CurrentValue < minValue)
@@ -43,20 +42,33 @@ public class RegenerableStat
         }
         
         onCurrentValueChanged?.Invoke(CurrentValue);
+
+        if (delayRegen > 0f)
+            _pauseTimer += delayRegen;
     }
 
+    public void PauseRegen()
+    {
+        _pauseRegen = true;
+    }
+
+    public void StartRegen()
+    {
+        _pauseRegen = false;
+    }
+
+    // This function should be called inside an Update loop
     public void Regen()
     {
-        if (Mathf.Approximately(CurrentValue, maxValue))
+        if (_pauseRegen || Mathf.Approximately(CurrentValue, maxValue))
             return;
 
-        if (_regenTimer > 0f)
+        if (_pauseTimer > 0f)
         {
-            _regenTimer -= Time.deltaTime;
+            _pauseTimer -= Time.deltaTime;
             return;
         }
 
-        Add(regenAmount);
-        _regenTimer = regenPeriod;
+        Add(regenAmount * Time.deltaTime);
     }
 }

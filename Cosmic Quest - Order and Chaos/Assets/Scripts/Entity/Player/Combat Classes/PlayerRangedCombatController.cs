@@ -6,6 +6,10 @@ using UnityEngine.InputSystem;
 public class PlayerRangedCombatController : PlayerCombatController
 {
     [Header("Primary Attack")]
+    [Tooltip("The minimum base damage that this attack can deal before scaling")]
+    public float primaryAttackMinDamage = 4f;
+    [Tooltip("The maximum base damage that this attack can deal before scaling")]
+    public float primaryAttackMaxDamage = 5f;
     [Tooltip("The distance the primary attack arrow can travel")]
     public float primaryAttackRange = 20f;
     [Tooltip("Time in seconds to charge primary attack to full power")]
@@ -14,16 +18,17 @@ public class PlayerRangedCombatController : PlayerCombatController
     public float primaryAttackMinLaunchForce = 150f;
     [Tooltip("The maximum force to launch the primary attack projectile at")]
     public float primaryAttackMaxLaunchForce = 800f;
+    [Tooltip("The delay before the arrow projectile is launched")]
+    public float primaryAttackLaunchDelay = 0.3f;
+    [Tooltip("The curve of charge time versus damage and range")]
+    public AnimationCurve primaryAttackEffectCurve;
+    [Tooltip("The amount of the player's mana depleted (and necessary) per attack")]
+    public float primaryAttackManaDepletion = 25f;
+    [Tooltip("The percent modifier of movement speed during this attack")]
+    [Range(0f, 1f)]
+    public float primaryAttackMovementModifier = 0.5f;
     [Tooltip("The arrow prefab for the primary attack")]
     public GameObject primaryProjectilePrefab;
-    [Tooltip("Time between when attack starts vs when damage is dealt")]
-    public float primaryAttackDelay = 0.3f;
-    [Tooltip("How long until the player can attack after the primary attack")]
-    public float primaryAttackCooldown;
-    [Tooltip("Weapon audio effect for secondary attack")]
-    [SerializeField] protected EntityAudioClip primaryAttackChargeWeaponSFX;
-    [Tooltip("Weapon audio effect for secondary attack")]
-    [SerializeField] protected EntityAudioClip primaryAttackReleaseWeaponSFX;
 
     [Header("Secondary Attack")]
     [Tooltip("How long until the player can attack after the secondary attack")]
@@ -31,16 +36,17 @@ public class PlayerRangedCombatController : PlayerCombatController
     [Tooltip("Time between when attack starts vs when damage is dealt")]
     public float secondaryAttackDelay = 0.5f;
     [Tooltip("The trap prefab for the secondary attack")]
-    public GameObject secondaryTrapPrefab;
-    [Tooltip("Weapon audio effect for secondary attack")]
-    [SerializeField] protected EntityAudioClip secondaryAttackWeaponSFX;
-    [Tooltip("Weapon audio effect for secondary attack explosion")]
-    [SerializeField] protected EntityAudioClip secondaryAttackWeaponExplosionSFX;
+    public GameObject secondaryAttackTrapPrefab;
+    [Tooltip("The delay before spawning the trap prefab")]
+    public float secondaryAttackSpawnDelay = 0.5f;
+    [Tooltip("The amount of the player's mana depleted (and necessary) per attack")]
+    public float secondaryAttackManaDepletion = 50f;
+    [Tooltip("The percent modifier of movement speed during this attack")]
+    [Range(0f, 1f)]
+    public float secondaryAttackMovementModifier = 0.1f;
     
     private bool _isPrimaryCharging;
     private float _primaryChargeTime;
-    private float _chargePercent;
-    private float _primaryAttackLaunchForce;
 
     protected override void Update()
     {
@@ -52,34 +58,44 @@ public class PlayerRangedCombatController : PlayerCombatController
             _primaryChargeTime += Time.deltaTime;
             if (_primaryChargeTime > primaryAttackChargeTime)
             {
-                // Set to max charge time and stop counting charge time
+                // Clamp to max charge time
                 _primaryChargeTime = primaryAttackChargeTime;
-                //_isPrimaryCharging = false;
             }
         }
     }
 
     protected override void PrimaryAttack()
     {
-        if (AttackCooldown > 0)
-            return;
-        AttackCooldown = primaryAttackCooldown;
-
-        float damage = Mathf.Ceil(Stats.damage.GetValue() * _chargePercent);
+        float chargePercent = Mathf.InverseLerp(0f, primaryAttackChargeTime,_primaryChargeTime);
+        
+        float damageValue = primaryAttackEffectCurve.Evaluate(chargePercent) * Random.Range(primaryAttackMinDamage, primaryAttackMaxDamage + Stats.damage.GetValue());
+        float primaryAttackLaunchForce = Mathf.Lerp(primaryAttackMinLaunchForce, primaryAttackMaxLaunchForce, primaryAttackEffectCurve.Evaluate(chargePercent));
         
         // Launch projectile in the direction the player is facing
-        StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, _primaryAttackLaunchForce, primaryAttackRange, damage, primaryAttackDelay));
+        StartCoroutine(LaunchProjectile(primaryProjectilePrefab, transform.forward, primaryAttackLaunchForce, primaryAttackRange, damageValue, primaryAttackLaunchDelay));
+        
+        // Reset attack timeout and deplete mana
+        AttackCooldown = primaryAttackTimeout;
+        (Stats as PlayerStatsController).mana.Subtract(primaryAttackManaDepletion);
     }
     
     protected override void SecondaryAttack()
     {
-        if (AttackCooldown > 0)
+        if (AttackCooldown > 0 || (Stats as PlayerStatsController).mana.CurrentValue < secondaryAttackManaDepletion)
             return;
 
-        AttackCooldown = secondaryAttackCooldown;
-        
         // Place explosive trap
-        StartCoroutine(PlaceTrap(secondaryTrapPrefab, secondaryAttackDelay));
+        StartCoroutine(PlaceTrap(secondaryAttackTrapPrefab, secondaryAttackSpawnDelay));
+        
+        // Trigger secondary attack animation
+        Anim.SetTrigger("SecondaryAttack");
+        
+        // Reset attack timeout and deplete mana
+        AttackCooldown = secondaryAttackTimeout;
+        (Stats as PlayerStatsController).mana.Subtract(secondaryAttackManaDepletion);
+        
+        // Apply movement speed modifier
+        StartCoroutine(Motor.ApplyTimedMovementModifier(secondaryAttackMovementModifier, secondaryAttackTimeout));
     }
     
     protected override void UltimateAbility()
@@ -114,38 +130,25 @@ public class PlayerRangedCombatController : PlayerCombatController
 
     protected override void OnPrimaryAttack(InputValue value)
     {
-        bool isPressed = value.isPressed;
-        if (isPressed && AttackCooldown <= 0 && !_isPrimaryCharging)
+        if (AttackCooldown > 0 || (Stats as PlayerStatsController).mana.CurrentValue < primaryAttackManaDepletion)
+            return;
+        
+        if (value.isPressed)
         {
             _isPrimaryCharging = true;
             _primaryChargeTime = 0f;
             StartCoroutine(Stats.PlayAudioOverlap(primaryAttackChargeWeaponSFX));
             Anim.SetBool("PrimaryAttack", true);
+            (Stats as PlayerStatsController).mana.PauseRegen();
+            Motor.ApplyMovementModifier(primaryAttackMovementModifier);
         }
-        else if (!isPressed && AttackCooldown <= 0 && _isPrimaryCharging)
+        else if (_isPrimaryCharging)
         {
             _isPrimaryCharging = false;
-            // Convert charge time to launch force
-            _chargePercent = Mathf.InverseLerp(0f, primaryAttackChargeTime,_primaryChargeTime);
-            _primaryAttackLaunchForce = Mathf.Lerp(primaryAttackMinLaunchForce, primaryAttackMaxLaunchForce, _chargePercent);
-            Stats.StopAudio(primaryAttackChargeWeaponSFX);
-            StartCoroutine(Stats.PlayAudioOverlap(primaryAttackReleaseWeaponSFX));
-            PrimaryAttack();
             Anim.SetBool("PrimaryAttack", false);
-        }
-    }
-
-    protected override void OnSecondaryAttack(InputValue value)
-    {
-        bool isPressed = value.isPressed;
-        if (AttackCooldown <= 0)
-        {
-            if (isPressed)
-            {
-                StartCoroutine(Stats.PlayAudioOverlap(secondaryAttackWeaponSFX));
-                Anim.SetTrigger("SecondaryAttack");
-                SecondaryAttack();
-            }
+            (Stats as PlayerStatsController).mana.StartRegen();
+            Motor.ResetMovementModifier();
+            PrimaryAttack();
         }
     }
 }

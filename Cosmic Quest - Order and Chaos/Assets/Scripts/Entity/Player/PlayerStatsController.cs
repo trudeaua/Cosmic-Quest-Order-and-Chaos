@@ -5,10 +5,14 @@ using UnityEngine;
 public class PlayerStatsController : EntityStatsController
 {
     // Player specific stats
-    public RegenerableStat stamina;
     public RegenerableStat mana;
+    
+    // Player spawn VFX
+    public GameObject spawnVFX;
+    
     // player collider
-    private Collider thisCollider;
+    private Collider _collider;
+    
     // ragdoll collider
     private Collider[] ragdollColliders;
     private Rigidbody[] ragdollRigidbodies;
@@ -16,8 +20,10 @@ public class PlayerStatsController : EntityStatsController
     protected override void Awake()
     {
         base.Awake();
+        mana.Init();
+        
         // get the collider attached to the player
-        thisCollider = GetComponent<Collider>();
+        _collider = GetComponent<Collider>();
         ragdollColliders = GetComponentsInChildren<Collider>();
         ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
         EnableRagdoll(false);
@@ -26,16 +32,23 @@ public class PlayerStatsController : EntityStatsController
 
     private void Start()
     {
+        Color playerColour = PlayerManager.colours.GetColour(characterColour);
+        
         // colour the player's weapon
-        AssignWeaponColour(gameObject, PlayerManager.colours.GetColour(characterColour));
+        AssignWeaponColour(gameObject, playerColour);
+        
+        // Create a VFX where the player will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the player colour
+        StartCoroutine(VfxHelper.CreateVFX(spawnVFX, new Vector3(transform.position.x, 0.1f, transform.position.z), Quaternion.identity, playerColour, 0.5f));
+        // "Spawn" the player (they float up through the stage)
+        StartCoroutine(Spawn(gameObject, 0.08f, 0.9f));
     }
 
     protected override void Update()
     {
         base.Update();
-        
-        stamina.Regen();
-        mana.Regen();
+
+        if (!isDead)
+            mana.Regen();
     }
     
     protected override void Die()
@@ -56,17 +69,17 @@ public class PlayerStatsController : EntityStatsController
 
     private void EnableRagdoll(bool enable)
     {
-        foreach (Rigidbody rigidbody in ragdollRigidbodies)
+        foreach (Rigidbody rrb in ragdollRigidbodies)
         {
-            rigidbody.isKinematic = !enable;
+            rrb.isKinematic = !enable;
         }
         rb.isKinematic = enable;
 
-        foreach (Collider collider in ragdollColliders)
+        foreach (Collider rcol in ragdollColliders)
         {
-            collider.enabled = enable;
+            rcol.enabled = enable;
         }
-        thisCollider.enabled = !enable;
+        _collider.enabled = !enable;
     }
 
     private void AssignWeaponColour(GameObject player, Color color)
@@ -74,14 +87,16 @@ public class PlayerStatsController : EntityStatsController
         // Get the player weapon
         Transform[] children = player.GetComponentsInChildren<Transform>();
         GameObject weapon = null;
-        for (int i = 0; i < children.Length; i++)
+        
+        foreach (var child in children)
         {
-            if (children[i].CompareTag("Weapon"))
+            if (child.CompareTag("Weapon"))
             {
-                weapon = children[i].gameObject;
+                weapon = child.gameObject;
                 break;
             }
         }
+        
         // Dynamically assign player weapon colours
         if (weapon != null)
         {
@@ -92,14 +107,12 @@ public class PlayerStatsController : EntityStatsController
                 if (weaponComponent.CompareTag("Weapon Glow"))
                 {
                     Material[] weaponMaterials = weaponComponent.GetComponent<Renderer>().materials;
-                    int i = 0;
                     // the bow has more than 1 material assigned to one of its weapon parts
                     foreach (Material m in weaponMaterials)
                     {
-                        weaponMaterials[i].EnableKeyword("_EMISSION");
-                        weaponMaterials[i].SetColor("_Color", color);
-                        weaponMaterials[i].SetColor("_EmissionColor", color * intensity);
-                        i++;
+                        m.EnableKeyword("_EMISSION");
+                        m.SetColor("_Color", color);
+                        m.SetColor("_EmissionColor", color * intensity);
                     }
                 }
             }

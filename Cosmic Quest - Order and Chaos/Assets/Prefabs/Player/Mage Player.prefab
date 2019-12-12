@@ -2393,34 +2393,16 @@ MonoBehaviour:
     maxValue: 100
     minValue: 0
     regenAmount: 1
-    regenPeriod: 1
   damage:
     baseValue: 7
   defense:
     baseValue: 0
   characterColour: 0
-  takeDamageVocalSFX:
-    pitch: 0
-    volume: 0
-    clip: {fileID: 0}
-    delay: 0
-    loop: 0
-  playerDeathVocalSFX:
-    pitch: 1.2
-    volume: 0.3
-    clip: {fileID: 8300000, guid: 1734cebdf2bc02842a4652686c07cf90, type: 3}
-    delay: 0
-    loop: 0
-  stamina:
-    maxValue: 0
-    minValue: 0
-    regenAmount: 0
-    regenPeriod: 0
   mana:
-    maxValue: 0
+    maxValue: 100
     minValue: 0
-    regenAmount: 0
-    regenPeriod: 0
+    regenAmount: 10
+  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!114 &6347770635181394817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2433,22 +2415,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a970001fea7b8a74ca86b2305935ab54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
-  primaryAttackRange: 5
-  primaryAttackAngle: 100
-  primaryAttackDelay: 10
-  primaryAttackCooldown: 0.5
+  primaryAttackTimeout: 0.5
+  secondaryAttackTimeout: 4
+  primaryAttackMinDamage: 0
+  primaryAttackMaxDamage: 5
+  primaryAttackRadius: 3
+  primaryAttackSweepAngle: 60
+  primaryAttackManaDepletion: 20
+  primaryAttackMovementModifier: 0.5
   primaryVFX: {fileID: 1634767862067424, guid: 73f960c3d84f6194c9437a721da34230, type: 3}
-  primaryAttackWeaponSFX:
-    pitch: 1
-    volume: 0.3
-    clip: {fileID: 8300000, guid: 8e944fc25e56afe429c78f50658e28d0, type: 3}
-    delay: 0
-    loop: 1
+  secondaryAttackMaxDamage: 6
+  secondaryAttackStunTime: 1.5
   secondaryAttackRadius: 8
-  secondaryAttackForce: 500
-  secondaryAttackCooldown: 4
-  secondaryAttackDelay: 0.6
+  secondaryAttackExplosionForce: 500
+  secondaryAttackDamageDelay: 0.6
+  secondaryAttackManaDepletion: 50
+  secondaryAttackMovementModifier: 0.5
   secondaryVFX: {fileID: 1426469549788950, guid: b97b870115dcffa43910a02a013598ad,
     type: 3}
   secondaryAttackWeaponSFX:
