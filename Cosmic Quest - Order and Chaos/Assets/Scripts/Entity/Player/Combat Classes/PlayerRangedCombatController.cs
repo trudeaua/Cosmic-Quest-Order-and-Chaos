@@ -46,8 +46,6 @@ public class PlayerRangedCombatController : PlayerCombatController
     public float secondaryAttackMovementModifier = 0.1f;
     [Tooltip("Weapon audio effect for secondary attack")]
     [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackWeaponSFX;
-    [Tooltip("Weapon audio effect for secondary attack explosion")]
-    [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackWeaponExplosionSFX;
 
     private bool _isPrimaryCharging;
     private float _primaryChargeTime;
@@ -131,7 +129,6 @@ public class PlayerRangedCombatController : PlayerCombatController
         // Place trap from object pool in front of the player
         GameObject trap = ObjectPooler.Instance.GetPooledObject(trapPrefab);
         ExplosiveTrap explosiveTrap = trap.GetComponent<ExplosiveTrap>();
-        explosiveTrap.SetExplosionAudio(WeaponAudio, secondaryAttackWeaponExplosionSFX);
         explosiveTrap.PlaceTrap(Stats, transform.position + transform.forward);
     }
 

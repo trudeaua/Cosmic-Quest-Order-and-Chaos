@@ -19,11 +19,12 @@ public class ExplosiveTrap : MonoBehaviour
     // source to play explosion sfx from
     private AudioSource source;
     // explosion sfx to play
-    private AudioHelper.EntityAudioClip audioClip;
+    [SerializeField] private AudioHelper.EntityAudioClip audioClip;
 
     private void Awake()
     {
         _hits = new Collider[32];
+        source = GetComponent<AudioSource>();
     }
 
     public void PlaceTrap(EntityStatsController thrower, Vector3 position)
@@ -53,16 +54,26 @@ public class ExplosiveTrap : MonoBehaviour
     private void Detonate()
     {
         _isDetonated = true;
-        ExplosionEffect();
         // Play explosion effect
+        ExplosionEffect();
+        StartCoroutine(RemoveTrapFromScene());
+    }
+
+    private IEnumerator RemoveTrapFromScene()
+    {
+        MeshRenderer mesh = gameObject.GetComponentInChildren<MeshRenderer>();
+        // Hide the mesh to emulate the object being destroyed
+        mesh.enabled = false;
+        yield return new WaitForSeconds(2f);
+        mesh.enabled = true;
         gameObject.SetActive(false);
     }
 
     private void ExplosionEffect()
     {
         PerformExplosionAnimation();
-        // play the explosion sound
         StartCoroutine(AudioHelper.PlayAudioOverlap(source, audioClip));
+        // play the explosion sound
         int numHits = Physics.OverlapSphereNonAlloc(transform.position, explosionRadius, _hits, EntityStatsController.EntityLayer);
 
         for (int i = 0; i < numHits; i++)
