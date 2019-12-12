@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,7 +8,8 @@ public class PlayerMotorController : MonoBehaviour
     public float maxVelocity = 6.0f;
     public float maxAcceleration = 25.0f;
     public float rotationSpeed = 10.0f;
-
+    private float _speedModifier = 1f;
+    
     private Rigidbody _rb;
     private Animator _anim;
 
@@ -53,19 +55,20 @@ public class PlayerMotorController : MonoBehaviour
 
     private void Move()
     {
-        Vector3 inputMoveDirection = new Vector3(_moveInput.x, 0f, _moveInput.y);
+        Vector3 inputMoveDirection = new Vector3(_moveInput.x, 0f, _moveInput.y) * _speedModifier;
         Vector3 inputLookDirection = new Vector3(_lookInput.x, 0f, _lookInput.y);
 
         if (_lookInput != Vector2.zero)
         {
             // Rotate towards look direction
-            _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, Quaternion.LookRotation(inputLookDirection, Vector3.up), rotationSpeed * Time.deltaTime));
+            _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, Quaternion.LookRotation(inputLookDirection, Vector3.up), rotationSpeed * _speedModifier * Time.deltaTime));
         }
         else if (_moveInput != Vector2.zero)
         {
             // Rotate towards direction of movement
-            _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, Quaternion.LookRotation(inputMoveDirection, Vector3.up), rotationSpeed * Time.deltaTime));
+            _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, Quaternion.LookRotation(inputMoveDirection, Vector3.up), rotationSpeed * _speedModifier * Time.deltaTime));
         }
+        
         // for overriding legs when player is moving
         int walkLayerIndex = _anim.GetLayerIndex("WalkLayer");
         // for overriding legs when ranger is shooting
@@ -75,15 +78,16 @@ public class PlayerMotorController : MonoBehaviour
             // weight must be greater than walk layer weight
             _anim.SetLayerWeight(attackLayerIndex, 1);
         }
+        
         // Animate player legs, legs will still move as they attack
         if (_moveInput != Vector2.zero)
         {
             // override default base layer walk animations
             _anim.SetLayerWeight(walkLayerIndex, .9f);
         }
-        // Don't animate player legs
         else
         {
+            // Don't animate player legs
             _anim.SetLayerWeight(walkLayerIndex, 0);
         }
 
@@ -91,9 +95,9 @@ public class PlayerMotorController : MonoBehaviour
         float inputLookAngle = Mathf.Abs(signedInputLookAngle);
 
         // Trigger walking animation
-        _anim.SetFloat("WalkSpeed", _moveInput == Vector2.zero ? 0f : _moveInput.magnitude);
+        _anim.SetFloat("WalkSpeed", inputMoveDirection == Vector3.zero ? 0f : inputMoveDirection.magnitude);
         // Set animation playback speed (if moving backwards animation will play in reverse)
-        _anim.SetFloat("Direction", inputLookAngle < 90 ? 1f * _moveInput.magnitude : -1f *_moveInput.magnitude );
+        _anim.SetFloat("Direction", inputLookAngle < 90 ? 1f * inputMoveDirection.magnitude : -1f * inputMoveDirection.magnitude);
         // Set whether the strafe animation should be mirrored or not
         _anim.SetBool("MirrorStrafe", 
             (signedInputLookAngle >= 95f && signedInputLookAngle <= 145f) || 
@@ -126,6 +130,23 @@ public class PlayerMotorController : MonoBehaviour
             accel = accel.normalized * maxAcceleration;
         
         _rb.AddForce(accel, ForceMode.Acceleration);
+    }
+
+    public void ApplyMovementModifier(float modifier)
+    {
+        _speedModifier = modifier;
+    }
+
+    public void ResetMovementModifier()
+    {
+        _speedModifier = 1f;
+    }
+
+    public IEnumerator ApplyTimedMovementModifier(float modifier, float time)
+    {
+        _speedModifier = modifier;
+        yield return new WaitForSeconds(time);
+        _speedModifier = 1f;
     }
 
     private void OnMove(InputValue value)

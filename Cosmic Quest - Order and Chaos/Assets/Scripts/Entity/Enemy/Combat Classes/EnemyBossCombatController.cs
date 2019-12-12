@@ -8,15 +8,21 @@ public class EnemyBossCombatController : EnemyCombatController
 {
     public float secondaryAttackCooldown = 1f;
     public float secondaryAttackDelay = 0.6f;
+    [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackSFX;
+
     public float tertiaryAttackCooldown = 1f;
     public float tertiaryAttackDelay = 0.6f;
     public GameObject tertiaryAttackVFX;
+    [SerializeField] protected AudioHelper.EntityAudioClip tertiaryAttackSFX;
+
     public override void PrimaryAttack()
     {
         if (AttackCooldown > 0f)
             return;
-        
+
         Anim.SetTrigger("PrimaryAttack");
+        // audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackSFX));
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
@@ -33,6 +39,8 @@ public class EnemyBossCombatController : EnemyCombatController
             return;
 
         Anim.SetTrigger("SecondaryAttack");
+        // audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, secondaryAttackSFX));
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
@@ -49,7 +57,10 @@ public class EnemyBossCombatController : EnemyCombatController
             return;
 
         Anim.SetTrigger("TertiaryAttack");
-        StartCoroutine(CreateVFX(tertiaryAttackVFX, gameObject.transform.position, gameObject.transform.rotation, 
+        // audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, tertiaryAttackSFX));
+
+        StartCoroutine(VfxHelper.CreateVFX(tertiaryAttackVFX, gameObject.transform.position + new Vector3(0, 1f, 0), gameObject.transform.rotation,
             PlayerManager.colours.GetColour(Stats.characterColour), tertiaryAttackDelay * 0.5f));
 
         // Attack any enemies within the attack sweep and range
