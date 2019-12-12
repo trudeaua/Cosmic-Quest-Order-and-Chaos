@@ -516,8 +516,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 11.477853, y: 2, z: 13.69934}
-  m_Center: {x: -2.9657855, y: 0, z: -0.84330356}
+  m_Size: {x: 6.5315533, y: 2, z: 13.69934}
+  m_Center: {x: -0.4926356, y: 0.000000016028434, z: -0.84330356}
 --- !u!23 &11172683
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7108,12 +7108,26 @@ MonoBehaviour:
     maxValue: 10
     minValue: 0
     regenAmount: 0
-    regenPeriod: 0
   damage:
     baseValue: 0
   defense:
     baseValue: 0
   characterColour: 0
+  spawnVFX: {fileID: 0}
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
 --- !u!114 &339136111
@@ -7142,11 +7156,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c809a1d83694cec4b98f7793b0e3eeb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   primaryAttackCooldown: 1
   primaryAttackDelay: 0.6
+  primaryAttackSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   attackRadius: 3
   attackAngle: 45
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!4 &339136114 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 190447321, guid: ec317126b52a6564193525f703052a23,
@@ -11308,12 +11342,26 @@ MonoBehaviour:
     maxValue: 5
     minValue: 0
     regenAmount: 0
-    regenPeriod: 0
   damage:
     baseValue: 0
   defense:
     baseValue: 0
   characterColour: 0
+  spawnVFX: {fileID: 0}
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
 --- !u!114 &561266449
@@ -11342,11 +11390,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c809a1d83694cec4b98f7793b0e3eeb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   primaryAttackCooldown: 1
   primaryAttackDelay: 0.6
+  primaryAttackSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   attackRadius: 3
   attackAngle: 45
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!65 &561266451
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13844,12 +13912,26 @@ MonoBehaviour:
     maxValue: 10
     minValue: 0
     regenAmount: 0
-    regenPeriod: 0
   damage:
     baseValue: 5
   defense:
     baseValue: 1
   characterColour: 3
+  spawnVFX: {fileID: 0}
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
 --- !u!114 &720218774
@@ -13864,11 +13946,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c809a1d83694cec4b98f7793b0e3eeb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   primaryAttackCooldown: 1
   primaryAttackDelay: 0.6
+  primaryAttackSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   attackRadius: 4
   attackAngle: 45
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!114 &720218775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17559,12 +17661,26 @@ MonoBehaviour:
     maxValue: 10
     minValue: 0
     regenAmount: 0
-    regenPeriod: 0
   damage:
     baseValue: 0
   defense:
     baseValue: 0
   characterColour: 0
+  spawnVFX: {fileID: 0}
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
 --- !u!114 &852999859
@@ -17593,11 +17709,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c809a1d83694cec4b98f7793b0e3eeb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   primaryAttackCooldown: 1
   primaryAttackDelay: 0.6
+  primaryAttackSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   attackRadius: 3
   attackAngle: 45
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!65 &852999861
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20184,12 +20320,26 @@ MonoBehaviour:
     maxValue: 10
     minValue: 0
     regenAmount: 0
-    regenPeriod: 0
   damage:
     baseValue: 0
   defense:
     baseValue: 0
   characterColour: 0
+  spawnVFX: {fileID: 0}
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
 --- !u!114 &1010091642
@@ -20218,11 +20368,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c809a1d83694cec4b98f7793b0e3eeb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   primaryAttackCooldown: 1
   primaryAttackDelay: 0.6
+  primaryAttackSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   attackRadius: 3
   attackAngle: 45
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!65 &1010091644
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21164,12 +21334,26 @@ MonoBehaviour:
     maxValue: 10
     minValue: 0
     regenAmount: 0
-    regenPeriod: 0
   damage:
     baseValue: 5
   defense:
     baseValue: 1
   characterColour: 4
+  spawnVFX: {fileID: 0}
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
 --- !u!114 &1049989035
@@ -21184,11 +21368,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c809a1d83694cec4b98f7793b0e3eeb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   primaryAttackCooldown: 1
   primaryAttackDelay: 0.6
+  primaryAttackSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   attackRadius: 4
   attackAngle: 45
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!114 &1049989036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24622,12 +24826,26 @@ MonoBehaviour:
     maxValue: 5
     minValue: 0
     regenAmount: 0
-    regenPeriod: 0
   damage:
     baseValue: 0
   defense:
     baseValue: 0
   characterColour: 0
+  spawnVFX: {fileID: 0}
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
 --- !u!114 &1210868852
@@ -24656,11 +24874,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c809a1d83694cec4b98f7793b0e3eeb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   primaryAttackCooldown: 1
   primaryAttackDelay: 0.6
+  primaryAttackSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   attackRadius: 3
   attackAngle: 45
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!65 &1210868854
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25261,11 +25499,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6586518, guid: 275696142da8dfb4490f9b75a436f749, type: 3}
       propertyPath: m_Size.x
-      value: 11.477853
+      value: 6.5315533
       objectReference: {fileID: 0}
     - target: {fileID: 6586518, guid: 275696142da8dfb4490f9b75a436f749, type: 3}
       propertyPath: m_Center.x
-      value: -2.9657855
+      value: -0.4926356
       objectReference: {fileID: 0}
     - target: {fileID: 6586518, guid: 275696142da8dfb4490f9b75a436f749, type: 3}
       propertyPath: m_Size.z
@@ -25274,6 +25512,10 @@ PrefabInstance:
     - target: {fileID: 6586518, guid: 275696142da8dfb4490f9b75a436f749, type: 3}
       propertyPath: m_Center.z
       value: -0.84330356
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586518, guid: 275696142da8dfb4490f9b75a436f749, type: 3}
+      propertyPath: m_Center.y
+      value: 0.000000016028434
       objectReference: {fileID: 0}
     - target: {fileID: 2375822, guid: 275696142da8dfb4490f9b75a436f749, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -32949,11 +33191,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6586518, guid: 275696142da8dfb4490f9b75a436f749, type: 3}
       propertyPath: m_Size.x
-      value: 10.968407
+      value: 6.8946424
       objectReference: {fileID: 0}
     - target: {fileID: 6586518, guid: 275696142da8dfb4490f9b75a436f749, type: 3}
       propertyPath: m_Center.x
-      value: 3.0355732
+      value: 0.99869174
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586518, guid: 275696142da8dfb4490f9b75a436f749, type: 3}
+      propertyPath: m_Center.y
+      value: 9.536532e-10
       objectReference: {fileID: 0}
     - target: {fileID: 446734, guid: 275696142da8dfb4490f9b75a436f749, type: 3}
       propertyPath: m_LocalPosition.z
@@ -33355,8 +33601,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10.968407, y: 2, z: 16.091434}
-  m_Center: {x: 3.0355732, y: 0, z: -1.3582581}
+  m_Size: {x: 6.8946424, y: 2, z: 16.091434}
+  m_Center: {x: 0.99869174, y: 9.536532e-10, z: -1.3582581}
 --- !u!23 &1604840943
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38321,6 +38567,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 268999199, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
+      propertyPath: m_ConnectedAnchor.x
+      value: -0.00000002930835
+      objectReference: {fileID: 0}
+    - target: {fileID: 268999199, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
+      propertyPath: m_ConnectedAnchor.z
+      value: -0.0000000029081741
+      objectReference: {fileID: 0}
     - target: {fileID: 1721783066, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
       propertyPath: m_ConnectedAnchor.x
       value: -0.0020152496
@@ -38328,6 +38582,30 @@ PrefabInstance:
     - target: {fileID: 1721783066, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
       propertyPath: m_ConnectedAnchor.z
       value: 0.0000000050075553
+      objectReference: {fileID: 0}
+    - target: {fileID: 491122848, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
+      propertyPath: m_ConnectedAnchor.x
+      value: 0.0020153439
+      objectReference: {fileID: 0}
+    - target: {fileID: 491122848, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: 0.0005846305
+      objectReference: {fileID: 0}
+    - target: {fileID: 491122848, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
+      propertyPath: m_ConnectedAnchor.z
+      value: 0.0000000048721676
+      objectReference: {fileID: 0}
+    - target: {fileID: 912136201, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
+      propertyPath: m_ConnectedAnchor.x
+      value: -0.0000000043044035
+      objectReference: {fileID: 0}
+    - target: {fileID: 912136201, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: 0.0052617462
+      objectReference: {fileID: 0}
+    - target: {fileID: 912136201, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
+      propertyPath: m_ConnectedAnchor.z
+      value: 0.0000000053641975
       objectReference: {fileID: 0}
     - target: {fileID: 1847732067, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
       propertyPath: m_ConnectedAnchor.x
@@ -38340,6 +38618,10 @@ PrefabInstance:
     - target: {fileID: 1847732067, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
       propertyPath: m_ConnectedAnchor.y
       value: 0.007905631
+      objectReference: {fileID: 0}
+    - target: {fileID: 501200139, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
+      propertyPath: m_ConnectedAnchor.z
+      value: 0.0011590617
       objectReference: {fileID: 0}
     - target: {fileID: 1247428884, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
       propertyPath: m_ConnectedAnchor.z
@@ -38368,42 +38650,6 @@ PrefabInstance:
     - target: {fileID: 1876159397, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
       propertyPath: m_ConnectedAnchor.z
       value: 9.313162e-10
-      objectReference: {fileID: 0}
-    - target: {fileID: 268999199, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
-      propertyPath: m_ConnectedAnchor.x
-      value: -0.00000002930835
-      objectReference: {fileID: 0}
-    - target: {fileID: 268999199, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
-      propertyPath: m_ConnectedAnchor.z
-      value: -0.0000000029081741
-      objectReference: {fileID: 0}
-    - target: {fileID: 491122848, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
-      propertyPath: m_ConnectedAnchor.x
-      value: 0.0020153439
-      objectReference: {fileID: 0}
-    - target: {fileID: 491122848, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
-      propertyPath: m_ConnectedAnchor.y
-      value: 0.0005846305
-      objectReference: {fileID: 0}
-    - target: {fileID: 491122848, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
-      propertyPath: m_ConnectedAnchor.z
-      value: 0.0000000048721676
-      objectReference: {fileID: 0}
-    - target: {fileID: 912136201, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
-      propertyPath: m_ConnectedAnchor.x
-      value: -0.0000000043044035
-      objectReference: {fileID: 0}
-    - target: {fileID: 912136201, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
-      propertyPath: m_ConnectedAnchor.y
-      value: 0.0052617462
-      objectReference: {fileID: 0}
-    - target: {fileID: 912136201, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
-      propertyPath: m_ConnectedAnchor.z
-      value: 0.0000000053641975
-      objectReference: {fileID: 0}
-    - target: {fileID: 501200139, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
-      propertyPath: m_ConnectedAnchor.z
-      value: 0.0011590617
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ab2e03e0ed13f043b17f2648f295d87, type: 3}
@@ -38707,12 +38953,26 @@ MonoBehaviour:
     maxValue: 10
     minValue: 0
     regenAmount: 0
-    regenPeriod: 0
   damage:
     baseValue: 3
   defense:
     baseValue: 1
   characterColour: 0
+  spawnVFX: {fileID: 0}
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
 --- !u!114 &1914164464
@@ -38727,11 +38987,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c809a1d83694cec4b98f7793b0e3eeb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  takeDamageVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  entityDeathVocalSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   primaryAttackCooldown: 1
   primaryAttackDelay: 0.6
+  primaryAttackSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   attackRadius: 4
   attackAngle: 45
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!114 &1914164465
 MonoBehaviour:
   m_ObjectHideFlags: 0
