@@ -39,6 +39,7 @@ public class PlayerMageCombatController : PlayerCombatController
 
     protected override void PrimaryAttack()
     {
+        ResetTakeDamageAnim();
         Vector3 vfxPos = gameObject.transform.position + gameObject.transform.forward * 1.5f + new Vector3(0, 2f);
         StartCoroutine(CreateVFX(primaryVFX, vfxPos, gameObject.transform.rotation));
         if (AttackCooldown > 0) return;
