@@ -88,7 +88,7 @@ public class ExplosiveTrap : MonoBehaviour
     protected void PerformExplosionAnimation()
     {
         GameObject vfx;
-        StartCoroutine(_thrower.PlayAudio(audioClip));
+        StartCoroutine(_thrower.PlayAudioOverlap(audioClip));
         vfx = Instantiate(explosiveTrapVFX, gameObject.transform.position, Quaternion.identity);
 
         var ps = GetFirstPS(vfx);

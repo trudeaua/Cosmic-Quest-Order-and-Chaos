@@ -79,7 +79,7 @@ public class PlayerMedicCombatController : PlayerCombatController
         {
             if (isPressed)
             {
-                StartCoroutine(Stats.PlayAudio(primaryAttackWeaponSFX));
+                StartCoroutine(Stats.PlayAudioOverlap(primaryAttackWeaponSFX));
                 Anim.SetTrigger("PrimaryAttack");
                 PrimaryAttack();
             }
@@ -93,7 +93,7 @@ public class PlayerMedicCombatController : PlayerCombatController
         {
             if (isPressed)
             {
-                StartCoroutine(Stats.PlayAudio(secondaryAttackWeaponSFX));
+                StartCoroutine(Stats.PlayAudioOverlap(secondaryAttackWeaponSFX));
                 Anim.SetTrigger("SecondaryAttack");
                 SecondaryAttack();
             }

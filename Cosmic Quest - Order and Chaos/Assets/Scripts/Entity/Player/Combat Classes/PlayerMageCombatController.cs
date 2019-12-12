@@ -97,11 +97,11 @@ public class PlayerMageCombatController : PlayerCombatController
         _isPrimaryActive = value.isPressed && AttackCooldown <= 0;
         if (_isPrimaryActive)
         {
-            StartCoroutine(Stats.PlayAudio(primaryAttackWeaponSFX));
+            StartCoroutine(Stats.PlayAudioOverlap(primaryAttackWeaponSFX));
         }
         else
         {
-            Stats.StopAudio();
+            Stats.StopAudio(primaryAttackWeaponSFX);
         }
         Anim.SetBool("PrimaryAttack", _isPrimaryActive);
     }
@@ -113,7 +113,7 @@ public class PlayerMageCombatController : PlayerCombatController
         {
             if (isPressed)
             {
-                StartCoroutine(Stats.PlayAudio(secondaryAttackWeaponSFX));
+                StartCoroutine(Stats.PlayAudioOverlap(secondaryAttackWeaponSFX));
                 Anim.SetTrigger("SecondaryAttack");
                 SecondaryAttack();
             }

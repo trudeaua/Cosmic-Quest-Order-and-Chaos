@@ -9,10 +9,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(EnemyBrainController))]
 public class EnemyCombatController : EntityCombatController
 {
-    public float primaryAttackCooldown = 1f;
-    public float primaryAttackDelay = 0.6f;
-    [SerializeField] protected AudioSource primaryAttackFx;
-
     public float attackRadius = 3f;
     public float attackAngle = 45f;
 

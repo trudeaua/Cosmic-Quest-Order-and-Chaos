@@ -83,6 +83,7 @@ public class EnemyStatsController : EntityStatsController
         Debug.Log(transform.name + " died.");
         isDead = true;
         _agent.enabled = false;
+        StartCoroutine(PlayAudioOverlap(entityDeathVocalSFX));
         StartCoroutine(EnemyDeath());
     }
 

@@ -119,7 +119,7 @@ public class PlayerRangedCombatController : PlayerCombatController
         {
             _isPrimaryCharging = true;
             _primaryChargeTime = 0f;
-            StartCoroutine(Stats.PlayAudio(primaryAttackChargeWeaponSFX));
+            StartCoroutine(Stats.PlayAudioOverlap(primaryAttackChargeWeaponSFX));
             Anim.SetBool("PrimaryAttack", true);
         }
         else if (!isPressed && AttackCooldown <= 0 && _isPrimaryCharging)
@@ -128,8 +128,8 @@ public class PlayerRangedCombatController : PlayerCombatController
             // Convert charge time to launch force
             _chargePercent = Mathf.InverseLerp(0f, primaryAttackChargeTime,_primaryChargeTime);
             _primaryAttackLaunchForce = Mathf.Lerp(primaryAttackMinLaunchForce, primaryAttackMaxLaunchForce, _chargePercent);
-            Stats.StopAudio();
-            StartCoroutine(Stats.PlayAudio(primaryAttackReleaseWeaponSFX));
+            Stats.StopAudio(primaryAttackChargeWeaponSFX);
+            StartCoroutine(Stats.PlayAudioOverlap(primaryAttackReleaseWeaponSFX));
             PrimaryAttack();
             Anim.SetBool("PrimaryAttack", false);
         }
@@ -142,7 +142,7 @@ public class PlayerRangedCombatController : PlayerCombatController
         {
             if (isPressed)
             {
-                StartCoroutine(Stats.PlayAudio(secondaryAttackWeaponSFX));
+                StartCoroutine(Stats.PlayAudioOverlap(secondaryAttackWeaponSFX));
                 Anim.SetTrigger("SecondaryAttack");
                 SecondaryAttack();
             }

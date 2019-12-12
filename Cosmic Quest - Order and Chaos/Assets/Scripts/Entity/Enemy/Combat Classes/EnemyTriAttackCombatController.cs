@@ -6,17 +6,24 @@ using UnityEngine;
 
 public class EnemyTriAttackCombatController : EnemyCombatController
 {
+    [SerializeField] protected float primaryAttackCooldown = 1f;
+    [SerializeField] protected float primaryAttackDelay = 0.6f;
+    [SerializeField] protected EntityAudioClip primaryAttackSFX;
+
     [SerializeField] protected float secondaryAttackCooldown = 1f;
     [SerializeField] protected float secondaryAttackDelay = 0.6f;
-    [SerializeField] protected AudioSource secondaryAttackFx;
+    [SerializeField] protected EntityAudioClip secondaryAttackSFX;
+
     [SerializeField] protected float tertiaryAttackCooldown = 1f;
     [SerializeField] protected float tertiaryAttackDelay = 0.6f;
-    [SerializeField] protected AudioSource tertiaryAttackFx;
+    [SerializeField] protected EntityAudioClip tertiaryAttackSFX;
+
     public override void PrimaryAttack()
     {
         if (AttackCooldown > 0f)
             return;
         
+        StartCoroutine(Stats.PlayAudioOverlap(primaryAttackSFX));
         Anim.SetTrigger("PrimaryAttack");
 
         // Attack any enemies within the attack sweep and range
@@ -35,6 +42,7 @@ public class EnemyTriAttackCombatController : EnemyCombatController
             return;
 
 
+        StartCoroutine(Stats.PlayAudioOverlap(secondaryAttackSFX));
         Anim.SetTrigger("SecondaryAttack");
 
         // Attack any enemies within the attack sweep and range
@@ -52,6 +60,7 @@ public class EnemyTriAttackCombatController : EnemyCombatController
         if (AttackCooldown > 0f)
             return;
 
+        StartCoroutine(Stats.PlayAudioOverlap(tertiaryAttackSFX));
         Anim.SetTrigger("TertiaryAttack");
 
         // Attack any enemies within the attack sweep and range
