@@ -5,13 +5,13 @@ using System.Text;
 
 public class Lvl1Room1 : Room
 {
-    private StringBuilder code;
-    private StringBuilder input;
+    public string code;
+    public StringBuilder input;
 
     // Start is called before the first frame update
     void Awake()
     {
-        code = new StringBuilder("PGGP", 4);
+        code = "PGGP";
         input = new StringBuilder("", 4);
     }
 
@@ -30,22 +30,27 @@ public class Lvl1Room1 : Room
     // Returns whether all levers in the room have been pulled
     public override bool AreLeversPulled ()
     {
-        bool leversPulled = true;
-
-         if (m_Levers == null || m_Levers.Length == 0) return true;
+         if (input.Length == 4) input.Clear();
 
         // Check if every lever has been activated
         foreach (GameObject lever in m_Levers)
         {
             Transform handle = lever.transform.Find("Handle");
             
-            if (!handle.GetComponent<Animator>().GetBool("LeverPulled"))
+            if (handle.GetComponent<Animator>().GetBool("LeverPulled"))
             {
-                // If at least 1 lever isn't activated, return false
-                leversPulled = false;
+                switch(handle.GetComponent<Lever>().colour)
+                {
+                    case (CharacterColour.Green):
+                        input.Append('G');
+                        break;
+                    case (CharacterColour.Purple):
+                        input.Append('P');
+                        break;
+                }
             }
         }
 
-        return leversPulled;
+        return (input.ToString() == code);
     }
 }

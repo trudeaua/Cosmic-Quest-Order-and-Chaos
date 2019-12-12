@@ -8,29 +8,37 @@ public class Room : MonoBehaviour
     public Animator Anim;   // Door animation to be played when all puzzles have been solved
     protected Collider m_Collider;  // Collider of the door
     protected List<GameObject> m_Enemies;   // All enemies in the room
-    protected Transform[] children_enemies;
-    protected GameObject[] m_Levers;    // All levers in the room
-    protected GameObject[] m_Platforms; // All rock platforms in the room
+    protected Transform[] children;     // Track all child transforms of the room
+    protected List<GameObject> m_Levers;    // All levers in the room
+    protected List<GameObject> m_Platforms; // All rock platforms in the room
     
     void Awake ()
     {
         // Track all rock platforms in the room
-        m_Platforms = GameObject.FindGameObjectsWithTag("Platform");
+        m_Platforms = new List<GameObject>();
 
         // Track all levers in the room
-        m_Levers = GameObject.FindGameObjectsWithTag("Lever");
+        m_Levers = new List<GameObject>();
 
         // Populate enemy list with enemies in the room
         m_Enemies = new List<GameObject>();
 
         // TODO: Find better way of tracking all enemies in a room
-        children_enemies = transform.parent.GetComponentsInChildren<Transform>();
+        children = transform.parent.GetComponentsInChildren<Transform>();
 
-        foreach (Transform child in children_enemies)
+        foreach (Transform child in children)
         {
             if (child.gameObject.tag == "Enemy")
             {
                 m_Enemies.Add(child.gameObject);
+            }
+            if (child.gameObject.tag == "Platform")
+            {
+                m_Platforms.Add(child.gameObject);
+            }
+            if (child.gameObject.tag == "Lever")
+            {
+                m_Levers.Add(child.gameObject);
             }
         }
 
@@ -41,9 +49,7 @@ public class Room : MonoBehaviour
     // Returns whether all rocks have been positioned on their respective platforms
     public virtual bool ArePlatformsActivated ()
     {
-        bool platformsActivated = true;
-
-        if (m_Platforms == null || m_Platforms.Length == 0) return true;
+        if (m_Platforms == null || m_Platforms.Count == 0) return true;
 
         // Check if every platform in the room has a rock placed on it
         foreach (GameObject plat in m_Platforms)
@@ -51,19 +57,17 @@ public class Room : MonoBehaviour
             if (!plat.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("PlatformActivated"))
             {
                 // If a platform hasn't been activated yet, return false
-                platformsActivated = false;
+                return false;
             }
         }
 
-        return platformsActivated;
+        return true;
     }
 
     // Returns whether all levers in the room have been pulled
     public virtual bool AreLeversPulled ()
     {
-        bool leversPulled = true;
-
-         if (m_Levers == null || m_Levers.Length == 0) return true;
+         if (m_Levers == null || m_Levers.Count == 0) return true;
 
         // Check if every lever has been activated
         foreach (GameObject lever in m_Levers)
@@ -73,22 +77,18 @@ public class Room : MonoBehaviour
             if (!handle.GetComponent<Animator>().GetBool("LeverPulled"))
             {
                 // If at least 1 lever isn't activated, return false
-                leversPulled = false;
+                return false;
             }
         }
 
-        return leversPulled;
+        return true;
     }
 
     // Returns whether all enemies in the room have been killed
     public virtual bool AreAllEnemiesKilled ()
     {
         // If enemy list is empty, all enemies in the room have been killed
-        if (m_Enemies.Count == 0)
-        {
-           
-            return true;
-        }
+        if (m_Enemies.Count == 0) return true;
 
         // Check for dead enemies and remove them from the enemy list
         foreach (GameObject enemy in m_Enemies)
