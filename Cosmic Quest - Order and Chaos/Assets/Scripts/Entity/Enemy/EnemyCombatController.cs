@@ -15,18 +15,11 @@ public class EnemyCombatController : EntityCombatController
     public float attackRadius = 3f;
     public float attackAngle = 45f;
 
-    public GameObject spawnVFX;
-
     protected List<GameObject> Players;
 
     private void Start()
     {
         Players = PlayerManager.Players;
-        // Create a VFX where the enemy will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the enemy colour
-        StartCoroutine(CreateVFX(spawnVFX, new Vector3(gameObject.transform.position.x, 0.1f, gameObject.transform.position.z), 
-            Quaternion.identity, PlayerManager.colours.GetColour(Stats.characterColour), 0.5f));
-        // "Spawn" the enemy (they float up through the stage)
-        StartCoroutine(Spawn(gameObject, 0.05f, 0.9f));
     }
 
     public virtual void PrimaryAttack()
@@ -70,13 +63,5 @@ public class EnemyCombatController : EntityCombatController
         }
 
         return false;
-    }
-
-    protected override IEnumerator Spawn(GameObject obj, float speed = 0.05F, float delay = 0)
-    {
-        // weird stuff happens when the nav mesh is enabled during the spawn
-        obj.GetComponent<NavMeshAgent>().enabled = false;
-        yield return base.Spawn(obj, speed, delay);
-        obj.GetComponent<NavMeshAgent>().enabled = true;
     }
 }

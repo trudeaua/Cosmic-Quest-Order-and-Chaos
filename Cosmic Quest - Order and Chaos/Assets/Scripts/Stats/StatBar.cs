@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+
 public enum BarType {
     Player,
     Enemy
@@ -19,13 +20,14 @@ public class StatBar : MonoBehaviour
         if (barType == BarType.Player)
         {
             PlayerStatsController stats = transform.root.GetComponent<PlayerStatsController>();
-            _healthStat = stats.health as RegenerableStat;
+            _healthStat = stats.health;
             _manaStat = stats.mana;
         }
         else if (barType == BarType.Enemy)
         {
             EnemyStatsController stats = transform.root.GetComponent<EnemyStatsController>();
-            _healthStat = stats.health as RegenerableStat;
+            _healthStat = stats.health;
+            
             // apply enemy name as label
             string label = gameObject.GetComponentInParent<EntityStatsController>().gameObject.name;
             Text labelText = gameObject.GetComponentInChildren<Text>();

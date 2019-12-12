@@ -43,17 +43,19 @@ public class EntityStatsController : MonoBehaviour
     protected virtual void Update()
     {
         if (!isDead)
-            health.Regen();
+            health.PauseRegen();
     }
 
-    public virtual void TakeDamage(EntityStatsController attacker, float damageValue)
+    public virtual void TakeDamage(EntityStatsController attacker, float damageValue, float timeDelta = 1f)
     {
         // Ignore attacks if already dead
         if (isDead)
             return;
+        
         Anim.SetTrigger("TakeDamage");
+        
         // Calculate any changes based on stats and modifiers here first
-        float hitValue = damageValue - ComputeDefenseModifier();
+        float hitValue = (damageValue - ComputeDefenseModifier()) * timeDelta;
         health.Subtract(hitValue < 0 ? 0 : hitValue);
 
         if (Mathf.Approximately(health.CurrentValue, 0f))
@@ -110,5 +112,27 @@ public class EntityStatsController : MonoBehaviour
     {
         // Meant to be implemented with any death tasks
         isDead = true;
+    }
+
+    protected virtual IEnumerator Spawn(GameObject obj, float speed = 0.05f, float delay = 0f)
+    {
+        Collider col = obj.GetComponent<Collider>();
+        float from = -1 * col.bounds.center.y * 4;
+        float to = 0;
+        col.enabled = false;
+        obj.transform.position = new Vector3(obj.transform.position.x, from, obj.transform.position.z);
+        if (delay > 0)
+        {
+            yield return new WaitForSeconds(delay);
+        }
+        Anim.SetTrigger("Spawn");
+        float offset = 0;
+        while (obj.transform.position.y < to)
+        {
+            obj.transform.position = new Vector3(obj.transform.position.x, from + offset, obj.transform.position.z);
+            offset += speed;
+            yield return new WaitForSeconds(0.01f);
+        }
+        col.enabled = true;
     }
 }

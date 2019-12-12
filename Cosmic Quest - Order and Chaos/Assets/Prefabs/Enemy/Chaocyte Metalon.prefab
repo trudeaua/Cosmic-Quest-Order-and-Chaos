@@ -1672,7 +1672,6 @@ MonoBehaviour:
     maxValue: 20
     minValue: 0
     regenAmount: 0
-    regenPeriod: 0
   damage:
     baseValue: 5
   defense:
@@ -1680,6 +1679,7 @@ MonoBehaviour:
   characterColour: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
+  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
 --- !u!114 &9167914555847376946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1710,7 +1710,6 @@ MonoBehaviour:
   primaryAttackDelay: 0.3
   attackRadius: 3.5
   attackAngle: 45
-  spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
   secondaryAttackCooldown: 1.1
   secondaryAttackDelay: 0.44
   tertiaryAttackCooldown: 1
@@ -1722,11 +1721,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9167914555847376945}
     m_Modifications:
-    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyBars
-      objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1831,6 +1825,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyBars
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ede0b1d774556b14c96fc9892ebd7909, type: 3}

@@ -4,19 +4,19 @@ using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerStatsController))]
 public class PlayerCombatController : EntityCombatController
 {
-    [SerializeField] protected float primaryAttackCooldown;
-    [SerializeField] protected float secondaryAttackCooldown;
-    public GameObject spawnVFX;
+    [Tooltip("The minimal cooldown between consecutive attacks. This value should be larger than the time it takes for the entire attack animation")]
+    public float primaryAttackTimeout;
+    [Tooltip("The minimal cooldown between consecutive attacks. This value should be larger than the time it takes for the entire attack animation")]
+    public float secondaryAttackTimeout;
+
+    protected PlayerMotorController Motor;
 
     protected virtual void Start()
     {
-        // Create a VFX where the player will spawn and change the VFX colour to match the player colour
-        StartCoroutine(CreateVFX(spawnVFX, new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 0.1f, gameObject.transform.position.z), 
-            Quaternion.identity, PlayerManager.colours.GetColour(Stats.characterColour), 0.5f));
-        // "Spawn" the player (they float up through the stage)
-        StartCoroutine(Spawn(gameObject, 0.08f, 0.9f));
+        Motor = GetComponent<PlayerMotorController>();
     }
 
     protected virtual void PrimaryAttack()
@@ -85,13 +85,20 @@ public class PlayerCombatController : EntityCombatController
 
         return false;
     }
+    
+    protected IEnumerator TriggerTimeAttackAnimation(string animName, float time)
+    {
+        Anim.SetBool(animName, true);
+        yield return new WaitForSeconds(time);
+        Anim.SetBool(animName, false);
+    }
 
     protected virtual void OnPrimaryAttack(InputValue value)
     {
         // Only trigger attack on button down by default
         if (value.isPressed)
         {
-            //PrimaryAttack();
+            PrimaryAttack();
         }
     }
     
