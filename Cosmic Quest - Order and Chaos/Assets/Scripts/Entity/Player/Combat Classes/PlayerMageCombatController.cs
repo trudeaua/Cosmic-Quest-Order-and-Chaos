@@ -23,6 +23,8 @@ public class PlayerMageCombatController : PlayerCombatController
     public float primaryAttackMovementModifier = 0.5f;
     [Tooltip("Visual effect for primary attack")]
     public GameObject primaryVFX;
+    [Tooltip("Weapon audio effect for secondary attack")]
+    [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackWeaponSFX;
 
     [Header("Secondary Attack - AOE Explosion")]
     [Tooltip("The maximum base damage that this attack can deal")]
@@ -42,6 +44,8 @@ public class PlayerMageCombatController : PlayerCombatController
     public float secondaryAttackMovementModifier = 0.5f;
     [Tooltip("Visual effect for secondary attack")]
     public GameObject secondaryVFX;
+    [Tooltip("Weapon audio effect for secondary attack")]
+    [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackWeaponSFX;
 
     private bool _isPrimaryActive = false;
 
@@ -67,16 +71,16 @@ public class PlayerMageCombatController : PlayerCombatController
             Motor.ResetMovementModifier();
             return;
         }
-        
+
         (Stats as PlayerStatsController).mana.Subtract(primaryAttackManaDepletion * Time.deltaTime);
-        
+
         ResetTakeDamageAnim();
         Vector3 vfxPos = transform.position + transform.forward * 1.5f + new Vector3(0, 2f);
         StartCoroutine(VfxHelper.CreateVFX(primaryVFX, vfxPos, transform.rotation));
 
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
-        
+
         // Attack any enemies within the attack sweep and range
         foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, primaryAttackRadius, primaryAttackSweepAngle)))
         {
@@ -84,37 +88,40 @@ public class PlayerMageCombatController : PlayerCombatController
             enemy.GetComponent<EntityStatsController>().TakeDamage(Stats, damageValue, Time.deltaTime);
         }
     }
-    
+
     protected override void SecondaryAttack()
     {
         // Ensure player has enough mana to perform this attack
         if (AttackCooldown > 0 || (Stats as PlayerStatsController).mana.CurrentValue < secondaryAttackManaDepletion)
             return;
 
-        StartCoroutine(VfxHelper.CreateVFX(secondaryVFX, transform.position, Quaternion.identity, PlayerManager.colours.GetColour(Stats.characterColour)));
+        StartCoroutine(VfxHelper.CreateVFX(secondaryVFX, transform.position + new Vector3(0, 0.01f, 0), Quaternion.identity, PlayerManager.colours.GetColour(Stats.characterColour)));
 
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(secondaryAttackRadius);
-        
+
         // Attack any enemies within the AOE range
         foreach (var enemy in enemies)
         {
-            StartCoroutine(PerformExplosiveDamage(enemy.GetComponent<EntityStatsController>(), 
-                                                          secondaryAttackMaxDamage, secondaryAttackStunTime, secondaryAttackExplosionForce, 
+            StartCoroutine(PerformExplosiveDamage(enemy.GetComponent<EntityStatsController>(),
+                                                          secondaryAttackMaxDamage, secondaryAttackStunTime, secondaryAttackExplosionForce,
                                                           transform.position, secondaryAttackRadius, secondaryAttackDamageDelay));
         }
-        
+
         // Trigger secondary attack animation
         Anim.SetTrigger("SecondaryAttack");
-        
+
+        // Play the attack audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, secondaryAttackWeaponSFX));
+
         // Reset attack timeout and deplete mana
         AttackCooldown = secondaryAttackTimeout;
         (Stats as PlayerStatsController).mana.Subtract(secondaryAttackManaDepletion);
-        
+
         // Apply movement speed modifier
         StartCoroutine(Motor.ApplyTimedMovementModifier(secondaryAttackMovementModifier, secondaryAttackTimeout));
     }
-    
+
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability
@@ -127,6 +134,7 @@ public class PlayerMageCombatController : PlayerCombatController
         {
             _isPrimaryActive = true;
             Anim.SetBool("PrimaryAttack", true);
+            StartCoroutine(AudioHelper.PlayAudio(WeaponAudio, primaryAttackWeaponSFX));
             (Stats as PlayerStatsController).mana.PauseRegen();
             Motor.ApplyMovementModifier(primaryAttackMovementModifier);
         }
@@ -134,6 +142,7 @@ public class PlayerMageCombatController : PlayerCombatController
         {
             _isPrimaryActive = false;
             Anim.SetBool("PrimaryAttack", false);
+            AudioHelper.StopAudio(WeaponAudio);
             (Stats as PlayerStatsController).mana.StartRegen();
             Motor.ResetMovementModifier();
         }

@@ -14,9 +14,8 @@ public class EnemyStatsController : EntityStatsController
     private float _minTimeBetweenDamageText = 0.5f;
     private float _damageTextValue = 0f;
     private float _damageTextCounter = 0f;
-    
+
     public GameObject FloatingText;
-    public GameObject spawnVFX;
 
     private Collider _collider;
 
@@ -32,12 +31,12 @@ public class EnemyStatsController : EntityStatsController
     private void Start()
     {
         // Create a VFX where the enemy will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the enemy colour
-        StartCoroutine(VfxHelper.CreateVFX(spawnVFX, new Vector3(transform.position.x, 0.1f, transform.position.z), 
+        StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0),
             Quaternion.identity, PlayerManager.colours.GetColour(characterColour), 0.5f));
         // "Spawn" the enemy (they float up through the stage)
         StartCoroutine(Spawn(gameObject, 0.05f, 0.9f));
     }
-    
+
     protected override void Update()
     {
         base.Update();
@@ -62,7 +61,7 @@ public class EnemyStatsController : EntityStatsController
         health.Subtract(hitValue);
         ShowDamage(hitValue);
         Anim.SetTrigger("TakeDamage");
-        
+
         // Pass damage information to brain
         _brain.OnDamageTaken(attacker.gameObject, hitValue);
 
@@ -77,7 +76,7 @@ public class EnemyStatsController : EntityStatsController
         _damageTextValue += value;
         if (_damageTextCounter > 0f || _damageTextValue < 0.5f)
             return;
-        
+
         Vector3 offset = new Vector3(0, _collider.bounds.size.y + 4f, 0);
         float x = 1f, y = 0.5f;
         Vector3 random = new Vector3(Random.Range(-x, x), Random.Range(-y, y));
@@ -97,10 +96,10 @@ public class EnemyStatsController : EntityStatsController
         // Set to stunned before applying explosive force
         SetStunned(true);
         rb.isKinematic = false;
-        
+
         // TODO change this to AddForce(<force vector>, ForceMode.Impulse);
         rb.AddExplosionForce(explosionForce, explosionPoint, explosionRadius);
-        
+
         // Wait for a moment before re-enabling the navMeshAgent
         yield return new WaitForSeconds(stunTime);
         rb.isKinematic = true;
@@ -112,8 +111,10 @@ public class EnemyStatsController : EntityStatsController
         Debug.Log(transform.name + " died.");
         isDead = true;
         _agent.enabled = false;
+        StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, entityDeathVocalSFX));
         StartCoroutine(EnemyDeath());
     }
+
 
     private IEnumerator EnemyDeath()
     {
@@ -128,7 +129,7 @@ public class EnemyStatsController : EntityStatsController
         _agent.enabled = !isStunned;
         _brain.SetStunned(isStunned);
     }
-    
+
     protected override IEnumerator Spawn(GameObject obj, float speed = 0.05F, float delay = 0)
     {
         // weird stuff happens when the nav mesh is enabled during the spawn

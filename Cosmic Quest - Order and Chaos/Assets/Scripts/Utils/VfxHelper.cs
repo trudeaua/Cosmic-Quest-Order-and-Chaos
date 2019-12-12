@@ -47,12 +47,12 @@ public class VfxHelper : MonoBehaviour
 
         ParticleSystem ps = GetFirstPS(vfx);
 
-        Destroy(vfx, ps.main.duration + ps.main.startLifetime.constantMax + 1);
+        Destroy(vfx, ps.main.duration + ps.main.startLifetime.constantMax);
     }
 
     private static ParticleSystem GetFirstPS(GameObject vfx)
     {
-        var ps = vfx.GetComponent<ParticleSystem>();
+        var ps = vfx.GetComponentInChildren<ParticleSystem>();
         if (ps is null && vfx.transform.childCount > 0)
         {
             foreach (Transform t in vfx.transform)

@@ -31,6 +31,16 @@ public class EntityStatsController : MonoBehaviour
     // Entity layer mask constant for entity raycasting checks
     public const int EntityLayer = 1 << 9;
 
+    [SerializeField] protected GameObject spawnVFX;
+
+    protected AudioSource[] Audio;
+    // Audio source for playing vocal audio clips
+    protected AudioSource VocalAudio;
+    // Audio source for playing weapon audio clips
+    protected AudioSource WeaponAudio;
+    [SerializeField] protected AudioHelper.EntityAudioClip takeDamageVocalSFX;
+    [SerializeField] protected AudioHelper.EntityAudioClip entityDeathVocalSFX;
+
     protected virtual void Awake()
     {
         health.Init();
@@ -38,6 +48,20 @@ public class EntityStatsController : MonoBehaviour
         Anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
+
+        Audio = GetComponents<AudioSource>();
+        // Assign audio sources for weapon and vocal SFX
+        // There should be 2 audio sources to handle both SFX types playing concurrently
+        if (Audio.Length == 2)
+        {
+            WeaponAudio = Audio[0];
+            VocalAudio = Audio[1];
+        }
+        else if (Audio.Length < 2)
+        {
+            WeaponAudio = Audio[0];
+            VocalAudio = Audio[0];
+        }
     }
 
     protected virtual void Update()
@@ -51,9 +75,12 @@ public class EntityStatsController : MonoBehaviour
         // Ignore attacks if already dead
         if (isDead)
             return;
-        
+        Anim.ResetTrigger("TakeDamage");
         Anim.SetTrigger("TakeDamage");
-        
+        if (takeDamageVocalSFX != null)
+        {
+            StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, takeDamageVocalSFX));
+        }
         // Calculate any changes based on stats and modifiers here first
         float hitValue = (damageValue - ComputeDefenseModifier()) * timeDelta;
         health.Subtract(hitValue < 0 ? 0 : hitValue);
@@ -117,8 +144,8 @@ public class EntityStatsController : MonoBehaviour
     protected virtual IEnumerator Spawn(GameObject obj, float speed = 0.05f, float delay = 0f)
     {
         Collider col = obj.GetComponent<Collider>();
-        float from = -1 * col.bounds.center.y * 4;
-        float to = 0;
+        float from = -1 * col.bounds.size.y * 2.5f;
+        float to = obj.transform.position.y;
         col.enabled = false;
         obj.transform.position = new Vector3(obj.transform.position.x, from, obj.transform.position.z);
         if (delay > 0)
