@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-public class Door1 : MonoBehaviour
+public class Door1 : Room
 {
     private StringBuilder code;
     private StringBuilder input;
