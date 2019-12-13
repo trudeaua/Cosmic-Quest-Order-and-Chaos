@@ -13,8 +13,10 @@ public class Room : MonoBehaviour
     protected List<GameObject> m_Levers;    // All levers in the room
     protected List<GameObject> m_Platforms; // All rock platforms in the room
 
-    public List<CharacterColour> code;
-    public List<CharacterColour> input;
+    // TODO: Implement random generator for lever code patterns based on input of code length and active player colours
+    // For pattern-based puzzles
+    protected List<CharacterColour> code;  // List containing input code sequence 
+    public List<CharacterColour> input; // Player input that'll be checked against stored code
     
     void Awake ()
     {

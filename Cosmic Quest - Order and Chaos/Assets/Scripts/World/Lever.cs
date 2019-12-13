@@ -10,18 +10,10 @@ public class Lever : Interactable
     public GameObject Door;
 
     private void Start()
-    {
-        Anim = gameObject.GetComponent<Animator>();
+    { 
+        // Find the door of the room that lever is in
         Door = transform.parent.parent.Find("Door1").gameObject;
-
-        if (Door == null)
-        {
-            Debug.Log("no door found");
-        }
-        else
-        {
-            Debug.Log("door found");
-        }
+        Anim = gameObject.GetComponent<Animator>(); 
     }
 
     private void Reset()
@@ -34,10 +26,11 @@ public class Lever : Interactable
     {
         if (CanInteract(target))
         {
-            Debug.Log("Interacted with " + target.name);
             Anim.enabled = true;
             Anim.Play("LeverAnimation");
             Anim.SetBool("LeverPulled", true);
+
+            // Add lever colour to the code input
             Door.GetComponent<Room>().input.Add(this.colour);
         }
     }
