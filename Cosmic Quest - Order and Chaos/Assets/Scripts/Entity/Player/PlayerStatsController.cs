@@ -37,7 +37,7 @@ public class PlayerStatsController : EntityStatsController
         // Create a VFX where the player will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the player colour
         StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0), Quaternion.identity, playerColour, 0.5f));
         // "Spawn" the player (they float up through the stage)
-        StartCoroutine(Spawn(gameObject, 0.08f, 0.9f));
+        StartCoroutine(Spawn(gameObject, spawnSpeed, spawnDelay, spawnCooldown));
     }
 
     protected override void Update()
@@ -114,5 +114,13 @@ public class PlayerStatsController : EntityStatsController
                 }
             }
         }
+    }
+
+    protected override IEnumerator Spawn(GameObject obj, float speed = 0.05f, float delay = 0f, float cooldown = 0)
+    {
+        PlayerMotorController motorController = GetComponent<PlayerMotorController>();
+        motorController.ApplyMovementModifier(0);
+        yield return base.Spawn(obj, speed, delay, cooldown);
+        motorController.ResetMovementModifier();
     }
 }

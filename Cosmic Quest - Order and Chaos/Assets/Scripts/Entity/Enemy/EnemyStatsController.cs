@@ -34,7 +34,7 @@ public class EnemyStatsController : EntityStatsController
         StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0),
             Quaternion.identity, PlayerManager.colours.GetColour(characterColour), 0.5f));
         // "Spawn" the enemy (they float up through the stage)
-        StartCoroutine(Spawn(gameObject, 0.05f, 0.9f));
+        StartCoroutine(Spawn(gameObject, spawnSpeed, spawnDelay, spawnCooldown));
     }
 
     protected override void Update()
@@ -130,11 +130,12 @@ public class EnemyStatsController : EntityStatsController
         _brain.SetStunned(isStunned);
     }
 
-    protected override IEnumerator Spawn(GameObject obj, float speed = 0.05F, float delay = 0)
+    protected override IEnumerator Spawn(GameObject obj, float speed = 0.05F, float delay = 0, float cooldown = 0)
     {
         // weird stuff happens when the nav mesh is enabled during the spawn
-        obj.GetComponent<NavMeshAgent>().enabled = false;
-        yield return base.Spawn(obj, speed, delay);
-        obj.GetComponent<NavMeshAgent>().enabled = true;
+        NavMeshAgent navMesh = obj.GetComponent<NavMeshAgent>();
+        navMesh.enabled = false;
+        yield return base.Spawn(obj, speed, delay, cooldown);
+        navMesh.enabled = true;
     }
 }

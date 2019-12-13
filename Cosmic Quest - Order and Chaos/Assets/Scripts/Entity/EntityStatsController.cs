@@ -31,14 +31,25 @@ public class EntityStatsController : MonoBehaviour
     // Entity layer mask constant for entity raycasting checks
     public const int EntityLayer = 1 << 9;
 
+    [Header("Spawn Config")]
+    [Tooltip("VFX to use when player spawns")]
     [SerializeField] protected GameObject spawnVFX;
+    [Tooltip("Controls the speed of the spawn animation")]
+    [SerializeField] protected float spawnSpeed = 0.08f;
+    [Tooltip("Number of seconds to wait before the spawn sequence starts")]
+    [SerializeField] protected float spawnDelay = 0.9f;
+    [Tooltip("Number of seconds to wait after the spawn sequence ends")]
+    [SerializeField] protected float spawnCooldown = 0;
 
     protected AudioSource[] Audio;
     // Audio source for playing vocal audio clips
     protected AudioSource VocalAudio;
     // Audio source for playing weapon audio clips
     protected AudioSource WeaponAudio;
+    [Header("Audio Clips")]
+    [Tooltip("Audio clip that should play when the entity takes damage")]
     [SerializeField] protected AudioHelper.EntityAudioClip takeDamageVocalSFX;
+    [Tooltip("Audio clip that should play when the entity dies")]
     [SerializeField] protected AudioHelper.EntityAudioClip entityDeathVocalSFX;
 
     protected virtual void Awake()
@@ -141,7 +152,7 @@ public class EntityStatsController : MonoBehaviour
         isDead = true;
     }
 
-    protected virtual IEnumerator Spawn(GameObject obj, float speed = 0.05f, float delay = 0f)
+    protected virtual IEnumerator Spawn(GameObject obj, float speed = 0.05f, float delay = 0f, float cooldown = 0f)
     {
         Collider col = obj.GetComponent<Collider>();
         float from = -1 * col.bounds.size.y * 2.5f;
@@ -161,5 +172,9 @@ public class EntityStatsController : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
         col.enabled = true;
+        if (cooldown > 0)
+        {
+            yield return new WaitForSeconds(cooldown);
+        }
     }
 }
