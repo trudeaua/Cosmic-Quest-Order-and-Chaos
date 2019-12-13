@@ -16,9 +16,15 @@ public class ExplosiveTrap : MonoBehaviour
     private Collider[] _hits;
     public GameObject explosiveTrapVFX;
 
+    // source to play explosion sfx from
+    private AudioSource source;
+    // explosion sfx to play
+    [SerializeField] private AudioHelper.EntityAudioClip audioClip;
+
     private void Awake()
     {
         _hits = new Collider[32];
+        source = GetComponent<AudioSource>();
     }
 
     public void PlaceTrap(EntityStatsController thrower, Vector3 position)
@@ -27,10 +33,16 @@ public class ExplosiveTrap : MonoBehaviour
         _isDetonated = false;
         transform.position = position;
         _isArmed = false;
-        
+
         // Set self active
         gameObject.SetActive(true);
         StartCoroutine("ArmTrap");
+    }
+
+    public void SetExplosionAudio(AudioSource source, AudioHelper.EntityAudioClip audioClip)
+    {
+        this.source = source;
+        this.audioClip = audioClip;
     }
 
     private IEnumerator ArmTrap()
@@ -38,25 +50,37 @@ public class ExplosiveTrap : MonoBehaviour
         yield return new WaitForSeconds(armTime);
         _isArmed = true;
     }
-    
+
     private void Detonate()
     {
         _isDetonated = true;
-        ExplosionEffect();
         // Play explosion effect
+        ExplosionEffect();
+        StartCoroutine(RemoveTrapFromScene());
+    }
+
+    private IEnumerator RemoveTrapFromScene()
+    {
+        MeshRenderer mesh = gameObject.GetComponentInChildren<MeshRenderer>();
+        // Hide the mesh to emulate the object being destroyed
+        mesh.enabled = false;
+        yield return new WaitForSeconds(2f);
+        mesh.enabled = true;
         gameObject.SetActive(false);
     }
 
     private void ExplosionEffect()
     {
         PerformExplosionAnimation();
+        StartCoroutine(AudioHelper.PlayAudioOverlap(source, audioClip));
+        // play the explosion sound
         int numHits = Physics.OverlapSphereNonAlloc(transform.position, explosionRadius, _hits, EntityStatsController.EntityLayer);
 
         for (int i = 0; i < numHits; i++)
         {
             if (!_hits[i].transform.CompareTag("Enemy"))
                 continue;
-            
+
             // TODO check for if enemy is behind cover
             _hits[i].transform.GetComponent<EnemyStatsController>().TakeExplosionDamage(_thrower, maxDamage, stunTime, explosionForce, transform.position, explosionRadius);
         }

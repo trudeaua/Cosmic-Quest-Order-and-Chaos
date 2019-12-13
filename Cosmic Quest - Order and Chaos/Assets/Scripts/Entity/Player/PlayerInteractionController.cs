@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,13 +8,15 @@ public class PlayerInteractionController : MonoBehaviour
 {
     [Tooltip("Max distance of objects that the player can interact with")]
     public float interactionRadius = 4f;
-    
-    protected Interactable CurrentObject = null;
-    protected Animator Anim;
 
-    protected virtual void Awake()
+    private PlayerCombatController _combat;
+    private Interactable _currentObject = null;
+    private Animator _anim;
+
+    private void Start()
     {
-        Anim = gameObject.GetComponentInChildren<Animator>();
+        _combat = GetComponent<PlayerCombatController>();
+        _anim = gameObject.GetComponentInChildren<Animator>();
     }
 
     /// <summary>
@@ -23,7 +26,7 @@ public class PlayerInteractionController : MonoBehaviour
     /// <returns>Whether the player is interacting.</returns>
     public bool IsInteracting()
     {
-        return (CurrentObject);
+        return (_currentObject);
     }
     
     private void OnInteract(InputValue value)
@@ -32,17 +35,23 @@ public class PlayerInteractionController : MonoBehaviour
         if (value.isPressed)
         {
             // If currently interacting with a "non-held" object, stop interacting
-            if (CurrentObject)
+            if (_currentObject)
             {
                 // Decide which animation to do
-                if (CurrentObject is Draggable)
+                if (_currentObject is Draggable)
                 {
-                    Anim.SetBool("PickedUp", false);
+                    _anim.SetBool("PickedUp", false);
                 }
-                CurrentObject.StopInteract(transform);
-                CurrentObject = null;
+                
+                _currentObject.StopInteract(transform);
+                _currentObject = null;
+
                 return;
             }
+            
+            // Ensure the player isn't currently attacking before attempting interaction
+            if (_combat.AttackCooldown > 0)
+                return;
             
             // Attempt to interact with the first interactable in the player's view
             if (Physics.Raycast(transform.position + Vector3.up, transform.TransformDirection(Vector3.forward), out RaycastHit hit, interactionRadius))
@@ -54,30 +63,29 @@ public class PlayerInteractionController : MonoBehaviour
                 // Decide which animation to do
                 if (interactable is Draggable)
                 {
-                    Anim.SetBool("PickedUp", true);
+                    _anim.SetBool("PickedUp", true);
                 }
                 else if (interactable is Lever)
                 {
-                    Anim.SetTrigger("InteractStanding");
+                    _anim.SetTrigger("InteractStanding");
                 }
                 else if (interactable is Collectable)
                 {
-                    Anim.SetTrigger("InteractGround");
+                    _anim.SetTrigger("InteractGround");
                 }
 
                 // Attempt interaction
                 interactable.StartInteract(transform);
                 
                 if (!interactable.isTrigger)
-                    CurrentObject = interactable;
-                
+                    _currentObject = interactable;
             }
         }
-        else if (CurrentObject && CurrentObject.isHeld)
+        else if (_currentObject && _currentObject.isHeld)
         {
             // Stop interacting with a "held" object
-            CurrentObject.StopInteract(transform);
-            CurrentObject = null;
+            _currentObject.StopInteract(transform);
+            _currentObject = null;
         }
     }
 }

@@ -10,9 +10,11 @@ public class EnemySingleAttackCombatController : EnemyCombatController
     {
         if (AttackCooldown > 0f)
             return;
-        
 
+        // animation
         Anim.SetTrigger("PrimaryAttack");
+        // audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackSFX));
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))

@@ -8,12 +8,16 @@ public class EnemyDoubleAttackCombatController : EnemyCombatController
 {
     public float secondaryAttackCooldown = 1f;
     public float secondaryAttackDelay = 0.6f;
+    [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackSFX;
+
     public override void PrimaryAttack()
     {
         if (AttackCooldown > 0f)
             return;
-        
+
         Anim.SetTrigger("PrimaryAttack");
+        // audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackSFX));
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
@@ -31,6 +35,8 @@ public class EnemyDoubleAttackCombatController : EnemyCombatController
             return;
 
         Anim.SetTrigger("SecondaryAttack");
+        // audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, secondaryAttackSFX));
 
         // Attack any enemies within the attack sweep and range
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, attackRadius, attackAngle)))
