@@ -16,9 +16,6 @@ public class PlayerMotorController : MonoBehaviour
     private Vector2 _moveInput;
     private Vector2 _lookInput;
 
-    private Vector3 _moveDirection;
-    private Vector3 _lookDirection;
-    
     private CameraController _cameraController;
 
     private void Awake()
