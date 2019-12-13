@@ -4,15 +4,13 @@ using UnityEngine;
 using System.Text;
 
 public class Lvl1Room1 : Room
-{
-    public string code;
-    public StringBuilder input;
-
+{   
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        code = "PGGP";
-        input = new StringBuilder("PGGP", 50);
+        // TODO: Implement random generator for lever code patterns based on input of code length and active player colours
+        code = new List<CharacterColour>(new CharacterColour[] {CharacterColour.Purple, CharacterColour.Green, CharacterColour.Green, CharacterColour.Purple});
+        input = new List<CharacterColour>();
     }
 
     // Update is called once per frame
@@ -28,39 +26,19 @@ public class Lvl1Room1 : Room
     }
 
     // Returns whether all levers in the room have been pulled
-    public override bool AreLeversPulled ()
+    public override bool AreLeversPulled()
     {
-        if (input.Length > 4) input.Clear();
-        
-        if (input != null)
+        // Clear input on failed tries
+        if (input.Count > code.Count) input.Clear();
+        if (input.Count != code.Count) return false;
+
+        for (int i = 0; i < input.Count; i++)
         {
-            Debug.Log("input code = " + input.ToString());
+            if (input[i] != code[i]) 
+                return false;
         }
 
-        if (m_Levers != null)
-        {
-            // Check if every lever has been activated
-            foreach (GameObject lever in m_Levers)
-            {
-                Transform handle = lever.transform.Find("Handle");
+        return true;
+    }   
 
-                if (handle.GetComponent<Animator>().GetBool("LeverPulled"))
-                {
-                    
-                    switch(handle.GetComponent<Lever>().colour)
-                    {
-                        case (CharacterColour.Green):
-                            Debug.Log("Hello Hello");
-                            break;
-                        case (CharacterColour.Purple):
-                            input.Append("P");
-                            break;
-                    }
-                    
-                }
-            }
-        }
-
-        return (string.Compare(input.ToString(), code) ==0);
-    }
 }

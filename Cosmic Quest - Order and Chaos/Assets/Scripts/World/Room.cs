@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 
 // Base class for Chaos Void rooms
 public class Room : MonoBehaviour
@@ -11,6 +12,9 @@ public class Room : MonoBehaviour
     protected Transform[] children;     // Track all child transforms of the room
     protected List<GameObject> m_Levers;    // All levers in the room
     protected List<GameObject> m_Platforms; // All rock platforms in the room
+
+    public List<CharacterColour> code;
+    public List<CharacterColour> input;
     
     void Awake ()
     {
