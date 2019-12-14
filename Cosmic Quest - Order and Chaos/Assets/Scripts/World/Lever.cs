@@ -8,11 +8,12 @@ public class Lever : Interactable
 {
     protected Animator Anim;
     public GameObject Door;
+    public bool IsPulled;
 
     private void Start()
     { 
         // Find the door of the room that lever is in
-        Door = transform.parent.parent.Find("Door1").gameObject;
+        Door = transform.parent.parent.Find("Door").gameObject;
         Anim = gameObject.GetComponent<Animator>(); 
     }
 
@@ -26,9 +27,11 @@ public class Lever : Interactable
     {
         if (CanInteract(target))
         {
+            Debug.Log("Interacting with Lever");
             Anim.enabled = true;
             Anim.Play("LeverAnimation");
             Anim.SetBool("LeverPulled", true);
+            IsPulled = true;
 
             // Add lever colour to the code input
             Door.GetComponent<Room>().input.Add(this.colour);

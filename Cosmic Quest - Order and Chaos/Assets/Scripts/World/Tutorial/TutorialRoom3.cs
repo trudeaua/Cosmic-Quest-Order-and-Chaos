@@ -11,7 +11,7 @@ public class TutorialRoom3 : Room
         {
             StartCoroutine(SetAnimTrigger());
 
-            // This script is no longer needed. Deactivate to reduce impact on performance.
+            // Only need to trigger door animation for tutorial room 3 once. Disable to reduce further impact on performance.
             enabled = false;
         }
     }

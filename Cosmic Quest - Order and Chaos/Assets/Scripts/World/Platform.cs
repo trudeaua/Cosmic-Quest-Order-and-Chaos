@@ -7,6 +7,7 @@ public class Platform : MonoBehaviour
 {
     public Animator Anim;
     public CharacterColour colour = CharacterColour.None;
+    public bool IsActivated;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class Platform : MonoBehaviour
             (other.gameObject.GetComponent<Interactable>().colour == colour))
         {
             Anim.SetTrigger("PlatformActivated");
+            IsActivated = true;
         }
     }
 
@@ -29,6 +31,7 @@ public class Platform : MonoBehaviour
             (other.gameObject.GetComponent<Interactable>().colour == colour))
         {
             Anim.enabled = true;
+            IsActivated = false;
         }
     }
 
