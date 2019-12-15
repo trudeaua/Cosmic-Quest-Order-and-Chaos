@@ -1,15 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 
 // Class for player-lever interaction
 public class Lever : Interactable
 {
     protected Animator Anim;
+    public GameObject Door;
+    public bool IsPulled;
 
     private void Start()
-    {
-        Anim = gameObject.GetComponent<Animator>();
+    { 
+        // Find the door of the room that lever is in
+        Door = transform.parent.parent.Find("Door").gameObject;
+        Anim = gameObject.GetComponent<Animator>(); 
     }
 
     private void Reset()
@@ -26,6 +31,10 @@ public class Lever : Interactable
             Anim.enabled = true;
             Anim.Play("LeverAnimation");
             Anim.SetBool("LeverPulled", true);
+            IsPulled = true;
+
+            // Add lever colour to the code input
+            Door.GetComponent<Room>().input.Add(this.colour);
         }
     }
 

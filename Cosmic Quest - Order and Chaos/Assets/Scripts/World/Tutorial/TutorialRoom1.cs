@@ -9,9 +9,9 @@ public class TutorialRoom1 : Room
     {
         if (ArePlatformsActivated())
         {
-            StartCoroutine(SetDoorAnimTrigger());
+            StartCoroutine(SetAnimTrigger());
 
-            // This script is no longer needed. Deactivate to reduce impact on performance.
+            // Only need to trigger door animation for tutorial room 1 once. Disable to reduce further impact on performance.
             enabled = false;
         }
     }
