@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Text;
 
 public class Lvl1Room1 : Room
 {   
@@ -19,6 +18,7 @@ public class Lvl1Room1 : Room
         if (AreLeversPulled())
         {
             StartCoroutine(SetAnimTrigger());
+            audioClip.Play(0);
 
             // Only need to trigger door animation once. Disable to reduce further impact on performance.
             enabled = false;

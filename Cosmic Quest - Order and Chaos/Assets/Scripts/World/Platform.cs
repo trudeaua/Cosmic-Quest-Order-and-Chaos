@@ -5,14 +5,17 @@ using UnityEngine;
 // Class for managing rock placement detection
 public class Platform : MonoBehaviour
 {
-    public Animator Anim;
+    protected Animator Anim;
     public CharacterColour colour = CharacterColour.None;
     public bool IsActivated;
+
+    private AudioSource audioClip;
 
     // Start is called before the first frame update
     void Start()
     {
         Anim = GetComponent<Animator>();
+        audioClip = GetComponent<AudioSource>();
     }
 
     void OnTriggerEnter (Collider other) 
@@ -21,6 +24,8 @@ public class Platform : MonoBehaviour
             (other.gameObject.GetComponent<Interactable>().colour == colour))
         {
             Anim.SetTrigger("PlatformActivated");
+
+            audioClip.Play(1);
             IsActivated = true;
         }
     }
