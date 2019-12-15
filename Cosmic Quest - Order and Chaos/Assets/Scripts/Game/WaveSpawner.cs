@@ -82,11 +82,16 @@ public class WaveSpawner : MonoBehaviour
     /// <param name="room">Audio source to play from</param>
     /// <param name="maxRadius">Maximum radius that enemies will spawn from the players</param>
     /// <param name="numEnemies">Number of enemies to spawn, set to 0 to auto calculate the number of enemies to spawn</param>
+    /// <param name="delay">Number of seconds to wait before spawning the wave</param>
     /// <returns>An IEnumerator</returns>
-    public static IEnumerator SpawnWave(Room room, float maxRadius = 8f, int numEnemies = 0)
+    public static IEnumerator SpawnWave(Room room, float maxRadius = 8f, int numEnemies = 0, float delay = 0)
     {
+        if (delay > 0)
+        {
+            yield return new WaitForSeconds(delay);
+        }
         if (numEnemies == 0)
-            numEnemies = (int)(Mathf.Pow(PlayerManager.Players.Count, 2) * Random.Range(0.75f, 1.25f));
+            numEnemies = (int)Mathf.Max(Mathf.Pow(PlayerManager.Players.Count, 2) * Random.Range(0.75f, 1.25f), 1);
         Vector3 playerAvgPosition = new Vector3(0, 0, 0);
         foreach(GameObject player in PlayerManager.Players)
         {
@@ -102,8 +107,7 @@ public class WaveSpawner : MonoBehaviour
             enemy.transform.parent = room.transform.parent;
             //enemy.transform.position = playerAvgPosition * Random.Range(0.9f, 1.1f);
             Vector3 pt;
-            if (RandomPoint(playerAvgPosition, maxRadius, out pt))
-                Debug.DrawRay(pt, Vector3.up, Color.blue, 1.0f);
+            RandomPoint(playerAvgPosition, maxRadius, out pt);
             enemy.transform.position = pt;
             yield return new WaitForSeconds(SpawnDelay * Random.Range(0.8f, 2f));
         }
@@ -158,7 +162,7 @@ public class WaveSpawner : MonoBehaviour
     /// </summary>
     /// <param name="center">Center of the unit circle</param>
     /// <param name="range">Radius of the unit circle</param>
-    /// <returns>A Vector3 representing a random point on the unit circle on a NavMesh</returns>
+    /// <returns>A bool representing if a point was found or not</returns>
     private static bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
         // Loop through until a point on the navmesh is found
