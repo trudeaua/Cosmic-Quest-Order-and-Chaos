@@ -12,7 +12,7 @@ public class Room : MonoBehaviour
     protected Collider m_Collider;  // Collider of the door
     protected AudioSource audioClip; // Door open/close audio clip
 
-    protected Transform[] children;     // Track all child transforms inq the room
+    protected Transform[] children;     // Track all child transforms in the room
     protected List<EnemyStatsController> m_Enemies;   // All enemies in the room
     protected List<Lever> m_Levers;    // All levers in the room
     protected List<Platform> m_Platforms; // All rock platforms in the room
