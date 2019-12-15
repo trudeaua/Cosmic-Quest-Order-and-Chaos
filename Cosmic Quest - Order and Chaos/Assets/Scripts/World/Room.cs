@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-// Base class for Chaos Void rooms
+// Base class for Chaos Void rooms.
+// Should be attached to door of the room.
+// Make sure door is under a game object "Room" so the script can properly search all objects in the room.
 public class Room : MonoBehaviour
 {
     public Animator Anim;   // Door animation to be played when all puzzles have been solved
     protected Collider m_Collider;  // Collider of the door
+    protected AudioSource audioClip; // Door open/close audio clip
 
-    protected Transform[] children;     // Track all child transforms of the room
+    protected Transform[] children;     // Track all child transforms inq the room
     protected List<EnemyStatsController> m_Enemies;   // All enemies in the room
     protected List<Lever> m_Levers;    // All levers in the room
     protected List<Platform> m_Platforms; // All rock platforms in the room
@@ -30,7 +33,7 @@ public class Room : MonoBehaviour
         // Populate enemy list with enemies in the room
         m_Enemies = new List<EnemyStatsController>();
 
-        // TODO: Find better way of tracking all enemies in a room
+        // Find all enemies inside the room. 
         children = transform.parent.GetComponentsInChildren<Transform>();
 
         foreach (Transform child in children)
@@ -51,11 +54,17 @@ public class Room : MonoBehaviour
             }
         }
 
+        Debug.Log("Enemy count = " + m_Enemies.Count);
+
         m_Collider = GetComponent<Collider>();
         Anim = GetComponent<Animator>();
+        audioClip = GetComponent<AudioSource>();
     }
 
-    // Returns whether all rocks have been positioned on their respective platforms
+    /// <summary>
+    /// Returns whether all platforms in the room have been activated.<br/>
+    /// </summary>
+    /// <returns>Bool for whether all platforms are activated or not.</returns>
     public virtual bool ArePlatformsActivated ()
     {
         if (m_Platforms == null || m_Platforms.Count == 0) return true;
@@ -73,7 +82,10 @@ public class Room : MonoBehaviour
         return true;
     }
 
-    // Returns whether all levers in the room have been pulled
+    /// <summary>
+    /// Returns whether all levers in the room have been pulled.<br/>
+    /// </summary>
+    /// <returns>Bool for whether all levers have been pulled or not.</returns>
     public virtual bool AreLeversPulled ()
     {
         if (m_Levers == null || m_Levers.Count == 0) return true;
@@ -91,7 +103,10 @@ public class Room : MonoBehaviour
         return true;
     }
 
-    // Returns whether all enemies in the room have been killed
+    /// <summary>
+    /// Returns whether all enemies in the room have been killed.<br/>
+    /// </summary>
+    /// <returns>Bool for whether all enemies have been killed.</returns>
     public virtual bool AreAllEnemiesKilled ()
     {
         // If enemy list is empty, all enemies in the room have been killed
@@ -116,10 +131,11 @@ public class Room : MonoBehaviour
 
     public virtual IEnumerator SetAnimTrigger ()
     {
-
+        audioClip.Play(0);
         yield return new WaitForSeconds(1);
         Anim.SetTrigger("OpenDoor");
         m_Collider.enabled = false;
+
         yield break;
     }
 }

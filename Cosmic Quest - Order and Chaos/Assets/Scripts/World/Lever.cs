@@ -7,14 +7,17 @@ using System.Text;
 public class Lever : Interactable
 {
     protected Animator Anim;
-    public GameObject Door;
+    protected Room Room;
     public bool IsPulled;
+    private AudioSource audioClip;
 
     private void Start()
     { 
         // Find the door of the room that lever is in
-        Door = transform.parent.parent.Find("Door").gameObject;
-        Anim = gameObject.GetComponent<Animator>(); 
+        Room = transform.parent.parent.Find("Door").GetComponent<Room>();
+        
+        Anim = gameObject.GetComponent<Animator>();
+        audioClip = gameObject.GetComponent<AudioSource>(); 
     }
 
     private void Reset()
@@ -28,13 +31,16 @@ public class Lever : Interactable
         if (CanInteract(target))
         {
             Debug.Log("Interacted with " + target.name);
+            
             Anim.enabled = true;
             Anim.Play("LeverAnimation");
             Anim.SetBool("LeverPulled", true);
+            
+            audioClip.Play(0);
             IsPulled = true;
 
             // Add lever colour to the code input
-            Door.GetComponent<Room>().input.Add(this.colour);
+            Room.input.Add(this.colour);
         }
     }
 
