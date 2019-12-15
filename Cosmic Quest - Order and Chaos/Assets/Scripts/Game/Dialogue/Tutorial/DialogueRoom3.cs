@@ -15,7 +15,10 @@ public class DialogueRoom3 : MonoBehaviour
     // Update is called once per frame
     void OnTriggerEnter(Collider other)
     {
-        Anim.SetTrigger("EnterRoom3");
+        if (other.tag == "Player")
+        {
+            Anim.SetTrigger("EnterRoom3");
+        }
     }
 }
 

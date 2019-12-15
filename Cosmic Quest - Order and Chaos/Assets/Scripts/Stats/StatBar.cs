@@ -19,13 +19,13 @@ public class StatBar : MonoBehaviour
     {
         if (barType == BarType.Player)
         {
-            PlayerStatsController stats = transform.root.GetComponent<PlayerStatsController>();
+            PlayerStatsController stats = transform.parent.GetComponent<PlayerStatsController>();
             _healthStat = stats.health;
             _manaStat = stats.mana;
         }
         else if (barType == BarType.Enemy)
         {
-            EnemyStatsController stats = transform.root.GetComponent<EnemyStatsController>();
+            EnemyStatsController stats = transform.parent.GetComponent<EnemyStatsController>();
             _healthStat = stats.health;
             
             // apply enemy name as label

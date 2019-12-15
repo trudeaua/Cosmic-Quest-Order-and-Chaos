@@ -18,6 +18,7 @@ public class HiddenHint : Room
 
     public override IEnumerator SetAnimTrigger ()
     {
+        audioClip.Play(0);
         Anim.SetTrigger("RevealHint");
         yield break;
     }
