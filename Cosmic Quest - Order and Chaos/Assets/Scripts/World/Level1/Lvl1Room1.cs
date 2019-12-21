@@ -6,7 +6,6 @@ public class Lvl1Room1 : Room
 {   
     private Animator letterReveal;
 
-    // Start is called before the first frame update
     private void Start()
     {
         // TODO: Implement random generator for lever code patterns based on input of code length and active player colours
@@ -15,7 +14,6 @@ public class Lvl1Room1 : Room
         letterReveal = transform.parent.Find("ActivatedLetter").gameObject.GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (AreLeversPulled())

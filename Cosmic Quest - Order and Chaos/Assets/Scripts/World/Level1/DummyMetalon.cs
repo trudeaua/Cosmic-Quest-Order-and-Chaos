@@ -13,7 +13,7 @@ public class DummyMetalon : MonoBehaviour
     void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
-        _position = transform.position;
+        _position = transform.parent.Find("Portal_exit").position;
         portalEnter = transform.parent.Find("Portal_enter"); 
 
     }

@@ -19,7 +19,7 @@ public class Room : MonoBehaviour
 
     // TODO: Implement random generator for lever code patterns based on input of code length and active player colours
     // For pattern-based puzzles
-    protected List<CharacterColour> code;  // List containing input code sequence 
+    public List<CharacterColour> code;  // List containing input code sequence 
     public List<CharacterColour> input; // Player input that'll be checked against stored code
     
     void Awake ()

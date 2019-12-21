@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class Lvl1Room3 : Room
 {
-    // Start is called before the first frame update
-    void Start()
+    public Animator letterReveal;
+    
+    private void Start()
     {
-        Anim = GetComponent<Animator>();
+        // TODO: Implement random generator for lever code patterns based on input of code length and active player colours
+        code = new List<CharacterColour>();
+        input = new List<CharacterColour>();
+        letterReveal = transform.parent.Find("ActivatedLetter").gameObject.GetComponent<Animator>();
     }
 
     void Update()
     {
         if (AreAllEnemiesKilled())
         {
-            
+
         }
     }
 
