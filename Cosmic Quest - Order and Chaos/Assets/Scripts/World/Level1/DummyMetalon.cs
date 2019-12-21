@@ -5,20 +5,22 @@ using UnityEngine.AI;
 
 public class DummyMetalon : MonoBehaviour
 {
-    public Animator Anim;
-    private NavMeshAgent _agent;
+    public NavMeshAgent _agent;
+    public Transform portalEnter;
+    public Vector3 _position;
 
     // Start is called before the first frame update
     void Start()
     {
-        Anim = GetComponent<Animator>();   
         _agent = GetComponent<NavMeshAgent>();
-        Anim.SetFloat("WalkSpeed", 5f); 
+        _position = transform.position;
+        portalEnter = transform.parent.Find("Portal_enter"); 
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        _agent.SetDestination(portalEnter.position);
     }
 }

@@ -4,21 +4,26 @@ using UnityEngine;
 
 public class Lvl1Room1 : Room
 {   
+    private Animator letterReveal;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         // TODO: Implement random generator for lever code patterns based on input of code length and active player colours
         code = new List<CharacterColour>(new CharacterColour[] {CharacterColour.Purple, CharacterColour.Green, CharacterColour.Green, CharacterColour.Purple});
         input = new List<CharacterColour>();
+        letterReveal = transform.parent.Find("ActivatedLetter").gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (AreLeversPulled())
         {
             StartCoroutine(SetAnimTrigger());
             audioClip.Play(0);
+
+            
 
             // Only need to trigger door animation once. Disable to reduce further impact on performance.
             enabled = false;

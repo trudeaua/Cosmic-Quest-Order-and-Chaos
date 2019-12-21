@@ -10,6 +10,14 @@ public class Lvl1Room3 : Room
         Anim = GetComponent<Animator>();
     }
 
+    void Update()
+    {
+        if (AreAllEnemiesKilled())
+        {
+            
+        }
+    }
+
     void OnTriggerEnter (Collider other) 
     {
         if (other.tag == "Player")
