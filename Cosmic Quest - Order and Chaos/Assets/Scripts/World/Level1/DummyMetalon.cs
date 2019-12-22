@@ -17,7 +17,7 @@ public class DummyMetalon : MonoBehaviour
         portalEnter = transform.parent.Find("Portal_enter"); 
 
     }
-
+    
     // Update is called once per frame
     void Update()
     {
