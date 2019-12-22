@@ -27,6 +27,7 @@ public class ChaosDoor : MonoBehaviour
         if (other.tag == "Player")
         {
             Anim.enabled = true;
+            Anim.SetTrigger("CloseDoor");
         }
     }
 }

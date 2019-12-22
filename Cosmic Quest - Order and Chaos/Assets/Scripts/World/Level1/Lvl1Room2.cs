@@ -2,23 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lvl1Room2 : Room
-{
-    protected AudioSource audioClip;
-    public Animator letterAnim;
-
-    private void Start()
-    {
-        GameObject letter = transform.Find("ActivatedLetter").gameObject;
-        audioClip = letter.GetComponent<AudioSource>();
-        letterAnim = letter.GetComponent<Animator>();
-    }
-
+public class Lvl1Room2 : Lvl1
+{   
     void Update()
     {
         if (AreAllEnemiesKilled())
         {
-            letterAnim.SetTrigger("Reveal");
+            StartCoroutine(SetAnimTrigger());
+
+            // Only need to trigger door animation once. Disable to reduce further impact on performance.
+            enabled = false;
         }
     }
 }

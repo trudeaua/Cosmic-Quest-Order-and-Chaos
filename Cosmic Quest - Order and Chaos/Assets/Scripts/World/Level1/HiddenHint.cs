@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class HiddenHint : Room
 {
-    // Update is called once per frame
+    public AudioSource AudioClip;
+
+    private void Awake()
+    {
+        AudioClip = GetComponent<AudioSource>();
+    }
+    
     void Update()
     {
         if (ArePlatformsActivated())
@@ -18,7 +24,7 @@ public class HiddenHint : Room
 
     public override IEnumerator SetAnimTrigger ()
     {
-        audioClip.Play(0);
+        AudioClip.Play(0);
         Anim.SetTrigger("RevealHint");
         yield break;
     }

@@ -2,21 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lvl1Room3 : Room
+public class Lvl1Room3 : Lvl1
 {
-    protected AudioSource audioClip;
-    public Animator letterReveal;
-
-    private void Start()
+    private void Update()
     {
-        letterReveal = transform.parent.Find("ActivatedLetter").gameObject.GetComponent<Animator>();
-    }
-
-    void Update()
-    {
-        if (AreAllEnemiesKilled())
+        if (AreLeversPulled())
         {
-            letterReveal.SetTrigger("Reveal");
+            StartCoroutine(SetAnimTrigger());
+
+            // Only need to trigger door animation once. Disable to reduce further impact on performance.
+            enabled = false;
         }
     }
+
+    
+    // Returns whether all levers in the room have been pulled
+    public override bool AreLeversPulled()
+    {
+        // Clear input on failed tries
+        if (Input.Count > Code.Count) Input.Clear();
+        if (Input.Count != Code.Count) return false;
+
+        for (int i = 0; i < Input.Count; i++)
+        {
+            if (Input[i] != Code[i]) 
+                return false;
+        }
+
+        return true;
+    }   
 }
