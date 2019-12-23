@@ -59,11 +59,13 @@ public class Room : MonoBehaviour
         }
 
         Debug.Log("Enemy count = " + _enemies.Count);
+        Debug.Log("Platform count = " + _platforms.Count);
     }
 
     private void Start()
     {
         Door = transform.Find("Door").gameObject;
+
         Collider = Door.GetComponent<Collider>();
         Anim = Door.GetComponent<Animator>();
         DoorAudio = Door.GetComponent<AudioSource>();
