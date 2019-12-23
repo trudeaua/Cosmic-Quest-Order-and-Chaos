@@ -4,24 +4,26 @@ using UnityEngine;
 
 public class ChaosDoor : MonoBehaviour
 {
-    public AudioSource audioClip;
+    protected AudioSource AudioClip;
     protected Animator Anim;
 
-    void Start()
+    private void Start()
     {
-        audioClip = GetComponent<AudioSource>();
+        AudioClip = GetComponent<AudioSource>();
         Anim = GetComponent<Animator>();
     }
-
+    
+    // Disable door collider if player is passing door. Ensures enemies are contained within rooms.
     void OnTriggerEnter (Collider other) 
     {
         if (other.tag == "Player")
         {
-            audioClip.Play(0);
+            AudioClip.Play(0);
             Anim.SetTrigger("OpenDoor");
         }
     }
 
+    // Re-enable door collider after player passes door
     void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player")

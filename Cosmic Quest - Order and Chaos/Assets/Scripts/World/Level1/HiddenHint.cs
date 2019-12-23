@@ -19,7 +19,8 @@ public class HiddenHint : Room
     }
 
     void Update()
-    {
+    {   
+        // If all platforms in room 1 are activated, reveal hint for players
         if (Room.ArePlatformsActivated())
         {
             StartCoroutine(SetAnimTrigger());

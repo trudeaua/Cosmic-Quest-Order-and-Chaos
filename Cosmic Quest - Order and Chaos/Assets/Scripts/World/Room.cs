@@ -8,10 +8,10 @@ using System.Text;
 // Make sure door is under a game object "Room" so the script can properly search all objects in the room.
 public class Room : MonoBehaviour
 {
-    public Animator Anim;   // Door animation to be played when all puzzles have been solved
-    public Collider Collider;  // Collider of the door
-    public GameObject Door;     
-    public AudioSource DoorAudio; // Door open/close audio clip
+    protected Animator Anim;   // Door animation to be played when all puzzles have been solved
+    protected Collider Collider;  // Collider of the door
+    protected GameObject Door;     
+    protected AudioSource DoorAudio; // Door open/close audio clip
 
     private Transform[] _children;     // Track all child transforms in the room
     private List<EnemyStatsController> _enemies;   // All enemies in the room
@@ -57,9 +57,6 @@ public class Room : MonoBehaviour
                 _levers.Add(obj.GetComponent<Lever>());
             }
         }
-
-        Debug.Log("Enemy count = " + _enemies.Count);
-        Debug.Log("Platform count = " + _platforms.Count);
     }
 
     private void Start()

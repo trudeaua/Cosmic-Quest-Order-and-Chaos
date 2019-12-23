@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Lvl1 : Room
 {
-    public Animator LetterReveal;
-    public AudioSource LetterAudio;
+    public Animator LetterReveal;   // Animation for revealing letter upon room completion
+    public AudioSource LetterAudio; // Audio clip for animation
 
     public AnimatorOverrideController AnimationOverride;
 
     private void Start()
     {
         Door = transform.Find("Door").gameObject;
+        
         Collider = Door.GetComponent<Collider>();
         Anim = Door.GetComponent<Animator>();
         DoorAudio = Door.GetComponent<AudioSource>();

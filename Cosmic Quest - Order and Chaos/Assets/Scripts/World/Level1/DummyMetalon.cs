@@ -5,22 +5,20 @@ using UnityEngine.AI;
 
 public class DummyMetalon : MonoBehaviour
 {
-    public NavMeshAgent _agent;
-    public Transform portalEnter;
-    public Vector3 _position;
+    private NavMeshAgent _agent;
+    //public Vector3 _position;
 
-    // Start is called before the first frame update
-    void Start()
+    public GameObject Destination;   // Set exit portal
+
+    private void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
-        _position = transform.parent.Find("Portal_exit").position;
-        portalEnter = transform.parent.Find("Portal_enter"); 
-
+      //  _position = PortalExit.transform.position;    // Save position of the exit portal
     }
     
-    // Update is called once per frame
-    void Update()
-    {
-        _agent.SetDestination(portalEnter.position);
+    private void Update()
+    {   
+        // Set dummy metalons to infintely walk to to destination of entrance portal
+        _agent.SetDestination(Destination.transform.position);
     }
 }
