@@ -2,26 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HiddenHint : Room
+public class HiddenHint : MonoBehaviour
 {
-    public Room Room;
-    public AudioSource AudioClip;
+    private Room _room;
+    private AudioSource _audioClip;
+    protected Animator Anim;
 
-    private void Awake()
-    {
-        Room = transform.parent.gameObject.GetComponent<Room>();
-        AudioClip = GetComponent<AudioSource>();
-    }
-    
     private void Start()
     {
+        _room = transform.parent.gameObject.GetComponent<Room>();
+        _audioClip = GetComponent<AudioSource>();
         Anim = GetComponent<Animator>();
     }
 
     void Update()
     {   
         // If all platforms in room 1 are activated, reveal hint for players
-        if (Room.ArePlatformsActivated())
+        if (_room.ArePlatformsActivated())
         {
             StartCoroutine(SetAnimTrigger());
 
@@ -30,10 +27,10 @@ public class HiddenHint : Room
         }
     }
 
-    public override IEnumerator SetAnimTrigger ()
+    private IEnumerator SetAnimTrigger ()
     {
         Anim.SetTrigger("RevealHint");  
-        AudioClip.Play(0);
+        _audioClip.Play(0);
         yield break;
     }
 }
