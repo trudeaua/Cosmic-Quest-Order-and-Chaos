@@ -6,14 +6,11 @@ using UnityEngine.AI;
 public class DummyMetalon : MonoBehaviour
 {
     private NavMeshAgent _agent;
-    //public Vector3 _position;
-
     public GameObject Destination;   // Set exit portal
 
     private void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
-      //  _position = PortalExit.transform.position;    // Save position of the exit portal
     }
     
     private void Update()
