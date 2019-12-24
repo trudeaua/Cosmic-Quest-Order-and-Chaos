@@ -199,8 +199,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue:
-    name: 
-    sentences: []
+    name: LEOL
+    sentences:
+    - There's something that's changed in this room...
+    - What could this mean?
 --- !u!82 &2039824
 AudioSource:
   m_ObjectHideFlags: 0
@@ -297,6 +299,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &51980523 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2777940002098734155, guid: 8a3a8de1f6c3076439e3cbfc5adf3a5a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1734548926}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &51980524
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51980523}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.7320611, y: 26.062893, z: 25.22782}
+  m_Center: {x: 0.000008540603, y: -7.539188, z: 4.003044}
 --- !u!1001 &55833348
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1993,8 +2014,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.004320885, y: 4.379132, z: 1.96691}
-  m_Center: {x: 0.51000315, y: 1.4871416, z: -0.22504444}
+  m_Size: {x: 0.010630648, y: 4.379132, z: 1.9669099}
+  m_Center: {x: 0.48657072, y: 1.4871415, z: -0.22511035}
 --- !u!4 &258562062 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 7543253cbf672ba47af1722f2dc0406f,
@@ -2422,8 +2443,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.009764988, y: 4.0445175, z: 2.1451037}
-  m_Center: {x: 0.5026217, y: 1.5222588, z: 0.31593943}
+  m_Size: {x: 0.00994937, y: 4.044517, z: 2.1451037}
+  m_Center: {x: 0.48159257, y: 1.5222586, z: 0.31591457}
 --- !u!1001 &285126939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4132,7 +4153,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 521825557}
-  - component: {fileID: 521825558}
   - component: {fileID: 521825559}
   - component: {fileID: 521825560}
   m_Layer: 0
@@ -4168,23 +4188,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &521825558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 521825556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ec0f8083076b7d428536ebbffda7217, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Code: 03000000040000000300000004000000
-  Input: 
-  LetterReveal: {fileID: 0}
-  LetterAudio: {fileID: 0}
-  Dialogue: {fileID: 0}
 --- !u!95 &521825559
 Animator:
   serializedVersion: 3
@@ -6081,7 +6084,7 @@ PrefabInstance:
     - target: {fileID: 9167914555847376945, guid: 1e27f2b4e9f3add4b8d743f3a6a19d0f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.37
+      value: -4.09
       objectReference: {fileID: 0}
     - target: {fileID: 9167914555847376945, guid: 1e27f2b4e9f3add4b8d743f3a6a19d0f,
         type: 3}
@@ -6091,7 +6094,7 @@ PrefabInstance:
     - target: {fileID: 9167914555847376945, guid: 1e27f2b4e9f3add4b8d743f3a6a19d0f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15.089996
+      value: -14.75
       objectReference: {fileID: 0}
     - target: {fileID: 9167914555847376945, guid: 1e27f2b4e9f3add4b8d743f3a6a19d0f,
         type: 3}
@@ -7824,6 +7827,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &792885288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792885286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dec67bd2bf15c241bad2596059266d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: LEOL
+    sentences:
+    - Well - that certainly did something.
+    - Let's move on.
 --- !u!1 &802561741
 GameObject:
   m_ObjectHideFlags: 0
@@ -16546,8 +16566,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0139965, y: 2.8001852, z: 1.5256457}
-  m_Center: {x: 0.006997886, y: 0.90009683, z: 0.11257484}
+  m_Size: {x: 0.6845391, y: 2.8001852, z: 1.5256456}
+  m_Center: {x: 0.15016116, y: 0.90009683, z: 0.11257314}
 --- !u!23 &1517916894
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16636,8 +16656,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0213875, y: 1, z: 0.99999857}
-  m_Center: {x: 0.010693604, y: 0.0000042976844, z: -0.000002731081}
+  m_Size: {x: 0.99994373, y: 1, z: 0.99999857}
+  m_Center: {x: -0.000027673637, y: 0.000004313356, z: -0.000002543928}
 --- !u!1001 &1528100232
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17290,6 +17310,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1595253270}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1598812371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1598812372}
+  m_Layer: 0
+  m_Name: BossRoom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1598812372
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598812371}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -78.10896, y: 0.2553479, z: 103.929855}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1605771317
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18637,7 +18687,7 @@ PrefabInstance:
     - target: {fileID: 2774360075866465687, guid: 8a3a8de1f6c3076439e3cbfc5adf3a5a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 92.91
+      value: 91.4
       objectReference: {fileID: 0}
     - target: {fileID: 2774360075866465687, guid: 8a3a8de1f6c3076439e3cbfc5adf3a5a,
         type: 3}
@@ -18647,7 +18697,7 @@ PrefabInstance:
     - target: {fileID: 2774360075866465687, guid: 8a3a8de1f6c3076439e3cbfc5adf3a5a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.1399994
+      value: -6.25
       objectReference: {fileID: 0}
     - target: {fileID: 2774360075866465687, guid: 8a3a8de1f6c3076439e3cbfc5adf3a5a,
         type: 3}
@@ -20203,8 +20253,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1894048771}
+  - component: {fileID: 1894048774}
+  - component: {fileID: 1894048773}
+  - component: {fileID: 1894048772}
   m_Layer: 0
-  m_Name: ControlRoom
+  m_Name: q
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20226,6 +20279,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1894048772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894048770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 344f8ead6e72f4348b9e5b7aaea79d06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Dialogue: {fileID: 0}
+--- !u!114 &1894048773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894048770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dec67bd2bf15c241bad2596059266d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: LEOL
+    sentences:
+    - "Looks like there's 5 passageways leading from this room.\t"
+    - "There doesn't seem to be much happening here. \t"
+--- !u!65 &1894048774
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894048770}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 25.704681, y: 15.007568, z: 15.206482}
+  m_Center: {x: 81.78117, y: 130.91248, z: -2.9588776}
 --- !u!1 &1894273900
 GameObject:
   m_ObjectHideFlags: 0
@@ -20309,9 +20405,10 @@ MonoBehaviour:
   dialogue:
     name: LEOL
     sentences:
-    - Vanguard, you're now on the grounds of the first Chaos Void.
-    - "I leave the rest of the mission down to you. \t"
-    - Begin your descend into the Chaos...
+    - Vanguard, you are now on the grounds of the first Chaos Void.
+    - I will follow along, however, Rha has been expecting me - so my powers will
+      not be effective here. I leave the weight of the mission on you.
+    - Begin your descent into the Chaos...
 --- !u!1001 &1915042525
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21086,8 +21183,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0203627, y: 3.9415073, z: 1.527438}
-  m_Center: {x: 0.010180273, y: 1.4707531, z: -0.15865707}
+  m_Size: {x: 0.66270363, y: 3.941507, z: 1.527438}
+  m_Center: {x: 0.16398907, y: 1.4707532, z: -0.1586734}
 --- !u!23 &1989282917
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21836,7 +21933,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2059847046}
   - component: {fileID: 2059847047}
-  - component: {fileID: 2059847048}
   m_Layer: 0
   m_Name: Room2
   m_TagString: Untagged
@@ -21883,22 +21979,6 @@ MonoBehaviour:
   Input: 
   LetterReveal: {fileID: 0}
   LetterAudio: {fileID: 0}
-  Dialogue: {fileID: 0}
---- !u!114 &2059847048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2059847045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dec67bd2bf15c241bad2596059266d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue:
-    name: 
-    sentences: []
 --- !u!1001 &2063628265
 PrefabInstance:
   m_ObjectHideFlags: 0

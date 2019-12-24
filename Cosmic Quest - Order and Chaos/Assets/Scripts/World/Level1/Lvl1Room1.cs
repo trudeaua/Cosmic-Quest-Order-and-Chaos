@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class Lvl1Room1 : Lvl1
 {   
+    public DialogueTrigger Dialogue; // Opening dialogue for Level 1 
+    private void Start()
+    {
+        Door = transform.Find("Door").gameObject;
+        
+        Collider = Door.GetComponent<Collider>();
+        Anim = Door.GetComponent<Animator>();
+        DoorAudio = Door.GetComponent<AudioSource>();
+
+        LetterReveal = transform.Find("ActivatedLetter").gameObject.GetComponent<Animator>();
+        LetterAudio = transform.Find("ActivatedLetter").gameObject.GetComponent<AudioSource>();
+
+        Dialogue = GetComponent<DialogueTrigger>();
+        StartCoroutine(DisplayDialogue());
+    }
+
     private void Update()
     {
         if (AreLeversPulled())
@@ -30,4 +46,11 @@ public class Lvl1Room1 : Lvl1
 
         return true;
     }   
+
+    private IEnumerator DisplayDialogue()
+    {
+        yield return new WaitForSeconds(1);
+        Dialogue.TriggerDialogue();
+        yield break;
+    }
 }
