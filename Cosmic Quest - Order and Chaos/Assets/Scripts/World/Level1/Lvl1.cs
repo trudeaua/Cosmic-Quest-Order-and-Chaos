@@ -7,7 +7,7 @@ public class Lvl1 : Room
     public Animator LetterReveal;   // Animation for revealing letter upon room completion
     public AudioSource LetterAudio; // Audio clip for animation
 
-    public AnimatorOverrideController AnimationOverride;
+    public DialogueTrigger Dialogue;
 
     private void Start()
     {
@@ -19,6 +19,13 @@ public class Lvl1 : Room
 
         LetterReveal = transform.Find("ActivatedLetter").gameObject.GetComponent<Animator>();
         LetterAudio = transform.Find("ActivatedLetter").gameObject.GetComponent<AudioSource>();
+
+        Dialogue = GetComponent<DialogueTrigger>();
+        
+        if (Dialogue != null) 
+        {
+            StartCoroutine(TriggerDialogue(1.5f));
+        }
     }
 
     public override IEnumerator SetAnimTrigger ()
@@ -34,5 +41,11 @@ public class Lvl1 : Room
         LetterAudio.Play(0);
 
         yield break;
+    }
+
+    public IEnumerator TriggerDialogue(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Dialogue.TriggerDialogue();
     }
 }

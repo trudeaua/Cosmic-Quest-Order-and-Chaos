@@ -15,7 +15,10 @@ public class DummyMetalon : MonoBehaviour
     
     private void Update()
     {   
-        // Set dummy metalons to infintely walk to to destination of entrance portal
-        _agent.SetDestination(Destination.transform.position);
+        if ( _agent.enabled)
+        {
+            // Set dummy metalons to infintely walk to to destination of entrance portal
+            _agent.SetDestination(Destination.transform.position);
+        }
     }
 }

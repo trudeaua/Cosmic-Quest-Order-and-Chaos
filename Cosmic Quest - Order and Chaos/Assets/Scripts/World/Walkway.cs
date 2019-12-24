@@ -13,7 +13,7 @@ public class Walkway : Interactable
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.transform.GetComponent<EntityStatsController>().characterColour == this.colour)
+        if (other.GetComponent<EntityStatsController>().characterColour == this.colour)
         {
             // Disable collider for all players matching the colour
             m_Collider.enabled = false;
