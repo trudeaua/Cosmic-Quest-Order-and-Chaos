@@ -5,6 +5,7 @@ using UnityEngine;
 public class Lvl1Room1 : Lvl1
 {   
     public DialogueTrigger Dialogue; // Opening dialogue for Level 1 
+    
     private void Start()
     {
         Door = transform.Find("Door").gameObject;

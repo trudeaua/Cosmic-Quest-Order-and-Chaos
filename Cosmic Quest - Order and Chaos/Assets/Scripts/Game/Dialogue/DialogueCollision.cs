@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogueCollision : MonoBehaviour
+public class DialogueCollisionTrigger : MonoBehaviour
 {
     public DialogueTrigger Dialogue;
     private Collider _collider;
@@ -23,6 +23,6 @@ public class DialogueCollision : MonoBehaviour
         
         // Dialogue should only have a lifetime up to the point of it being triggered.
         // Disable this instance to prevent redundant dialogue triggering.
-        _collider.enabled = false;
+        enabled = false;
     } 
 }
