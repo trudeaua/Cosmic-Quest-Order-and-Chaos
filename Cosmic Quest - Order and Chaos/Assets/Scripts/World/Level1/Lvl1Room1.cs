@@ -14,6 +14,7 @@ public class Lvl1Room1 : Lvl1
         Anim = Door.GetComponent<Animator>();
         DoorAudio = Door.GetComponent<AudioSource>();
 
+        // Indicates that room has been completed from Progress room perspective
         LetterReveal = transform.Find("ActivatedLetter").gameObject.GetComponent<Animator>();
         LetterAudio = transform.Find("ActivatedLetter").gameObject.GetComponent<AudioSource>();
 
@@ -32,11 +33,13 @@ public class Lvl1Room1 : Lvl1
         }
     }
 
-    // Returns whether all levers in the room have been pulled
+    // Returns whether all levers in the room have been pulled in correct pattern
     public override bool AreLeversPulled()
     {
         // Clear input on failed tries
         if (Input.Count > Code.Count) Input.Clear();
+
+        // If input count hasn't reached code count, return false
         if (Input.Count != Code.Count) return false;
 
         for (int i = 0; i < Input.Count; i++)

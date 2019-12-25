@@ -15,6 +15,7 @@ public class Lvl1 : Room
         Anim = Door.GetComponent<Animator>();
         DoorAudio = Door.GetComponent<AudioSource>();
 
+        // Indicates that room has been completed from Progress room perspective
         LetterReveal = transform.Find("ActivatedLetter").gameObject.GetComponent<Animator>();
         LetterAudio = transform.Find("ActivatedLetter").gameObject.GetComponent<AudioSource>();
     }
