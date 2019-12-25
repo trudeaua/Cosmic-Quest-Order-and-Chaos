@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lvl1Room2 : Lvl1
-{   
+public class CombatRoom : Lvl1
+{
     void Update()
     {
         if (AreAllEnemiesKilled())

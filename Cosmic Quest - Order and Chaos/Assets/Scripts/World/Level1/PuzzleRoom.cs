@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lvl1Room3 : Lvl1
-{
-    void Update()
+public class PuzzleRoom : Lvl1
+{    
+    private void Update()
     {
         if (AreLeversPulled())
         {
@@ -15,7 +15,6 @@ public class Lvl1Room3 : Lvl1
         }
     }
 
-    
     // Returns whether all levers in the room have been pulled in correct pattern
     public override bool AreLeversPulled()
     {

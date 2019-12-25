@@ -24,7 +24,7 @@ public class Lvl1 : Room
     {
         yield return new WaitForSeconds(1);
 
-        Anim.SetTrigger("UnlockDoor");
+        Anim.SetBool("UnlockDoor", true);
         Collider.enabled = false;
 
         LetterReveal.SetTrigger("Reveal");
