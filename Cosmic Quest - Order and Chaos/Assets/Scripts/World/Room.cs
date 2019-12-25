@@ -10,7 +10,7 @@ public class Room : MonoBehaviour
 {
     protected Animator Anim;   // Door animation to be played when all puzzles have been solved
     protected Collider Collider;  // Collider of the door
-    public GameObject Door;     
+    protected GameObject Door;     
     protected AudioSource DoorAudio; // Door open/close audio clip
 
     private Transform[] _children;     // Track all child transforms in the room

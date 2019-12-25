@@ -13,7 +13,7 @@ public class Lever : Interactable
 
     private void Start()
     { 
-        // Find the door of the room that lever is in
+        // Find Room that lever is in
         Room = transform.parent.parent.gameObject.GetComponent<Room>();
         
         Anim = GetComponent<Animator>();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OpenDialogue : MonoBehaviour
 {
-    public DialogueTrigger _dialogue; // Opening dialogue for Level 1 
+    private DialogueTrigger _dialogue; // Opening dialogue for Level 1 
 
     void Start()
     {

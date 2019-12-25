@@ -6,7 +6,7 @@ using UnityEngine;
 public class Platform : MonoBehaviour
 {
     protected Animator Anim;
-    public CharacterColour colour = CharacterColour.None;
+    public CharacterColour Colour = CharacterColour.None;
     public bool IsActivated;
 
     private AudioSource audioClip;
@@ -21,7 +21,7 @@ public class Platform : MonoBehaviour
     void OnTriggerEnter (Collider other) 
     {
         if ((other.tag == "Rock") &&
-            (other.gameObject.GetComponent<Interactable>().colour == colour))
+            (other.gameObject.GetComponent<Interactable>().colour == Colour))
         {
             Anim.SetTrigger("PlatformActivated");
 
@@ -33,7 +33,7 @@ public class Platform : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         if ((other.tag == "Rock") &&
-            (other.gameObject.GetComponent<Interactable>().colour == colour))
+            (other.gameObject.GetComponent<Interactable>().colour == Colour))
         {
             Anim.enabled = true;
             IsActivated = false;

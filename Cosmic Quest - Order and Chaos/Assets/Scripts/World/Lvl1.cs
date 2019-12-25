@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Lvl1 : Room
 {
-    public Animator LetterReveal;   // Animation for revealing letter upon room completion
-    public AudioSource LetterAudio; // Audio clip for animation
+    private Animator _letterReveal;   // Animation for revealing letter upon room completion
+    private AudioSource _letterAudio; // Audio clip for animation
 
     private void Start()
     {
@@ -16,8 +16,8 @@ public class Lvl1 : Room
         DoorAudio = Door.GetComponent<AudioSource>();
 
         // Indicates that room has been completed from Progress room perspective
-        LetterReveal = transform.Find("ActivatedLetter").gameObject.GetComponent<Animator>();
-        LetterAudio = transform.Find("ActivatedLetter").gameObject.GetComponent<AudioSource>();
+        _letterReveal = transform.Find("ActivatedLetter").gameObject.GetComponent<Animator>();
+        _letterAudio = transform.Find("ActivatedLetter").gameObject.GetComponent<AudioSource>();
     }
 
     public override IEnumerator SetAnimTrigger ()
@@ -27,10 +27,10 @@ public class Lvl1 : Room
         Anim.SetBool("UnlockDoor", true);
         Collider.enabled = false;
 
-        LetterReveal.SetTrigger("Reveal");
+        _letterReveal.SetTrigger("Reveal");
 
         DoorAudio.Play(0);  
-        LetterAudio.Play(0);
+        _letterAudio.Play(0);
 
         yield break;
     }
