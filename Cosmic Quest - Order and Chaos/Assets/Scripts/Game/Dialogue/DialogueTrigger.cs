@@ -8,6 +8,7 @@ public class DialogueTrigger : MonoBehaviour
 
     public void TriggerDialogue ()
     {
-        DialogueManager.Instance.StartDialogue(dialogue, false);
+        // false to disable interactable dialogue
+        DialogueManager.Instance.StartDialogue(dialogue, false); 
     }
 }

@@ -9,15 +9,15 @@ public class Lever : Interactable
     protected Animator Anim;
     protected Room Room;
     public bool IsPulled;
-    private AudioSource audioClip;
+    private AudioSource _audioClip;
 
     private void Start()
     { 
-        // Find the door of the room that lever is in
-        Room = transform.parent.parent.Find("Door").GetComponent<Room>();
+        // Find Room that lever is in
+        Room = transform.parent.parent.gameObject.GetComponent<Room>();
         
-        Anim = gameObject.GetComponent<Animator>();
-        audioClip = gameObject.GetComponent<AudioSource>(); 
+        Anim = GetComponent<Animator>();
+        _audioClip = GetComponent<AudioSource>(); 
     }
 
     private void Reset()
@@ -36,11 +36,11 @@ public class Lever : Interactable
             Anim.Play("LeverAnimation");
             Anim.SetBool("LeverPulled", true);
             
-            audioClip.Play(0);
+            _audioClip.Play(0);
             IsPulled = true;
 
             // Add lever colour to the code input
-            Room.input.Add(this.colour);
+            Room.Input.Add(this.colour);
         }
     }
 

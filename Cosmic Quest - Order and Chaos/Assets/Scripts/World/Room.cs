@@ -8,57 +8,64 @@ using System.Text;
 // Make sure door is under a game object "Room" so the script can properly search all objects in the room.
 public class Room : MonoBehaviour
 {
-    public Animator Anim;   // Door animation to be played when all puzzles have been solved
-    protected Collider m_Collider;  // Collider of the door
-    protected AudioSource audioClip; // Door open/close audio clip
+    protected Animator Anim;   // Door animation to be played when all puzzles have been solved
+    protected Collider Collider;  // Collider of the door
+    protected GameObject Door;     
+    protected AudioSource DoorAudio; // Door open/close audio clip
 
-    protected Transform[] children;     // Track all child transforms in the room
-    protected List<EnemyStatsController> m_Enemies;   // All enemies in the room
-    protected List<Lever> m_Levers;    // All levers in the room
-    protected List<Platform> m_Platforms; // All rock platforms in the room
+    private Transform[] _children;     // Track all child transforms in the room
+    private List<EnemyStatsController> _enemies;   // All enemies in the room
+    private List<Lever> _levers;    // All levers in the room
+    private List<Platform> _platforms; // All rock platforms in the room
 
     // TODO: Implement random generator for lever code patterns based on input of code length and active player colours
     // For pattern-based puzzles
-    protected List<CharacterColour> code;  // List containing input code sequence 
-    public List<CharacterColour> input; // Player input that'll be checked against stored code
+    public List<CharacterColour> Code;  // List containing input code sequence 
+    public List<CharacterColour> Input; // Player input that'll be checked against stored code
     
-    void Awake ()
+    private void Awake ()
     {
         // Track all rock platforms in the room
-        m_Platforms = new List<Platform>();
+        _platforms = new List<Platform>();
 
         // Track all levers in the room
-        m_Levers = new List<Lever>();
+        _levers = new List<Lever>();
 
         // Populate enemy list with enemies in the room
-        m_Enemies = new List<EnemyStatsController>();
+        _enemies = new List<EnemyStatsController>();
 
-        // Find all enemies inside the room. 
-        children = transform.parent.GetComponentsInChildren<Transform>();
+        // // TODO: Implement random generator for lever code patterns based on input of code length and active player colours
+        // Code = new List<CharacterColour>();
+        // Input = new List<CharacterColour>();
 
-        foreach (Transform child in children)
+        _children = transform.GetComponentsInChildren<Transform>();
+
+        foreach (Transform child in _children)
         {
             GameObject obj = child.gameObject;
 
             if (obj.GetComponent<EnemyStatsController>())
             {
-                m_Enemies.Add(obj.GetComponent<EnemyStatsController>());
+                _enemies.Add(obj.GetComponent<EnemyStatsController>());
             }
             else if (obj.GetComponent<Platform>())
             {
-                m_Platforms.Add(obj.GetComponent<Platform>());
+                _platforms.Add(obj.GetComponent<Platform>());
             }
             else if (obj.GetComponent<Lever>())
             {
-                m_Levers.Add(obj.GetComponent<Lever>());
+                _levers.Add(obj.GetComponent<Lever>());
             }
         }
+    }
 
-        Debug.Log("Enemy count = " + m_Enemies.Count);
+    private void Start()
+    {
+        Door = transform.Find("Door").gameObject;
 
-        m_Collider = GetComponent<Collider>();
-        Anim = GetComponent<Animator>();
-        audioClip = GetComponent<AudioSource>();
+        Collider = Door.GetComponent<Collider>();
+        Anim = Door.GetComponent<Animator>();
+        DoorAudio = Door.GetComponent<AudioSource>();
     }
 
     /// <summary>
@@ -67,10 +74,10 @@ public class Room : MonoBehaviour
     /// <returns>Bool for whether all platforms are activated or not.</returns>
     public virtual bool ArePlatformsActivated ()
     {
-        if (m_Platforms == null || m_Platforms.Count == 0) return true;
+        if (_platforms == null || _platforms.Count == 0) return true;
 
         // Check if every platform in the room has a rock placed on it
-        foreach (Platform plat in m_Platforms)
+        foreach (Platform plat in _platforms)
         {
             if (!plat.IsActivated)
             {
@@ -88,10 +95,10 @@ public class Room : MonoBehaviour
     /// <returns>Bool for whether all levers have been pulled or not.</returns>
     public virtual bool AreLeversPulled ()
     {
-        if (m_Levers == null || m_Levers.Count == 0) return true;
+        if (_levers == null || _levers.Count == 0) return true;
 
         // Check if every lever has been activated
-        foreach (Lever lever in m_Levers)
+        foreach (Lever lever in _levers)
         {
             if (!lever.IsPulled)
             {
@@ -110,10 +117,10 @@ public class Room : MonoBehaviour
     public virtual bool AreAllEnemiesKilled ()
     {
         // If enemy list is empty, all enemies in the room have been killed
-        if (m_Enemies.Count == 0) return true;
+        if (_enemies.Count == 0) return true;
 
         // Check for dead enemies and remove them from the enemy list
-        foreach (EnemyStatsController enemy in m_Enemies)
+        foreach (EnemyStatsController enemy in _enemies)
         {
             if (!enemy.isDead)
             {
@@ -131,10 +138,10 @@ public class Room : MonoBehaviour
 
     public virtual IEnumerator SetAnimTrigger ()
     {
-        audioClip.Play(0);
+        DoorAudio.Play(0);
         yield return new WaitForSeconds(1);
         Anim.SetTrigger("OpenDoor");
-        m_Collider.enabled = false;
+        Collider.enabled = false;
 
         yield break;
     }
