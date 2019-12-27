@@ -67,6 +67,7 @@ public class PlayerMageCombatController : PlayerCombatController
             // Stop attack if not enough mana
             _isPrimaryActive = false;
             Anim.SetBool("PrimaryAttack", false);
+            AudioHelper.StopAudio(WeaponAudio);
             (Stats as PlayerStatsController).mana.StartRegen();
             Motor.ResetMovementModifier();
             return;
