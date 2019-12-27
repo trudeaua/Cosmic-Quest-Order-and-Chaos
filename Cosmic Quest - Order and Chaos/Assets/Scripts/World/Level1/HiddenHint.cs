@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class HiddenHint : MonoBehaviour
 {
+    public GameObject Room;
     private Room _room;
     private AudioSource _audioClip;
     protected Animator Anim;
 
     private void Start()
     {
-        _room = transform.parent.gameObject.GetComponent<Room>();
+        _room = Room.GetComponent<Room>();
         _audioClip = GetComponent<AudioSource>();
         Anim = GetComponent<Animator>();
     }
