@@ -5,6 +5,23 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class EnemyColouring {
+    [System.Serializable]
+    public class ColourVariant {
+        [Tooltip("Material containing the enemy \"picture\"")]
+        public Material textureMaterial;
+        [Tooltip("Emissive material that accents the enemy colour")]
+        public Material highlightMaterial;
+    }
+
+    public ColourVariant Green;
+    public ColourVariant Purple;
+    public ColourVariant Red;
+    public ColourVariant Yellow;
+    public ColourVariant Default;
+}
+
 [RequireComponent(typeof(EnemyBrainController))]
 public class EnemyStatsController : EntityStatsController
 {
@@ -19,6 +36,9 @@ public class EnemyStatsController : EntityStatsController
 
     private Collider _collider;
 
+    [Tooltip("Coloured materials that will be assigned to an enemy")]
+    [SerializeField] protected EnemyColouring EnemyColouring;
+
     protected override void Awake()
     {
         base.Awake();
@@ -30,6 +50,9 @@ public class EnemyStatsController : EntityStatsController
 
     private void Start()
     {
+        // Assign enemy a colour
+        AssignEnemyColour();
+
         // Create a VFX where the enemy will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the enemy colour
         StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0),
             Quaternion.identity, PlayerManager.colours.GetColour(characterColour), 0.5f));
@@ -137,5 +160,39 @@ public class EnemyStatsController : EntityStatsController
         navMesh.enabled = false;
         yield return base.Spawn(obj, speed, delay, cooldown);
         navMesh.enabled = true;
+    }
+
+    private void AssignEnemyColour()
+    {
+        // Assign enemy a colour that is used by a registered player
+        characterColour = PlayerManager.playerColours[Random.Range(0, PlayerManager.playerColours.Count)];
+
+        SkinnedMeshRenderer skin = GetComponentInChildren<SkinnedMeshRenderer>();
+        EnemyColouring.ColourVariant enemyColouring;
+        switch (characterColour) {
+            case CharacterColour.Red:
+                enemyColouring = EnemyColouring.Red;
+                break;
+            case CharacterColour.Yellow:
+                enemyColouring = EnemyColouring.Yellow;
+                break;
+            case CharacterColour.Green:
+                enemyColouring = EnemyColouring.Green;
+                break;
+            case CharacterColour.Purple:
+                enemyColouring = EnemyColouring.Purple;
+                break;
+            default:
+                enemyColouring = EnemyColouring.Default;
+                break;
+        }
+        if (!enemyColouring.textureMaterial)
+        {
+            skin.materials = new Material[] { skin.materials[0], enemyColouring.highlightMaterial };
+        }
+        else
+        {
+            skin.materials = new Material[] { enemyColouring.textureMaterial, enemyColouring.highlightMaterial };
+        }
     }
 }

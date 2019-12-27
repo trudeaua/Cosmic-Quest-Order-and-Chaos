@@ -163,7 +163,14 @@ public class EntityStatsController : MonoBehaviour
         {
             yield return new WaitForSeconds(delay);
         }
-        Anim.SetTrigger("Spawn");
+        foreach (AnimatorControllerParameter parameter in Anim.parameters)
+        {
+            if (parameter.name == "Spawn")
+            {
+                Anim.SetTrigger("Spawn");
+                break;
+            }
+        }
         float offset = 0;
         while (obj.transform.position.y < to)
         {

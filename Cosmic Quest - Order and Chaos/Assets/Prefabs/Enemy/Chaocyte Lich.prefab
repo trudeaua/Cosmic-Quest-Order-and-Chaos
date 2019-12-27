@@ -92,6 +92,9 @@ MonoBehaviour:
     baseValue: 0
   characterColour: 0
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
+  spawnSpeed: 0.08
+  spawnDelay: 0.9
+  spawnCooldown: 0.75
   takeDamageVocalSFX:
     pitch: 0
     volume: 0
@@ -108,6 +111,26 @@ MonoBehaviour:
     loop: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
+  EnemyColouring:
+    Green:
+      textureMaterial: {fileID: 2100000, guid: 62b1b109ebfd33d4ab81c69ff22c6813, type: 2}
+      highlightMaterial: {fileID: 2100000, guid: b9de318508ee8fb43b623dd23913c94f,
+        type: 2}
+    Purple:
+      textureMaterial: {fileID: 2100000, guid: 62b1b109ebfd33d4ab81c69ff22c6813, type: 2}
+      highlightMaterial: {fileID: 2100000, guid: 4b98073569ad6b4439f6c7bc0e414a33,
+        type: 2}
+    Red:
+      textureMaterial: {fileID: 2100000, guid: 62b1b109ebfd33d4ab81c69ff22c6813, type: 2}
+      highlightMaterial: {fileID: 2100000, guid: a68e8bc4e1749ba4f816be2f4ce226e4,
+        type: 2}
+    Yellow:
+      textureMaterial: {fileID: 2100000, guid: 62b1b109ebfd33d4ab81c69ff22c6813, type: 2}
+      highlightMaterial: {fileID: 2100000, guid: 32d790241f6a8394db1740488148f273,
+        type: 2}
+    Default:
+      textureMaterial: {fileID: 2100000, guid: 62b1b109ebfd33d4ab81c69ff22c6813, type: 2}
+      highlightMaterial: {fileID: 0}
 --- !u!114 &5303173183686173618
 MonoBehaviour:
   m_ObjectHideFlags: 0

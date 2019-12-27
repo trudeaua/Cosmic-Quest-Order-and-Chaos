@@ -44,6 +44,7 @@ public class PlayerManager : MonoBehaviour
     public Texture testPlayerTexture;
 
     public static List<CharacterColour> availableColours = new List<CharacterColour> { CharacterColour.Red, CharacterColour.Green, CharacterColour.Purple, CharacterColour.Yellow };
+    public static List<CharacterColour> playerColours = new List<CharacterColour>();
 
     private void Start()
     {
@@ -68,6 +69,7 @@ public class PlayerManager : MonoBehaviour
         // assign the player a colour as soon as they're registered
         CharacterColour characterColour = availableColours[Random.Range(0, availableColours.Count)];
         availableColours.Remove(characterColour);
+        playerColours.Add(characterColour);
         player.GetComponent<EntityStatsController>().characterColour = characterColour;
     }
 
