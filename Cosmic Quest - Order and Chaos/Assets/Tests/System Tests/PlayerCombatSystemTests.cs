@@ -90,7 +90,7 @@ public class PlayerCombatSystemTests
 
         // Setup enemy
         float initialHealth = enemyStats.health.CurrentValue;
-        enemyStats.characterColour = CharacterColour.None;
+        enemyStats.characterColour = CharacterColour.All;
 
         yield return new WaitForSeconds(0.5f);
         
