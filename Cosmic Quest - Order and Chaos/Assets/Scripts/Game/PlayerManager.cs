@@ -67,7 +67,6 @@ public class PlayerManager : MonoBehaviour
         Players.Add(player);
 
         // assign the player a colour as soon as they're registered
-        // CharacterColour characterColour = availableColours[Random.Range(0, availableColours.Count)];
         CharacterColour characterColour = availableColours[0];
         availableColours.Remove(characterColour);
         playerColours.Add(characterColour);
