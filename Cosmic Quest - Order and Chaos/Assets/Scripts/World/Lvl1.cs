@@ -35,8 +35,8 @@ public class Lvl1 : Room
 
         BossDoor.SetInteger("CompletedRooms", BossDoor.GetInteger("CompletedRooms") + 1);
 
-        DoorAudio.Play(0);  
-        _letterAudio.Play(0);
+        DoorAudio.PlayDelayed(0);  
+        _letterAudio.PlayDelayed(0);
 
         yield break;
     }
