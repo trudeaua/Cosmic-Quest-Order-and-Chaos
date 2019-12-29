@@ -13,7 +13,9 @@ public class EnemyTriAttackCombatController : EnemyCombatController
     public float tertiaryAttackCooldown = 1f;
     public float tertiaryAttackDelay = 0.6f;
     [SerializeField] protected AudioHelper.EntityAudioClip tertiaryAttackSFX;
-
+    /// <summary>
+    /// Triple attack enemy's primary attack
+    /// </summary>
     public override void PrimaryAttack()
     {
         if (AttackCooldown > 0f)
@@ -32,7 +34,9 @@ public class EnemyTriAttackCombatController : EnemyCombatController
 
         AttackCooldown = primaryAttackCooldown;
     }
-
+    /// <summary>
+    /// Triple attack enemy's secondary attack
+    /// </summary>
     public override void SecondaryAttack()
     {
         if (AttackCooldown > 0f)
@@ -52,7 +56,9 @@ public class EnemyTriAttackCombatController : EnemyCombatController
 
         AttackCooldown = secondaryAttackCooldown;
     }
-
+    /// <summary>
+    /// Triple attack enemy's tertiary attack
+    /// </summary>
     public override void TertiaryAttack()
     {
         if (AttackCooldown > 0f)

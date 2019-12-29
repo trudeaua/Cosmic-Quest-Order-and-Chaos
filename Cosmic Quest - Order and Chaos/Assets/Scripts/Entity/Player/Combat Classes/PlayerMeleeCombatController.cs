@@ -45,7 +45,9 @@ public class PlayerMeleeCombatController : PlayerCombatController
     public GameObject secondaryVFX;
     [Tooltip("Weapon audio effect for secondary attack")]
     [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackWeaponSFX;
-
+    /// <summary>
+    /// Melee's primary attack
+    /// </summary>
     protected override void PrimaryAttack()
     {
         // Ensure player has enough mana to perform this attack
@@ -80,7 +82,9 @@ public class PlayerMeleeCombatController : PlayerCombatController
         // Primary attack animation
         //Anim.SetBool("Combo", !Anim.GetBool("Combo"));
     }
-
+    /// <summary>
+    /// Melee's secondary attack
+    /// </summary>
     protected override void SecondaryAttack()
     {
         // Ensure player has enough mana to perform this attack
@@ -114,7 +118,9 @@ public class PlayerMeleeCombatController : PlayerCombatController
         // Apply movement speed modifier
         StartCoroutine(Motor.ApplyTimedMovementModifier(secondaryAttackMovementModifier, secondaryAttackTimeout));
     }
-
+    /// <summary>
+    /// Melee's ultimate attack
+    /// </summary>
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability

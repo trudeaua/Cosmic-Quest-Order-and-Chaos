@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class EnemySingleAttackCombatController : EnemyCombatController
 {
+    /// <summary>
+    /// Single attack enemy's primary attack
+    /// </summary>
     public override void PrimaryAttack()
     {
         if (AttackCooldown > 0f)

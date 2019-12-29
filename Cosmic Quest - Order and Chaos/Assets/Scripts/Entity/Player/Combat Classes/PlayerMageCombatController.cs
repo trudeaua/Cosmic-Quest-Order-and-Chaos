@@ -58,7 +58,9 @@ public class PlayerMageCombatController : PlayerCombatController
             PrimaryAttack();
         }
     }
-
+    /// <summary>
+    /// Mage player's primary attack
+    /// </summary>
     protected override void PrimaryAttack()
     {
         // Ensure player has enough mana to perform this attack
@@ -89,7 +91,9 @@ public class PlayerMageCombatController : PlayerCombatController
             enemy.GetComponent<EntityStatsController>().TakeDamage(Stats, damageValue, Time.deltaTime);
         }
     }
-
+    /// <summary>
+    /// Mage player's secondary attack
+    /// </summary>
     protected override void SecondaryAttack()
     {
         // Ensure player has enough mana to perform this attack
@@ -122,13 +126,18 @@ public class PlayerMageCombatController : PlayerCombatController
         // Apply movement speed modifier
         StartCoroutine(Motor.ApplyTimedMovementModifier(secondaryAttackMovementModifier, secondaryAttackTimeout));
     }
-
+    /// <summary>
+    /// Mage player's ultimate attack
+    /// </summary>
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability
         Anim.SetTrigger("UltimateAbility");
     }
-
+    /// <summary>
+    /// Toggle the primary attack based on the input value
+    /// </summary>
+    /// <param name="value">Value of the input controller primary attack button state</param>
     protected override void OnPrimaryAttack(InputValue value)
     {
         if (value.isPressed)
@@ -148,9 +157,13 @@ public class PlayerMageCombatController : PlayerCombatController
             Motor.ResetMovementModifier();
         }
     }
-
+    /// <summary>
+    /// Perform the secondary attack based on the input value
+    /// </summary>
+    /// <param name="value">Value of the input controller secondary attack button state</param>
     protected override void OnSecondaryAttack(InputValue value)
     {
+        // don't attack if the primary attack is active
         if (!_isPrimaryActive && value.isPressed)
         {
             SecondaryAttack();

@@ -49,7 +49,9 @@ public class PlayerMotorController : MonoBehaviour
     {
         Move();
     }
-
+    /// <summary>
+    /// Move the player
+    /// </summary>
     private void Move()
     {
         Vector3 inputMoveDirection = new Vector3(_moveInput.x, 0f, _moveInput.y) * _speedModifier;

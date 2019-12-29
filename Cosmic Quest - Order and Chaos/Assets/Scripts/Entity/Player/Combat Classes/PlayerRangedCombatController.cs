@@ -65,7 +65,9 @@ public class PlayerRangedCombatController : PlayerCombatController
             }
         }
     }
-
+    /// <summary>
+    /// Ranger's primary attack
+    /// </summary>
     protected override void PrimaryAttack()
     {
         float chargePercent = Mathf.InverseLerp(0f, primaryAttackChargeTime, _primaryChargeTime);
@@ -80,7 +82,9 @@ public class PlayerRangedCombatController : PlayerCombatController
         AttackCooldown = primaryAttackTimeout;
         (Stats as PlayerStatsController).mana.Subtract(primaryAttackManaDepletion);
     }
-
+    /// <summary>
+    /// Ranger's secondary attack
+    /// </summary>
     protected override void SecondaryAttack()
     {
         if (AttackCooldown > 0 || (Stats as PlayerStatsController).mana.CurrentValue < secondaryAttackManaDepletion)
@@ -102,13 +106,24 @@ public class PlayerRangedCombatController : PlayerCombatController
         // Apply movement speed modifier
         StartCoroutine(Motor.ApplyTimedMovementModifier(secondaryAttackMovementModifier, secondaryAttackTimeout));
     }
-
+    /// <summary>
+    /// Ranger's ultimate attack
+    /// </summary>
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability
         Anim.SetTrigger("UltimateAbility");
     }
-
+    /// <summary>
+    /// Launch a projectile
+    /// </summary>
+    /// <param name="projectilePrefab">The prefab to use as the projectile</param>
+    /// <param name="direction">The direction to launch the projectile in</param>
+    /// <param name="launchForce">The force applied to the projectile at launch</param>
+    /// <param name="range">Maximum range the projectile can travel for</param>
+    /// <param name="damage">Damage value of the projectile</param>
+    /// <param name="launchDelay">Number of seconds to wait before launching the projectile</param>
+    /// <returns>An IEnumerator</returns>
     private IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float damage, float launchDelay = 0f)
     {
         ResetTakeDamageAnim();
@@ -119,7 +134,12 @@ public class PlayerRangedCombatController : PlayerCombatController
         GameObject projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab);
         projectile.GetComponent<DamageProjectile>().Launch(Stats, direction, launchForce, range, damage);
     }
-
+    /// <summary>
+    /// Place an explosive trap
+    /// </summary>
+    /// <param name="trapPrefab">The prefab to use as the explosive trap</param>
+    /// <param name="spawnDelay">Number of seconds to wait before spawning the trap prefab</param>
+    /// <returns>An IEnumerator</returns>
     private IEnumerator PlaceTrap(GameObject trapPrefab, float spawnDelay = 0f)
     {
         ResetTakeDamageAnim();
@@ -131,7 +151,10 @@ public class PlayerRangedCombatController : PlayerCombatController
         ExplosiveTrap explosiveTrap = trap.GetComponent<ExplosiveTrap>();
         explosiveTrap.PlaceTrap(Stats, transform.position + transform.forward);
     }
-
+    /// <summary>
+    /// Toggle the primary attack based on the input value
+    /// </summary>
+    /// <param name="value">Value of the input controller primary attack button state</param>
     protected override void OnPrimaryAttack(InputValue value)
     {
         if (AttackCooldown > 0 || (Stats as PlayerStatsController).mana.CurrentValue < primaryAttackManaDepletion)
@@ -143,6 +166,7 @@ public class PlayerRangedCombatController : PlayerCombatController
             _primaryChargeTime = 0f;
             Anim.SetBool("PrimaryAttack", true);
             StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackChargeWeaponSFX));
+            // pause mana regeneration
             (Stats as PlayerStatsController).mana.PauseRegen();
             Motor.ApplyMovementModifier(primaryAttackMovementModifier);
         }
@@ -152,6 +176,7 @@ public class PlayerRangedCombatController : PlayerCombatController
             Anim.SetBool("PrimaryAttack", false);
             AudioHelper.StopAudio(WeaponAudio);
             StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackReleaseWeaponSFX));
+            // resume mana regeneration
             (Stats as PlayerStatsController).mana.StartRegen();
             Motor.ResetMovementModifier();
             PrimaryAttack();

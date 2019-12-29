@@ -9,7 +9,10 @@ public class EnemyDoubleAttackCombatController : EnemyCombatController
     public float secondaryAttackCooldown = 1f;
     public float secondaryAttackDelay = 0.6f;
     [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackSFX;
-
+   
+    /// <summary>
+    /// Double attack enemy's primary attack
+    /// </summary>
     public override void PrimaryAttack()
     {
         if (AttackCooldown > 0f)
@@ -28,7 +31,9 @@ public class EnemyDoubleAttackCombatController : EnemyCombatController
 
         AttackCooldown = primaryAttackCooldown;
     }
-
+    /// <summary>
+    /// Double attack enemy's secondary attack
+    /// </summary>
     public override void SecondaryAttack()
     {
         if (AttackCooldown > 0f)
