@@ -79,7 +79,7 @@ public class WaveSpawner : MonoBehaviour
     /// <summary>
     /// Spawn a wave of enemies in a certain room
     /// </summary>
-    /// <param name="room">Audio source to play from</param>
+    /// <param name="room">Room in which to spawn enemies</param>
     /// <param name="maxRadius">Maximum radius that enemies will spawn from the players</param>
     /// <param name="numEnemies">Number of enemies to spawn, set to 0 to auto calculate the number of enemies to spawn</param>
     /// <param name="delay">Number of seconds to wait before spawning the wave</param>
@@ -112,6 +112,37 @@ public class WaveSpawner : MonoBehaviour
             yield return new WaitForSeconds(SpawnDelay * Random.Range(0.8f, 2f));
         }
     }
+
+    /// <summary>
+    /// Spawn a wave of enemies at a certain position
+    /// </summary>
+    /// <param name="position">Position to spawn the wave from</param>
+    /// <param name="maxRadius">Maximum radius that enemies will spawn from the players</param>
+    /// <param name="numEnemies">Number of enemies to spawn, set to 0 to auto calculate the number of enemies to spawn</param>
+    /// <param name="delay">Number of seconds to wait before spawning the wave</param>
+    /// <returns>An IEnumerator</returns>
+    public static IEnumerator SpawnWave(Vector3 position, float maxRadius = 8f, int numEnemies = 0, float delay = 0)
+    {
+        if (delay > 0)
+        {
+            yield return new WaitForSeconds(delay);
+        }
+        if (numEnemies == 0)
+            numEnemies = (int)Mathf.Max(Mathf.Pow(PlayerManager.Players.Count, 2) * Random.Range(0.75f, 1.25f), 1);
+        for (int i = 0; i < numEnemies; i++)
+        {
+            float rand = Random.Range(0, totalProbability);
+            GameObject randomEnemy = GetRandomEnemy(rand);
+            GameObject enemy = Instantiate(randomEnemy);
+            enemy.name = randomEnemy.name;
+            enemy.transform.parent = room.transform.parent;
+            Vector3 pt;
+            RandomPoint(position, maxRadius, out pt);
+            enemy.transform.position = pt;
+            yield return new WaitForSeconds(SpawnDelay * Random.Range(0.8f, 2f));
+        }
+    }
+
     /// <summary>
     /// Randomly get an enemy prefab using cumulative distribution
     /// </summary>
