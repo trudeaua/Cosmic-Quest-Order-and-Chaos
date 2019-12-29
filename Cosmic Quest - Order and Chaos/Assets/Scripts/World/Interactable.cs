@@ -17,7 +17,7 @@ public class Interactable : MonoBehaviour
     public bool isTrigger = false;
     
     [Tooltip("Required character colour to interact with")]
-    public CharacterColour colour = CharacterColour.None;
+    public CharacterColour colour = CharacterColour.All;
 
     /// <summary>
     /// Handles the start of an interaction event with a player
@@ -50,7 +50,7 @@ public class Interactable : MonoBehaviour
     public virtual bool CanInteract(Transform target)
     {
         return Vector3.Distance(transform.position, target.position) <= radius &&
-               (colour == CharacterColour.None || target.GetComponent<EntityStatsController>().characterColour == colour);
+               (colour == CharacterColour.All || target.GetComponent<EntityStatsController>().characterColour == colour);
     }
     
     // Displays the interaction radius in the editor
