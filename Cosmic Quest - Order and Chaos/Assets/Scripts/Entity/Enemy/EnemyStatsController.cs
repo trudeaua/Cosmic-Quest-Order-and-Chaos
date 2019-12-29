@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
 
 [System.Serializable]
 public class EnemyColouring {
@@ -51,7 +50,7 @@ public class EnemyStatsController : EntityStatsController
     private void Start()
     {
         // Assign enemy a colour
-        AssignEnemyColour();
+        if (characterColour == CharacterColour.None) AssignEnemyColour();
 
         // Create a VFX where the enemy will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the enemy colour
         StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0),
@@ -74,7 +73,7 @@ public class EnemyStatsController : EntityStatsController
         if (isDead)
             return;
 
-        if (characterColour != CharacterColour.None && attacker.characterColour != characterColour)
+        if (characterColour != CharacterColour.All && attacker.characterColour != characterColour)
         {
             return;
         }

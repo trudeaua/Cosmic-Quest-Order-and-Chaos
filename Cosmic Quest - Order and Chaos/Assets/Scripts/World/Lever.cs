@@ -36,7 +36,7 @@ public class Lever : Interactable
             Anim.Play("LeverAnimation");
             Anim.SetBool("LeverPulled", true);
             
-            _audioClip.Play(0);
+            _audioClip.PlayDelayed(0);
             IsPulled = true;
 
             // Add lever colour to the code input

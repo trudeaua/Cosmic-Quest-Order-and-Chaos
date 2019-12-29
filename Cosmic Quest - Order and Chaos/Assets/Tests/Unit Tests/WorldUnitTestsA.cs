@@ -46,7 +46,7 @@ namespace WorldTests //list of tests i should do
             //assert for COLOURLESS object, with each player colour
 
             //at this point, player colour is still purple, so we don't need to set it again
-            interactable.colour = CharacterColour.None;
+            interactable.colour = CharacterColour.All;
             Assert.True(interactable.CanInteract(playerPos));
             //then check for each other colour with the interactable being NONE
             playerControl.characterColour = CharacterColour.Red;
