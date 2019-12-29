@@ -34,9 +34,15 @@ public class EnemyStatsController : EntityStatsController
     public GameObject FloatingText;
 
     private Collider _collider;
-
+    
+    [Header("Colour Config")]
     [Tooltip("Coloured materials that will be assigned to an enemy")]
     [SerializeField] protected EnemyColouring EnemyColouring;
+    [Tooltip("Used for bosses; Indicates whether the enemy should rotate through player colours or not")]
+    [SerializeField] protected bool rotateColouring = false;
+    [SerializeField] protected float minTimeBetweenColourChanges = 7.0f;
+    protected float colourChangeTimeCounter = 0;
+
 
     protected override void Awake()
     {
@@ -50,7 +56,7 @@ public class EnemyStatsController : EntityStatsController
     private void Start()
     {
         // Assign enemy a colour
-        if (characterColour == CharacterColour.None) AssignEnemyColour();
+        if (characterColour == CharacterColour.None) AssignEnemyColour(characterColour);
 
         // Create a VFX where the enemy will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the enemy colour
         StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0),
@@ -65,6 +71,14 @@ public class EnemyStatsController : EntityStatsController
 
         if (_damageTextCounter > 0f)
             _damageTextCounter -= Time.deltaTime;
+
+        if (rotateColouring) {
+            colourChangeTimeCounter += Time.deltaTime;
+            if (colourChangeTimeCounter > minTimeBetweenColourChanges) {
+                colourChangeTimeCounter = 0;
+                StartCoroutine(AssignRandomColour());
+            }
+        }
     }
 
     public override void TakeDamage(EntityStatsController attacker, float damageValue, float timeDelta = 1f)
@@ -161,14 +175,12 @@ public class EnemyStatsController : EntityStatsController
         navMesh.enabled = true;
     }
 
-    private void AssignEnemyColour()
+    private void AssignEnemyColour(CharacterColour colour)
     {
-        // Assign enemy a colour that is used by a registered player
-        characterColour = PlayerManager.playerColours[Random.Range(0, PlayerManager.playerColours.Count)];
-
+        characterColour = colour;
         SkinnedMeshRenderer skin = GetComponentInChildren<SkinnedMeshRenderer>();
         EnemyColouring.ColourVariant enemyColouring;
-        switch (characterColour) {
+        switch (colour) {
             case CharacterColour.Red:
                 enemyColouring = EnemyColouring.Red;
                 break;
@@ -193,5 +205,17 @@ public class EnemyStatsController : EntityStatsController
         {
             skin.materials = new Material[] { enemyColouring.textureMaterial, enemyColouring.highlightMaterial };
         }
+    }
+
+    protected IEnumerator AssignRandomColour() {
+        // Get a colour that is used by a registered player
+        CharacterColour randomColour = PlayerManager.playerColours[Random.Range(0, PlayerManager.playerColours.Count)];
+        // keep choosing a random colour until a different one is chosen
+        while (randomColour == characterColour) {
+            randomColour = PlayerManager.playerColours[Random.Range(0, PlayerManager.playerColours.Count)];
+        }
+        // Assign the enemy colour
+        AssignEnemyColour(randomColour);
+        yield return null;
     }
 }
