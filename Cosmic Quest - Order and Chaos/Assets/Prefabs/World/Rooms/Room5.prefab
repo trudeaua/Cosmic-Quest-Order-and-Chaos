@@ -96,6 +96,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5886172322681753202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5450142589176144618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70f0a5c5c833c3f4ebc82d905db13730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5886172322681753203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,18 +124,6 @@ MonoBehaviour:
     name: LEOL
     sentences:
     - Synergy comes from both coordination and mind.
---- !u!114 &5886172322681753202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5450142589176144618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70f0a5c5c833c3f4ebc82d905db13730, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5886172322705745785
 GameObject:
   m_ObjectHideFlags: 0
@@ -1533,6 +1533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Code: 
   Input: 
+  BossDoor: {fileID: 0}
 --- !u!1 &5886172324554859092
 GameObject:
   m_ObjectHideFlags: 0
@@ -2006,11 +2007,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8434047766238497348, guid: 0e92992ab79394a43801bb2595bfdab7,
-        type: 3}
-      propertyPath: Colour
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e92992ab79394a43801bb2595bfdab7, type: 3}
 --- !u!4 &2640274076477485699 stripped
@@ -2175,11 +2171,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 513520ff756a64540aceebed144f47cb, type: 2}
-    - target: {fileID: 892828133575137679, guid: f683d629e4516434586af6e74d26a966,
-        type: 3}
-      propertyPath: Colour
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f683d629e4516434586af6e74d26a966, type: 3}
@@ -2585,11 +2576,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 892828133575137679, guid: e49513376de519f4eb5be2cefe59b211,
-        type: 3}
-      propertyPath: Colour
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e49513376de519f4eb5be2cefe59b211, type: 3}
 --- !u!4 &6758800229408641916 stripped
@@ -2664,11 +2650,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 892828133575137679, guid: 4933cbdc004ef264c8b331d3d520eec6,
-        type: 3}
-      propertyPath: Colour
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4933cbdc004ef264c8b331d3d520eec6, type: 3}

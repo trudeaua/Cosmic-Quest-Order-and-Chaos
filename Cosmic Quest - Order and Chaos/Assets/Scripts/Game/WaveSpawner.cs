@@ -135,7 +135,6 @@ public class WaveSpawner : MonoBehaviour
             GameObject randomEnemy = GetRandomEnemy(rand);
             GameObject enemy = Instantiate(randomEnemy);
             enemy.name = randomEnemy.name;
-            enemy.transform.parent = room.transform.parent;
             Vector3 pt;
             RandomPoint(position, maxRadius, out pt);
             enemy.transform.position = pt;
