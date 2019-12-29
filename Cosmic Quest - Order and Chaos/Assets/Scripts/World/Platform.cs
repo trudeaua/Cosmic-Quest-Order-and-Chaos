@@ -6,7 +6,7 @@ using UnityEngine;
 public class Platform : MonoBehaviour
 {
     protected Animator Anim;
-    public CharacterColour Colour = CharacterColour.None;
+    public CharacterColour Colour = CharacterColour.All;
     public bool IsActivated;
 
     private AudioSource audioClip;
@@ -25,7 +25,7 @@ public class Platform : MonoBehaviour
         {
             Anim.SetTrigger("PlatformActivated");
 
-            audioClip.Play(1);
+            audioClip.PlayDelayed(0);
             IsActivated = true;
         }
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 public enum CharacterColour
 {
     None,
+    All,
     Red,
     Yellow,
     Green,
