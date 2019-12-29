@@ -25,7 +25,7 @@ public class Platform : MonoBehaviour
         {
             Anim.SetTrigger("PlatformActivated");
 
-            audioClip.Play(1);
+            audioClip.PlayDelayed(0);
             IsActivated = true;
         }
     }
