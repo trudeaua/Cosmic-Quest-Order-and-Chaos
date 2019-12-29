@@ -56,7 +56,7 @@ public class EnemyStatsController : EntityStatsController
     private void Start()
     {
         // Assign enemy a colour
-        if (characterColour == CharacterColour.None) AssignEnemyColour();
+        if (characterColour == CharacterColour.None) AssignEnemyColour(characterColour);
 
         // Create a VFX where the enemy will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the enemy colour
         StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0),
