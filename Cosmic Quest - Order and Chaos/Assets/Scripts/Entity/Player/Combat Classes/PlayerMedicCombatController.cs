@@ -42,7 +42,9 @@ public class PlayerMedicCombatController : PlayerCombatController
     public GameObject projectilePrefab;
     [Tooltip("Weapon audio effect for secondary attack")]
     [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackWeaponSFX;
-
+    /// <summary>
+    /// Healer's primary attack
+    /// </summary>
     protected override void PrimaryAttack()
     {
         if (AttackCooldown > 0 || (Stats as PlayerStatsController).mana.CurrentValue < primaryAttackManaDepletion)
@@ -73,7 +75,9 @@ public class PlayerMedicCombatController : PlayerCombatController
         // Apply movement speed modifier
         StartCoroutine(Motor.ApplyTimedMovementModifier(primaryAttackMovementModifier, primaryAttackTimeout));
     }
-
+    /// <summary>
+    /// Healer's secondary attack
+    /// </summary>
     protected override void SecondaryAttack()
     {
         if (AttackCooldown > 0 || (Stats as PlayerStatsController).mana.CurrentValue < secondaryAttackManaDepletion)
@@ -95,7 +99,9 @@ public class PlayerMedicCombatController : PlayerCombatController
         // Apply movement speed modifier
         StartCoroutine(Motor.ApplyTimedMovementModifier(secondaryAttackMovementModifier, secondaryAttackTimeout));
     }
-
+    /// <summary>
+    /// Healer's ultimate attack
+    /// </summary>
     protected override void UltimateAbility()
     {
         // TODO implement melee class ultimate ability

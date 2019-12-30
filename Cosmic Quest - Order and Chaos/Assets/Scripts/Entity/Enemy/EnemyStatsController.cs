@@ -6,6 +6,9 @@ using UnityEngine.AI;
 
 [System.Serializable]
 public class EnemyColouring {
+    /// <summary>
+    /// Describes a colour variant for an enemy containing which texture and highlight material to show
+    /// </summary>
     [System.Serializable]
     public class ColourVariant {
         [Tooltip("Material containing the enemy \"picture\"")]
@@ -81,6 +84,12 @@ public class EnemyStatsController : EntityStatsController
         }
     }
 
+    /// <summary>
+    /// Take damage from an attacker
+    /// </summary>
+    /// <param name="attacker">Stats controller of the attacking entity</param>
+    /// <param name="damageValue">Approximate damage value to apply to enemy health</param>
+    /// <param name="timeDelta">Time since last damage calculation</param>
     public override void TakeDamage(EntityStatsController attacker, float damageValue, float timeDelta = 1f)
     {
         // Ignore attacks if already dead
@@ -107,6 +116,11 @@ public class EnemyStatsController : EntityStatsController
         }
     }
 
+    /// <summary>
+    /// Display the amount of damge taken
+    /// </summary>
+    /// <param name="value">Value to display</param>
+    /// <param name="duration">How long to show the damage value for</param>
     private void ShowDamage(float value, float duration = 0.5f)
     {
         _damageTextValue += value;
@@ -127,6 +141,14 @@ public class EnemyStatsController : EntityStatsController
         _damageTextValue = 0f;
     }
 
+    /// <summary>
+    /// Apply an explosive force to the rigidbody
+    /// </summary>
+    /// <param name="explosionForce">Value to display</param>
+    /// <param name="explosionPoint">Where the explosion originates from</param>
+    /// <param name="explosionRadius">Explosion effect radius</param>
+    /// <param name="stunTime">Amount of time to stun the enemy</param>
+    /// <returns>An IEnumerator</returns>
     protected override IEnumerator ApplyExplosiveForce(float explosionForce, Vector3 explosionPoint, float explosionRadius, float stunTime)
     {
         // Set to stunned before applying explosive force
@@ -142,6 +164,9 @@ public class EnemyStatsController : EntityStatsController
         SetStunned(false);
     }
 
+    /// <summary>
+    /// Kill the enemy
+    /// </summary>
     protected override void Die()
     {
         Debug.Log(transform.name + " died.");
@@ -151,7 +176,10 @@ public class EnemyStatsController : EntityStatsController
         StartCoroutine(EnemyDeath());
     }
 
-
+    /// <summary>
+    /// Animate the enemy death and turn off the game object's visibility
+    /// </summary>
+    /// <returns>An IEnumerator</returns>
     private IEnumerator EnemyDeath()
     {
         Anim.SetTrigger("Die");
@@ -159,6 +187,9 @@ public class EnemyStatsController : EntityStatsController
         transform.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Set the stun value of the enemy and toggle the movement navigation
+    /// </summary>
     private void SetStunned(bool isStunned)
     {
         // Disable the nav and stun the brain
@@ -166,6 +197,13 @@ public class EnemyStatsController : EntityStatsController
         _brain.SetStunned(isStunned);
     }
 
+    /// <summary>
+    /// "Spawn" the enemy by causing them to float up through the stage
+    /// </summary>
+    /// <param name="obj">Object to spawn</param>
+    /// <param name="speed">How fast the spawn should be</param>
+    /// <param name="delay">How many seconds to wait before spawning</param>
+    /// <param name="cooldown">How many seconds to wait before enabling the enemy's movement</param>
     protected override IEnumerator Spawn(GameObject obj, float speed = 0.05F, float delay = 0, float cooldown = 0)
     {
         // weird stuff happens when the nav mesh is enabled during the spawn
@@ -175,6 +213,10 @@ public class EnemyStatsController : EntityStatsController
         navMesh.enabled = true;
     }
 
+    /// <summary>
+    /// Set the texture and highlight materials for the enemy based on a character colour
+    /// </summary>
+    /// <param name="colour">Character colour to base colour assignment decision on</param>
     private void AssignEnemyColour(CharacterColour colour)
     {
         characterColour = colour;
@@ -206,7 +248,11 @@ public class EnemyStatsController : EntityStatsController
             skin.materials = new Material[] { enemyColouring.textureMaterial, enemyColouring.highlightMaterial };
         }
     }
-
+    
+    /// <summary>
+    /// Assign a random colour to the enemy
+    /// </summary>
+    /// <returns>An IEnumerator</returns>
     protected IEnumerator AssignRandomColour() {
         // Get a colour that is used by a registered player
         CharacterColour randomColour = PlayerManager.playerColours[Random.Range(0, PlayerManager.playerColours.Count)];

@@ -48,6 +48,9 @@ public class PlayerStatsController : EntityStatsController
             mana.Regen();
     }
 
+    /// <summary>
+    /// Kill the player
+    /// </summary>
     protected override void Die()
     {
         Debug.Log(transform.name + " died.");
@@ -58,20 +61,30 @@ public class PlayerStatsController : EntityStatsController
         StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, entityDeathVocalSFX));
     }
 
+    /// <summary>
+    /// Make the player inactive
+    /// </summary>
     private IEnumerator PlayerDeath()
     {
         yield return new WaitForSeconds(5.5f);
         transform.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Toggle the player ragdoll
+    /// </summary>
+    /// <param name="enable">Indicates whether the ragdoll should be enabled or not</param>
     private void EnableRagdoll(bool enable)
     {
+        // toggle the rigidbodies on the character limbs
         foreach (Rigidbody rrb in ragdollRigidbodies)
         {
             rrb.isKinematic = !enable;
         }
+        // toggle the kinematic state of the player to be the opposite of the kinematic state in the character limbs
         rb.isKinematic = enable;
 
+        // similar stuff for colliders
         foreach (Collider rcol in ragdollColliders)
         {
             rcol.enabled = enable;
@@ -79,6 +92,11 @@ public class PlayerStatsController : EntityStatsController
         _collider.enabled = !enable;
     }
 
+    /// <summary>
+    /// Assign the player's weapon colour
+    /// </summary>
+    /// <param name="player">Player gameobject</param>
+    /// <param name="colour">Colour to set the player's weapon to</param>
     private void AssignWeaponColour(GameObject player, Color color)
     {
         // Get the player weapon
@@ -115,9 +133,17 @@ public class PlayerStatsController : EntityStatsController
             }
         }
     }
-
+    
+    /// <summary>
+    /// "Spawn" the player by causing them to float up through the stage
+    /// </summary>
+    /// <param name="obj">Object to spawn</param>
+    /// <param name="speed">How fast the spawn should be</param>
+    /// <param name="delay">How many seconds to wait before spawning</param>
+    /// <param name="cooldown">How many seconds to wait before enabling the enemy's movement</param>
     protected override IEnumerator Spawn(GameObject obj, float speed = 0.05f, float delay = 0f, float cooldown = 0)
     {
+        // disable movement until spawn sequence is done
         PlayerMotorController motorController = GetComponent<PlayerMotorController>();
         motorController.ApplyMovementModifier(0);
         yield return base.Spawn(obj, speed, delay, cooldown);

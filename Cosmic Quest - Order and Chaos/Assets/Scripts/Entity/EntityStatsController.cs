@@ -82,6 +82,12 @@ public class EntityStatsController : MonoBehaviour
             health.PauseRegen();
     }
 
+    /// <summary>
+    /// Take damage from an attacker
+    /// </summary>
+    /// <param name="attacker">Stats controller of the attacking entity</param>
+    /// <param name="damageValue">Approximate damage value to apply to enemy health</param>
+    /// <param name="timeDelta">Time since last damage calculation</param>
     public virtual void TakeDamage(EntityStatsController attacker, float damageValue, float timeDelta = 1f)
     {
         // Ignore attacks if already dead
@@ -103,6 +109,15 @@ public class EntityStatsController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Take damage from an attacker
+    /// </summary>
+    /// <param name="attacker">Stats controller of the attacking entity</param>
+    /// <param name="maxDamage">Maximum amount of damage able to be dealt</param>
+    /// <param name="stunTime">Amount of time to stun the enemy</param>
+    /// <param name="explosionForce">Value to display</param>
+    /// <param name="explosionPoint">Where the explosion originates from</param>
+    /// <param name="explosionRadius">Explosion effect radius</param>
     public virtual void TakeExplosionDamage(EntityStatsController attacker, float maxDamage, float stunTime,
         float explosionForce, Vector3 explosionPoint, float explosionRadius)
     {
@@ -123,6 +138,14 @@ public class EntityStatsController : MonoBehaviour
         StartCoroutine(ApplyExplosiveForce(explosionForce, explosionPoint, explosionRadius, stunTime));
     }
 
+    /// <summary>
+    /// Apply an explosive force to the rigidbody
+    /// </summary>
+    /// <param name="explosionForce">Value to display</param>
+    /// <param name="explosionPoint">Where the explosion originates from</param>
+    /// <param name="explosionRadius">Explosion effect radius</param>
+    /// <param name="stunTime">Amount of time to stun the enemy</param>
+    /// <returns>An IEnumerator</returns>
     protected virtual IEnumerator ApplyExplosiveForce(float explosionForce, Vector3 explosionPoint, float explosionRadius, float stunTime)
     {
         // Set to stunned before applying explosive force
@@ -135,24 +158,41 @@ public class EntityStatsController : MonoBehaviour
         yield return new WaitForSeconds(stunTime);
     }
 
+    /// <summary>
+    /// Compute the entity's damage modifier
+    /// </summary>
+    /// <returns>The entity's damage modifier</returns>
     public virtual float ComputeDamageModifer()
     {
         float baseHit = Random.Range(0, damage.GetBaseValue() - 1); // never want to do 0 damage
         return damage.GetValue() - baseHit;
     }
-
+    /// <summary>
+    /// Compute the amount of defense to take
+    /// </summary>
+    /// <returns>The entity's defense modifier</returns>
     public virtual float ComputeDefenseModifier()
     {
         float baseDefense = Random.Range(0, defense.GetBaseValue());
         return defense.GetValue() - baseDefense;
     }
 
+    /// <summary>
+    /// Kill the entity
+    /// </summary>
     protected virtual void Die()
     {
         // Meant to be implemented with any death tasks
         isDead = true;
     }
 
+    /// <summary>
+    /// "Spawn" the entity by causing them to float up through the stage
+    /// </summary>
+    /// <param name="obj">Object to spawn</param>
+    /// <param name="speed">How fast the spawn should be</param>
+    /// <param name="delay">How many seconds to wait before spawning</param>
+    /// <param name="cooldown">How many seconds to wait before enabling the enemy's movement</param>
     protected virtual IEnumerator Spawn(GameObject obj, float speed = 0.05f, float delay = 0f, float cooldown = 0f)
     {
         Collider col = obj.GetComponent<Collider>();
@@ -164,6 +204,7 @@ public class EntityStatsController : MonoBehaviour
         {
             yield return new WaitForSeconds(delay);
         }
+        // apply any spawn animation
         foreach (AnimatorControllerParameter parameter in Anim.parameters)
         {
             if (parameter.name == "Spawn")

@@ -44,7 +44,13 @@ public class EntityCombatController : MonoBehaviour
         if (AttackCooldown > 0f)
             AttackCooldown -= Time.deltaTime;
     }
-
+    
+    /// <summary>
+    /// Perform damage on a target
+    /// </summary>
+    /// <param name="targetStats">Target's stats</param>
+    /// <param name="damageValue">Damage value to apply</param>
+    /// <param name="damageDelay">Time to wait before damage is applied</param>
     protected IEnumerator PerformDamage(EntityStatsController targetStats, float damageValue, float damageDelay = 0f)
     {
         if (damageDelay > 0f)
@@ -56,6 +62,16 @@ public class EntityCombatController : MonoBehaviour
         targetStats.TakeDamage(Stats, damageValue);
     }
 
+    /// <summary>
+    /// Perform explosive damage on a target
+    /// </summary>
+    /// <param name="targetStats">Target's stats</param>
+    /// <param name="maxDamage">Maximum damage able to be dealt</param>
+    /// <param name="stunTime">Number of seconds to stun damaged targets for</param>
+    /// <param name="explosionForce">Force of the explosion</param>
+    /// <param name="explosionPoint">Explosion origin</param>
+    /// <param name="explosionRadius">Explosion effect radius</param>
+    /// <param name="explosionDelay">Number of seconds before explosion affects targets</param>
     protected IEnumerator PerformExplosiveDamage(EntityStatsController targetStats, float maxDamage, float stunTime,
         float explosionForce, Vector3 explosionPoint, float explosionRadius, float explosionDelay = 0f)
     {
@@ -68,11 +84,24 @@ public class EntityCombatController : MonoBehaviour
         targetStats.TakeExplosionDamage(Stats, maxDamage, stunTime, explosionForce, explosionPoint, explosionRadius);
     }
 
+    /// <summary>
+    /// Reset the entity's "take damage" animation
+    /// </summary>
     protected void ResetTakeDamageAnim()
     {
         Anim.ResetTrigger("TakeDamage");
     }
 
+    /// <summary>
+    /// Launch a projectile
+    /// </summary>
+    /// <param name="projectilePrefab">The prefab to use as the projectile</param>
+    /// <param name="direction">The direction to launch the projectile in</param>
+    /// <param name="launchForce">The force applied to the projectile at launch</param>
+    /// <param name="range">Maximum range the projectile can travel for</param>
+    /// <param name="damage">Damage value of the projectile</param>
+    /// <param name="launchDelay">Number of seconds to wait before launching the projectile</param>
+    /// <returns>An IEnumerator</returns>
     protected IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float launchDelay = 0f)
     {
         if (launchDelay > 0f)

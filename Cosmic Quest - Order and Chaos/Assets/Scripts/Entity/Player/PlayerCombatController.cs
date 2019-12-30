@@ -17,19 +17,25 @@ public class PlayerCombatController : EntityCombatController
     {
         Motor = GetComponent<PlayerMotorController>();
     }
-
+    /// <summary>
+    /// Player's primary attack placeholder
+    /// </summary>
     protected virtual void PrimaryAttack()
     {
         // Implement me
         Debug.Log("Player's base primary attack triggered");
     }
-
+    /// <summary>
+    /// Player's secondary attack placeholder
+    /// </summary>
     protected virtual void SecondaryAttack()
     {
         // Implement me
         Debug.Log("Player's base secondary attack triggered");
     }
-
+    /// <summary>
+    /// Player's ultimate attack placeholder
+    /// </summary>
     protected virtual void UltimateAbility()
     {
         // Implement me
@@ -84,14 +90,21 @@ public class PlayerCombatController : EntityCombatController
 
         return false;
     }
-
+    /// <summary>
+    /// Play an attack animation for a certain amount of time
+    /// </summary>
+    /// <param name="animName">Attack animation state name</param>
+    /// <param name="time">Number of seconds to wait before stopping the animation</param>
     protected IEnumerator TriggerTimeAttackAnimation(string animName, float time)
     {
         Anim.SetBool(animName, true);
         yield return new WaitForSeconds(time);
         Anim.SetBool(animName, false);
     }
-
+    /// <summary>
+    /// Toggle the primary attack based on the input value
+    /// </summary>
+    /// <param name="value">Value of the input controller primary attack button state</param>
     protected virtual void OnPrimaryAttack(InputValue value)
     {
         // Only trigger attack on button down by default
@@ -100,7 +113,10 @@ public class PlayerCombatController : EntityCombatController
             PrimaryAttack();
         }
     }
-
+    /// <summary>
+    /// Toggle the secondary attack based on the input value
+    /// </summary>
+    /// <param name="value">Value of the input controller secondary attack button state</param>
     protected virtual void OnSecondaryAttack(InputValue value)
     {
         // Only trigger attack on button down by default
@@ -109,7 +125,10 @@ public class PlayerCombatController : EntityCombatController
             SecondaryAttack();
         }
     }
-
+    /// <summary>
+    /// Toggle the ultimate attack based on the input value
+    /// </summary>
+    /// <param name="value">Value of the input controller ultimate attack button state</param>
     protected virtual void OnUltimateAbility(InputValue value)
     {
         // Only trigger ability on button down by default

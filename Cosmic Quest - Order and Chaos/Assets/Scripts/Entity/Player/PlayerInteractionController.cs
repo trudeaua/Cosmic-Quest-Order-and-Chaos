@@ -28,7 +28,10 @@ public class PlayerInteractionController : MonoBehaviour
     {
         return (_currentObject);
     }
-    
+    /// <summary>
+    /// Toggle the interaction sequence
+    /// </summary>
+    /// <param name="value">Value of the input controller interact button state</param>
     private void OnInteract(InputValue value)
     {
         // Only trigger on button pressed down

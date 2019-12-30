@@ -15,6 +15,9 @@ public class EnemyBossCombatController : EnemyCombatController
     public GameObject tertiaryAttackVFX;
     [SerializeField] protected AudioHelper.EntityAudioClip tertiaryAttackSFX;
 
+    /// <summary>
+    /// Enemy boss's primary attack
+    /// </summary>
     public override void PrimaryAttack()
     {
         if (AttackCooldown > 0f)
@@ -33,6 +36,9 @@ public class EnemyBossCombatController : EnemyCombatController
         AttackCooldown = primaryAttackCooldown;
     }
 
+    /// <summary>
+    /// Enemy boss's secondary attack
+    /// </summary>
     public override void SecondaryAttack()
     {
         if (AttackCooldown > 0f)
@@ -50,7 +56,9 @@ public class EnemyBossCombatController : EnemyCombatController
         }
         AttackCooldown = secondaryAttackCooldown;
     }
-
+    /// <summary>
+    /// Enemy boss's tertiary attack
+    /// </summary>
     public override void TertiaryAttack()
     {
         if (AttackCooldown > 0f)

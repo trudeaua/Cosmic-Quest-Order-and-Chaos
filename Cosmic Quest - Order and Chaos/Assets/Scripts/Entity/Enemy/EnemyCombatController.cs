@@ -21,17 +21,23 @@ public class EnemyCombatController : EntityCombatController
     {
         Players = PlayerManager.Players;
     }
-
+    /// <summary>
+    /// Placeholder for enemy primary attack
+    /// </summary>
     public virtual void PrimaryAttack()
     {
         Debug.Log(gameObject.name + "'s primary attack triggered");
     }
-
+    /// <summary>
+    /// Placeholder for enemy secondary attack
+    /// </summary>
     public virtual void SecondaryAttack()
     {
         Debug.Log(gameObject.name + "'s secondary attack triggered");
     }
-
+    /// <summary>
+    /// Placeholder for enemy tertiary attack
+    /// </summary>
     public virtual void TertiaryAttack()
     {
         Debug.Log(gameObject.name + "'s tertiary attack triggered");

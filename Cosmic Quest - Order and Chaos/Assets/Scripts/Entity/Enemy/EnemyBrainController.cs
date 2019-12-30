@@ -4,6 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyStatsController))]
 public class EnemyBrainController : MonoBehaviour
 {
+    /// <summary>
+    /// Contains information about which player is being targeted
+    /// </summary>
     private class TargetPlayer
     {
         public GameObject Player;
@@ -65,6 +68,9 @@ public class EnemyBrainController : MonoBehaviour
         MakeTargetDecision();
     }
     
+    /// <summary>
+    /// Update the enemy's target list
+    /// </summary>
     private void UpdateTargetList()
     {
         foreach (TargetPlayer target in _targets)
@@ -82,7 +88,9 @@ public class EnemyBrainController : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// Decide which player to target
+    /// </summary>
     private void MakeTargetDecision()
     {
         // 1. Prioritize top aggro value
@@ -104,7 +112,9 @@ public class EnemyBrainController : MonoBehaviour
         // 3. No target
         _currentTarget = null;
     }
-
+    /// <summary>
+    /// Decide which attack to perform
+    /// </summary>
     private void MakeCombatDecision()
     {
         if (_currentTarget is null || _combat is null)
@@ -137,7 +147,10 @@ public class EnemyBrainController : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// Update the target player by prioritizing any attacking players
+    /// </summary>
+    /// <returns>A target player object instance</returns>
     private TargetPlayer GetTopAggroTarget()
     {
         TargetPlayer targetPlayer = null;
@@ -155,7 +168,10 @@ public class EnemyBrainController : MonoBehaviour
 
         return targetPlayer;
     }
-
+    /// <summary>
+    /// Find the nearest player to the enemy
+    /// </summary>
+    /// <returns>A target player object instance</returns>
     private TargetPlayer GetClosestTarget()
     {
         TargetPlayer targetPlayer = null;
@@ -173,7 +189,10 @@ public class EnemyBrainController : MonoBehaviour
 
         return targetPlayer;
     }
-
+    /// <summary>
+    /// Checks whether an enemy can see a target or not
+    /// </summary>
+    /// <returns>True if the enemy can see the target</returns>
     private bool CanSee(TargetPlayer target)
     {
         if (Physics.Linecast(transform.position + Vector3.up, target.Player.transform.position + Vector3.up, out RaycastHit hit))
@@ -182,12 +201,19 @@ public class EnemyBrainController : MonoBehaviour
         }
         return false;
     }
-
+    /// <summary>
+    /// Get the transform of the current target
+    /// </summary>
+    /// <returns>The transform of the current target (if any)</returns>
     public Transform GetCurrentTarget()
     {
         return _currentTarget?.Player.transform;
     }
-    
+    /// <summary>
+    /// Update the aggro value of a certain target
+    /// </summary>
+    /// <param name="player">Player GameObject that is attacking the enemy</param>
+    /// <param name="damageAmount">Amount to update the targets aggro value by</param>
     public void OnDamageTaken(GameObject player, float damageAmount)
     {
         // Update aggro value with amount of damage taken
@@ -196,12 +222,17 @@ public class EnemyBrainController : MonoBehaviour
         target.Aggro += damageAmount;
         target.IsKnown = true;
     }
-
+    /// <summary>
+    /// Set the stun value of the enemy
+    /// </summary>
+    /// <param name="isStunned">Indictates whether the enemy is stunned or not</param>
     public void SetStunned(bool isStunned)
     {
         IsStunned = isStunned;
     }
-
+    /// <summary>
+    /// Draw the wire sphere of the enemy's aggro radius when selected in the scene
+    /// </summary>
     private void OnDrawGizmosSelected()
     {
         // Draw the aggro radius of the enemy in the editor
