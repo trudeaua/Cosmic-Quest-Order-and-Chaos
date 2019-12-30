@@ -17,6 +17,7 @@ public class DialogueRoom3 : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            // Light the Leol floor print
             Anim.SetTrigger("EnterRoom3");
         }
     }
