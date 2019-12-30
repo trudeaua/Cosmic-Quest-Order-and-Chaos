@@ -27,6 +27,12 @@ public class ExplosiveTrap : MonoBehaviour
         source = GetComponent<AudioSource>();
     }
 
+    /// <summary>
+    /// Place the explosive trap
+    /// </summary>
+    /// <param name="thrower">Stats of the entity that placed the trap</param>
+    /// <param name="position">Position to place the trap</param>
+    /// <returns></returns>
     public void PlaceTrap(EntityStatsController thrower, Vector3 position)
     {
         _thrower = thrower;
@@ -39,18 +45,30 @@ public class ExplosiveTrap : MonoBehaviour
         StartCoroutine("ArmTrap");
     }
 
+    /// <summary>
+    /// Set the explosion audio source and clip
+    /// </summary>
+    /// <param name="source">Source to play audio from</param>
+    /// <param name="audioClip">Audio clip to play</param>
     public void SetExplosionAudio(AudioSource source, AudioHelper.EntityAudioClip audioClip)
     {
         this.source = source;
         this.audioClip = audioClip;
     }
 
+    /// <summary>
+    /// Arm the trap
+    /// </summary>
+    /// <returns>An IEnumerator</returns>
     private IEnumerator ArmTrap()
     {
         yield return new WaitForSeconds(armTime);
         _isArmed = true;
     }
 
+    /// <summary>
+    /// Detonate the trap
+    /// </summary>
     private void Detonate()
     {
         _isDetonated = true;
@@ -59,6 +77,10 @@ public class ExplosiveTrap : MonoBehaviour
         StartCoroutine(RemoveTrapFromScene());
     }
 
+    /// <summary>
+    /// Remove the trap from the scene
+    /// </summary>
+    /// <returns>An IEnumerator</returns>
     private IEnumerator RemoveTrapFromScene()
     {
         MeshRenderer mesh = gameObject.GetComponentInChildren<MeshRenderer>();
@@ -69,6 +91,9 @@ public class ExplosiveTrap : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Perform the explosion
+    /// </summary>
     private void ExplosionEffect()
     {
         PerformExplosionAnimation();
@@ -102,6 +127,9 @@ public class ExplosiveTrap : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Perform the explosion animation
+    /// </summary>
     protected void PerformExplosionAnimation()
     {
         GameObject vfx;
@@ -113,6 +141,11 @@ public class ExplosiveTrap : MonoBehaviour
         Destroy(vfx, ps.main.duration + ps.main.startLifetime.constantMax + 1);
     }
 
+    /// <summary>
+    /// Get the VFX particle system
+    /// </summary>
+    /// <param name="vfx">A gameobject</param>
+    /// <returns>The first particle system found in the children of `vfx`</returns>
     private ParticleSystem GetFirstPS(GameObject vfx)
     {
         var ps = vfx.GetComponent<ParticleSystem>();
