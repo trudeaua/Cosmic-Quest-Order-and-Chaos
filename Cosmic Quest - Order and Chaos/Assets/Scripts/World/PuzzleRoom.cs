@@ -22,12 +22,15 @@ public class PuzzleRoom : Lvl1
         if (Input.Count > Code.Count) Input.Clear();
 
         // If input count hasn't reached code count, return false
-        if (Input.Count != Code.Count) return false;
+        if (Input.Count != Code.Count) {
+            return false;
+        }
 
         for (int i = 0; i < Input.Count; i++)
         {
-            if (Input[i] != Code[i]) 
+            if (Input[i] != Code[i]) {
                 return false;
+            }
         }
 
         return true;

@@ -44,8 +44,10 @@ public class PlayerStatsController : EntityStatsController
     {
         base.Update();
 
-        if (!isDead)
+        if (!isDead) {
+            health.Regen();
             mana.Regen();
+        }
     }
 
     /// <summary>
