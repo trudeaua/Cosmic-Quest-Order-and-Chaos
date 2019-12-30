@@ -62,19 +62,27 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Register a player
+    /// </summary>
+    /// <param name="player">Player gameobject</param>
     public static void RegisterPlayer(GameObject player)
     {
         Players.Add(player);
+        // assign the player a colour as soon as they're registered
         CharacterColour characterColour = player.GetComponent<EntityStatsController>().characterColour;
         if (characterColour == CharacterColour.None) {
-            // assign the player a colour as soon as they're registered
+            // if they don't have a colour, give them one
             characterColour = availableColours[0];
             availableColours.Remove(characterColour);
         }
         playerColours.Add(characterColour);
         player.GetComponent<EntityStatsController>().characterColour = characterColour;
     }
-
+    /// <summary>
+    /// Deregister a player
+    /// </summary>
+    /// <param name="player">Player gameobject</param>
     public static void DeregisterPlayer(GameObject player)
     {
         Players.Remove(player);

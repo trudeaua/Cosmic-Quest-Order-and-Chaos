@@ -30,6 +30,13 @@ public class HealerProjectile : Projectile
         }
     }
 
+    /// <summary>
+    /// Show the amount a player was healed by
+    /// </summary>
+    /// <param name="healing">Healing amount to display</param>
+    /// <param name="transform">Transform to show the healing text at</param>
+    /// <param name="duration">Number of seconds to show the healing text for</param>
+    /// <returns></returns>
     public void ShowHealing(float healing, Transform transform, float duration = 0.5f)
     {
         Vector3 offset = new Vector3(0, 5f, 0); // Want to do this dynamically based off enemy height

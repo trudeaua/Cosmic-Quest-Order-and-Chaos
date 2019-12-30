@@ -24,6 +24,10 @@ public class Lvl1 : Room
         BossDoor = transform.parent.Find("BossDoor").gameObject.GetComponent<Animator>();
     }
 
+    /// <summary>
+    /// Play the door animation
+    /// </summary>
+    /// <returns>An IEnumerator</returns>
     public override IEnumerator SetAnimTrigger ()
     {
         yield return new WaitForSeconds(1);

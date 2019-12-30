@@ -15,6 +15,7 @@ public class DialogueRoom2 : MonoBehaviour
     // Update is called once per frame
     void OnTriggerEnter(Collider other)
     {
+        // Light the Leol floor print
         Anim.SetTrigger("EnterRoom2");
     }
 }

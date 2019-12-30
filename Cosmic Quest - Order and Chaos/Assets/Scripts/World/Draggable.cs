@@ -16,6 +16,11 @@ public class Draggable : Interactable
         m_Collider = GetComponent<Collider>();
     }
 
+    /// <summary>
+    /// Start interacting with the object
+    /// </summary>
+    /// <param name="target">Target that is trying to interact with the object</param>
+    /// <returns></returns>
     public override void StartInteract(Transform target)
     {
         // Overriding the interact method from base class
@@ -25,12 +30,19 @@ public class Draggable : Interactable
         }
     }
 
+    /// <summary>
+    /// Stop interacting with the object
+    /// </summary>
+    /// <param name="target">Target that is interacting with the object</param>
     public override void StopInteract(Transform target)
     {
         // Drop the object
         Dropped();
     }
 
+    /// <summary>
+    /// Drop the object
+    /// </summary>
     public virtual void Dropped()
     {
         Debug.Log("Dropped");
@@ -41,6 +53,10 @@ public class Draggable : Interactable
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
     }
 
+    /// <summary>
+    /// Pick up an object
+    /// </summary>
+    /// <param name="target">Target that is picking up the object</param>
     public virtual void PickedUp(Transform target)
     {
         Debug.Log("Picked up by " + target.name);

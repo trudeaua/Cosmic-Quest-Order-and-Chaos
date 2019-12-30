@@ -12,6 +12,11 @@ public class OpenDialogue : MonoBehaviour
         StartCoroutine(DisplayDialogue(1));
     }
 
+    /// <summary>
+    /// Display the dialogue
+    /// </summary>
+    /// <param name="time">Number of seconds to wait before showing the dialogue</param>
+    /// <returns>An IEnumerator</returns>
     protected IEnumerator DisplayDialogue(float time)
     {
         yield return new WaitForSeconds(time);

@@ -15,7 +15,10 @@ public class PuzzleRoom : Lvl1
         }
     }
 
-    // Returns whether all levers in the room have been pulled in correct pattern
+    /// <summary>
+    /// Checks if all the levers in the room are pulled
+    /// </summary>
+    /// <returns>A boolean indicating whether all levers in the room have been pulled in correct pattern or not</returns>
     public override bool AreLeversPulled()
     {
         // Clear input on failed tries

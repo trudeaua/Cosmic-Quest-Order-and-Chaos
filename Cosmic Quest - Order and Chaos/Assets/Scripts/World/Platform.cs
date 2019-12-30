@@ -40,6 +40,9 @@ public class Platform : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Pause the platform animation
+    /// </summary>
     void PausePlatformAnimationEvent ()
     {
         Anim.enabled = false;

@@ -28,6 +28,13 @@ public class Projectile : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Launch the damage projectile
+    /// </summary>
+    /// <param name="launcherStats">Stats of the entity that launched the projectile</param>
+    /// <param name="direction">Direction to launch in</param>
+    /// <param name="launchForce">Force to apply to the projectile upon launch</param>
+    /// <param name="range">Maximum range that the projectile can fly</param>
     public void Launch(EntityStatsController launcherStats, Vector3 direction, float launchForce, float range)
     {
         LauncherStats = launcherStats;
@@ -56,6 +63,9 @@ public class Projectile : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// End the projectile's launch
+    /// </summary>
     protected virtual void EndLaunch()
     {
         gameObject.SetActive(false);

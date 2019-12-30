@@ -37,6 +37,11 @@ public class ObjectPooler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Get an object from the object pool
+    /// </summary>
+    /// <param name="prefab">Prefab to get from object pool</param>
+    /// <returns>An instance of the pooled object prefab</returns>
     public GameObject GetPooledObject(GameObject prefab)
     {
         foreach (ObjectPoolItem item in pooledItems)

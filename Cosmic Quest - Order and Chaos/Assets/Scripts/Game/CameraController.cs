@@ -107,7 +107,10 @@ public class CameraController : MonoBehaviour
 
         return targetPos - new Vector3(0f, _playerHeight, 0f); ;
     }
-
+    /// <summary>
+    /// Find the centre of all player positions
+    /// </summary>
+    /// <returns>The centre position of all active players</returns>
     private Vector3 FindPlayersCenter()
     {
         if (PlayerManager.Players.Count == 0)
