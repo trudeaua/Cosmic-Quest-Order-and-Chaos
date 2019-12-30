@@ -44,11 +44,19 @@ public class StatBar : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Update the fill amount of the health bar
+    /// </summary>
+    /// <param name="value">Current health value</param>
     private void UpdateHealthValue(float value)
     {
         healthBar.fillAmount = value / _healthStat.maxValue;
     }
     
+    /// <summary>
+    /// Update the fill amount of the mana bar
+    /// </summary>
+    /// <param name="value">Current mana value</param>
     private void UpdateManaValue(float value)
     {
         manaBar.fillAmount = value / _manaStat.maxValue;
