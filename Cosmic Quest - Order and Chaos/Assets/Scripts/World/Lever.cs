@@ -20,12 +20,19 @@ public class Lever : Interactable
         _audioClip = GetComponent<AudioSource>(); 
     }
 
+    /// <summary>
+    /// Reset the lever trigger
+    /// </summary>
     private void Reset()
     {
         // Set default value for interactable fields
         isTrigger = true;
     }
     
+    /// <summary>
+    /// Start interaction with the lever
+    /// </summary>
+    /// <param name="target">Target that is trying to interact with the lever</param>
     public override void StartInteract(Transform target)
     {
         if (CanInteract(target))
@@ -44,6 +51,9 @@ public class Lever : Interactable
         }
     }
 
+    /// <summary>
+    /// Pause the animation of the lever
+    /// </summary>
     void PauseAnimationEvent ()
     {
         Anim.enabled = false;

@@ -131,11 +131,18 @@ public class Room : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Pause the door animation
+    /// </summary>
     public virtual void PauseAnimEvent()
     {
         Anim.enabled = false;
     }
 
+    /// <summary>
+    /// Play the door animation
+    /// </summary>
+    /// <returns>An IEnumerator</returns>
     public virtual IEnumerator SetAnimTrigger ()
     {
         DoorAudio.Play(0);

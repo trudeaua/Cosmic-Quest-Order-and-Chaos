@@ -28,6 +28,10 @@ public class HiddenHint : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Reveal a hint for the puzzle
+    /// </summary>
+    /// <returns>An IEnumerator</returns>
     private IEnumerator SetAnimTrigger ()
     {
         Anim.SetTrigger("RevealHint");  
