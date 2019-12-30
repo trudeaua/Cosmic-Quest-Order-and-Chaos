@@ -8,12 +8,14 @@ public class MenuController : MonoBehaviour
     public void StartTutorial()
     {
         // Load Tutorial scene
+        Debug.Log("StartTutorial");
         StartCoroutine(LoadYourAsyncScene("Tutorial"));
     }
 
     public void StartLevel() 
     {
         // Load Level 1
+        Debug.Log("Level1");
         StartCoroutine(LoadYourAsyncScene("ChaosVoid1"));
     }
 
