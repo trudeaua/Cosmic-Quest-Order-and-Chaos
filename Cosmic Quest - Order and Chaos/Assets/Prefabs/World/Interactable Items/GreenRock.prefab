@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2051069416964439965}
   - component: {fileID: 2040790277431722333}
   - component: {fileID: 2018705077793160859}
-  - component: {fileID: 2018705077793160854}
   - component: {fileID: 2018705077793160853}
+  - component: {fileID: 5143348246452655367}
   m_Layer: 0
   m_Name: GreenRock
   m_TagString: Rock
@@ -97,19 +97,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &2018705077793160854
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2017731464007154117}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.5993273, y: 0.61816406, z: 0.9823411}
-  m_Center: {x: 0.0000021010637, y: 0.000009760261, z: 0.00000005960464}
 --- !u!114 &2018705077793160853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,4 +112,17 @@ MonoBehaviour:
   radius: 3
   isHeld: 0
   isTrigger: 0
-  colour: 3
+  colour: 4
+--- !u!135 &5143348246452655367
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2017731464007154117}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.49117056
+  m_Center: {x: 0.0000046491623, y: 0.0000055879345, z: -0.0000037550926}
