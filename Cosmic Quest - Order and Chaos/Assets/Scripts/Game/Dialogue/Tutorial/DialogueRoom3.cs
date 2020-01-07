@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DialogueRoom3 : MonoBehaviour
 {
@@ -19,6 +20,19 @@ public class DialogueRoom3 : MonoBehaviour
         {
             // Light the Leol floor print
             Anim.SetTrigger("EnterRoom3");
+        }
+        StartCoroutine(BackToMenu());
+    }
+
+    IEnumerator BackToMenu() {
+        yield return new WaitForSeconds(3);
+        StopAllCoroutines();
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MenuStaging");
+
+        // Wait until the asynchronous scene fully loads
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
         }
     }
 }
