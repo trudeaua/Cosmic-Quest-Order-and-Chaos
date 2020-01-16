@@ -32,6 +32,17 @@ public class MenuController : MonoBehaviour
         Application.Quit();
     }
 
+    public static IEnumerator BackToMenu()
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MenuStaging");
+
+        // Wait until the asynchronous scene fully loads
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+    }
+
     /// <summary>
     /// Load a scene asynchronously
     /// </summary>
