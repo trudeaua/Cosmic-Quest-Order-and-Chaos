@@ -73,6 +73,11 @@ public class PlayerInteractionController : MonoBehaviour
                 if (interactable is null)
                     return;
 
+                if (!interactable.CanInteract(transform))
+                {
+                    return;
+                }
+
                 // Decide which animation to do
                 if (interactable is Draggable)
                 {

@@ -38,7 +38,10 @@ public class Draggable : Interactable
     public override void StopInteract(Transform target)
     {
         // Drop the object
-        Dropped();
+        if (CanInteract(target))
+        {
+            Dropped();
+        }
     }
 
     /// <summary>
