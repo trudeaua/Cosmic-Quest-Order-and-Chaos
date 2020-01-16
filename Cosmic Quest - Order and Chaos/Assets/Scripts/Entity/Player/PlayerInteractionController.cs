@@ -28,6 +28,24 @@ public class PlayerInteractionController : MonoBehaviour
     {
         return (_currentObject);
     }
+
+    public void StopInteract()
+    {
+        if (!_currentObject)
+        {
+            return;
+        }
+        // Decide which animation to do
+        if (_currentObject is Draggable)
+        {
+            _anim.SetBool("PickedUp", false);
+        }
+
+        _currentObject.StopInteract(transform);
+        _currentObject = null;
+    }
+
+
     /// <summary>
     /// Toggle the interaction sequence
     /// </summary>
@@ -40,15 +58,7 @@ public class PlayerInteractionController : MonoBehaviour
             // If currently interacting with a "non-held" object, stop interacting
             if (_currentObject)
             {
-                // Decide which animation to do
-                if (_currentObject is Draggable)
-                {
-                    _anim.SetBool("PickedUp", false);
-                }
-                
-                _currentObject.StopInteract(transform);
-                _currentObject = null;
-
+                StopInteract();
                 return;
             }
             
@@ -62,6 +72,11 @@ public class PlayerInteractionController : MonoBehaviour
                 Interactable interactable = hit.transform.GetComponent<Interactable>();
                 if (interactable is null)
                     return;
+
+                if (!interactable.CanInteract(transform))
+                {
+                    return;
+                }
 
                 // Decide which animation to do
                 if (interactable is Draggable)
@@ -87,8 +102,7 @@ public class PlayerInteractionController : MonoBehaviour
         else if (_currentObject && _currentObject.isHeld)
         {
             // Stop interacting with a "held" object
-            _currentObject.StopInteract(transform);
-            _currentObject = null;
+            StopInteract();
         }
     }
 }

@@ -142,6 +142,7 @@ public class PlayerMageCombatController : PlayerCombatController
     {
         if (value.isPressed)
         {
+            Interaction.StopInteract();
             _isPrimaryActive = true;
             Anim.SetBool("PrimaryAttack", true);
             StartCoroutine(AudioHelper.PlayAudio(WeaponAudio, primaryAttackWeaponSFX));
@@ -166,6 +167,7 @@ public class PlayerMageCombatController : PlayerCombatController
         // don't attack if the primary attack is active
         if (!_isPrimaryActive && value.isPressed)
         {
+            Interaction.StopInteract();
             SecondaryAttack();
         }
     }

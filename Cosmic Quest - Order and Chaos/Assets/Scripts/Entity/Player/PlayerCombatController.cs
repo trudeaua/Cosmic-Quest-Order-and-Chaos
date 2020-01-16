@@ -12,10 +12,12 @@ public class PlayerCombatController : EntityCombatController
     public float secondaryAttackTimeout;
 
     protected PlayerMotorController Motor;
+    protected PlayerInteractionController Interaction;
 
     protected virtual void Start()
     {
         Motor = GetComponent<PlayerMotorController>();
+        Interaction = GetComponent<PlayerInteractionController>();
     }
     /// <summary>
     /// Player's primary attack placeholder
@@ -110,6 +112,7 @@ public class PlayerCombatController : EntityCombatController
         // Only trigger attack on button down by default
         if (value.isPressed)
         {
+            Interaction.StopInteract();
             PrimaryAttack();
         }
     }
@@ -122,6 +125,7 @@ public class PlayerCombatController : EntityCombatController
         // Only trigger attack on button down by default
         if (value.isPressed)
         {
+            Interaction.StopInteract();
             SecondaryAttack();
         }
     }

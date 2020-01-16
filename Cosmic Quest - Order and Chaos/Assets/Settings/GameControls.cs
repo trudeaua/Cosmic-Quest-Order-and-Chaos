@@ -1,14 +1,15 @@
 // GENERATED AUTOMATICALLY FROM 'Assets/Settings/GameControls.inputactions'
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public class GameControls : IInputActionCollection
+public class @GameControls : IInputActionCollection, IDisposable
 {
     private InputActionAsset asset;
-    public GameControls()
+    public @GameControls()
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""GameControls"",
@@ -275,7 +276,7 @@ public class GameControls : IInputActionCollection
         m_Player_UltimateAbility = m_Player.FindAction("UltimateAbility", throwIfNotFound: true);
     }
 
-    ~GameControls()
+    public void Dispose()
     {
         UnityEngine.Object.Destroy(asset);
     }
@@ -330,8 +331,8 @@ public class GameControls : IInputActionCollection
     private readonly InputAction m_Player_UltimateAbility;
     public struct PlayerActions
     {
-        private GameControls m_Wrapper;
-        public PlayerActions(GameControls wrapper) { m_Wrapper = wrapper; }
+        private @GameControls m_Wrapper;
+        public PlayerActions(@GameControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @PrimaryAttack => m_Wrapper.m_Player_PrimaryAttack;
@@ -347,46 +348,46 @@ public class GameControls : IInputActionCollection
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                PrimaryAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryAttack;
-                PrimaryAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryAttack;
-                PrimaryAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryAttack;
-                SecondaryAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondaryAttack;
-                SecondaryAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondaryAttack;
-                SecondaryAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondaryAttack;
-                Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                UltimateAbility.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
-                UltimateAbility.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
-                UltimateAbility.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
+                @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                @PrimaryAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryAttack;
+                @PrimaryAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryAttack;
+                @PrimaryAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryAttack;
+                @SecondaryAttack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondaryAttack;
+                @SecondaryAttack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondaryAttack;
+                @SecondaryAttack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSecondaryAttack;
+                @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @UltimateAbility.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
+                @UltimateAbility.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
+                @UltimateAbility.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                Move.started += instance.OnMove;
-                Move.performed += instance.OnMove;
-                Move.canceled += instance.OnMove;
-                Look.started += instance.OnLook;
-                Look.performed += instance.OnLook;
-                Look.canceled += instance.OnLook;
-                PrimaryAttack.started += instance.OnPrimaryAttack;
-                PrimaryAttack.performed += instance.OnPrimaryAttack;
-                PrimaryAttack.canceled += instance.OnPrimaryAttack;
-                SecondaryAttack.started += instance.OnSecondaryAttack;
-                SecondaryAttack.performed += instance.OnSecondaryAttack;
-                SecondaryAttack.canceled += instance.OnSecondaryAttack;
-                Interact.started += instance.OnInteract;
-                Interact.performed += instance.OnInteract;
-                Interact.canceled += instance.OnInteract;
-                UltimateAbility.started += instance.OnUltimateAbility;
-                UltimateAbility.performed += instance.OnUltimateAbility;
-                UltimateAbility.canceled += instance.OnUltimateAbility;
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
+                @PrimaryAttack.started += instance.OnPrimaryAttack;
+                @PrimaryAttack.performed += instance.OnPrimaryAttack;
+                @PrimaryAttack.canceled += instance.OnPrimaryAttack;
+                @SecondaryAttack.started += instance.OnSecondaryAttack;
+                @SecondaryAttack.performed += instance.OnSecondaryAttack;
+                @SecondaryAttack.canceled += instance.OnSecondaryAttack;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
+                @UltimateAbility.started += instance.OnUltimateAbility;
+                @UltimateAbility.performed += instance.OnUltimateAbility;
+                @UltimateAbility.canceled += instance.OnUltimateAbility;
             }
         }
     }
