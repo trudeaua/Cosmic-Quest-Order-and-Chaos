@@ -21,21 +21,23 @@ public class PuzzleRoom : Lvl1
     /// <returns>A boolean indicating whether all levers in the room have been pulled in correct pattern or not</returns>
     public override bool AreLeversPulled()
     {
-        // Clear input on failed tries
-        if (Input.Count > Code.Count) Input.Clear();
+        bool isCorrectPattern = true;
 
         // If input count hasn't reached code count, return false
         if (Input.Count != Code.Count) {
-            return false;
+            isCorrectPattern = false;
         }
 
         for (int i = 0; i < Input.Count; i++)
         {
             if (Input[i] != Code[i]) {
-                return false;
+                isCorrectPattern = false;
             }
         }
+        
+        // Reset if code input maxed out
+        if (Input.Count >= Code.Count) Input.Clear();
 
-        return true;
+        return isCorrectPattern;
     }   
 }
