@@ -162,6 +162,7 @@ public class PlayerRangedCombatController : PlayerCombatController
 
         if (value.isPressed)
         {
+            Interaction.StopInteract();
             _isPrimaryCharging = true;
             _primaryChargeTime = 0f;
             Anim.SetBool("PrimaryAttack", true);
