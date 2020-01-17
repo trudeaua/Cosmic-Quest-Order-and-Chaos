@@ -304,7 +304,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""MenuNavigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -315,7 +315,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""MenuNavigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -326,7 +326,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""MenuNavigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -337,7 +337,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""MenuNavigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true

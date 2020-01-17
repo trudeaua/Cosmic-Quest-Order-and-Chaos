@@ -8,24 +8,43 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    private Button[] buttons;
-    private Button currentButton;
+    protected Button[] buttons;
+    protected Button currentButton;
+    [SerializeField] private GameObject activeMenu;
 
-    public static EventSystem eventSystem;
+    protected EventSystem eventSystem;
+    protected Stack<GameObject> menuStack = new Stack<GameObject>();
     
-    protected void Start()
+    protected virtual void Awake()
     {
-        eventSystem = GetComponent<EventSystem>();
-        RefreshButtons();
+        eventSystem = FindObjectOfType<EventSystem>();
+        menuStack = new Stack<GameObject>();
+        activeMenu.SetActive(true);
+        menuStack.Push(activeMenu);
     }
 
-    private void RefreshButtons()
+    public void PushMenu(GameObject menu)
     {
-        buttons = GetComponentsInChildren<Button>();
-        if (buttons.Length > 0)
+        activeMenu.SetActive(false);
+        activeMenu = menu;
+        activeMenu.SetActive(true);
+        menuStack.Push(menu);
+    }
+
+    public void PopMenu()
+    {
+        if (menuStack.Count > 0)
         {
-            currentButton = buttons[0];
+            activeMenu.SetActive(false);
+            menuStack.Pop();
+            activeMenu = menuStack.Peek();
+            activeMenu.SetActive(true);
         }
+    }
+
+    public void SetSelectedButton(GameObject btn)
+    {
+        eventSystem.SetSelectedGameObject(btn);
     }
 
     /// <summary>
@@ -55,7 +74,7 @@ public class MenuController : MonoBehaviour
         Application.Quit();
     }
 
-    public static IEnumerator BackToMenu()
+    public IEnumerator BackToMenu()
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MenuStaging");
 
@@ -82,9 +101,5 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    private void OnMenuNavigate(InputValue value)
-    {
-        Vector2 direction = value.Get<Vector2>();
-        Debug.Log("HI");
-    }
+
 }
