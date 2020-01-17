@@ -65,6 +65,22 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""MenuNavigate"",
+                    ""type"": ""Value"",
+                    ""id"": ""508578e2-9cba-4cdf-b24e-db3ce8d9fd1b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""MenuOptionSelect"",
+                    ""type"": ""Button"",
+                    ""id"": ""5cd9ed2d-e439-4f05-9d52-23e721d44744"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
                 }
             ],
             ""bindings"": [
@@ -232,6 +248,105 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""action"": ""UltimateAbility"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2da67e73-57bd-4d11-b131-20bc3ee11e12"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MenuNavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6cab2c9f-25e1-404a-9036-fd5fcda08f6d"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""StickDeadzone"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MenuNavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""d1e72ba2-1c34-4e00-8ad2-0d57b7e4ca4f"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MenuNavigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""a8fc0cc0-ea5b-48cf-956b-66607721cbf1"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MenuNavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""fa224570-c851-4515-8d51-b0c25ec92d30"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MenuNavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""698eaaae-7788-41c4-a021-947a707491ab"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MenuNavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""72139d85-15b0-43c2-af2a-5aa7ec295744"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MenuNavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c258b9a3-25a4-427e-907e-58ebf498e90c"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MenuOptionSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a15be9f4-5208-4fe0-ae92-a076efb781ab"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MenuOptionSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -274,6 +389,8 @@ public class @GameControls : IInputActionCollection, IDisposable
         m_Player_SecondaryAttack = m_Player.FindAction("SecondaryAttack", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_UltimateAbility = m_Player.FindAction("UltimateAbility", throwIfNotFound: true);
+        m_Player_MenuNavigate = m_Player.FindAction("MenuNavigate", throwIfNotFound: true);
+        m_Player_MenuOptionSelect = m_Player.FindAction("MenuOptionSelect", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -329,6 +446,8 @@ public class @GameControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_SecondaryAttack;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_UltimateAbility;
+    private readonly InputAction m_Player_MenuNavigate;
+    private readonly InputAction m_Player_MenuOptionSelect;
     public struct PlayerActions
     {
         private @GameControls m_Wrapper;
@@ -339,6 +458,8 @@ public class @GameControls : IInputActionCollection, IDisposable
         public InputAction @SecondaryAttack => m_Wrapper.m_Player_SecondaryAttack;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @UltimateAbility => m_Wrapper.m_Player_UltimateAbility;
+        public InputAction @MenuNavigate => m_Wrapper.m_Player_MenuNavigate;
+        public InputAction @MenuOptionSelect => m_Wrapper.m_Player_MenuOptionSelect;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -366,6 +487,12 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @UltimateAbility.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
                 @UltimateAbility.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
                 @UltimateAbility.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
+                @MenuNavigate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuNavigate;
+                @MenuNavigate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuNavigate;
+                @MenuNavigate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuNavigate;
+                @MenuOptionSelect.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuOptionSelect;
+                @MenuOptionSelect.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuOptionSelect;
+                @MenuOptionSelect.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMenuOptionSelect;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -388,6 +515,12 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @UltimateAbility.started += instance.OnUltimateAbility;
                 @UltimateAbility.performed += instance.OnUltimateAbility;
                 @UltimateAbility.canceled += instance.OnUltimateAbility;
+                @MenuNavigate.started += instance.OnMenuNavigate;
+                @MenuNavigate.performed += instance.OnMenuNavigate;
+                @MenuNavigate.canceled += instance.OnMenuNavigate;
+                @MenuOptionSelect.started += instance.OnMenuOptionSelect;
+                @MenuOptionSelect.performed += instance.OnMenuOptionSelect;
+                @MenuOptionSelect.canceled += instance.OnMenuOptionSelect;
             }
         }
     }
@@ -418,5 +551,7 @@ public class @GameControls : IInputActionCollection, IDisposable
         void OnSecondaryAttack(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnUltimateAbility(InputAction.CallbackContext context);
+        void OnMenuNavigate(InputAction.CallbackContext context);
+        void OnMenuOptionSelect(InputAction.CallbackContext context);
     }
 }
