@@ -1,10 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
+    private Button[] buttons;
+    private Button currentButton;
+
+    public static EventSystem eventSystem;
+    
+    protected void Start()
+    {
+        eventSystem = GetComponent<EventSystem>();
+        RefreshButtons();
+    }
+
+    private void RefreshButtons()
+    {
+        buttons = GetComponentsInChildren<Button>();
+        if (buttons.Length > 0)
+        {
+            currentButton = buttons[0];
+        }
+    }
+
     /// <summary>
     /// Start the tutorial level
     /// </summary>
@@ -57,5 +80,11 @@ public class MenuController : MonoBehaviour
         {
             yield return null;
         }
+    }
+
+    private void OnMenuNavigate(InputValue value)
+    {
+        Vector2 direction = value.Get<Vector2>();
+        Debug.Log("HI");
     }
 }
