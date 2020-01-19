@@ -23,7 +23,7 @@ public class PlayerColours
     }
 }
 
-public enum CharacterChoice
+public enum ClassChoice
 {
     NONE,
     MAGE,
@@ -31,18 +31,25 @@ public enum CharacterChoice
     HEALER,
     RANGER
 }
+public enum CharacterChoice
+{
+    NONE,
+    ALIEN_A,
+    ALIEN_B,
+    ALIEN_C,
+    ROBOT
+}
 public class Player
 {
     public PlayerInput playerInput;
-    public CharacterChoice characterChoice;
+    public Texture characterChoice;
     public CharacterColour characterColour;
     public GameObject playerUIControl;
     public GameObject playerObject;
 
-    public Player(PlayerInput _playerInput, CharacterChoice _characterChoice, CharacterColour _characterColour)
+    public Player(PlayerInput _playerInput, CharacterColour _characterColour)
     {
         playerInput = _playerInput;
-        characterChoice = _characterChoice;
         characterColour = _characterColour;
     }
 }
@@ -153,7 +160,7 @@ public class PlayerManager : MonoBehaviour
         }
         if (isNewPlayer)
         {
-            Player newPlayer = new Player(playerInput, CharacterChoice.NONE, CharacterColour.None);
+            Player newPlayer = new Player(playerInput, CharacterColour.None);
             // Assign the new player a colour
             int index = 0;
             for (int i = 0; i < _Players.Length; i++)
@@ -166,12 +173,7 @@ public class PlayerManager : MonoBehaviour
             }
             newPlayer.characterColour = _PlayerColours[index];
             _Players[index] = newPlayer;
-            Debug.Log(newPlayer.characterColour);
-            // Add ui control for the player
-            //MenuController.AddMultiplayerUIControl(index + 1);
         }
-        // If existing player
-        // Don't add ui control for player, already exists
     }
 
     private void OnPlayerLeft(PlayerInput playerInput)
