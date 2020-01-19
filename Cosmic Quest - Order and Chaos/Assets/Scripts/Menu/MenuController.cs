@@ -3,34 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    protected Button[] buttons;
-    protected Button currentButton;
     [SerializeField] private GameObject activeMenu;
 
-    protected EventSystem eventSystem;
+    protected static MultiplayerEventSystem[] multiplayerEventSystems;
     protected Stack<GameObject> menuStack = new Stack<GameObject>();
     
     protected virtual void Awake()
     {
-        eventSystem = FindObjectOfType<EventSystem>();
+        multiplayerEventSystems = FindObjectsOfType<MultiplayerEventSystem>();
         menuStack = new Stack<GameObject>();
         activeMenu.SetActive(true);
         menuStack.Push(activeMenu);
     }
 
+    private void Start()
+    {
+        Debug.Log(PlayerManager.Players.Count);
+    }
+
+    /// <summary>
+    /// Navigate to the previous menu, if any
+    /// </summary>
+    /// <param name="menu">The menu to navigate to</param>
     public void PushMenu(GameObject menu)
     {
         activeMenu.SetActive(false);
         activeMenu = menu;
         activeMenu.SetActive(true);
         menuStack.Push(menu);
+
     }
 
+    /// <summary>
+    /// Navigate to the previous menu, if any
+    /// </summary>
     public void PopMenu()
     {
         if (menuStack.Count > 0)
@@ -42,9 +54,12 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    public void SetSelectedButton(GameObject btn)
+    /// <summary>
+    /// Set the button that should be highlighted on the next menu
+    /// </summary>
+    public static void SetSelectedButton(GameObject btn)
     {
-        eventSystem.SetSelectedGameObject(btn);
+        multiplayerEventSystems[0].SetSelectedGameObject(btn);
     }
 
     /// <summary>
@@ -74,7 +89,7 @@ public class MenuController : MonoBehaviour
         Application.Quit();
     }
 
-    public IEnumerator BackToMenu()
+    public static IEnumerator BackToMenu()
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MenuStaging");
 

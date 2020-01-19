@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [System.Serializable]
 public class PlayerColours
@@ -86,5 +87,15 @@ public class PlayerManager : MonoBehaviour
     public static void DeregisterPlayer(GameObject player)
     {
         Players.Remove(player);
+    }
+
+    private void OnPlayerJoined(PlayerInput playerInput)
+    {
+        Debug.Log("Joined");
+    }
+
+    private void OnPlayerLeft()
+    {
+        Debug.Log("Left");
     }
 }
