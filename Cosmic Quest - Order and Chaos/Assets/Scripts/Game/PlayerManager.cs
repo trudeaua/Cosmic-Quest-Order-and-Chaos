@@ -23,6 +23,30 @@ public class PlayerColours
     }
 }
 
+public enum CharacterChoice
+{
+    NONE,
+    MAGE,
+    MELEE,
+    HEALER,
+    RANGER
+}
+public class Player
+{
+    public PlayerInput playerInput;
+    public CharacterChoice characterChoice;
+    public CharacterColour characterColour;
+    public GameObject playerUIControl;
+    public GameObject playerObject;
+
+    public Player(PlayerInput _playerInput, CharacterChoice _characterChoice, CharacterColour _characterColour)
+    {
+        playerInput = _playerInput;
+        characterChoice = _characterChoice;
+        characterColour = _characterColour;
+    }
+}
+
 public class PlayerManager : MonoBehaviour
 {
     #region Singleton
@@ -46,6 +70,10 @@ public class PlayerManager : MonoBehaviour
 
     public static List<CharacterColour> availableColours = new List<CharacterColour> { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
     public static List<CharacterColour> playerColours = new List<CharacterColour>();
+
+    public static readonly Player[] _Players = { null, null ,null, null };
+    public static readonly CharacterColour[] _PlayerColours = { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
+
 
     private void Start()
     {
@@ -89,13 +117,66 @@ public class PlayerManager : MonoBehaviour
         Players.Remove(player);
     }
 
-    private void OnPlayerJoined(PlayerInput playerInput)
+    /// <summary>
+    /// Assign a Player UI Control game object to a player
+    /// </summary>
+    /// <param name="playerUIControl">Player UI Control game object</param>
+    /// <returns>The player number that the control was assigned to, -1 if not assigned.</returns>
+    public static int AssignUIControlToPlayer(GameObject playerUIControl)
     {
-        Debug.Log("Joined");
+        for(int i = 0; i < _Players.Length; i++)
+        {
+            if (!_Players[i].playerUIControl)
+            {
+                _Players[i].playerUIControl = playerUIControl;
+                return i + 1;
+            }
+        }
+        return -1;
     }
 
-    private void OnPlayerLeft()
+    private void OnPlayerJoined(PlayerInput playerInput)
     {
-        Debug.Log("Left");
+        Debug.Log("Player " + playerInput.user.id + " Joined");
+        // If not existing player, add new
+        bool isNewPlayer = true;
+        foreach(Player p in _Players)
+        {
+            if (p != null)
+            {
+                if (p.playerInput.user.id == playerInput.user.id)
+                {
+                    isNewPlayer = false;
+                    break;
+                }
+            }
+        }
+        if (isNewPlayer)
+        {
+            Player newPlayer = new Player(playerInput, CharacterChoice.NONE, CharacterColour.None);
+            // Assign the new player a colour
+            int index = 0;
+            for (int i = 0; i < _Players.Length; i++)
+            {
+                if (_Players[i] == null)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            newPlayer.characterColour = _PlayerColours[index];
+            _Players[index] = newPlayer;
+            Debug.Log(newPlayer.characterColour);
+            // Add ui control for the player
+            //MenuController.AddMultiplayerUIControl(index + 1);
+        }
+        // If existing player
+        // Don't add ui control for player, already exists
     }
+
+    private void OnPlayerLeft(PlayerInput playerInput)
+    {
+        Debug.Log("Player " + playerInput.user.id + " Left");
+    }
+
 }

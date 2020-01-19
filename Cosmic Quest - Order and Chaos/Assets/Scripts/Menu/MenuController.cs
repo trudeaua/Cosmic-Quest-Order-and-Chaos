@@ -9,20 +9,23 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    [SerializeField] private GameObject activeMenu;
+    [SerializeField] private GameObject ActiveMenu;
+    [SerializeField] private GameObject PlayerUIControlPrefab;
 
-    protected static MultiplayerEventSystem[] multiplayerEventSystems;
+    private static GameObject activeMenu;
+    private static GameObject playerUIControlPrefab;
+
+    protected static List<MultiplayerEventSystem> multiplayerEventSystems = new List<MultiplayerEventSystem>();
     protected Stack<GameObject> menuStack = new Stack<GameObject>();
     
     protected virtual void Awake()
     {
-        multiplayerEventSystems = FindObjectsOfType<MultiplayerEventSystem>();
+        activeMenu = ActiveMenu;
+        playerUIControlPrefab = PlayerUIControlPrefab;
+
         menuStack = new Stack<GameObject>();
         activeMenu.SetActive(true);
         menuStack.Push(activeMenu);
-
-        GameObject selectedButton = FindDefaultButton(activeMenu);
-        SetSelectedButton(selectedButton);
     }
 
     private void Start()
@@ -67,7 +70,10 @@ public class MenuController : MonoBehaviour
     /// </summary>
     public static void SetSelectedButton(GameObject btn)
     {
-        multiplayerEventSystems[0].SetSelectedGameObject(btn);
+        foreach(MultiplayerEventSystem eventSystem in multiplayerEventSystems)
+        {
+            eventSystem.SetSelectedGameObject(btn);
+        }
     }
 
     /// <summary>
@@ -84,6 +90,15 @@ public class MenuController : MonoBehaviour
         {
             return null;
         }
+    }
+
+    public static void AddMultiplayerUIControl(GameObject uiControl)
+    {
+        MultiplayerEventSystem eventSystem = uiControl.GetComponentInChildren<MultiplayerEventSystem>();
+        GameObject defaultButton = FindDefaultButton(activeMenu);
+        eventSystem.firstSelectedGameObject = defaultButton;
+        eventSystem.SetSelectedGameObject(defaultButton);
+        multiplayerEventSystems.Add(eventSystem);
     }
 
     /// <summary>
