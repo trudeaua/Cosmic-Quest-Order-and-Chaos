@@ -20,6 +20,9 @@ public class MenuController : MonoBehaviour
         menuStack = new Stack<GameObject>();
         activeMenu.SetActive(true);
         menuStack.Push(activeMenu);
+
+        GameObject selectedButton = FindDefaultButton(activeMenu);
+        SetSelectedButton(selectedButton);
     }
 
     private void Start()
@@ -38,6 +41,8 @@ public class MenuController : MonoBehaviour
         activeMenu.SetActive(true);
         menuStack.Push(menu);
 
+        GameObject selectedButton = FindDefaultButton(activeMenu);
+        SetSelectedButton(selectedButton);
     }
 
     /// <summary>
@@ -51,6 +56,9 @@ public class MenuController : MonoBehaviour
             menuStack.Pop();
             activeMenu = menuStack.Peek();
             activeMenu.SetActive(true);
+
+            GameObject selectedButton = FindDefaultButton(activeMenu);
+            SetSelectedButton(selectedButton);
         }
     }
 
@@ -60,6 +68,22 @@ public class MenuController : MonoBehaviour
     public static void SetSelectedButton(GameObject btn)
     {
         multiplayerEventSystems[0].SetSelectedGameObject(btn);
+    }
+
+    /// <summary>
+    /// Find a default button to select
+    /// </summary>
+    public static GameObject FindDefaultButton(GameObject menu)
+    {
+        Button btn = menu.GetComponentInChildren<Button>();
+        if (btn)
+        {
+            return btn.gameObject;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /// <summary>
