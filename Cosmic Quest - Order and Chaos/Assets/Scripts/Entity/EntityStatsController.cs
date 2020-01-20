@@ -33,6 +33,8 @@ public class EntityStatsController : MonoBehaviour
     public const int EntityLayer = 1 << 9;
 
     [Header("Spawn Config")]
+    [Tooltip("Indicates whether the spawn animation should play or not")]
+    [SerializeField] protected bool shouldSpawn;
     [Tooltip("VFX to use when player spawns")]
     [SerializeField] protected GameObject spawnVFX;
     [Tooltip("Controls the speed of the spawn animation")]
