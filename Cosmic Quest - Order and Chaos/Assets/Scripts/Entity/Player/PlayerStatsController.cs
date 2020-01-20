@@ -34,10 +34,13 @@ public class PlayerStatsController : EntityStatsController
         // colour the player's weapon
         AssignWeaponColour(gameObject, playerColour);
 
-        // Create a VFX where the player will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the player colour
-        StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0), Quaternion.identity, playerColour, 0.5f));
-        // "Spawn" the player (they float up through the stage)
-        StartCoroutine(Spawn(gameObject, spawnSpeed, spawnDelay, spawnCooldown));
+        if (shouldSpawn)
+        {
+            // Create a VFX where the player will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the player colour
+            StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0), Quaternion.identity, playerColour, 0.5f));
+            // "Spawn" the player (they float up through the stage)
+            StartCoroutine(Spawn(gameObject, spawnSpeed, spawnDelay, spawnCooldown));
+        }
     }
 
     protected override void Update()

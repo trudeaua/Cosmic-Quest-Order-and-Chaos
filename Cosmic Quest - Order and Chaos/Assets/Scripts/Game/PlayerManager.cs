@@ -25,19 +25,19 @@ public class PlayerColours
 
 public enum ClassChoice
 {
-    NONE,
     MAGE,
     MELEE,
     HEALER,
-    RANGER
+    RANGER,
+    NONE
 }
 public enum CharacterChoice
 {
-    NONE,
     ALIEN_A,
     ALIEN_B,
     ALIEN_C,
-    ROBOT
+    ROBOT,
+    NONE
 }
 public class Player
 {
@@ -47,11 +47,13 @@ public class Player
     public GameObject playerUIControl;
     public GameObject playerObject;
 
-    public Player(PlayerInput _playerInput, CharacterColour _characterColour)
+    public Player(PlayerInput _playerInput, CharacterColour _characterColour, CharacterChoice _characterChoice)
     {
         playerInput = _playerInput;
         characterColour = _characterColour;
+        characterChoice = PlayerManager.LookupTexture(_characterChoice);
     }
+
 }
 
 public class PlayerManager : MonoBehaviour
@@ -65,6 +67,9 @@ public class PlayerManager : MonoBehaviour
             _instance = this;
         else
             Debug.LogWarning("Only one player manager should be in the scene!");
+
+        TexturePool = texturePool;
+        PlayerPrefabPool = playerPrefabPool;
     }
     #endregion
 
@@ -75,12 +80,18 @@ public class PlayerManager : MonoBehaviour
     // TODO change this to a pool of textures, or assigned to a player at class selection
     public Texture testPlayerTexture;
 
+    [SerializeField] private Texture[] texturePool;
+    public static Texture[] TexturePool;
+
+    [SerializeField] private GameObject[] playerPrefabPool;
+    public static GameObject[] PlayerPrefabPool;
+
     public static List<CharacterColour> availableColours = new List<CharacterColour> { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
     public static List<CharacterColour> playerColours = new List<CharacterColour>();
-
     public static readonly Player[] _Players = { null, null ,null, null };
     public static readonly CharacterColour[] _PlayerColours = { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
 
+    private static bool joiningEnabled;
 
     private void Start()
     {
@@ -142,8 +153,62 @@ public class PlayerManager : MonoBehaviour
         return -1;
     }
 
+    public static Texture LookupTexture(CharacterChoice characterChoice)
+    {
+        if (TexturePool.Length >= (int)characterChoice)
+        {
+            return TexturePool[(int)characterChoice];
+        }
+        else
+        {
+            return TexturePool[TexturePool.Length - 1];
+        }
+    }
+
+    public static void AssignTexture(int player, CharacterChoice characterChoice)
+    {
+        if (_Players[player] != null)
+        {
+            _Players[player].characterChoice = LookupTexture(characterChoice);
+        }
+    }
+
+    public static GameObject LookupPrefab(ClassChoice classChoice)
+    {
+        if (PlayerPrefabPool.Length >= (int)classChoice)
+        {
+            return PlayerPrefabPool[(int)classChoice];
+        }
+        else
+        {
+            return PlayerPrefabPool[PlayerPrefabPool.Length - 1];
+        }
+    }
+
+    public static void AssignPrefab(int player, ClassChoice classChoice)
+    {
+        if (_Players[player] != null)
+        {
+            _Players[player].playerObject = LookupPrefab(classChoice);
+        }
+    }
+
+    public static void EnableJoining()
+    {
+        joiningEnabled = true;
+    }
+
+    public static void DisableJoining()
+    {
+        joiningEnabled = false;
+    }
+
     private void OnPlayerJoined(PlayerInput playerInput)
     {
+        if (!joiningEnabled)
+        {
+            return;
+        }
         Debug.Log("Player " + playerInput.user.id + " Joined");
         // If not existing player, add new
         bool isNewPlayer = true;
@@ -160,7 +225,7 @@ public class PlayerManager : MonoBehaviour
         }
         if (isNewPlayer)
         {
-            Player newPlayer = new Player(playerInput, CharacterColour.None);
+            Player newPlayer = new Player(playerInput, CharacterColour.None, CharacterChoice.NONE);
             // Assign the new player a colour
             int index = 0;
             for (int i = 0; i < _Players.Length; i++)
@@ -178,6 +243,10 @@ public class PlayerManager : MonoBehaviour
 
     private void OnPlayerLeft(PlayerInput playerInput)
     {
+        if (!joiningEnabled)
+        {
+            return;
+        }
         Debug.Log("Player " + playerInput.user.id + " Left");
     }
 
