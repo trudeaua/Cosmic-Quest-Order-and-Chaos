@@ -10,29 +10,26 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
+    // Maintains the currently active menu in the menu canvas
     [SerializeField] private GameObject ActiveMenu;
-    [SerializeField] private GameObject PlayerUIControlPrefab;
-
     private static GameObject activeMenu;
-    private static GameObject playerUIControlPrefab;
+
+    // Maintains the number of players selected on the multiplayer menu
     private int NumberOfPlayers;
 
+    // Maintains all multiplayer event systems
     protected static List<MultiplayerEventSystem> multiplayerEventSystems = new List<MultiplayerEventSystem>();
+
+    // Maintains the menus that the player has navigated through
     protected Stack<GameObject> menuStack = new Stack<GameObject>();
     
     protected void Awake()
     {
         activeMenu = ActiveMenu;
-        playerUIControlPrefab = PlayerUIControlPrefab;
 
         menuStack = new Stack<GameObject>();
         activeMenu.SetActive(true);
         menuStack.Push(activeMenu);
-    }
-
-    protected void Start()
-    {
-        PlayerManager.EnableJoining();
     }
 
     /// <summary>
@@ -195,7 +192,7 @@ public class MenuController : MonoBehaviour
         {
             if (toggles[i].isOn)
             {
-                PlayerManager.AssignTexture(0, (CharacterChoice)i);
+                PlayerManager.AssignCharacterChoice(0, (CharacterChoice)i);
             }
         }
     }
@@ -207,7 +204,7 @@ public class MenuController : MonoBehaviour
         {
             if (toggles[i].isOn)
             {
-                PlayerManager.AssignTexture(1, (CharacterChoice)i);
+                PlayerManager.AssignCharacterChoice(1, (CharacterChoice)i);
             }
         }
     }
@@ -219,7 +216,7 @@ public class MenuController : MonoBehaviour
         {
             if (toggles[i].isOn)
             {
-                PlayerManager.AssignTexture(2, (CharacterChoice)i);
+                PlayerManager.AssignCharacterChoice(2, (CharacterChoice)i);
             }
         }
     }
@@ -231,7 +228,7 @@ public class MenuController : MonoBehaviour
         {
             if (toggles[i].isOn)
             {
-                PlayerManager.AssignTexture(3, (CharacterChoice)i);
+                PlayerManager.AssignCharacterChoice(3, (CharacterChoice)i);
             }
         }
     }
@@ -290,26 +287,17 @@ public class MenuController : MonoBehaviour
     /// <param name="positionObj">Game object in which to instantiate the players</param>
     public void PreviewPlayers(GameObject positionObj)
     {
-        int numPlayers = PlayerManager._Players.Where(player => player != null).Count();
-        Debug.Log(numPlayers);
-        Vector3 position = positionObj.transform.position;
-        PlayerManager.DisableJoining();
-        for (int i = 0; i < numPlayers; i++)
+        for (int i = 0; i < NumberOfPlayers; i++)
         {
-            GameObject playerInstance = Instantiate(PlayerManager._Players[i].playerObject);
+            GameObject playerInstance = PlayerManager.InstantiatePlayer(i + 1);
             playerInstance.transform.parent = positionObj.transform;
-            // Dynamically assign each player their respective outline texture
-            playerInstance.GetComponent<EntityStatsController>().characterColour = PlayerManager._Players[i].characterColour;
-            Material playerMaterial = new Material(Shader.Find("Custom/Outline"));
-            playerMaterial.SetFloat("_Outline", 0.0005f);
-            playerMaterial.SetColor("_OutlineColor", PlayerManager.colours.GetColour(PlayerManager._Players[i].characterColour));
-            playerMaterial.SetTexture("_MainTex", PlayerManager._Players[i].characterChoice);
-            playerInstance.GetComponentInChildren<Renderer>().sharedMaterial = playerMaterial;
 
-            playerInstance.transform.localPosition = new Vector3(((i - 1) * numPlayers / 2 + (numPlayers % 2 == 0 ? 0.5f : 0)) * 200, 0, 1);
+            // Transform the player instance so it looks nice on screen
+            playerInstance.transform.localPosition = new Vector3(((i - 1) * NumberOfPlayers / 2 + (NumberOfPlayers % 2 == 0 ? 0.5f : 0)) * 200, 0, 1);
             playerInstance.transform.Rotate(new Vector3(0, 180, 0));
             playerInstance.transform.localScale = new Vector3(45, 45, 45);
 
+            // Turn off components so the player is simply displayed and can't be controlled
             playerInstance.GetComponent<Collider>().enabled = false;
             playerInstance.GetComponent<PlayerInput>().enabled = false;
             playerInstance.GetComponent<PlayerInteractionController>().enabled = false;
@@ -317,7 +305,6 @@ public class MenuController : MonoBehaviour
             playerInstance.GetComponentInChildren<StatBar>().gameObject.SetActive(false);
             playerInstance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY;
         }
-        PlayerManager.EnableJoining();
     }
 
     /// <summary>
@@ -327,7 +314,6 @@ public class MenuController : MonoBehaviour
     public void DestroyPlayerPreview(GameObject positionObj)
     {
         EntityStatsController[] children = positionObj.GetComponentsInChildren<EntityStatsController>();
-        Debug.Log(children.Length);
         foreach(EntityStatsController child in children)
         {
             Destroy(child.gameObject);
@@ -343,10 +329,34 @@ public class MenuController : MonoBehaviour
         {
             if (p != null)
             {
-                Debug.Log(p.characterColour);
-                Debug.Log(p.characterChoice + "\n");
-                Debug.Log(p.playerObject.name);
+                Debug.Log(p.characterColour + "\n" + p.characterChoice + "\n" + p.playerObject.name);
             }
+        }
+    }
+
+    /// <summary>
+    /// Register all selected players with the player manager
+    /// </summary>
+    /// <param name="playerContainer">Game object whose children are the selected players</param>
+    public void RegisterPlayers(GameObject playerContainer)
+    {
+        EntityStatsController[] players = playerContainer.GetComponentsInChildren<EntityStatsController>();
+        foreach (EntityStatsController entityStats in players)
+        {
+            PlayerManager.RegisterPlayer(entityStats.gameObject);
+        }
+    }
+
+    /// <summary>
+    /// Deregister all selected players with the player manager
+    /// </summary>
+    /// <param name="playerContainer">Game object whose children are the selected players</param>
+    public void DeregisterPlayers(GameObject playerContainer)
+    {
+        EntityStatsController[] players = playerContainer.GetComponentsInChildren<EntityStatsController>();
+        foreach (EntityStatsController entityStats in players)
+        {
+            PlayerManager.DeregisterPlayer(entityStats.gameObject);
         }
     }
 
