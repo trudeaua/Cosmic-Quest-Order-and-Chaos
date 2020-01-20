@@ -79,6 +79,7 @@ public class PlayerManager : MonoBehaviour
         playerColours.Add(characterColour);
         player.GetComponent<EntityStatsController>().characterColour = characterColour;
     }
+    
     /// <summary>
     /// Deregister a player
     /// </summary>
