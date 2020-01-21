@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.DualShock;
 
 [System.Serializable]
 public class PlayerColours
@@ -289,6 +290,15 @@ public class PlayerManager : MonoBehaviour
             }
             newPlayer.characterColour = _PlayerColours[index];
             _Players[index] = newPlayer;
+            // If the device is a DualShock4, color the light bar as the player colour :)
+            if (playerInput.user.pairedDevices.Count > 0)
+            {
+                if (playerInput.user.pairedDevices[0] is DualShockGamepad)
+                {
+                    DualShockGamepad ds = playerInput.user.pairedDevices[0] as DualShockGamepad;
+                    ds.SetLightBarColor(colours.GetColour(newPlayer.characterColour));
+                }
+            }
         }
     }
 
