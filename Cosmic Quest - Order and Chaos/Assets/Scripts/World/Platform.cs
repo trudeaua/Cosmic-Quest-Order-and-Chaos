@@ -36,7 +36,6 @@ public class Platform : MonoBehaviour
             (other.gameObject.GetComponent<Interactable>().colour == Colour))
         {
             IsActivated = false;
-
             Anim.enabled = true;
         }
     }
