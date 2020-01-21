@@ -23,10 +23,10 @@ public class Platform : MonoBehaviour
         if ((other.tag == "Rock") &&
             (other.gameObject.GetComponent<Interactable>().colour == Colour))
         {
+            IsActivated = true;
             Anim.SetTrigger("PlatformActivated");
 
             audioClip.PlayDelayed(0);
-            IsActivated = true;
         }
     }
 
@@ -35,8 +35,9 @@ public class Platform : MonoBehaviour
         if ((other.tag == "Rock") &&
             (other.gameObject.GetComponent<Interactable>().colour == Colour))
         {
-            Anim.enabled = true;
             IsActivated = false;
+
+            Anim.enabled = true;
         }
     }
 
