@@ -15,7 +15,7 @@ public class MenuController : MonoBehaviour
     private static GameObject activeMenu;
 
     // Maintains the number of players selected on the multiplayer menu
-    private int NumberOfPlayers;
+    private int NumberOfPlayers = 0;
 
     // Maintains all multiplayer event systems
     protected static List<MultiplayerEventSystem> multiplayerEventSystems = new List<MultiplayerEventSystem>();
@@ -23,6 +23,8 @@ public class MenuController : MonoBehaviour
     // Maintains the menus that the player has navigated through
     protected Stack<GameObject> menuStack = new Stack<GameObject>();
     
+    protected GameObject[] playerJoinAreas = { null, null, null, null };
+
     protected void Awake()
     {
         activeMenu = ActiveMenu;
@@ -30,6 +32,37 @@ public class MenuController : MonoBehaviour
         menuStack = new Stack<GameObject>();
         activeMenu.SetActive(true);
         menuStack.Push(activeMenu);
+
+        // Find the player join areas
+        RectTransform[] UIs = GetComponentsInChildren<RectTransform>(true);
+        for (int i = 0; i < UIs.Length; i++)
+        {
+            if (UIs[i].tag == "Player1JoinArea")
+            {
+                playerJoinAreas[0] = UIs[i].gameObject;
+            }
+            if (UIs[i].tag == "Player2JoinArea")
+            {
+                playerJoinAreas[1] = UIs[i].gameObject;
+            }
+            if (UIs[i].tag == "Player3JoinArea")
+            {
+                playerJoinAreas[2] = UIs[i].gameObject;
+            }
+            if (UIs[i].tag == "Player4JoinArea")
+            {
+                playerJoinAreas[3] = UIs[i].gameObject;
+            }
+            // Set the join messages to inactive
+            Transform[] children = UIs[i].GetComponentsInChildren<Transform>(true);
+            foreach (Transform child in children)
+            {
+                if (child.CompareTag("JoinMessage"))
+                {
+                    child.gameObject.SetActive(false);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -184,6 +217,23 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    public void PlayerJoined(int index)
+    {
+        if (index < playerJoinAreas.Length)
+        {
+            // Find the inactive join message and set it to active
+            Transform[] children = playerJoinAreas[index].GetComponentsInChildren<Transform>(true);
+            foreach (Transform child in children)
+            {
+                if (child.CompareTag("JoinMessage"))
+                {
+                    child.gameObject.SetActive(true);
+                    SetNumberOfPlayers(NumberOfPlayers + 1);
+                }
+            }
+        }
+    }
+
 
     public void SetP1Character(GameObject toggleGroup)
     {
@@ -301,6 +351,7 @@ public class MenuController : MonoBehaviour
             playerInstance.GetComponent<Collider>().enabled = false;
             playerInstance.GetComponent<PlayerInput>().enabled = false;
             playerInstance.GetComponent<PlayerInteractionController>().enabled = false;
+            playerInstance.GetComponent<EntityStatsController>().SetSpawn(false);
             playerInstance.GetComponent<EntityCombatController>().enabled = false;
             playerInstance.GetComponentInChildren<StatBar>().gameObject.SetActive(false);
             playerInstance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY;

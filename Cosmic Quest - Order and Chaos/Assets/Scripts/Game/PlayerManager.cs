@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
@@ -57,12 +59,15 @@ public class Player
     // Which class has the player selected
     public GameObject playerObject;
 
-    public Player(PlayerInput _playerInput, CharacterColour _characterColour, CharacterChoice _characterChoice)
+    public int deviceId;
+
+    public Player(PlayerInput _playerInput, CharacterColour _characterColour, CharacterChoice _characterChoice, int _deviceId)
     {
         playerInput = _playerInput;
         characterColour = _characterColour;
         //characterChoice = PlayerManager.LookupTexture(_characterChoice);
         characterChoice = _characterChoice;
+        deviceId = _deviceId;
     }
 
 }
@@ -162,8 +167,10 @@ public class PlayerManager : MonoBehaviour
             // the PlayerInputManager treats it as a new player being connected to the scene. So disabling the PlayerInput 
             // in the prefab and then instantiating does not cause it to be treated as a new player
             _Players[whichPlayer - 1].playerObject.GetComponent<PlayerInput>().enabled = false;
+            _Players[whichPlayer - 1].playerObject.GetComponent<PlayerMotorController>().doRegister = false;
             GameObject playerInstance = Instantiate(_Players[whichPlayer - 1].playerObject);
             _Players[whichPlayer - 1].playerObject.GetComponent<PlayerInput>().enabled = true;
+            _Players[whichPlayer - 1].playerObject.GetComponent<PlayerMotorController>().doRegister = true;
 
             // Assign the player their respective outline texture
             playerInstance.GetComponent<EntityStatsController>().characterColour = _Players[whichPlayer - 1].characterColour;
@@ -264,11 +271,18 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("Player " + playerInput.user.id + " Joined");
         // If not existing player, add new
         bool isNewPlayer = true;
-        foreach(Player p in _Players)
+        InputDevice inputDevice = playerInput.user.pairedDevices.First();
+        if (inputDevice == null)
+        {
+            Debug.LogError("No input device detected for Player " + playerInput.user.id);
+            return;
+        }
+        foreach (Player p in _Players)
         {
             if (p != null)
             {
-                if (p.playerInput.user.id == playerInput.user.id)
+                // if (p.playerInput.user.id == playerInput.user.id)
+                if (p.deviceId == inputDevice.deviceId)
                 {
                     isNewPlayer = false;
                     break;
@@ -277,7 +291,7 @@ public class PlayerManager : MonoBehaviour
         }
         if (isNewPlayer)
         {
-            Player newPlayer = new Player(playerInput, CharacterColour.None, CharacterChoice.NONE);
+            Player newPlayer = new Player(playerInput, CharacterColour.None, CharacterChoice.NONE, inputDevice.deviceId);
             // Assign the new player a colour
             int index = 0;
             for (int i = 0; i < _Players.Length; i++)
@@ -290,14 +304,20 @@ public class PlayerManager : MonoBehaviour
             }
             newPlayer.characterColour = _PlayerColours[index];
             _Players[index] = newPlayer;
-            // If the device is a DualShock4, color the light bar as the player colour :)
-            if (playerInput.user.pairedDevices.Count > 0)
+            if (inputDevice is Gamepad)
             {
-                if (playerInput.user.pairedDevices[0] is DualShockGamepad)
+                Gamepad gamepad = inputDevice as Gamepad;
+                // If the device is a DualShock4, color the light bar as the player colour :)
+                if (gamepad is DualShockGamepad)
                 {
-                    DualShockGamepad ds = playerInput.user.pairedDevices[0] as DualShockGamepad;
+                    DualShockGamepad ds = gamepad as DualShockGamepad;
                     ds.SetLightBarColor(colours.GetColour(newPlayer.characterColour));
                 }
+            }
+            GameObject MenuCanvas = GameObject.Find("MenuCanvas");
+            if (MenuCanvas != null)
+            {
+                MenuCanvas.BroadcastMessage("PlayerJoined", index);
             }
         }
     }
@@ -306,5 +326,4 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Player " + playerInput.user.id + " Left");
     }
-
 }

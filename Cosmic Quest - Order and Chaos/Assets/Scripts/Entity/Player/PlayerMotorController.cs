@@ -16,6 +16,9 @@ public class PlayerMotorController : MonoBehaviour
     private Vector2 _moveInput;
     private Vector2 _lookInput;
 
+    // TODO temporary until playermanager is finalized
+    public bool doRegister = true;
+
     private CameraController _cameraController;
 
     private void Awake()
@@ -24,7 +27,11 @@ public class PlayerMotorController : MonoBehaviour
         _anim = GetComponentInChildren<Animator>();
         _cameraController = Camera.main.GetComponent<CameraController>();
         // TODO Temporary - player should be registered after lobby
-        // PlayerManager.RegisterPlayer(gameObject);
+        if (doRegister)
+        {
+            Debug.Log("Hello");
+            PlayerManager.RegisterPlayer(gameObject);
+        }
     }
 
     private void OnEnable()
@@ -42,7 +49,10 @@ public class PlayerMotorController : MonoBehaviour
     private void OnDestroy()
     {
         // Ensure there's no invalid references hanging around
-        PlayerManager.DeregisterPlayer(gameObject);
+        if (doRegister)
+        {
+            PlayerManager.DeregisterPlayer(gameObject);
+        }
     }
 
     private void FixedUpdate()

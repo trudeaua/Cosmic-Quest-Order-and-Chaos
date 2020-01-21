@@ -34,7 +34,7 @@ public class EntityStatsController : MonoBehaviour
 
     [Header("Spawn Config")]
     [Tooltip("Indicates whether the spawn animation should play or not")]
-    [SerializeField] protected bool shouldSpawn;
+    [SerializeField] protected bool shouldSpawn = true;
     [Tooltip("VFX to use when player spawns")]
     [SerializeField] protected GameObject spawnVFX;
     [Tooltip("Controls the speed of the spawn animation")]
@@ -82,6 +82,11 @@ public class EntityStatsController : MonoBehaviour
     {
         if (!isDead)
             health.PauseRegen();
+    }
+
+    public void SetSpawn(bool spawn)
+    {
+        shouldSpawn = spawn;
     }
 
     /// <summary>

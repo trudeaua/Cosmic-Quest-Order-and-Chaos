@@ -969,7 +969,7 @@ PrefabInstance:
     - target: {fileID: 6347770635181394814, guid: d888342ddcde8dc49bcbe1ff51966fce,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6347770635181394823, guid: d888342ddcde8dc49bcbe1ff51966fce,
         type: 3}
@@ -1026,6 +1026,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6347770635181394819, guid: d888342ddcde8dc49bcbe1ff51966fce,
+        type: 3}
+      propertyPath: doRegister
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6347770635181394816, guid: d888342ddcde8dc49bcbe1ff51966fce,
         type: 3}
       propertyPath: health.regenAmount
@@ -1034,7 +1039,12 @@ PrefabInstance:
     - target: {fileID: 6347770635181394816, guid: d888342ddcde8dc49bcbe1ff51966fce,
         type: 3}
       propertyPath: characterColour
-      value: 5
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347770635181394816, guid: d888342ddcde8dc49bcbe1ff51966fce,
+        type: 3}
+      propertyPath: shouldSpawn
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 909027295238249625, guid: d888342ddcde8dc49bcbe1ff51966fce,
         type: 3}
@@ -41267,7 +41277,7 @@ PrefabInstance:
     - target: {fileID: 7264181408041424334, guid: 4ab2e03e0ed13f043b17f2648f295d87,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7264181408041424327, guid: 4ab2e03e0ed13f043b17f2648f295d87,
         type: 3}
@@ -41324,6 +41334,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7264181408041424323, guid: 4ab2e03e0ed13f043b17f2648f295d87,
+        type: 3}
+      propertyPath: doRegister
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7264181408041424332, guid: 4ab2e03e0ed13f043b17f2648f295d87,
         type: 3}
       propertyPath: health.regenAmount
@@ -41332,7 +41347,12 @@ PrefabInstance:
     - target: {fileID: 7264181408041424332, guid: 4ab2e03e0ed13f043b17f2648f295d87,
         type: 3}
       propertyPath: characterColour
-      value: 4
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7264181408041424332, guid: 4ab2e03e0ed13f043b17f2648f295d87,
+        type: 3}
+      propertyPath: shouldSpawn
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3478400417857769122, guid: 4ab2e03e0ed13f043b17f2648f295d87,
         type: 3}
@@ -49192,6 +49212,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 768482836}
     m_Modifications:
+    - target: {fileID: 2017731464007154117, guid: 52871025683cd0b4c85ed62fb677d707,
+        type: 3}
+      propertyPath: m_Name
+      value: GreenRock
+      objectReference: {fileID: 0}
     - target: {fileID: 2021505383913628529, guid: 52871025683cd0b4c85ed62fb677d707,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -49246,11 +49271,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -88.911
-      objectReference: {fileID: 0}
-    - target: {fileID: 2017731464007154117, guid: 52871025683cd0b4c85ed62fb677d707,
-        type: 3}
-      propertyPath: m_Name
-      value: GreenRock
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52871025683cd0b4c85ed62fb677d707, type: 3}
@@ -49478,6 +49498,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 768482836}
     m_Modifications:
+    - target: {fileID: 4806139590028015394, guid: e7a09a9dff9d7e94eb7b3bcf77330074,
+        type: 3}
+      propertyPath: m_Name
+      value: YellowRock
+      objectReference: {fileID: 0}
     - target: {fileID: 4809683883601934012, guid: e7a09a9dff9d7e94eb7b3bcf77330074,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -49532,11 +49557,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 9.56
-      objectReference: {fileID: 0}
-    - target: {fileID: 4806139590028015394, guid: e7a09a9dff9d7e94eb7b3bcf77330074,
-        type: 3}
-      propertyPath: m_Name
-      value: YellowRock
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7a09a9dff9d7e94eb7b3bcf77330074, type: 3}
@@ -49621,6 +49641,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 346952525}
     m_Modifications:
+    - target: {fileID: 8434047766226836930, guid: 0e92992ab79394a43801bb2595bfdab7,
+        type: 3}
+      propertyPath: m_Name
+      value: GreenPlat
+      objectReference: {fileID: 0}
     - target: {fileID: 8434047766227081812, guid: 0e92992ab79394a43801bb2595bfdab7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -49676,11 +49701,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8434047766226836930, guid: 0e92992ab79394a43801bb2595bfdab7,
-        type: 3}
-      propertyPath: m_Name
-      value: GreenPlat
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e92992ab79394a43801bb2595bfdab7, type: 3}
 --- !u!1001 &8812258323569101831
@@ -49690,6 +49710,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 768482836}
     m_Modifications:
+    - target: {fileID: 8811543085965717904, guid: dd73252f90d4db34f9119d933ce7d9db,
+        type: 3}
+      propertyPath: m_Name
+      value: RedRock
+      objectReference: {fileID: 0}
     - target: {fileID: 8810549111615482660, guid: dd73252f90d4db34f9119d933ce7d9db,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -49744,11 +49769,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -147.242
-      objectReference: {fileID: 0}
-    - target: {fileID: 8811543085965717904, guid: dd73252f90d4db34f9119d933ce7d9db,
-        type: 3}
-      propertyPath: m_Name
-      value: RedRock
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd73252f90d4db34f9119d933ce7d9db, type: 3}
