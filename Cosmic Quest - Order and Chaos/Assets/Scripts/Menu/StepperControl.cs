@@ -37,6 +37,7 @@ public class StepperControl : MonoBehaviour
                 currentPropertyNames = classNames;
                 break;
         }
+        Debug.Log("AWAKE");
     }
 
     // Start is called before the first frame update
@@ -69,13 +70,9 @@ public class StepperControl : MonoBehaviour
         clickEventHandler.callback.AddListener(OnMove);
     }
 
-    private void OnDisable()
+    private void OnEnable()
     {
-        PlayerStatsController playerStats = playerContainer.GetComponentInChildren<PlayerStatsController>();
-        if (playerStats != null)
-        {
-            Destroy(playerStats.gameObject);
-        }
+        UpdatePlayer();
     }
 
     private void UpdateText()
@@ -112,6 +109,7 @@ public class StepperControl : MonoBehaviour
     private void RefreshPlayer()
     {
         PlayerStatsController playerStats = playerContainer.GetComponentInChildren<PlayerStatsController>();
+        // Remove old preview
         if (playerStats != null)
         {
             Destroy(playerStats.gameObject);

@@ -40,20 +40,7 @@ public class MenuController : MonoBehaviour
         {
             ReadyPlayers[i] = false;
         }
-        // Find the player join areas
-        for (int i = 0; i < playerJoinAreas.Length; i++)
-        {
-            Debug.Log(playerJoinAreas.Where(p => p != null).Count());
-            // Set the join messages to inactive
-            Transform[] children = playerJoinAreas[i].GetComponentsInChildren<Transform>(true);
-            foreach (Transform child in children)
-            {
-                if (child.CompareTag("JoinMessage"))
-                {
-                    child.gameObject.SetActive(false);
-                }
-            }
-        }
+        SetJoinAreasActive(false);
     }
 
     /// <summary>
@@ -107,6 +94,10 @@ public class MenuController : MonoBehaviour
     /// <param name="menu">Game object to search for buttons in</param>
     public static GameObject FindDefaultButton(GameObject menu)
     {
+        if (menu == null)
+        {
+            return null;
+        }
         Selectable btn = menu.GetComponentInChildren<Selectable>();
         if (btn)
         {
@@ -142,15 +133,7 @@ public class MenuController : MonoBehaviour
         int playerNumber = 1;
         foreach (MultiplayerEventSystem eventSystem in multiplayerEventSystems)
         {
-            // Tags are used to distinguish which submenus can be controlled by which player
-            GameObject playerRoot = GameObject.FindGameObjectWithTag("Player" + playerNumber + "Choice");
-            if (playerRoot)
-            {
-                eventSystem.playerRoot = playerRoot;
-                GameObject defaultButton = FindDefaultButton(playerRoot);
-                eventSystem.firstSelectedGameObject = defaultButton;
-                eventSystem.SetSelectedGameObject(defaultButton);
-            }
+            SetPlayerRoot(eventSystem, playerNumber);
             playerNumber++;
         }
     }
@@ -161,14 +144,46 @@ public class MenuController : MonoBehaviour
     /// </summary>
     private static void SetPlayerRoot(MultiplayerEventSystem eventSystem, int playerNumber)
     {
+        //GameObject playerRoot = GameObject.FindGameObjectWithTag("Player" + playerNumber + "Choice");
         // Tags are used to distinguish which submenus can be controlled by which player
-        GameObject playerRoot = GameObject.FindGameObjectWithTag("Player" + playerNumber + "Choice");
-        if (playerRoot)
+        GameObject playerRoot = null;
+        RectTransform[] rectTransforms = activeMenu.GetComponentsInChildren<RectTransform>();
+        foreach(RectTransform rectTransform in rectTransforms)
         {
-            eventSystem.playerRoot = playerRoot;
-            GameObject defaultButton = FindDefaultButton(playerRoot);
-            eventSystem.firstSelectedGameObject = defaultButton;
-            eventSystem.SetSelectedGameObject(defaultButton);
+            if (rectTransform.gameObject.CompareTag("Player" + playerNumber + "Choice"))
+            {
+                playerRoot = rectTransform.gameObject;
+                break;
+            }
+        }
+        eventSystem.playerRoot = playerRoot;
+        GameObject defaultButton = FindDefaultButton(playerRoot);
+        eventSystem.firstSelectedGameObject = defaultButton;
+        eventSystem.SetSelectedGameObject(defaultButton);
+    }
+
+    private void SetJoinAreaActive(bool active, int playerNumber)
+    {
+        if (playerNumber > 0 && playerNumber < playerJoinAreas.Length)
+        {
+            // Set the join messages to inactive
+            Transform[] children = playerJoinAreas[playerNumber].GetComponentsInChildren<Transform>(true);
+            foreach (Transform child in children)
+            {
+                if (child.CompareTag("JoinMessage"))
+                {
+                    child.gameObject.SetActive(false);
+                }
+            }
+        }
+    }
+
+    private void SetJoinAreasActive(bool active, int start = 0)
+    {
+        // Find the player join areas
+        for (int i = start; i < playerJoinAreas.Length; i++)
+        {
+            SetJoinAreaActive(active, i);
         }
     }
 
@@ -180,32 +195,14 @@ public class MenuController : MonoBehaviour
         NumberOfPlayers = numberOfPlayers;
     }
 
-    /// <summary>
-    /// Filter the player options to reflect the number of players playing the game
-    /// </summary>
-    public void FilterPlayerOptions()
+    public void EnableJoining()
     {
-        for (int i = 4; i > NumberOfPlayers; i--)
-        {
-            GameObject[] playerRoots = GameObject.FindGameObjectsWithTag("Player" + i + "Choice");
-            foreach (GameObject playerRoot in playerRoots)
-            {
-                playerRoot.SetActive(false);
-            }
-        }
+        PlayerInputManager.instance.EnableJoining();
     }
 
-    public void ToggleColor(GameObject btnObj)
+    public void DisableJoining()
     {
-        Button btn = btnObj.GetComponent<Button>();
-        if (btn.image.color == btn.colors.normalColor)
-        {
-            btn.image.color = btn.colors.highlightedColor;
-        }
-        else
-        {
-            btn.image.color = btn.colors.normalColor;
-        }
+        PlayerInputManager.instance.DisableJoining();
     }
 
     public void PlayerJoined(int index)
@@ -224,16 +221,32 @@ public class MenuController : MonoBehaviour
             }
             ReadyPlayers.Add(false);
         }
+        if (NumberOfPlayers == 1)
+        {
+            DisableJoining();
+        }
     }
 
     public void PlayerReady(int playerNumber)
     {
         Debug.Log("Player " + playerNumber + " ready");
-        if (playerNumber > 0 && playerNumber < ReadyPlayers.Count)
+        if (playerNumber >= 0 && playerNumber < ReadyPlayers.Count)
         {
             ReadyPlayers[playerNumber] = true;
+            RectTransform[] rectTransforms = playerJoinAreas[playerNumber].GetComponentsInChildren<RectTransform>(true);
+            for(int i = 0; i < rectTransforms.Length; i++)
+            {
+                if (rectTransforms[i].CompareTag("PlayerReady"))
+                {
+                    rectTransforms[i].gameObject.SetActive(true);
+                }
+                else if (rectTransforms[i].CompareTag("PlayerNotReady"))
+                {
+                    rectTransforms[i].gameObject.SetActive(false);
+                }
+            }
         }
-        bool allPlayersReady = true;
+        bool allPlayersReady = NumberOfPlayers > 1;
         foreach(bool readyPlayer in ReadyPlayers)
         {
             if (!readyPlayer)
@@ -245,16 +258,28 @@ public class MenuController : MonoBehaviour
         if (allPlayersReady)
         {
             PushMenu(MenuAfterLobby);
-
+            PreviewPlayers(MenuAfterLobby);
         }
     }
 
     public void PlayerUnready(int playerNumber)
     {
         Debug.Log("Player " + playerNumber + 1 + " unready");
-        if (playerNumber > 0 && playerNumber < ReadyPlayers.Count)
+        if (playerNumber >= 0 && playerNumber < ReadyPlayers.Count)
         {
             ReadyPlayers[playerNumber] = false;
+            RectTransform[] rectTransforms = playerJoinAreas[playerNumber].GetComponentsInChildren<RectTransform>(true);
+            for (int i = 0; i < rectTransforms.Length; i++)
+            {
+                if (rectTransforms[i].CompareTag("PlayerReady"))
+                {
+                    rectTransforms[i].gameObject.SetActive(true);
+                }
+                else if (rectTransforms[i].CompareTag("PlayerNotReady"))
+                {
+                    rectTransforms[i].gameObject.SetActive(false);
+                }
+            }
         }
         bool allPlayersNotReady = true;
         foreach (bool readyPlayer in ReadyPlayers)
@@ -267,7 +292,6 @@ public class MenuController : MonoBehaviour
         }
         if (allPlayersNotReady)
         {
-            PopMenu();
             for (int i = NumberOfPlayers - 1; i >= 1; i--)
             {
                 PlayerManager.RemovePlayer(i);
@@ -279,11 +303,13 @@ public class MenuController : MonoBehaviour
             {
                 if (uiControls[i - 1].gameObject.name == "Player " + (i + 1) + " UI Control")
                 {
-                    Debug.Log(uiControls[i - 1].gameObject.name);
-                    Debug.Log("Player " + (i + 1) + " UI Control");
-                    Destroy(uiControls[i].gameObject);
+                    Destroy(uiControls[i - 1].gameObject);
                 }
             }
+            DisableJoining();
+            // Hide all but player 1s
+            SetJoinAreasActive(false, 1);
+            PopMenu();
         }
     }
 
