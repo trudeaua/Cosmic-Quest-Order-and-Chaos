@@ -157,27 +157,27 @@ public class PlayerManager : MonoBehaviour
     /// <summary>
     /// Instantiate one of the players
     /// </summary>
-    /// <param name="whichPlayer">The number of the player to instantiate (1-4)</param>
+    /// <param name="whichPlayer">The number of the player to instantiate (0-3)</param>
     /// <returns></returns>
     public static GameObject InstantiatePlayer(int whichPlayer)
     {
-        if (_Players[whichPlayer - 1] != null)
+        if (_Players[whichPlayer] != null)
         {
             // PlayerInput is disabled then reenabled here because when a new instance of PlayerInput is added to the scene,
             // the PlayerInputManager treats it as a new player being connected to the scene. So disabling the PlayerInput 
             // in the prefab and then instantiating does not cause it to be treated as a new player
-            _Players[whichPlayer - 1].playerObject.GetComponent<PlayerInput>().enabled = false;
-            _Players[whichPlayer - 1].playerObject.GetComponent<PlayerMotorController>().doRegister = false;
-            GameObject playerInstance = Instantiate(_Players[whichPlayer - 1].playerObject);
-            _Players[whichPlayer - 1].playerObject.GetComponent<PlayerInput>().enabled = true;
-            _Players[whichPlayer - 1].playerObject.GetComponent<PlayerMotorController>().doRegister = true;
+            _Players[whichPlayer].playerObject.GetComponent<PlayerInput>().enabled = false;
+            _Players[whichPlayer].playerObject.GetComponent<PlayerMotorController>().doRegister = false;
+            GameObject playerInstance = Instantiate(_Players[whichPlayer].playerObject);
+            _Players[whichPlayer].playerObject.GetComponent<PlayerInput>().enabled = true;
+            _Players[whichPlayer].playerObject.GetComponent<PlayerMotorController>().doRegister = true;
 
             // Assign the player their respective outline texture
-            playerInstance.GetComponent<EntityStatsController>().characterColour = _Players[whichPlayer - 1].characterColour;
+            playerInstance.GetComponent<EntityStatsController>().characterColour = _Players[whichPlayer].characterColour;
             Material playerMaterial = new Material(Shader.Find("Custom/Outline"));
             playerMaterial.SetFloat("_Outline", 0.0005f);
-            playerMaterial.SetColor("_OutlineColor", colours.GetColour(_Players[whichPlayer - 1].characterColour));
-            playerMaterial.SetTexture("_MainTex", LookupTexture(_Players[whichPlayer - 1].characterChoice));
+            playerMaterial.SetColor("_OutlineColor", colours.GetColour(_Players[whichPlayer].characterColour));
+            playerMaterial.SetTexture("_MainTex", LookupTexture(_Players[whichPlayer].characterChoice));
             playerInstance.GetComponentInChildren<Renderer>().sharedMaterial = playerMaterial;
 
             return playerInstance;
@@ -325,5 +325,16 @@ public class PlayerManager : MonoBehaviour
     private void OnPlayerLeft(PlayerInput playerInput)
     {
         Debug.Log("Player " + playerInput.user.id + " Left");
+    }
+
+    public static void RemovePlayer(int playerNumber)
+    {
+        if (playerNumber > 0 && playerNumber < _Players.Length)
+        {
+            if (_Players[playerNumber] != null)
+            {
+                _Players[playerNumber] = null;
+            }
+        }
     }
 }

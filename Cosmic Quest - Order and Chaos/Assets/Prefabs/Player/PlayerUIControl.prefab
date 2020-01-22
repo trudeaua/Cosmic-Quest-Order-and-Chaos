@@ -53,7 +53,8 @@ MonoBehaviour:
     type: 3}
   m_SubmitAction: {fileID: -2128394431320103335, guid: c06fc4b6157b8a44db74538c44351f65,
     type: 3}
-  m_CancelAction: {fileID: 0}
+  m_CancelAction: {fileID: 3007115225654026260, guid: c06fc4b6157b8a44db74538c44351f65,
+    type: 3}
   m_LeftClickAction: {fileID: 0}
   m_MiddleClickAction: {fileID: 0}
   m_RightClickAction: {fileID: 0}
@@ -175,7 +176,47 @@ MonoBehaviour:
   m_DeviceRegainedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a2411fe7-c6e6-4bd0-b021-87e5e42de7aa
+    m_ActionName: Player/Move[/DualShock4GamepadHID/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 298efebf-dd14-4d04-9a10-a0e016650a8f
+    m_ActionName: Player/Look[/DualShock4GamepadHID/rightStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4376de81-1207-42e1-8154-ed6200a68419
+    m_ActionName: Player/PrimaryAttack[/DualShock4GamepadHID/rightShoulder,/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7fcc6c30-bd3c-41a9-92de-0f7a4fa0d592
+    m_ActionName: Player/SecondaryAttack[/DualShock4GamepadHID/rightTrigger,/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e02c0312-8f9d-4012-bd07-e9f92deaf64f
+    m_ActionName: Player/Interact[/DualShock4GamepadHID/buttonWest,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c9be423e-0edd-45eb-857e-3609d971d47d
+    m_ActionName: Player/UltimateAbility[/DualShock4GamepadHID/buttonNorth,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 508578e2-9cba-4cdf-b24e-db3ce8d9fd1b
+    m_ActionName: Player/MenuNavigate[/DualShock4GamepadHID/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5cd9ed2d-e439-4f05-9d52-23e721d44744
+    m_ActionName: Player/MenuOptionSelect[/DualShock4GamepadHID/buttonSouth,/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4e3606ae-2f1c-4534-918f-a5c206278f54
+    m_ActionName: Player/MenuGoBack[/DualShock4GamepadHID/buttonEast,/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5f600206-dad3-4d5b-bcbe-d7f3453bd3bf
+    m_ActionName: Player/MenuOpen[/Keyboard/escape,/DualShock4GamepadHID/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player

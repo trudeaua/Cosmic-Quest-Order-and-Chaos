@@ -12,6 +12,7 @@ public class MenuController : MonoBehaviour
 {
     // Maintains the currently active menu in the menu canvas
     [SerializeField] private GameObject ActiveMenu;
+    [SerializeField] private GameObject MenuAfterLobby;
     private static GameObject activeMenu;
 
     // Maintains the number of players selected on the multiplayer menu
@@ -22,10 +23,11 @@ public class MenuController : MonoBehaviour
 
     // Maintains the menus that the player has navigated through
     protected Stack<GameObject> menuStack = new Stack<GameObject>();
-    
-    protected GameObject[] playerJoinAreas = { null, null, null, null };
 
-    protected void Awake()
+    [SerializeField] protected GameObject[] playerJoinAreas;
+    private static List<bool> ReadyPlayers;
+
+    protected virtual void Awake()
     {
         activeMenu = ActiveMenu;
 
@@ -33,28 +35,17 @@ public class MenuController : MonoBehaviour
         activeMenu.SetActive(true);
         menuStack.Push(activeMenu);
 
-        // Find the player join areas
-        RectTransform[] UIs = GetComponentsInChildren<RectTransform>(true);
-        for (int i = 0; i < UIs.Length; i++)
+        ReadyPlayers = new List<bool>();
+        for (int i = 0; i < ReadyPlayers.Count; i++)
         {
-            if (UIs[i].tag == "Player1JoinArea")
-            {
-                playerJoinAreas[0] = UIs[i].gameObject;
-            }
-            if (UIs[i].tag == "Player2JoinArea")
-            {
-                playerJoinAreas[1] = UIs[i].gameObject;
-            }
-            if (UIs[i].tag == "Player3JoinArea")
-            {
-                playerJoinAreas[2] = UIs[i].gameObject;
-            }
-            if (UIs[i].tag == "Player4JoinArea")
-            {
-                playerJoinAreas[3] = UIs[i].gameObject;
-            }
+            ReadyPlayers[i] = false;
+        }
+        // Find the player join areas
+        for (int i = 0; i < playerJoinAreas.Length; i++)
+        {
+            Debug.Log(playerJoinAreas.Where(p => p != null).Count());
             // Set the join messages to inactive
-            Transform[] children = UIs[i].GetComponentsInChildren<Transform>(true);
+            Transform[] children = playerJoinAreas[i].GetComponentsInChildren<Transform>(true);
             foreach (Transform child in children)
             {
                 if (child.CompareTag("JoinMessage"))
@@ -231,102 +222,67 @@ public class MenuController : MonoBehaviour
                     SetNumberOfPlayers(NumberOfPlayers + 1);
                 }
             }
+            ReadyPlayers.Add(false);
         }
     }
 
-
-    public void SetP1Character(GameObject toggleGroup)
+    public void PlayerReady(int playerNumber)
     {
-        Toggle[] toggles = toggleGroup.GetComponentsInChildren<Toggle>();
-        for (int i = 0; i < toggles.Length; i++)
+        Debug.Log("Player " + playerNumber + " ready");
+        if (playerNumber > 0 && playerNumber < ReadyPlayers.Count)
         {
-            if (toggles[i].isOn)
+            ReadyPlayers[playerNumber] = true;
+        }
+        bool allPlayersReady = true;
+        foreach(bool readyPlayer in ReadyPlayers)
+        {
+            if (!readyPlayer)
             {
-                PlayerManager.AssignCharacterChoice(0, (CharacterChoice)i);
+                allPlayersReady = false;
+                break;
             }
         }
-    }
-
-    public void SetP2Character(GameObject toggleGroup)
-    {
-        Toggle[] toggles = toggleGroup.GetComponentsInChildren<Toggle>();
-        for (int i = 0; i < toggles.Length; i++)
+        if (allPlayersReady)
         {
-            if (toggles[i].isOn)
-            {
-                PlayerManager.AssignCharacterChoice(1, (CharacterChoice)i);
-            }
+            PushMenu(MenuAfterLobby);
+
         }
     }
 
-    public void SetP3Character(GameObject toggleGroup)
+    public void PlayerUnready(int playerNumber)
     {
-        Toggle[] toggles = toggleGroup.GetComponentsInChildren<Toggle>();
-        for (int i = 0; i < toggles.Length; i++)
+        Debug.Log("Player " + playerNumber + 1 + " unready");
+        if (playerNumber > 0 && playerNumber < ReadyPlayers.Count)
         {
-            if (toggles[i].isOn)
+            ReadyPlayers[playerNumber] = false;
+        }
+        bool allPlayersNotReady = true;
+        foreach (bool readyPlayer in ReadyPlayers)
+        {
+            if (readyPlayer)
             {
-                PlayerManager.AssignCharacterChoice(2, (CharacterChoice)i);
+                allPlayersNotReady = false;
+                break;
             }
         }
-    }
-
-    public void SetP4Character(GameObject toggleGroup)
-    {
-        Toggle[] toggles = toggleGroup.GetComponentsInChildren<Toggle>();
-        for (int i = 0; i < toggles.Length; i++)
+        if (allPlayersNotReady)
         {
-            if (toggles[i].isOn)
+            PopMenu();
+            for (int i = NumberOfPlayers - 1; i >= 1; i--)
             {
-                PlayerManager.AssignCharacterChoice(3, (CharacterChoice)i);
+                PlayerManager.RemovePlayer(i);
+                multiplayerEventSystems.RemoveAt(i);
+                SetNumberOfPlayers(NumberOfPlayers - 1);
             }
-        }
-    }
-
-    public void SetP1Class(GameObject toggleGroup)
-    {
-        Toggle[] toggles = toggleGroup.GetComponentsInChildren<Toggle>();
-        for (int i = 0; i < toggles.Length; i++)
-        {
-            if (toggles[i].isOn)
+            PlayerUIControl[] uiControls = FindObjectsOfType<PlayerUIControl>();
+            for (int i = 1; i < uiControls.Length + 1; i++)
             {
-                PlayerManager.AssignPrefab(0, (ClassChoice)i);
-            }
-        }
-    }
-
-    public void SetP2Class(GameObject toggleGroup)
-    {
-        Toggle[] toggles = toggleGroup.GetComponentsInChildren<Toggle>();
-        for (int i = 0; i < toggles.Length; i++)
-        {
-            if (toggles[i].isOn)
-            {
-                PlayerManager.AssignPrefab(1, (ClassChoice)i);
-            }
-        }
-    }
-
-    public void SetP3Class(GameObject toggleGroup)
-    {
-        Toggle[] toggles = toggleGroup.GetComponentsInChildren<Toggle>();
-        for (int i = 0; i < toggles.Length; i++)
-        {
-            if (toggles[i].isOn)
-            {
-                PlayerManager.AssignPrefab(2, (ClassChoice)i);
-            }
-        }
-    }
-
-    public void SetP4Class(GameObject toggleGroup)
-    {
-        Toggle[] toggles = toggleGroup.GetComponentsInChildren<Toggle>();
-        for (int i = 0; i < toggles.Length; i++)
-        {
-            if (toggles[i].isOn)
-            {
-                PlayerManager.AssignPrefab(3, (ClassChoice)i);
+                if (uiControls[i - 1].gameObject.name == "Player " + (i + 1) + " UI Control")
+                {
+                    Debug.Log(uiControls[i - 1].gameObject.name);
+                    Debug.Log("Player " + (i + 1) + " UI Control");
+                    Destroy(uiControls[i].gameObject);
+                }
             }
         }
     }
@@ -339,7 +295,7 @@ public class MenuController : MonoBehaviour
     {
         for (int i = 0; i < NumberOfPlayers; i++)
         {
-            GameObject playerInstance = PlayerManager.InstantiatePlayer(i + 1);
+            GameObject playerInstance = PlayerManager.InstantiatePlayer(i);
             playerInstance.transform.parent = positionObj.transform;
 
             // Transform the player instance so it looks nice on screen

@@ -378,7 +378,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4b06264e-fe26-4476-90b8-3b85170f0023"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
