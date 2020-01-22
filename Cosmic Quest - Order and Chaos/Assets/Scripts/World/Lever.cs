@@ -6,7 +6,9 @@ using System.Text;
 // Class for player-lever interaction
 public class Lever : Interactable
 {
-    public LeverPuzzle puzzle;
+    // Delegate for when lever is activated
+    public delegate void OnActivation(CharacterColour colour);
+    public OnActivation onActivation;
     
     private Animator _anim;
     private AudioSource _audio;
@@ -41,7 +43,8 @@ public class Lever : Interactable
             _audio.PlayDelayed(0);
 
             // Add lever colour to the code input
-            puzzle.AddColour(colour);
+            //puzzle.AddColour(colour);
+            onActivation?.Invoke(colour);
         }
     }
 

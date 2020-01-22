@@ -79,11 +79,11 @@ public class Room : MonoBehaviour
         // Check if every platform in the room has a rock placed on it
         foreach (Platform plat in _platforms)
         {
-            if (!plat.IsActivated)
-            {
+            //if (!plat.isActivated)
+            //{
                 // If a platform hasn't been activated yet, return false
                 return false;
-            }
+            //}
         }
 
         return true;
