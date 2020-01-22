@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ChaosVoid : ISerializable
+public class ChaosVoid : ScriptableObject, ISerializable
 {
     // Reference to the scene for this chaos void
-    public Scene ChaosVoidScene;
+    public Scene chaosVoidScene;
     
     // Whether this chaos void has been cleared
     public bool cleared { get; private set; }
@@ -14,12 +14,21 @@ public class ChaosVoid : ISerializable
     public bool started { get; private set; }
     // The final boss for this chaos void
     public GameObject boss { get; private set; }
+    // The doors in this chaos void
+    public GameObject[] doors { get; private set; }
 
-    public void StartLevel()
+    public void LoadLevel()
     {
         // Load the scene
         // Initialize whatever...
+        // Find all doors in the scene
+        // Find the final boss in the scene
         started = true;
+    }
+
+    public void LoadLevel(string saved)
+    {
+        
     }
 
     public string Serialize()

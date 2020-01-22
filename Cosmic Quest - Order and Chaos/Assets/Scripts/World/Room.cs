@@ -100,11 +100,11 @@ public class Room : MonoBehaviour
         // Check if every lever has been activated
         foreach (Lever lever in _levers)
         {
-            if (!lever.IsPulled)
-            {
+            //if (!lever.IsPulled)
+            //{
                 // If at least 1 lever isn't activated, return false
                 return false;
-            }
+            //}
         }
 
         return true;
