@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
@@ -36,10 +34,6 @@ public class MenuController : MonoBehaviour
         menuStack.Push(activeMenu);
 
         ReadyPlayers = new List<bool>();
-        for (int i = 0; i < ReadyPlayers.Count; i++)
-        {
-            ReadyPlayers[i] = false;
-        }
         SetJoinAreasActive(false);
     }
 
@@ -54,8 +48,6 @@ public class MenuController : MonoBehaviour
         activeMenu.SetActive(true);
         menuStack.Push(menu);
 
-        GameObject selectedButton = FindDefaultButton(activeMenu);
-        SetSelectedButton(selectedButton);
         SetPlayerRoots();
     }
 
@@ -71,8 +63,6 @@ public class MenuController : MonoBehaviour
             activeMenu = menuStack.Peek();
             activeMenu.SetActive(true);
 
-            GameObject selectedButton = FindDefaultButton(activeMenu);
-            SetSelectedButton(selectedButton);
             SetPlayerRoots();
         }
     }
@@ -89,10 +79,10 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Find a default button to select
+    /// Gets the first selectable `GameObject` found in the specified menu
     /// </summary>
     /// <param name="menu">Game object to search for buttons in</param>
-    public static GameObject FindDefaultButton(GameObject menu)
+    public static GameObject GetDefaultButton(GameObject menu)
     {
         if (menu == null)
         {
@@ -117,20 +107,16 @@ public class MenuController : MonoBehaviour
     public static void AssignMultiplayerUIControl(GameObject uiControl, int playerNumber)
     {
         MultiplayerEventSystem eventSystem = uiControl.GetComponentInChildren<MultiplayerEventSystem>();
-        GameObject defaultButton = FindDefaultButton(activeMenu);
-        eventSystem.firstSelectedGameObject = defaultButton;
-        eventSystem.SetSelectedGameObject(defaultButton);
         SetPlayerRoot(eventSystem, playerNumber);
         multiplayerEventSystems.Add(eventSystem);
     }
 
     /// <summary>
-    /// If there are sub menu's that can only be controlled by a certain player, this method will set the root of that player's ui control to those menus
-    /// Sets roots of all player event systems
+    /// Sets roots of all multiplayer event systems in the scene
     /// </summary>
     private static void SetPlayerRoots()
     {
-        int playerNumber = 1;
+        int playerNumber = 0;
         foreach (MultiplayerEventSystem eventSystem in multiplayerEventSystems)
         {
             SetPlayerRoot(eventSystem, playerNumber);
@@ -139,115 +125,172 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// If there is a sub menu that can only be controlled by a certain player, this method will set the root of that player's ui control to that menu
-    /// Sets root of one player event system
+    /// Sets the root of a multiplayer event system to a submenu that can only be controlled by that player
     /// </summary>
+    /// <param name="eventSystem">A multiplayer event system that corresponds to `playerNumber`</param>
+    /// <param name="playerNumber">Number of the player (0-3)</param>
     private static void SetPlayerRoot(MultiplayerEventSystem eventSystem, int playerNumber)
     {
-        //GameObject playerRoot = GameObject.FindGameObjectWithTag("Player" + playerNumber + "Choice");
-        // Tags are used to distinguish which submenus can be controlled by which player
         GameObject playerRoot = null;
-        RectTransform[] rectTransforms = activeMenu.GetComponentsInChildren<RectTransform>();
-        foreach(RectTransform rectTransform in rectTransforms)
+        RectTransform[] rectTransforms = activeMenu.GetComponentsInChildren<RectTransform>(true);
+        Debug.Log(playerNumber);
+        foreach (RectTransform rectTransform in rectTransforms)
         {
-            if (rectTransform.gameObject.CompareTag("Player" + playerNumber + "Choice"))
+            // Tags are used to distinguish which submenus can be controlled by which player
+            if (rectTransform.gameObject.CompareTag("Player" + (playerNumber + 1) + "Choice"))
             {
                 playerRoot = rectTransform.gameObject;
                 break;
             }
         }
+        if (playerRoot == null)
+        {
+            //playerRoot = activeMenu;
+            return;
+        }
         eventSystem.playerRoot = playerRoot;
-        GameObject defaultButton = FindDefaultButton(playerRoot);
+        GameObject defaultButton = GetDefaultButton(playerRoot);
         eventSystem.firstSelectedGameObject = defaultButton;
         eventSystem.SetSelectedGameObject(defaultButton);
     }
 
-    private void SetJoinAreaActive(bool active, int playerNumber)
+    /// <summary>
+    /// Sets the active property of a certain player's "Join Area"
+    /// </summary>
+    /// <param name="setActive">Indicates whether the Join Area should be set to active or not</param>
+    /// <param name="playerNumber">Number of the player (0-3)</param>
+    private void SetJoinAreaActive(bool setActive, int playerNumber)
     {
-        if (playerNumber > 0 && playerNumber < playerJoinAreas.Length)
+        if (playerNumber >= 0 && playerNumber < playerJoinAreas.Length)
         {
-            // Set the join messages to inactive
             Transform[] children = playerJoinAreas[playerNumber].GetComponentsInChildren<Transform>(true);
             foreach (Transform child in children)
             {
                 if (child.CompareTag("JoinMessage"))
                 {
-                    child.gameObject.SetActive(false);
+                    child.gameObject.SetActive(setActive);
                 }
             }
         }
     }
 
-    private void SetJoinAreasActive(bool active, int start = 0)
+    /// <summary>
+    /// Sets the active property of all players' "Join Area"
+    /// </summary>
+    /// <param name="setActive">Indicates whether the Join Areas should be set to active or not</param>
+    /// <param name="start">Number of the player to start at. Sometimes it is desireable to set all but player 1's Join Area to inactive</param>
+    private void SetJoinAreasActive(bool setActive, int start = 0)
     {
         // Find the player join areas
         for (int i = start; i < playerJoinAreas.Length; i++)
         {
-            SetJoinAreaActive(active, i);
+            SetJoinAreaActive(setActive, i);
         }
     }
 
     /// <summary>
     /// Set the number of players in the game
     /// </summary>
+    /// <param name="numberOfPlayers">Number of players in the game</param>
     public void SetNumberOfPlayers(int numberOfPlayers)
     {
         NumberOfPlayers = numberOfPlayers;
     }
 
+    /// <summary>
+    /// Allow new players to join the game
+    /// </summary>
     public void EnableJoining()
     {
         PlayerInputManager.instance.EnableJoining();
     }
 
+    /// <summary>
+    /// Don't allow new players to join the game
+    /// </summary>
     public void DisableJoining()
     {
         PlayerInputManager.instance.DisableJoining();
     }
 
-    public void PlayerJoined(int index)
+    /// <summary>
+    /// When a player joins the game in the multiplayer lobby, set their join area to active
+    /// </summary>
+    /// <param name="playerNumber">Number of the player</param>
+    public void PlayerJoined(int playerNumber)
     {
-        if (index < playerJoinAreas.Length)
+        if (playerNumber < playerJoinAreas.Length)
         {
-            // Find the inactive join message and set it to active
-            Transform[] children = playerJoinAreas[index].GetComponentsInChildren<Transform>(true);
-            foreach (Transform child in children)
-            {
-                if (child.CompareTag("JoinMessage"))
-                {
-                    child.gameObject.SetActive(true);
-                    SetNumberOfPlayers(NumberOfPlayers + 1);
-                }
-            }
+            SetJoinAreaActive(true, playerNumber);
+            SetNumberOfPlayers(NumberOfPlayers + 1);
             ReadyPlayers.Add(false);
         }
+        // Disable joining so that only player 1 can control the menu.
+        // Joining is enabled again in the multiplayer lobby and then disabled when players leave it. See unity inspector.
         if (NumberOfPlayers == 1)
         {
             DisableJoining();
         }
     }
 
+    /// <summary>
+    /// Toggle a player's "ready" and "character selection" states
+    /// </summary>
+    /// <param name="playerNumber">Number of the player (0-3)</param>
+    /// <param name="isPlayerReady">Indicates whether the player has finished selecting their character</param>
+    private void ToggleReady(int playerNumber, bool isPlayerReady)
+    {
+        RectTransform[] rectTransforms = playerJoinAreas[playerNumber].GetComponentsInChildren<RectTransform>(true);
+        for (int i = 0; i < rectTransforms.Length; i++)
+        {
+            if (rectTransforms[i].gameObject.CompareTag("PlayerReady"))
+            {
+                rectTransforms[i].gameObject.SetActive(isPlayerReady);
+            }
+            else if (rectTransforms[i].gameObject.CompareTag("PlayerNotReady"))
+            {
+                rectTransforms[i].gameObject.SetActive(!isPlayerReady);
+            }
+        }
+        SetPlayerRoot(multiplayerEventSystems[playerNumber], playerNumber);
+    }
+
+    /// <summary>
+    /// Set a player's "character selection" state to inactive and "ready" state to active
+    /// </summary>
+    /// <param name="playerNumber">Number of the player (0-3)</param>
     public void PlayerReady(int playerNumber)
     {
-        Debug.Log("Player " + playerNumber + " ready");
         if (playerNumber >= 0 && playerNumber < ReadyPlayers.Count)
         {
             ReadyPlayers[playerNumber] = true;
-            RectTransform[] rectTransforms = playerJoinAreas[playerNumber].GetComponentsInChildren<RectTransform>(true);
-            for(int i = 0; i < rectTransforms.Length; i++)
-            {
-                if (rectTransforms[i].CompareTag("PlayerReady"))
-                {
-                    rectTransforms[i].gameObject.SetActive(true);
-                }
-                else if (rectTransforms[i].CompareTag("PlayerNotReady"))
-                {
-                    rectTransforms[i].gameObject.SetActive(false);
-                }
-            }
+            ToggleReady(playerNumber, ReadyPlayers[playerNumber]);
         }
+        CheckAllPlayersReady(1);
+    }
+
+    /// <summary>
+    /// Set a player's "character selection" state to active and "ready" state to inactive
+    /// </summary>
+    /// <param name="playerNumber">Number of the player (0-3)</param>
+    public void PlayerUnready(int playerNumber)
+    {
+        if (playerNumber >= 0 && playerNumber < ReadyPlayers.Count)
+        {
+            ReadyPlayers[playerNumber] = false;
+            ToggleReady(playerNumber, ReadyPlayers[playerNumber]);
+        }
+        CheckAllPlayersUnready(1);
+    }
+
+    /// <summary>
+    /// Navigate to the next menu after the multiplayer lobby if all players are ready
+    /// </summary>
+    /// <param name="transitionTime">Number of seconds to wait before transitioning to the next menu</param>
+    private void CheckAllPlayersReady(float transitionTime)
+    {
         bool allPlayersReady = NumberOfPlayers > 1;
-        foreach(bool readyPlayer in ReadyPlayers)
+        foreach (bool readyPlayer in ReadyPlayers)
         {
             if (!readyPlayer)
             {
@@ -262,25 +305,12 @@ public class MenuController : MonoBehaviour
         }
     }
 
-    public void PlayerUnready(int playerNumber)
+    /// <summary>
+    /// Navigate to the previous menu if all players are not ready
+    /// </summary>
+    /// <param name="transitionTime">Number of seconds to wait before transitioning to the next menu</param>
+    private void CheckAllPlayersUnready(float transitionTime = 0)
     {
-        Debug.Log("Player " + playerNumber + 1 + " unready");
-        if (playerNumber >= 0 && playerNumber < ReadyPlayers.Count)
-        {
-            ReadyPlayers[playerNumber] = false;
-            RectTransform[] rectTransforms = playerJoinAreas[playerNumber].GetComponentsInChildren<RectTransform>(true);
-            for (int i = 0; i < rectTransforms.Length; i++)
-            {
-                if (rectTransforms[i].CompareTag("PlayerReady"))
-                {
-                    rectTransforms[i].gameObject.SetActive(true);
-                }
-                else if (rectTransforms[i].CompareTag("PlayerNotReady"))
-                {
-                    rectTransforms[i].gameObject.SetActive(false);
-                }
-            }
-        }
         bool allPlayersNotReady = true;
         foreach (bool readyPlayer in ReadyPlayers)
         {
@@ -292,12 +322,14 @@ public class MenuController : MonoBehaviour
         }
         if (allPlayersNotReady)
         {
+            // Remove all but player 1 from the multiplayer lobby
             for (int i = NumberOfPlayers - 1; i >= 1; i--)
             {
                 PlayerManager.RemovePlayer(i);
                 multiplayerEventSystems.RemoveAt(i);
                 SetNumberOfPlayers(NumberOfPlayers - 1);
             }
+            // Remove all but player 1's UI control to deregister the player input with the PlayerInputManager
             PlayerUIControl[] uiControls = FindObjectsOfType<PlayerUIControl>();
             for (int i = 1; i < uiControls.Length + 1; i++)
             {
@@ -307,7 +339,7 @@ public class MenuController : MonoBehaviour
                 }
             }
             DisableJoining();
-            // Hide all but player 1s
+            // Hide all but player 1
             SetJoinAreasActive(false, 1);
             PopMenu();
         }
@@ -354,7 +386,7 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Log each player's character and class selections
+    /// Log each player's colour, character selection, and class selection
     /// </summary>
     public void LogPlayerInfo()
     {

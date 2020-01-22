@@ -200,7 +200,7 @@ public class PlayerManager : MonoBehaviour
             if (!_Players[i].playerUIControl)
             {
                 _Players[i].playerUIControl = playerUIControl;
-                return i + 1;
+                return i;
             }
         }
         return -1;
@@ -329,7 +329,7 @@ public class PlayerManager : MonoBehaviour
 
     public static void RemovePlayer(int playerNumber)
     {
-        if (playerNumber > 0 && playerNumber < _Players.Length)
+        if (playerNumber >= 0 && playerNumber < _Players.Length)
         {
             if (_Players[playerNumber] != null)
             {
