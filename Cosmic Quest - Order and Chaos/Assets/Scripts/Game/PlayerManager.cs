@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -334,7 +333,6 @@ public class PlayerManager : MonoBehaviour
     private void OnPlayerLeft(PlayerInput playerInput)
     {
         Debug.Log("Player " + playerInput.user.id + " Left");
-        Debug.Log(InputSystem.disconnectedDevices.Count);
         playerInput.user.UnpairDevicesAndRemoveUser();
     }
 

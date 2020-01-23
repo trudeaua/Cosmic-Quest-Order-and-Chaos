@@ -26,6 +26,7 @@ public class StepperControl : MonoBehaviour
     private void Awake()
     {
         btn = GetComponent<Button>();
+        btn = GetComponent<Button>();
         gui = btn.gameObject.GetComponentInChildren<TextMeshProUGUI>();
 
         switch (property)
@@ -157,15 +158,5 @@ public class StepperControl : MonoBehaviour
                 RefreshPlayer();
             }
         }
-    }
-
-    private void OnSubmit(BaseEventData data)
-    {
-        Debug.Log("Submit");
-    }
-
-    private void OnCancel(BaseEventData data)
-    {
-        Debug.Log("Cancel");
     }
 }

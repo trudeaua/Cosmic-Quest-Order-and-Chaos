@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
@@ -11,6 +12,7 @@ public class MenuController : MonoBehaviour
     // Maintains the currently active menu in the menu canvas
     [SerializeField] private GameObject ActiveMenu;
     [SerializeField] private GameObject MenuAfterLobby;
+    [SerializeField] private GameObject LobbyConfirmButton;
     private static GameObject activeMenu;
 
     // Maintains the number of players selected on the multiplayer menu
@@ -27,6 +29,7 @@ public class MenuController : MonoBehaviour
 
     protected virtual void Awake()
     {
+        LobbyConfirmButton.SetActive(false);
         activeMenu = ActiveMenu;
 
         menuStack = new Stack<GameObject>();
@@ -220,9 +223,14 @@ public class MenuController : MonoBehaviour
     {
         if (playerNumber < playerJoinAreas.Length)
         {
+            if (NumberOfPlayers >= 2)
+            {
+                LobbyConfirmButton.SetActive(false);
+                multiplayerEventSystems[0].SetSelectedGameObject(GetDefaultButton(playerJoinAreas[0]));
+            }
             SetJoinAreaActive(true, playerNumber);
-            SetNumberOfPlayers(NumberOfPlayers + 1);
             ReadyPlayers.Add(false);
+            SetNumberOfPlayers(NumberOfPlayers + 1);
         }
         // Disable joining so that only player 1 can control the menu.
         // Joining is enabled again in the multiplayer lobby and then disabled when players leave it. See unity inspector.
@@ -264,8 +272,12 @@ public class MenuController : MonoBehaviour
         {
             ReadyPlayers[playerNumber] = true;
             ToggleReady(playerNumber, ReadyPlayers[playerNumber]);
+            if (ReadyPlayers.Where(r => r == true).Count() == NumberOfPlayers && NumberOfPlayers >= 2)
+            {
+                LobbyConfirmButton.SetActive(true);
+                multiplayerEventSystems[0].SetSelectedGameObject(LobbyConfirmButton);
+            }
         }
-        CheckAllPlayersReady(1);
     }
 
     /// <summary>
@@ -278,15 +290,15 @@ public class MenuController : MonoBehaviour
         {
             ReadyPlayers[playerNumber] = false;
             ToggleReady(playerNumber, ReadyPlayers[playerNumber]);
+            LobbyConfirmButton.SetActive(false);
         }
-        CheckAllPlayersUnready(1);
     }
 
     /// <summary>
     /// Navigate to the next menu after the multiplayer lobby if all players are ready
     /// </summary>
     /// <param name="transitionTime">Number of seconds to wait before transitioning to the next menu</param>
-    private void CheckAllPlayersReady(float transitionTime)
+    public void CheckAllPlayersReady(float transitionTime)
     {
         bool allPlayersReady = NumberOfPlayers > 1;
         foreach (bool readyPlayer in ReadyPlayers)
@@ -308,7 +320,7 @@ public class MenuController : MonoBehaviour
     /// Navigate to the previous menu if all players are not ready
     /// </summary>
     /// <param name="transitionTime">Number of seconds to wait before transitioning to the next menu</param>
-    private void CheckAllPlayersUnready(float transitionTime = 0)
+    public void CheckAllPlayersUnready(float transitionTime = 0)
     {
         bool allPlayersNotReady = true;
         foreach (bool readyPlayer in ReadyPlayers)
