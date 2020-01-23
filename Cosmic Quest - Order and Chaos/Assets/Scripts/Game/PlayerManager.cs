@@ -64,7 +64,6 @@ public class Player
     {
         playerInput = _playerInput;
         characterColour = _characterColour;
-        //characterChoice = PlayerManager.LookupTexture(_characterChoice);
         characterChoice = _characterChoice;
         deviceId = _deviceId;
     }
@@ -310,17 +309,17 @@ public class PlayerManager : MonoBehaviour
         {
             Player newPlayer = new Player(playerInput, CharacterColour.None, CharacterChoice.NONE, inputDevice.deviceId);
             // Assign the new player a colour
-            int index = 0;
+            int playerNumber = 0;
             for (int i = 0; i < _Players.Length; i++)
             {
                 if (_Players[i] == null)
                 {
-                    index = i;
+                    playerNumber = i;
                     break;
                 }
             }
-            newPlayer.characterColour = _PlayerColours[index];
-            _Players[index] = newPlayer;
+            newPlayer.characterColour = _PlayerColours[playerNumber];
+            _Players[playerNumber] = newPlayer;
             if (inputDevice is Gamepad)
             {
                 Gamepad gamepad = inputDevice as Gamepad;
@@ -331,11 +330,21 @@ public class PlayerManager : MonoBehaviour
                     ds.SetLightBarColor(colours.GetColour(newPlayer.characterColour));
                 }
             }
+            // TODO do the rest of this method better
             if (MenuCanvas == null)
             {
                 MenuCanvas = GameObject.Find("MenuCanvas");
             }
-            MenuCanvas.BroadcastMessage("PlayerJoined", index);
+            // i.e. If we're on the menu
+            if (MenuCanvas != null)
+            {
+                MenuCanvas.BroadcastMessage("PlayerJoined", playerNumber);
+            }
+            // If not in menu we must be in a level (right???)
+            else
+            {
+                SwitchActionMap(playerNumber, "Player");
+            }
         }
     }
 

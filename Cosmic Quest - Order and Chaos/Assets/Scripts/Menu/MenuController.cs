@@ -11,7 +11,7 @@ public class MenuController : MonoBehaviour
 {
     // Maintains the currently active menu in the menu canvas
     [SerializeField] private GameObject ActiveMenu;
-    [SerializeField] private GameObject MenuAfterLobby;
+    //[SerializeField] private GameObject MenuAfterLobby;
     [SerializeField] private GameObject LobbyConfirmButton;
     private static GameObject activeMenu;
 
@@ -168,9 +168,13 @@ public class MenuController : MonoBehaviour
             Transform[] children = playerJoinAreas[playerNumber].GetComponentsInChildren<Transform>(true);
             foreach (Transform child in children)
             {
-                if (child.CompareTag("JoinMessage"))
+                if (child.CompareTag("Joined"))
                 {
                     child.gameObject.SetActive(setActive);
+                }
+                if (child.CompareTag("NotJoined"))
+                {
+                    child.gameObject.SetActive(!setActive);
                 }
             }
         }
@@ -291,28 +295,6 @@ public class MenuController : MonoBehaviour
             ReadyPlayers[playerNumber] = false;
             ToggleReady(playerNumber, ReadyPlayers[playerNumber]);
             LobbyConfirmButton.SetActive(false);
-        }
-    }
-
-    /// <summary>
-    /// Navigate to the next menu after the multiplayer lobby if all players are ready
-    /// </summary>
-    /// <param name="transitionTime">Number of seconds to wait before transitioning to the next menu</param>
-    public void CheckAllPlayersReady(float transitionTime)
-    {
-        bool allPlayersReady = NumberOfPlayers > 1;
-        foreach (bool readyPlayer in ReadyPlayers)
-        {
-            if (!readyPlayer)
-            {
-                allPlayersReady = false;
-                break;
-            }
-        }
-        if (allPlayersReady)
-        {
-            PushMenu(MenuAfterLobby);
-            PreviewPlayers(MenuAfterLobby);
         }
     }
 

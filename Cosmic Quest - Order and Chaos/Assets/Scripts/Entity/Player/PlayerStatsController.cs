@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerStatsController : EntityStatsController
 {
@@ -148,10 +149,10 @@ public class PlayerStatsController : EntityStatsController
     /// <param name="cooldown">How many seconds to wait before enabling the enemy's movement</param>
     protected override IEnumerator Spawn(GameObject obj, float speed = 0.05f, float delay = 0f, float cooldown = 0)
     {
-        // disable movement until spawn sequence is done
-        PlayerMotorController motorController = GetComponent<PlayerMotorController>();
-        motorController.ApplyMovementModifier(0);
+        // disable player input until spawn sequence is done
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+        playerInput.PassivateInput();
         yield return base.Spawn(obj, speed, delay, cooldown);
-        motorController.ResetMovementModifier();
+        playerInput.ActivateInput();
     }
 }

@@ -29,7 +29,6 @@ public class PlayerMotorController : MonoBehaviour
         // TODO Temporary - player should be registered after lobby
         if (doRegister)
         {
-            Debug.Log("Hello");
             PlayerManager.RegisterPlayer(gameObject);
         }
     }
