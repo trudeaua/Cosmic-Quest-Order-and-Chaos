@@ -97,11 +97,11 @@ public class PlayerManager : MonoBehaviour
 
     // Pool of textures
     [SerializeField] private Texture[] texturePool;
-    public static Texture[] TexturePool;
+    private static Texture[] TexturePool;
 
     // Pool of player prefabs
     [SerializeField] private GameObject[] playerPrefabPool;
-    public static GameObject[] PlayerPrefabPool;
+    private static GameObject[] PlayerPrefabPool;
 
     public static List<CharacterColour> availableColours = new List<CharacterColour> { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
     public static List<CharacterColour> playerColours = new List<CharacterColour>();
@@ -109,6 +109,9 @@ public class PlayerManager : MonoBehaviour
     // Maintains the players that have joined the game
     public static readonly Player[] _Players = { null, null ,null, null };
     public static readonly CharacterColour[] _PlayerColours = { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
+
+    // GameObject containing all selectables and submenus for the main menu
+    private GameObject MenuCanvas;
 
     private void Start()
     {
@@ -265,6 +268,12 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Switch a player's current action map.
+    /// Useful for switching between "Player" and "UI" action maps.
+    /// </summary>
+    /// <param name="playerNumber">Number of the player (0-3)</param>
+    /// <param name="actionMap">Name of the action map</param>
     public static void SwitchActionMap(int playerNumber, string actionMap)
     {
         if (playerNumber >= 0 && playerNumber < _Players.Length)
@@ -322,11 +331,11 @@ public class PlayerManager : MonoBehaviour
                     ds.SetLightBarColor(colours.GetColour(newPlayer.characterColour));
                 }
             }
-            GameObject MenuCanvas = GameObject.Find("MenuCanvas");
-            if (MenuCanvas != null)
+            if (MenuCanvas == null)
             {
-                MenuCanvas.BroadcastMessage("PlayerJoined", index);
+                MenuCanvas = GameObject.Find("MenuCanvas");
             }
+            MenuCanvas.BroadcastMessage("PlayerJoined", index);
         }
     }
 
@@ -336,6 +345,10 @@ public class PlayerManager : MonoBehaviour
         playerInput.user.UnpairDevicesAndRemoveUser();
     }
 
+    /// <summary>
+    /// Remove a player
+    /// </summary>
+    /// <param name="playerNumber">Number of the player to remove (0-3)</param>
     public static void RemovePlayer(int playerNumber)
     {
         if (playerNumber >= 0 && playerNumber < _Players.Length)
