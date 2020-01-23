@@ -266,6 +266,15 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public static void SwitchActionMap(int playerNumber, string actionMap)
+    {
+        if (playerNumber >= 0 && playerNumber < _Players.Length)
+        {
+            PlayerInput playerInput = _Players[playerNumber].playerInput;
+            playerInput.SwitchCurrentActionMap(actionMap);
+        }
+    }
+
     private void OnPlayerJoined(PlayerInput playerInput)
     {
         Debug.Log("Player " + playerInput.user.id + " Joined");
@@ -325,6 +334,8 @@ public class PlayerManager : MonoBehaviour
     private void OnPlayerLeft(PlayerInput playerInput)
     {
         Debug.Log("Player " + playerInput.user.id + " Left");
+        Debug.Log(InputSystem.disconnectedDevices.Count);
+        playerInput.user.UnpairDevicesAndRemoveUser();
     }
 
     public static void RemovePlayer(int playerNumber)

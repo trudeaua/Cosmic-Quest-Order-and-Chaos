@@ -133,7 +133,6 @@ public class MenuController : MonoBehaviour
     {
         GameObject playerRoot = null;
         RectTransform[] rectTransforms = activeMenu.GetComponentsInChildren<RectTransform>(true);
-        Debug.Log(playerNumber);
         foreach (RectTransform rectTransform in rectTransforms)
         {
             // Tags are used to distinguish which submenus can be controlled by which player
@@ -327,6 +326,7 @@ public class MenuController : MonoBehaviour
             {
                 PlayerManager.RemovePlayer(i);
                 multiplayerEventSystems.RemoveAt(i);
+                ReadyPlayers.RemoveAt(i);
                 SetNumberOfPlayers(NumberOfPlayers - 1);
             }
             // Remove all but player 1's UI control to deregister the player input with the PlayerInputManager

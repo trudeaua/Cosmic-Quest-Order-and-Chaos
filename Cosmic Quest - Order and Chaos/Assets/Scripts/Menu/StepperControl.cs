@@ -37,7 +37,6 @@ public class StepperControl : MonoBehaviour
                 currentPropertyNames = classNames;
                 break;
         }
-        Debug.Log("AWAKE");
     }
 
     // Start is called before the first frame update
