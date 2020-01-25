@@ -81,9 +81,6 @@ public class PlayerManager : MonoBehaviour
             _instance = this;
         else
             Debug.LogWarning("Only one player manager should be in the scene!");
-
-        TexturePool = texturePool;
-        PlayerPrefabPool = playerPrefabPool;
     }
     #endregion
 
@@ -96,11 +93,9 @@ public class PlayerManager : MonoBehaviour
 
     // Pool of textures
     [SerializeField] private Texture[] texturePool;
-    private static Texture[] TexturePool;
 
     // Pool of player prefabs
     [SerializeField] private GameObject[] playerPrefabPool;
-    private static GameObject[] PlayerPrefabPool;
 
     public static List<CharacterColour> availableColours = new List<CharacterColour> { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
     public static List<CharacterColour> playerColours = new List<CharacterColour>();
@@ -214,13 +209,13 @@ public class PlayerManager : MonoBehaviour
     /// <returns>A texture from the texture pool</returns>
     public static Texture LookupTexture(CharacterChoice characterChoice)
     {
-        if (TexturePool.Length >= (int)characterChoice)
+        if (_instance.texturePool.Length >= (int)characterChoice)
         {
-            return TexturePool[(int)characterChoice];
+            return _instance.texturePool[(int)characterChoice];
         }
         else
         {
-            return TexturePool[TexturePool.Length - 1];
+            return _instance.texturePool[_instance.texturePool.Length - 1];
         }
     }
 
@@ -244,13 +239,13 @@ public class PlayerManager : MonoBehaviour
     /// <returns>A player prefab from the player prefab pool</returns>
     public static GameObject LookupPrefab(ClassChoice classChoice)
     {
-        if (PlayerPrefabPool.Length >= (int)classChoice)
+        if (_instance.playerPrefabPool.Length >= (int)classChoice)
         {
-            return PlayerPrefabPool[(int)classChoice];
+            return _instance.playerPrefabPool[(int)classChoice];
         }
         else
         {
-            return PlayerPrefabPool[PlayerPrefabPool.Length - 1];
+            return _instance.playerPrefabPool[_instance.playerPrefabPool.Length - 1];
         }
     }
 
