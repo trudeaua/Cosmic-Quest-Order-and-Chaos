@@ -155,4 +155,17 @@ public class PlayerStatsController : EntityStatsController
         yield return base.Spawn(obj, speed, delay, cooldown);
         playerInput.ActivateInput();
     }
+
+    protected virtual void OnPauseGame(InputValue value)
+    {
+        Debug.Log(PauseMenuController._instance.isGamePaused());
+        if (PauseMenuController._instance.isGamePaused())
+        {
+            PauseMenuController._instance.ResumeGame();
+        }
+        else
+        {
+            PauseMenuController._instance.PauseGame();
+        }
+    }
 }

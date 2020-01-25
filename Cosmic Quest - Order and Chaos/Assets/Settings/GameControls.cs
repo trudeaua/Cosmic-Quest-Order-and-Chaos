@@ -65,6 +65,14 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""PauseGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""f6bdf6d2-d3eb-4038-9778-443f8827d98a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -296,6 +304,39 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Joystick"",
                     ""action"": ""UltimateAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10f16e88-4e83-4f13-bccf-f43d074f92b0"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5bce08c7-30d3-44cf-bf3d-ee2852db9afc"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""65cf0c6e-406a-4655-af9d-f5b309c836e0"",
+                    ""path"": ""<HID::mayflash limited MAYFLASH GameCube Controller Adapter>/button10"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick"",
+                    ""action"": ""PauseGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -633,6 +674,7 @@ public class @GameControls : IInputActionCollection, IDisposable
         m_Player_SecondaryAttack = m_Player.FindAction("SecondaryAttack", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_UltimateAbility = m_Player.FindAction("UltimateAbility", throwIfNotFound: true);
+        m_Player_PauseGame = m_Player.FindAction("PauseGame", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_MenuNavigate = m_UI.FindAction("MenuNavigate", throwIfNotFound: true);
@@ -694,6 +736,7 @@ public class @GameControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_SecondaryAttack;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_UltimateAbility;
+    private readonly InputAction m_Player_PauseGame;
     public struct PlayerActions
     {
         private @GameControls m_Wrapper;
@@ -704,6 +747,7 @@ public class @GameControls : IInputActionCollection, IDisposable
         public InputAction @SecondaryAttack => m_Wrapper.m_Player_SecondaryAttack;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @UltimateAbility => m_Wrapper.m_Player_UltimateAbility;
+        public InputAction @PauseGame => m_Wrapper.m_Player_PauseGame;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -731,6 +775,9 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @UltimateAbility.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
                 @UltimateAbility.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
                 @UltimateAbility.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUltimateAbility;
+                @PauseGame.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
+                @PauseGame.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
+                @PauseGame.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseGame;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -753,6 +800,9 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @UltimateAbility.started += instance.OnUltimateAbility;
                 @UltimateAbility.performed += instance.OnUltimateAbility;
                 @UltimateAbility.canceled += instance.OnUltimateAbility;
+                @PauseGame.started += instance.OnPauseGame;
+                @PauseGame.performed += instance.OnPauseGame;
+                @PauseGame.canceled += instance.OnPauseGame;
             }
         }
     }
@@ -849,6 +899,7 @@ public class @GameControls : IInputActionCollection, IDisposable
         void OnSecondaryAttack(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnUltimateAbility(InputAction.CallbackContext context);
+        void OnPauseGame(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
