@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -15,13 +17,16 @@ public class PauseMenuController : MonoBehaviour
             Debug.LogWarning("Only one pause menu controller should be in the scene!");
     }
     #endregion
+    [SerializeField] private GameObject pauseMenu;
+    private Selectable[] selectables;
 
     private bool isPaused = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        selectables = pauseMenu.GetComponentsInChildren<Selectable>();
+        pauseMenu.SetActive(false);
     }
 
     // Update is called once per frame
@@ -35,12 +40,19 @@ public class PauseMenuController : MonoBehaviour
         return isPaused;
     }
 
-    public void PauseGame()
+    public void PauseGame(EventSystem eventSystem)
     {
         Time.timeScale = 0;
         isPaused = true;
         // Set pause menu active
-        // Switch player input action map to UI
+        pauseMenu.SetActive(true);
+        if (selectables.Length <= 0)
+        {
+            Debug.LogError("No selectable objects found in Pause Menu Game Object");
+            return;
+        }
+        eventSystem.firstSelectedGameObject = selectables[0].gameObject;
+        eventSystem.SetSelectedGameObject(selectables[0].gameObject);
     }
 
     public void ResumeGame()
@@ -48,6 +60,6 @@ public class PauseMenuController : MonoBehaviour
         Time.timeScale = 1;
         isPaused = false;
         // Set pause menu inactive
-        // Switch player input action map to Player
+        pauseMenu.SetActive(false);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerStatsController : EntityStatsController
@@ -158,14 +160,28 @@ public class PlayerStatsController : EntityStatsController
 
     protected virtual void OnPauseGame(InputValue value)
     {
-        Debug.Log(PauseMenuController._instance.isGamePaused());
+        Debug.Log("OnPauseGame fired");
+        EventSystem eventSystem = GetComponent<EventSystem>();
+        if (eventSystem == null)
+        {
+            Debug.LogError("Player object does not have an event system component attached to it.");
+            return;
+        }
         if (PauseMenuController._instance.isGamePaused())
         {
+            SwitchActionMap("Player");
             PauseMenuController._instance.ResumeGame();
         }
         else
         {
-            PauseMenuController._instance.PauseGame();
+            SwitchActionMap("UI");
+            PauseMenuController._instance.PauseGame(eventSystem);
         }
+    }
+
+    protected virtual void SwitchActionMap(string actionMapName)
+    {
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+        playerInput.SwitchCurrentActionMap(actionMapName);
     }
 }
