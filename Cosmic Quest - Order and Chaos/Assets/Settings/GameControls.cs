@@ -377,6 +377,14 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)""
+                },
+                {
+                    ""name"": ""MenuClose"",
+                    ""type"": ""Button"",
+                    ""id"": ""684789e1-b3ac-4f60-92a9-eba3718282db"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
                 }
             ],
             ""bindings"": [
@@ -558,6 +566,17 @@ public class @GameControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""6df4b4c6-b28b-4023-a40d-6429331a0d44"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MenuSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""2d250a49-8198-434e-9059-6c09d9cef70e"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
@@ -603,7 +622,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""824b896c-d16b-4dbe-a1d2-c77e68ad8bf0"",
-                    ""path"": ""<Keyboard>/enter"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -619,6 +638,39 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Joystick"",
                     ""action"": ""MenuOpen"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ce1a645-1d5f-457b-9a19-1f242a387ef2"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MenuClose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e29e0273-10a2-47e0-ac03-c415b231246e"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MenuClose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""87a50bcb-7ac5-41ce-b132-658082bbcce1"",
+                    ""path"": ""<HID::mayflash limited MAYFLASH GameCube Controller Adapter>/button10"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick"",
+                    ""action"": ""MenuClose"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -681,6 +733,7 @@ public class @GameControls : IInputActionCollection, IDisposable
         m_UI_MenuSelect = m_UI.FindAction("MenuSelect", throwIfNotFound: true);
         m_UI_MenuCancel = m_UI.FindAction("MenuCancel", throwIfNotFound: true);
         m_UI_MenuOpen = m_UI.FindAction("MenuOpen", throwIfNotFound: true);
+        m_UI_MenuClose = m_UI.FindAction("MenuClose", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -815,6 +868,7 @@ public class @GameControls : IInputActionCollection, IDisposable
     private readonly InputAction m_UI_MenuSelect;
     private readonly InputAction m_UI_MenuCancel;
     private readonly InputAction m_UI_MenuOpen;
+    private readonly InputAction m_UI_MenuClose;
     public struct UIActions
     {
         private @GameControls m_Wrapper;
@@ -823,6 +877,7 @@ public class @GameControls : IInputActionCollection, IDisposable
         public InputAction @MenuSelect => m_Wrapper.m_UI_MenuSelect;
         public InputAction @MenuCancel => m_Wrapper.m_UI_MenuCancel;
         public InputAction @MenuOpen => m_Wrapper.m_UI_MenuOpen;
+        public InputAction @MenuClose => m_Wrapper.m_UI_MenuClose;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -844,6 +899,9 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @MenuOpen.started -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuOpen;
                 @MenuOpen.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuOpen;
                 @MenuOpen.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuOpen;
+                @MenuClose.started -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuClose;
+                @MenuClose.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuClose;
+                @MenuClose.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnMenuClose;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -860,6 +918,9 @@ public class @GameControls : IInputActionCollection, IDisposable
                 @MenuOpen.started += instance.OnMenuOpen;
                 @MenuOpen.performed += instance.OnMenuOpen;
                 @MenuOpen.canceled += instance.OnMenuOpen;
+                @MenuClose.started += instance.OnMenuClose;
+                @MenuClose.performed += instance.OnMenuClose;
+                @MenuClose.canceled += instance.OnMenuClose;
             }
         }
     }
@@ -907,5 +968,6 @@ public class @GameControls : IInputActionCollection, IDisposable
         void OnMenuSelect(InputAction.CallbackContext context);
         void OnMenuCancel(InputAction.CallbackContext context);
         void OnMenuOpen(InputAction.CallbackContext context);
+        void OnMenuClose(InputAction.CallbackContext context);
     }
 }

@@ -9,11 +9,20 @@ using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
+    #region Singleton
+    public static MenuController _instance;
+
+    protected virtual void Awake()
+    {
+        if (_instance == null)
+            _instance = this;
+        else
+            Debug.LogWarning("Only one pause menu controller should be in the scene!");
+    }
+    #endregion
     // Maintains the currently active menu in the menu canvas
-    [SerializeField] private GameObject ActiveMenu;
-    //[SerializeField] private GameObject MenuAfterLobby;
-    [SerializeField] private GameObject LobbyConfirmButton;
-    private static GameObject activeMenu;
+    [SerializeField] private GameObject activeMenu;
+    [SerializeField] private GameObject lobbyConfirmButton;
 
     // Maintains the number of players selected on the multiplayer menu
     private int NumberOfPlayers = 0;
@@ -22,15 +31,14 @@ public class MenuController : MonoBehaviour
     protected static List<MultiplayerEventSystem> multiplayerEventSystems = new List<MultiplayerEventSystem>();
 
     // Maintains the menus that the player has navigated through
-    protected Stack<GameObject> menuStack = new Stack<GameObject>();
+    protected Stack<GameObject> menuStack;
 
-    [SerializeField] protected GameObject[] playerJoinAreas;
+    [SerializeField] private GameObject[] playerJoinAreas;
     private static List<bool> ReadyPlayers;
 
-    protected virtual void Awake()
+    protected virtual void Start()
     {
-        LobbyConfirmButton.SetActive(false);
-        activeMenu = ActiveMenu;
+        lobbyConfirmButton.SetActive(false);
 
         menuStack = new Stack<GameObject>();
         activeMenu.SetActive(true);
@@ -117,7 +125,7 @@ public class MenuController : MonoBehaviour
     /// <summary>
     /// Sets roots of all multiplayer event systems in the scene
     /// </summary>
-    private static void SetPlayerRoots()
+    protected static void SetPlayerRoots()
     {
         int playerNumber = 0;
         foreach (MultiplayerEventSystem eventSystem in multiplayerEventSystems)
@@ -132,10 +140,10 @@ public class MenuController : MonoBehaviour
     /// </summary>
     /// <param name="eventSystem">A multiplayer event system that corresponds to `playerNumber`</param>
     /// <param name="playerNumber">Number of the player (0-3)</param>
-    private static void SetPlayerRoot(MultiplayerEventSystem eventSystem, int playerNumber)
+    protected static void SetPlayerRoot(MultiplayerEventSystem eventSystem, int playerNumber)
     {
         GameObject playerRoot = null;
-        RectTransform[] rectTransforms = activeMenu.GetComponentsInChildren<RectTransform>(true);
+        RectTransform[] rectTransforms = _instance.activeMenu.GetComponentsInChildren<RectTransform>(true);
         foreach (RectTransform rectTransform in rectTransforms)
         {
             // Tags are used to distinguish which submenus can be controlled by which player
@@ -229,7 +237,7 @@ public class MenuController : MonoBehaviour
         {
             if (NumberOfPlayers >= 2)
             {
-                LobbyConfirmButton.SetActive(false);
+                lobbyConfirmButton.SetActive(false);
                 multiplayerEventSystems[0].SetSelectedGameObject(GetDefaultButton(playerJoinAreas[0]));
             }
             SetJoinAreaActive(true, playerNumber);
@@ -278,8 +286,8 @@ public class MenuController : MonoBehaviour
             ToggleReady(playerNumber, ReadyPlayers[playerNumber]);
             if (ReadyPlayers.Where(r => r == true).Count() == NumberOfPlayers && NumberOfPlayers >= 2)
             {
-                LobbyConfirmButton.SetActive(true);
-                multiplayerEventSystems[0].SetSelectedGameObject(LobbyConfirmButton);
+                lobbyConfirmButton.SetActive(true);
+                multiplayerEventSystems[0].SetSelectedGameObject(lobbyConfirmButton);
             }
         }
     }
@@ -294,7 +302,7 @@ public class MenuController : MonoBehaviour
         {
             ReadyPlayers[playerNumber] = false;
             ToggleReady(playerNumber, ReadyPlayers[playerNumber]);
-            LobbyConfirmButton.SetActive(false);
+            lobbyConfirmButton.SetActive(false);
         }
     }
 

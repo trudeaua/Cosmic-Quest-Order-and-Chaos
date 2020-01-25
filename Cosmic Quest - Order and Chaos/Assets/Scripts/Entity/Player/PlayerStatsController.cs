@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 public class PlayerStatsController : EntityStatsController
 {
@@ -160,28 +161,45 @@ public class PlayerStatsController : EntityStatsController
 
     protected virtual void OnPauseGame(InputValue value)
     {
-        Debug.Log("OnPauseGame fired");
-        EventSystem eventSystem = GetComponent<EventSystem>();
-        if (eventSystem == null)
+        //if (!value.isPressed)
+        //{
+        //    return;
+        //}
+        if (!PauseMenuController._instance.IsPaused)
         {
-            Debug.LogError("Player object does not have an event system component attached to it.");
-            return;
-        }
-        if (PauseMenuController._instance.isGamePaused())
-        {
-            SwitchActionMap("Player");
-            PauseMenuController._instance.ResumeGame();
-        }
-        else
-        {
-            SwitchActionMap("UI");
-            PauseMenuController._instance.PauseGame(eventSystem);
+            PauseMenuController._instance.PauseGame(gameObject);
         }
     }
 
-    protected virtual void SwitchActionMap(string actionMapName)
+    protected virtual void OnMenuClose(InputValue value)
     {
-        PlayerInput playerInput = GetComponent<PlayerInput>();
-        playerInput.SwitchCurrentActionMap(actionMapName);
+        if (!value.isPressed)
+        {
+            return;
+        }
+        if (PauseMenuController._instance.IsPaused)
+        {
+            PauseMenuController._instance.ResumeGame();
+        }
+    }
+
+    protected virtual void OnMenuCancel(InputValue value)
+    {
+        if (!value.isPressed)
+        {
+            return;
+        }
+        if (PauseMenuController._instance.IsPaused)
+        {
+            if (PauseMenuController._instance.isAtRoot())
+            {
+                PauseMenuController._instance.ResumeGame();
+            }
+            else
+            {
+                PauseMenuController._instance.PopMenu();
+            }
+
+        }
     }
 }
