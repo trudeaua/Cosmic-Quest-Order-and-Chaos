@@ -161,10 +161,10 @@ public class PlayerStatsController : EntityStatsController
 
     protected virtual void OnPauseGame(InputValue value)
     {
-        //if (!value.isPressed)
-        //{
-        //    return;
-        //}
+        if (!value.isPressed)
+        {
+            return;
+        }
         if (!PauseMenuController._instance.IsPaused)
         {
             PauseMenuController._instance.PauseGame(gameObject);
@@ -191,7 +191,7 @@ public class PlayerStatsController : EntityStatsController
         }
         if (PauseMenuController._instance.IsPaused)
         {
-            if (PauseMenuController._instance.isAtRoot())
+            if (PauseMenuController._instance.IsAtRoot())
             {
                 PauseMenuController._instance.ResumeGame();
             }

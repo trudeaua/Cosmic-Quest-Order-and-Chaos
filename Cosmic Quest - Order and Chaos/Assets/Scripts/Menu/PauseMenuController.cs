@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
-public class PauseMenuController : MonoBehaviour
+public class PauseMenuController : MenuController
 {
     #region Singleton
-    public static PauseMenuController _instance;
+    public new static PauseMenuController _instance;
 
-    private void Awake()
+    protected override void Awake()
     {
         if (_instance == null)
             _instance = this;
@@ -19,9 +18,6 @@ public class PauseMenuController : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] private GameObject activeMenu;
-
-    private Selectable[] selectables;
     public bool IsPaused { get; internal set; }
 
     // for caching which player paused the game
@@ -29,13 +25,10 @@ public class PauseMenuController : MonoBehaviour
     private PlayerInput playerInput;
     private InputSystemUIInputModule uIInputModule;
 
-    private Stack<GameObject> menuStack = new Stack<GameObject>();
-
-
     // Start is called before the first frame update
-    private void Start()
+    protected override void Start()
     {
-        selectables = activeMenu.GetComponentsInChildren<Selectable>();
+        menuStack = new Stack<GameObject>();
         activeMenu.SetActive(false);
     }
 
@@ -43,70 +36,24 @@ public class PauseMenuController : MonoBehaviour
     /// Navigate to the previous menu, if any
     /// </summary>
     /// <param name="menu">The menu to navigate to</param>
-    public void PushMenu(GameObject menu)
+    public override void PushMenu(GameObject menu)
     {
-        activeMenu.SetActive(false);
-        activeMenu = menu;
-        activeMenu.SetActive(true);
-        menuStack.Push(menu);
-
+        base.PushMenu(menu);
         SetPlayerRoot(playerEventSystem);
     }
 
     /// <summary>
     /// Navigate to the previous menu, if any
     /// </summary>
-    public void PopMenu()
+    public override void PopMenu()
     {
-        if (menuStack.Count > 0)
-        {
-            activeMenu.SetActive(false);
-            menuStack.Pop();
-            activeMenu = menuStack.Peek();
-            activeMenu.SetActive(true);
-
-            SetPlayerRoot(playerEventSystem);
-        }
+        base.PopMenu();
+        SetPlayerRoot(playerEventSystem);
     }
 
-    public bool isAtRoot()
+    public bool IsAtRoot()
     {
         return menuStack.Count == 1;
-    }
-
-    /// <summary>
-    /// Gets the first selectable `GameObject` found in the specified menu
-    /// </summary>
-    /// <param name="menu">Game object to search for buttons in</param>
-    public static GameObject GetDefaultButton(GameObject menu)
-    {
-        if (menu == null)
-        {
-            return null;
-        }
-        Selectable btn = menu.GetComponentInChildren<Selectable>();
-        if (btn)
-        {
-            return btn.gameObject;
-        }
-        else
-        {
-            Debug.LogError("No selectable objects found in Pause Menu Game Object");
-            return null;
-        }
-    }
-
-
-    /// <summary>
-    /// Sets the root of a multiplayer event system to a submenu that can only be controlled by that player
-    /// </summary>
-    /// <param name="eventSystem">A multiplayer event system that corresponds to `playerNumber`</param>
-    private void SetPlayerRoot(MultiplayerEventSystem eventSystem)
-    {
-        eventSystem.playerRoot = activeMenu;
-        GameObject defaultButton = GetDefaultButton(activeMenu);
-        eventSystem.firstSelectedGameObject = defaultButton;
-        eventSystem.SetSelectedGameObject(defaultButton);
     }
 
     public void PauseGame(GameObject playerObject)
@@ -174,9 +121,21 @@ public class PauseMenuController : MonoBehaviour
         return rootMenu;
     }
 
+    /// <summary>
+    /// Switch the player who paused the game's current controller action map
+    /// </summary>
+    /// <param name="name"></param>
     private void SwitchCurrentActionMap(string name)
     {
         playerInput.SwitchCurrentActionMap(name);
+        /*
+         * IMPORTANT this seemingly redundant code is to prevent a bug in the new input system
+         * cause by "states not being stored correctly" according to the developers. If the
+         * disable-enable sequence isn't there the input system will throw an error every frame
+         * after switching action maps.
+         * 
+         * See https://github.com/Unity-Technologies/InputSystem/issues/941 for more info
+         */
         uIInputModule.enabled = false;
         uIInputModule.enabled = true;
     }
