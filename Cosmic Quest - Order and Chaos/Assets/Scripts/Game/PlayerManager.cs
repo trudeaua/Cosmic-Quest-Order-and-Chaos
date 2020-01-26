@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -46,8 +47,8 @@ public class Player
     // Which input device is the player connected to
     public PlayerInput playerInput;
 
-    // Which chaarcter has the player chosen
-    public CharacterChoice characterChoice;
+    // Which character has the player chosen
+    public CharacterOption characterChoice;
 
     // Which colour is the player
     public CharacterColour characterColour;
@@ -60,7 +61,7 @@ public class Player
 
     public int deviceId;
 
-    public Player(PlayerInput _playerInput, CharacterColour _characterColour, CharacterChoice _characterChoice, int _deviceId)
+    public Player(PlayerInput _playerInput, CharacterColour _characterColour, CharacterOption _characterChoice, int _deviceId)
     {
         playerInput = _playerInput;
         characterColour = _characterColour;
@@ -70,10 +71,24 @@ public class Player
 
 }
 
+[Serializable]
+public class ClassOption
+{
+    public string name;
+    public GameObject prefab;
+}
+
+[Serializable]
+public class CharacterOption
+{
+    public string name;
+    public Texture skin;
+}
+
 public class PlayerManager : MonoBehaviour
 {
     #region Singleton
-    private static PlayerManager _instance;
+    public static PlayerManager _instance;
 
     private void Awake()
     {
@@ -96,6 +111,9 @@ public class PlayerManager : MonoBehaviour
 
     // Pool of player prefabs
     [SerializeField] private GameObject[] playerPrefabPool;
+
+    [SerializeField] private ClassOption[] classOptions;
+    [SerializeField] private CharacterOption[] characterOptions;
 
     public static List<CharacterColour> availableColours = new List<CharacterColour> { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
     public static List<CharacterColour> playerColours = new List<CharacterColour>();
@@ -155,7 +173,7 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     /// <param name="whichPlayer">The number of the player to instantiate (0-3)</param>
     /// <returns></returns>
-    public static GameObject InstantiatePlayer(int whichPlayer)
+    public GameObject InstantiatePlayer(int whichPlayer)
     {
         if (_Players[whichPlayer] != null)
         {
@@ -173,7 +191,7 @@ public class PlayerManager : MonoBehaviour
             Material playerMaterial = new Material(Shader.Find("Custom/Outline"));
             playerMaterial.SetFloat("_Outline", 0.0005f);
             playerMaterial.SetColor("_OutlineColor", colours.GetColour(_Players[whichPlayer].characterColour));
-            playerMaterial.SetTexture("_MainTex", LookupTexture(_Players[whichPlayer].characterChoice));
+            playerMaterial.SetTexture("_MainTex", _Players[whichPlayer].characterChoice.skin);
             playerInstance.GetComponentInChildren<Renderer>().sharedMaterial = playerMaterial;
 
             return playerInstance;
@@ -189,7 +207,7 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     /// <param name="playerUIControl">Player UI Control game object</param>
     /// <returns>The player number that the control was assigned to, -1 if not assigned.</returns>
-    public static int AssignUIControlToPlayer(GameObject playerUIControl)
+    public int AssignUIControlToPlayer(GameObject playerUIControl)
     {
         for(int i = 0; i < _Players.Length; i++)
         {
@@ -203,49 +221,15 @@ public class PlayerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Find a texture in the texture pool
-    /// </summary>
-    /// <param name="characterChoice">A character choice representing which texture to select</param>
-    /// <returns>A texture from the texture pool</returns>
-    public static Texture LookupTexture(CharacterChoice characterChoice)
-    {
-        if (_instance.texturePool.Length >= (int)characterChoice)
-        {
-            return _instance.texturePool[(int)characterChoice];
-        }
-        else
-        {
-            return _instance.texturePool[_instance.texturePool.Length - 1];
-        }
-    }
-
-    /// <summary>
     /// Assign a texture to a player
     /// </summary>
     /// <param name="player">Number of the player to apply the texture to (0-3)</param>
     /// <param name="characterChoice">A character choice representing which texture to select</param>
-    public static void AssignCharacterChoice(int player, CharacterChoice characterChoice)
+    public void AssignCharacterChoice(int player, int characterChoice)
     {
         if (_Players[player] != null)
         {
-            _Players[player].characterChoice = characterChoice;
-        }
-    }
-
-    /// <summary>
-    /// Find a player prefab in the player prefab pool
-    /// </summary>
-    /// <param name="classChoice">A class choice representing which player prefab to select</param>
-    /// <returns>A player prefab from the player prefab pool</returns>
-    public static GameObject LookupPrefab(ClassChoice classChoice)
-    {
-        if (_instance.playerPrefabPool.Length >= (int)classChoice)
-        {
-            return _instance.playerPrefabPool[(int)classChoice];
-        }
-        else
-        {
-            return _instance.playerPrefabPool[_instance.playerPrefabPool.Length - 1];
+            _Players[player].characterChoice = characterOptions[characterChoice];
         }
     }
 
@@ -254,12 +238,40 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     /// <param name="player">Number of the player to apply the plaeyer prefab to (0-3)</param>
     /// <param name="classChoice">A class choice representing which player prefab to select</param>
-    public static void AssignPrefab(int player, ClassChoice classChoice)
+    public void AssignPrefab(int player, int classChoice)
     {
         if (_Players[player] != null)
         {
-            _Players[player].playerObject = LookupPrefab(classChoice);
+            _Players[player].playerObject = classOptions[classChoice].prefab;
         }
+    }
+
+    /// <summary>
+    /// Get the names of all available characters
+    /// </summary>
+    /// <returns>An array of character names</returns>
+    public string[] GetCharacterNames()
+    {
+        string[] names = new string[characterOptions.Length];
+        for(int i = 0; i < names.Length; i++)
+        {
+            names[i] = characterOptions[i].name;
+        }
+        return names;
+    }
+
+    /// <summary>
+    /// Get the names of all available classes
+    /// </summary>
+    /// <returns>An array of class names</returns>
+    public string[] GetClassNames()
+    {
+        string[] names = new string[classOptions.Length];
+        for (int i = 0; i < names.Length; i++)
+        {
+            names[i] = classOptions[i].name;
+        }
+        return names;
     }
 
     /// <summary>
@@ -302,7 +314,7 @@ public class PlayerManager : MonoBehaviour
         }
         if (isNewPlayer)
         {
-            Player newPlayer = new Player(playerInput, CharacterColour.None, CharacterChoice.NONE, inputDevice.deviceId);
+            Player newPlayer = new Player(playerInput, CharacterColour.None, _instance.characterOptions[0], inputDevice.deviceId);
             // Assign the new player a colour
             int playerNumber = 0;
             for (int i = 0; i < _Players.Length; i++)
@@ -353,7 +365,7 @@ public class PlayerManager : MonoBehaviour
     /// Remove a player
     /// </summary>
     /// <param name="playerNumber">Number of the player to remove (0-3)</param>
-    public static void RemovePlayer(int playerNumber)
+    public void RemovePlayer(int playerNumber)
     {
         if (playerNumber >= 0 && playerNumber < _Players.Length)
         {

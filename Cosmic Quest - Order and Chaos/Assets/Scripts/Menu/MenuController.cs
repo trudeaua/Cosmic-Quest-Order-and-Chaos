@@ -318,7 +318,7 @@ public class MenuController : MonoBehaviour
             // Remove all but player 1 from the multiplayer lobby
             for (int i = NumberOfPlayers - 1; i >= 1; i--)
             {
-                PlayerManager.RemovePlayer(i);
+                PlayerManager._instance.RemovePlayer(i);
                 multiplayerEventSystems.RemoveAt(i);
                 ReadyPlayers.RemoveAt(i);
                 SetNumberOfPlayers(NumberOfPlayers - 1);
@@ -347,7 +347,7 @@ public class MenuController : MonoBehaviour
     {
         for (int i = 0; i < NumberOfPlayers; i++)
         {
-            GameObject playerInstance = PlayerManager.InstantiatePlayer(i);
+            GameObject playerInstance = PlayerManager._instance.InstantiatePlayer(i);
             playerInstance.transform.parent = positionObj.transform;
 
             // Transform the player instance so it looks nice on screen

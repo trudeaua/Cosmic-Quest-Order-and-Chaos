@@ -4,7 +4,7 @@ public class PlayerUIControl : MonoBehaviour
 {
     void Start()
     {
-        int assignedPlayer = PlayerManager.AssignUIControlToPlayer(gameObject);
+        int assignedPlayer = PlayerManager._instance.AssignUIControlToPlayer(gameObject);
         if (assignedPlayer >= 0)
         {
             name = "Player " + (assignedPlayer + 1) + " UI Control";
