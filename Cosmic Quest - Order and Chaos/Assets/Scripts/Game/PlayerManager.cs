@@ -106,13 +106,10 @@ public class PlayerManager : MonoBehaviour
     // TODO change this to a pool of textures, or assigned to a player at class selection
     public Texture testPlayerTexture;
 
-    // Pool of textures
-    [SerializeField] private Texture[] texturePool;
-
-    // Pool of player prefabs
-    [SerializeField] private GameObject[] playerPrefabPool;
-
+    [Tooltip("Classes that the players can choose")]
     [SerializeField] private ClassOption[] classOptions;
+
+    [Tooltip("Characters that the players can choose")]
     [SerializeField] private CharacterOption[] characterOptions;
 
     public static List<CharacterColour> availableColours = new List<CharacterColour> { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
