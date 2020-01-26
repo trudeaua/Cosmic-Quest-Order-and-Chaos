@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 public class PlayerStatsController : EntityStatsController
 {
@@ -154,5 +157,49 @@ public class PlayerStatsController : EntityStatsController
         playerInput.PassivateInput();
         yield return base.Spawn(obj, speed, delay, cooldown);
         playerInput.ActivateInput();
+    }
+
+    protected virtual void OnPauseGame(InputValue value)
+    {
+        if (!value.isPressed)
+        {
+            return;
+        }
+        if (!PauseMenuController._instance.IsPaused)
+        {
+            PauseMenuController._instance.PauseGame(gameObject);
+        }
+    }
+
+    protected virtual void OnMenuClose(InputValue value)
+    {
+        if (!value.isPressed)
+        {
+            return;
+        }
+        if (PauseMenuController._instance.IsPaused)
+        {
+            PauseMenuController._instance.ResumeGame();
+        }
+    }
+
+    protected virtual void OnMenuCancel(InputValue value)
+    {
+        if (!value.isPressed)
+        {
+            return;
+        }
+        if (PauseMenuController._instance.IsPaused)
+        {
+            if (PauseMenuController._instance.IsAtRoot())
+            {
+                PauseMenuController._instance.ResumeGame();
+            }
+            else
+            {
+                PauseMenuController._instance.PopMenu();
+            }
+
+        }
     }
 }

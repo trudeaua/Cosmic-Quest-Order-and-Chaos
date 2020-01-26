@@ -361,6 +361,18 @@ public class PlayerManager : MonoBehaviour
         playerInput.user.UnpairDevicesAndRemoveUser();
     }
 
+    public static int GetPlayerNumber(int deviceId)
+    {
+        for(int i = 0; i < _Players.Length; i++)
+        {
+            if (_Players[i] != null && _Players[i].deviceId == deviceId)
+            {
+                return _Players[i].deviceId;
+            }
+        }
+        return -1;
+    }
+
     /// <summary>
     /// Remove a player
     /// </summary>

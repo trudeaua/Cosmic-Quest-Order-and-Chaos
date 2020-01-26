@@ -8,7 +8,7 @@ public class PlayerUIControl : MonoBehaviour
         if (assignedPlayer >= 0)
         {
             name = "Player " + (assignedPlayer + 1) + " UI Control";
-            MenuController.AssignMultiplayerUIControl(gameObject, assignedPlayer);
+            MainMenuController._instance.AssignMultiplayerUIControl(gameObject, assignedPlayer);
         }
         else
         {

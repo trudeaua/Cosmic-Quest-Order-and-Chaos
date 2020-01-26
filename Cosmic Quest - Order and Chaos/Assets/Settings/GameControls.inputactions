@@ -52,6 +52,14 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press"
+                },
+                {
+                    "name": "PauseGame",
+                    "type": "Button",
+                    "id": "f6bdf6d2-d3eb-4038-9778-443f8827d98a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
@@ -285,6 +293,39 @@
                     "action": "UltimateAbility",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "10f16e88-4e83-4f13-bccf-f43d074f92b0",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "PauseGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5bce08c7-30d3-44cf-bf3d-ee2852db9afc",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PauseGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "65cf0c6e-406a-4655-af9d-f5b309c836e0",
+                    "path": "<HID::mayflash limited MAYFLASH GameCube Controller Adapter>/button10",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "PauseGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -320,6 +361,14 @@
                     "name": "MenuOpen",
                     "type": "Button",
                     "id": "6b143529-40bc-40ad-b621-0a10ab3a6ead",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "MenuClose",
+                    "type": "Button",
+                    "id": "684789e1-b3ac-4f60-92a9-eba3718282db",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
@@ -504,6 +553,17 @@
                 },
                 {
                     "name": "",
+                    "id": "6df4b4c6-b28b-4023-a40d-6429331a0d44",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MenuSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2d250a49-8198-434e-9059-6c09d9cef70e",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
@@ -549,7 +609,7 @@
                 {
                     "name": "",
                     "id": "824b896c-d16b-4dbe-a1d2-c77e68ad8bf0",
-                    "path": "<Keyboard>/enter",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -565,6 +625,39 @@
                     "processors": "",
                     "groups": "Joystick",
                     "action": "MenuOpen",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9ce1a645-1d5f-457b-9a19-1f242a387ef2",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "MenuClose",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e29e0273-10a2-47e0-ac03-c415b231246e",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "MenuClose",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "87a50bcb-7ac5-41ce-b132-658082bbcce1",
+                    "path": "<HID::mayflash limited MAYFLASH GameCube Controller Adapter>/button10",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "MenuClose",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
