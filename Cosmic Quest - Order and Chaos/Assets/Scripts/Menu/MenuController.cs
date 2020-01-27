@@ -23,11 +23,16 @@ public class MenuController : MonoBehaviour
     // Maintains the menus that the player has navigated through
     protected Stack<GameObject> menuStack;
 
+    protected Camera mainCamera;
+
+    protected AudioSource musicSource;
+
     protected virtual void Start()
     {
         menuStack = new Stack<GameObject>();
         activeMenu.SetActive(true);
         menuStack.Push(activeMenu);
+        FindCameraAndMusic();
     }
 
     /// <summary>
@@ -87,5 +92,69 @@ public class MenuController : MonoBehaviour
         GameObject defaultButton = GetDefaultButton(activeMenu);
         eventSystem.firstSelectedGameObject = defaultButton;
         eventSystem.SetSelectedGameObject(defaultButton);
+    }
+
+    /// <summary>
+    /// Find the main camera and the audio source attached to it
+    /// </summary>
+    protected void FindCameraAndMusic()
+    {
+        mainCamera = FindObjectOfType<Camera>();
+        musicSource = mainCamera.GetComponent<AudioSource>();
+    }
+
+    /// <summary>
+    /// Set the master volume
+    /// </summary>
+    /// <param name="slider">Selectable slider</param>
+    public void SetMasterVolume(Slider slider)
+    {
+        float value = slider.normalizedValue;
+        AudioHelper.SetMasterVolume(value);
+        UpdateMusicVolume();
+    }
+
+    /// <summary>
+    /// Set the volume of music
+    /// </summary>
+    /// <param name="slider">Selectable slider</param>
+    public void SetMusicVolume(Slider slider)
+    {
+        float value = slider.normalizedValue;
+        AudioHelper.SetMusicVolume(value);
+        UpdateMusicVolume();
+        
+    }
+
+    /// <summary>
+    /// Set the volume of SFX
+    /// </summary>
+    /// <param name="slider">Selectable slider</param>
+    public void SetSfxVolume(Slider slider)
+    {
+        float value = slider.normalizedValue;
+        AudioHelper.SetSfxVolume(value);
+    }
+
+    /// <summary>
+    /// Set the volume of vocal audio
+    /// </summary>
+    /// <param name="slider">Selectable slider</param>
+    public void SetVoiceVolume(Slider slider)
+    {
+        float value = slider.normalizedValue;
+        AudioHelper.SetVoiceVolume(value);
+    }
+
+    /// <summary>
+    /// Update any playing music
+    /// </summary>
+    protected void UpdateMusicVolume()
+    {
+        if (musicSource != null)
+        {
+            musicSource.volume = AudioHelper.GetAudioModifier(AudioHelper.EntityAudioClip.AudioType.Music);
+            Debug.Log(musicSource.volume);
+        }
     }
 }

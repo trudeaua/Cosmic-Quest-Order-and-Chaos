@@ -9,8 +9,9 @@ public class AudioHelper : MonoBehaviour
     {
         public enum AudioType
         {
-            Weapon,
-            Vocal
+            Sfx,
+            Vocal,
+            Music
         }
         [Tooltip("Pitch of the audio (affects tempo as well)")]
         public float pitch;
@@ -24,8 +25,12 @@ public class AudioHelper : MonoBehaviour
         public float delay;
         [Tooltip("Should the audio loop?")]
         public bool loop;
-
     }
+
+    public static float MasterVolume { get; internal set; } = 0.5f;
+    public static float MusicVolume { get; internal set; } = 0.5f;
+    public static float SfxVolume { get; internal set; } = 0.5f;
+    public static float VoiceVolume { get; internal set; } = 0.5f;
 
     /// <summary>
     /// Plays an audio clip that overlaps with currently playing audio clips from the same audio source.<br/>
@@ -40,8 +45,9 @@ public class AudioHelper : MonoBehaviour
         {
             yield return new WaitForSeconds(entityAudio.delay);
         }
+        
         source.pitch = entityAudio.pitch;
-        source.volume = entityAudio.volume;
+        source.volume = entityAudio.volume * GetAudioModifier(entityAudio.type);
         source.loop = entityAudio.loop;
         source.PlayOneShot(entityAudio.clip);
     }
@@ -60,7 +66,7 @@ public class AudioHelper : MonoBehaviour
             yield return new WaitForSeconds(entityAudio.delay);
         }
         source.pitch = entityAudio.pitch;
-        source.volume = entityAudio.volume;
+        source.volume = entityAudio.volume * GetAudioModifier(entityAudio.type);
         source.loop = entityAudio.loop;
         source.clip = entityAudio.clip;
         source.Play();
@@ -73,5 +79,45 @@ public class AudioHelper : MonoBehaviour
     public static void StopAudio(AudioSource source)
     {
         source.Stop();
+    }
+
+    public static void SetMasterVolume(float value)
+    {
+        MasterVolume = Mathf.Max(0, value);
+    }
+
+    public static void SetMusicVolume(float value)
+    {
+        MusicVolume = Mathf.Max(0, value);
+    }
+
+    public static void SetSfxVolume(float value)
+    {
+        SfxVolume = Mathf.Max(0, value);
+    }
+
+    public static void SetVoiceVolume(float value)
+    {
+        VoiceVolume = Mathf.Max(0, value);
+    }
+
+    public static float GetAudioModifier(EntityAudioClip.AudioType audioType)
+    {
+        float audioModifier = MasterVolume;
+        switch (audioType)
+        {
+            case EntityAudioClip.AudioType.Music:
+                audioModifier *= MusicVolume;
+                break;
+            case EntityAudioClip.AudioType.Sfx:
+                audioModifier *= SfxVolume;
+                break;
+            case EntityAudioClip.AudioType.Vocal:
+                audioModifier *= VoiceVolume;
+                break;
+            default:
+                break;
+        }
+        return audioModifier;
     }
 }

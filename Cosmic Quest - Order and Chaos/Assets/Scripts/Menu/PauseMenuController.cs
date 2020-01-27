@@ -30,6 +30,7 @@ public class PauseMenuController : MenuController
     {
         menuStack = new Stack<GameObject>();
         activeMenu.SetActive(false);
+        FindCameraAndMusic();
     }
 
     /// <summary>
