@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
 
-[System.Serializable]
+[Serializable]
 public class PlayerColours
 {
     public Color red = Color.red;
@@ -26,22 +26,6 @@ public class PlayerColours
     }
 }
 
-public enum ClassChoice
-{
-    MAGE,
-    MELEE,
-    HEALER,
-    RANGER,
-    NONE
-}
-public enum CharacterChoice
-{
-    ALIEN_A,
-    ALIEN_B,
-    ALIEN_C,
-    ROBOT,
-    NONE
-}
 public class Player
 {
     // Which input device is the player connected to
@@ -88,12 +72,12 @@ public class CharacterOption
 public class PlayerManager : MonoBehaviour
 {
     #region Singleton
-    public static PlayerManager _instance;
+    public static PlayerManager Instance;
 
     private void Awake()
     {
-        if (_instance == null)
-            _instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Debug.LogWarning("Only one player manager should be in the scene!");
     }
@@ -301,7 +285,6 @@ public class PlayerManager : MonoBehaviour
         {
             if (p != null)
             {
-                // if (p.playerInput.user.id == playerInput.user.id)
                 if (p.deviceId == inputDevice.deviceId)
                 {
                     isNewPlayer = false;
@@ -311,7 +294,7 @@ public class PlayerManager : MonoBehaviour
         }
         if (isNewPlayer)
         {
-            Player newPlayer = new Player(playerInput, CharacterColour.None, _instance.characterOptions[0], inputDevice.deviceId);
+            Player newPlayer = new Player(playerInput, CharacterColour.None, characterOptions[0], inputDevice.deviceId);
             // Assign the new player a colour
             int playerNumber = 0;
             for (int i = 0; i < _Players.Length; i++)
@@ -337,7 +320,7 @@ public class PlayerManager : MonoBehaviour
             // TODO do the rest of this method better
             if (MenuCanvas == null)
             {
-                MenuCanvas = GameObject.Find("MenuCanvas");
+                MenuCanvas = FindObjectOfType<MainMenuController>().gameObject;
             }
             // i.e. If we're on the menu
             if (MenuCanvas != null)
@@ -358,7 +341,12 @@ public class PlayerManager : MonoBehaviour
         playerInput.user.UnpairDevicesAndRemoveUser();
     }
 
-    public static int GetPlayerNumber(int deviceId)
+    /// <summary>
+    /// Get the number of a player by their input device id
+    /// </summary>
+    /// <param name="deviceId">ID of the player's primary input device</param>
+    /// <returns></returns>
+    public int GetPlayerNumber(int deviceId)
     {
         for(int i = 0; i < _Players.Length; i++)
         {

@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class MenuController : MonoBehaviour
 {
     #region Singleton
-    public static MenuController _instance;
+    public static MenuController Instance;
 
     protected virtual void Awake()
     {
-        if (_instance == null)
-            _instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Debug.LogWarning("Only one menu controller should be in the scene!");
     }
