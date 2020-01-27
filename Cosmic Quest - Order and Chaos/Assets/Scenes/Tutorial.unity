@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 4549618}
   - component: {fileID: 4549617}
   - component: {fileID: 4549616}
-  - component: {fileID: 4549615}
   m_Layer: 0
   m_Name: LightOrb (5)
   m_TagString: Untagged
@@ -156,18 +155,6 @@ Transform:
   m_Father: {fileID: 2112053363}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4549615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4549613}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &4549616
 Light:
   m_ObjectHideFlags: 0
@@ -532,7 +519,6 @@ GameObject:
   - component: {fileID: 32904964}
   - component: {fileID: 32904963}
   - component: {fileID: 32904962}
-  - component: {fileID: 32904961}
   m_Layer: 0
   m_Name: LightOrb (10)
   m_TagString: Untagged
@@ -554,18 +540,6 @@ Transform:
   m_Father: {fileID: 2112053363}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &32904961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 32904959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &32904962
 Light:
   m_ObjectHideFlags: 0
@@ -969,7 +943,7 @@ PrefabInstance:
     - target: {fileID: 6347770635181394814, guid: d888342ddcde8dc49bcbe1ff51966fce,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6347770635181394823, guid: d888342ddcde8dc49bcbe1ff51966fce,
         type: 3}
@@ -1026,6 +1000,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6347770635181394819, guid: d888342ddcde8dc49bcbe1ff51966fce,
+        type: 3}
+      propertyPath: doRegister
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6347770635181394816, guid: d888342ddcde8dc49bcbe1ff51966fce,
         type: 3}
       propertyPath: health.regenAmount
@@ -1034,7 +1013,12 @@ PrefabInstance:
     - target: {fileID: 6347770635181394816, guid: d888342ddcde8dc49bcbe1ff51966fce,
         type: 3}
       propertyPath: characterColour
-      value: 5
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347770635181394816, guid: d888342ddcde8dc49bcbe1ff51966fce,
+        type: 3}
+      propertyPath: shouldSpawn
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 909027295238249625, guid: d888342ddcde8dc49bcbe1ff51966fce,
         type: 3}
@@ -2995,7 +2979,6 @@ GameObject:
   - component: {fileID: 98156920}
   - component: {fileID: 98156919}
   - component: {fileID: 98156918}
-  - component: {fileID: 98156917}
   m_Layer: 0
   m_Name: LightOrb (11)
   m_TagString: Untagged
@@ -3017,18 +3000,6 @@ Transform:
   m_Father: {fileID: 2112053363}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &98156917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 98156915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &98156918
 Light:
   m_ObjectHideFlags: 0
@@ -4171,7 +4142,6 @@ GameObject:
   - component: {fileID: 150107420}
   - component: {fileID: 150107419}
   - component: {fileID: 150107418}
-  - component: {fileID: 150107417}
   m_Layer: 0
   m_Name: LightOrb (21)
   m_TagString: Untagged
@@ -4193,18 +4163,6 @@ Transform:
   m_Father: {fileID: 1619904897}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &150107417
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 150107415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &150107418
 Light:
   m_ObjectHideFlags: 0
@@ -4419,7 +4377,8 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e9b0ca875d4879b409d76235135784e0, type: 3}
 --- !u!4 &157331435
 Transform:
@@ -4612,7 +4571,6 @@ GameObject:
   - component: {fileID: 177789384}
   - component: {fileID: 177789383}
   - component: {fileID: 177789382}
-  - component: {fileID: 177789381}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -4634,18 +4592,6 @@ Transform:
   m_Father: {fileID: 1119640506}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &177789381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 177789379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &177789382
 Light:
   m_ObjectHideFlags: 0
@@ -6377,7 +6323,6 @@ GameObject:
   - component: {fileID: 253917712}
   - component: {fileID: 253917711}
   - component: {fileID: 253917710}
-  - component: {fileID: 253917709}
   m_Layer: 0
   m_Name: LightOrb (3)
   m_TagString: Untagged
@@ -6399,18 +6344,6 @@ Transform:
   m_Father: {fileID: 2112053363}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &253917709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 253917707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &253917710
 Light:
   m_ObjectHideFlags: 0
@@ -6732,7 +6665,6 @@ GameObject:
   - component: {fileID: 281235771}
   - component: {fileID: 281235770}
   - component: {fileID: 281235769}
-  - component: {fileID: 281235768}
   m_Layer: 0
   m_Name: LightOrb (8)
   m_TagString: Untagged
@@ -6754,18 +6686,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &281235768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 281235766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &281235769
 Light:
   m_ObjectHideFlags: 0
@@ -7712,7 +7632,6 @@ GameObject:
   - component: {fileID: 331202092}
   - component: {fileID: 331202091}
   - component: {fileID: 331202090}
-  - component: {fileID: 331202089}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -7735,19 +7654,6 @@ Transform:
   m_Father: {fileID: 1497957782}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &331202089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 11415526, guid: e9b0ca875d4879b409d76235135784e0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1497957781}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 331202087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &331202090
 Light:
   m_ObjectHideFlags: 0
@@ -8805,6 +8711,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 197146447, guid: 064901d1e5248f64ea73e76bd6c77360, type: 3}
+      propertyPath: m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 064901d1e5248f64ea73e76bd6c77360, type: 3}
 --- !u!1 &395980213 stripped
@@ -8825,7 +8735,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ad403fe5cb1141c4db962f01954ad170, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -9410,7 +9320,6 @@ GameObject:
   - component: {fileID: 416976286}
   - component: {fileID: 416976285}
   - component: {fileID: 416976284}
-  - component: {fileID: 416976283}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -9432,18 +9341,6 @@ Transform:
   m_Father: {fileID: 1691855405}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &416976283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 416976281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &416976284
 Light:
   m_ObjectHideFlags: 0
@@ -9668,7 +9565,6 @@ GameObject:
   - component: {fileID: 420830405}
   - component: {fileID: 420830404}
   - component: {fileID: 420830403}
-  - component: {fileID: 420830402}
   m_Layer: 0
   m_Name: LightOrb (2)
   m_TagString: Untagged
@@ -9690,18 +9586,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &420830402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 420830400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &420830403
 Light:
   m_ObjectHideFlags: 0
@@ -10752,7 +10636,6 @@ GameObject:
   - component: {fileID: 486714057}
   - component: {fileID: 486714056}
   - component: {fileID: 486714055}
-  - component: {fileID: 486714054}
   m_Layer: 0
   m_Name: LightOrb (11)
   m_TagString: Untagged
@@ -10774,18 +10657,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &486714054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 486714052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &486714055
 Light:
   m_ObjectHideFlags: 0
@@ -11807,7 +11678,8 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e9b0ca875d4879b409d76235135784e0, type: 3}
 --- !u!4 &562720561
 Transform:
@@ -12341,7 +12213,6 @@ GameObject:
   - component: {fileID: 592405428}
   - component: {fileID: 592405427}
   - component: {fileID: 592405426}
-  - component: {fileID: 592405425}
   m_Layer: 0
   m_Name: LightOrb (14)
   m_TagString: Untagged
@@ -12363,18 +12234,6 @@ Transform:
   m_Father: {fileID: 2112053363}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &592405425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592405423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &592405426
 Light:
   m_ObjectHideFlags: 0
@@ -12524,7 +12383,6 @@ GameObject:
   - component: {fileID: 594070457}
   - component: {fileID: 594070456}
   - component: {fileID: 594070455}
-  - component: {fileID: 594070454}
   m_Layer: 0
   m_Name: LightOrb (3)
   m_TagString: Untagged
@@ -12546,18 +12404,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &594070454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 594070452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &594070455
 Light:
   m_ObjectHideFlags: 0
@@ -12708,7 +12554,7 @@ PrefabInstance:
     - target: {fileID: 9092795395475728628, guid: b2682d4b201ae36408c0a465b0bdd4db,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -45.17
+      value: -48.05
       objectReference: {fileID: 0}
     - target: {fileID: 9092795395475728628, guid: b2682d4b201ae36408c0a465b0bdd4db,
         type: 3}
@@ -12718,7 +12564,7 @@ PrefabInstance:
     - target: {fileID: 9092795395475728628, guid: b2682d4b201ae36408c0a465b0bdd4db,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 32.09826
+      value: 30.46
       objectReference: {fileID: 0}
     - target: {fileID: 9092795395475728628, guid: b2682d4b201ae36408c0a465b0bdd4db,
         type: 3}
@@ -14266,7 +14112,8 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e9b0ca875d4879b409d76235135784e0, type: 3}
 --- !u!4 &688574697
 Transform:
@@ -14391,7 +14238,6 @@ GameObject:
   - component: {fileID: 702519957}
   - component: {fileID: 702519956}
   - component: {fileID: 702519955}
-  - component: {fileID: 702519954}
   m_Layer: 0
   m_Name: LightOrb (10)
   m_TagString: Untagged
@@ -14413,18 +14259,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &702519954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702519952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &702519955
 Light:
   m_ObjectHideFlags: 0
@@ -15711,7 +15545,6 @@ GameObject:
   - component: {fileID: 794987696}
   - component: {fileID: 794987695}
   - component: {fileID: 794987694}
-  - component: {fileID: 794987693}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -15733,18 +15566,6 @@ Transform:
   m_Father: {fileID: 993785903}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &794987693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 794987691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &794987694
 Light:
   m_ObjectHideFlags: 0
@@ -16341,7 +16162,6 @@ GameObject:
   - component: {fileID: 811747335}
   - component: {fileID: 811747334}
   - component: {fileID: 811747333}
-  - component: {fileID: 811747332}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -16364,19 +16184,6 @@ Transform:
   m_Father: {fileID: 157331435}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &811747332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 11415526, guid: e9b0ca875d4879b409d76235135784e0,
-    type: 3}
-  m_PrefabInstance: {fileID: 157331434}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 811747330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &811747333
 Light:
   m_ObjectHideFlags: 0
@@ -18802,7 +18609,8 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e9b0ca875d4879b409d76235135784e0, type: 3}
 --- !u!4 &844418044
 Transform:
@@ -20813,7 +20621,6 @@ GameObject:
   - component: {fileID: 989840056}
   - component: {fileID: 989840055}
   - component: {fileID: 989840054}
-  - component: {fileID: 989840053}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -20836,19 +20643,6 @@ Transform:
   m_Father: {fileID: 1682914725}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &989840053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 11415526, guid: e9b0ca875d4879b409d76235135784e0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1682914724}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989840051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &989840054
 Light:
   m_ObjectHideFlags: 0
@@ -21900,7 +21694,6 @@ GameObject:
   - component: {fileID: 1024215936}
   - component: {fileID: 1024215935}
   - component: {fileID: 1024215934}
-  - component: {fileID: 1024215933}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -21922,18 +21715,6 @@ Transform:
   m_Father: {fileID: 982462932}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1024215933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024215931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1024215934
 Light:
   m_ObjectHideFlags: 0
@@ -22175,7 +21956,6 @@ GameObject:
   - component: {fileID: 1043097501}
   - component: {fileID: 1043097500}
   - component: {fileID: 1043097499}
-  - component: {fileID: 1043097498}
   m_Layer: 0
   m_Name: LightOrb (23)
   m_TagString: Untagged
@@ -22197,18 +21977,6 @@ Transform:
   m_Father: {fileID: 1619904897}
   m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1043097498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1043097496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1043097499
 Light:
   m_ObjectHideFlags: 0
@@ -22702,7 +22470,6 @@ GameObject:
   - component: {fileID: 1073885879}
   - component: {fileID: 1073885878}
   - component: {fileID: 1073885877}
-  - component: {fileID: 1073885876}
   m_Layer: 0
   m_Name: LightOrb (4)
   m_TagString: Untagged
@@ -22724,18 +22491,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1073885876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1073885874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1073885877
 Light:
   m_ObjectHideFlags: 0
@@ -23118,7 +22873,6 @@ GameObject:
   - component: {fileID: 1084524658}
   - component: {fileID: 1084524657}
   - component: {fileID: 1084524656}
-  - component: {fileID: 1084524655}
   m_Layer: 0
   m_Name: LightOrb (17)
   m_TagString: Untagged
@@ -23140,18 +22894,6 @@ Transform:
   m_Father: {fileID: 1619904897}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1084524655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1084524653}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1084524656
 Light:
   m_ObjectHideFlags: 0
@@ -23621,7 +23363,6 @@ GameObject:
   - component: {fileID: 1118107673}
   - component: {fileID: 1118107672}
   - component: {fileID: 1118107671}
-  - component: {fileID: 1118107670}
   m_Layer: 0
   m_Name: LightOrb (1)
   m_TagString: Untagged
@@ -23643,18 +23384,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1118107670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118107668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1118107671
 Light:
   m_ObjectHideFlags: 0
@@ -23986,7 +23715,6 @@ GameObject:
   - component: {fileID: 1124882223}
   - component: {fileID: 1124882222}
   - component: {fileID: 1124882221}
-  - component: {fileID: 1124882220}
   m_Layer: 0
   m_Name: LightOrb (13)
   m_TagString: Untagged
@@ -24008,18 +23736,6 @@ Transform:
   m_Father: {fileID: 2112053363}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1124882220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1124882218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1124882221
 Light:
   m_ObjectHideFlags: 0
@@ -24523,7 +24239,6 @@ GameObject:
   - component: {fileID: 1156733014}
   - component: {fileID: 1156733013}
   - component: {fileID: 1156733012}
-  - component: {fileID: 1156733011}
   m_Layer: 0
   m_Name: LightOrb (13)
   m_TagString: Untagged
@@ -24545,18 +24260,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1156733011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1156733009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1156733012
 Light:
   m_ObjectHideFlags: 0
@@ -24970,7 +24673,6 @@ GameObject:
   - component: {fileID: 1167431671}
   - component: {fileID: 1167431670}
   - component: {fileID: 1167431669}
-  - component: {fileID: 1167431668}
   m_Layer: 0
   m_Name: LightOrb (2)
   m_TagString: Untagged
@@ -24992,18 +24694,6 @@ Transform:
   m_Father: {fileID: 2112053363}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1167431668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1167431666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1167431669
 Light:
   m_ObjectHideFlags: 0
@@ -25278,7 +24968,6 @@ GameObject:
   - component: {fileID: 1209515987}
   - component: {fileID: 1209515986}
   - component: {fileID: 1209515985}
-  - component: {fileID: 1209515984}
   m_Layer: 0
   m_Name: LightOrb (9)
   m_TagString: Untagged
@@ -25300,18 +24989,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1209515984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1209515982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1209515985
 Light:
   m_ObjectHideFlags: 0
@@ -25558,7 +25235,6 @@ GameObject:
   - component: {fileID: 1226438108}
   - component: {fileID: 1226438107}
   - component: {fileID: 1226438106}
-  - component: {fileID: 1226438105}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -25580,18 +25256,6 @@ Transform:
   m_Father: {fileID: 450529575}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1226438105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1226438103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1226438106
 Light:
   m_ObjectHideFlags: 0
@@ -26546,7 +26210,6 @@ GameObject:
   - component: {fileID: 1279763588}
   - component: {fileID: 1279763587}
   - component: {fileID: 1279763586}
-  - component: {fileID: 1279763585}
   m_Layer: 0
   m_Name: LightOrb (12)
   m_TagString: Untagged
@@ -26568,18 +26231,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1279763585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1279763583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1279763586
 Light:
   m_ObjectHideFlags: 0
@@ -26729,7 +26380,6 @@ GameObject:
   - component: {fileID: 1281253930}
   - component: {fileID: 1281253929}
   - component: {fileID: 1281253928}
-  - component: {fileID: 1281253927}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -26751,18 +26401,6 @@ Transform:
   m_Father: {fileID: 858095334}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1281253927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281253925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1281253928
 Light:
   m_ObjectHideFlags: 0
@@ -26912,7 +26550,6 @@ GameObject:
   - component: {fileID: 1282054080}
   - component: {fileID: 1282054079}
   - component: {fileID: 1282054078}
-  - component: {fileID: 1282054077}
   m_Layer: 0
   m_Name: LightOrb (8)
   m_TagString: Untagged
@@ -26934,18 +26571,6 @@ Transform:
   m_Father: {fileID: 2112053363}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1282054077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1282054075}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1282054078
 Light:
   m_ObjectHideFlags: 0
@@ -27334,7 +26959,6 @@ GameObject:
   - component: {fileID: 1297988041}
   - component: {fileID: 1297988040}
   - component: {fileID: 1297988039}
-  - component: {fileID: 1297988038}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -27357,19 +26981,6 @@ Transform:
   m_Father: {fileID: 562720561}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1297988038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 11415526, guid: e9b0ca875d4879b409d76235135784e0,
-    type: 3}
-  m_PrefabInstance: {fileID: 562720560}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1297988036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1297988039
 Light:
   m_ObjectHideFlags: 0
@@ -27786,7 +27397,6 @@ GameObject:
   - component: {fileID: 1315984099}
   - component: {fileID: 1315984098}
   - component: {fileID: 1315984097}
-  - component: {fileID: 1315984096}
   m_Layer: 0
   m_Name: LightOrb (6)
   m_TagString: Untagged
@@ -27808,18 +27418,6 @@ Transform:
   m_Father: {fileID: 2112053363}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1315984096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315984094}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1315984097
 Light:
   m_ObjectHideFlags: 0
@@ -27969,7 +27567,6 @@ GameObject:
   - component: {fileID: 1329778556}
   - component: {fileID: 1329778555}
   - component: {fileID: 1329778554}
-  - component: {fileID: 1329778553}
   m_Layer: 0
   m_Name: LightOrb (5)
   m_TagString: Untagged
@@ -27991,18 +27588,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1329778553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1329778551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1329778554
 Light:
   m_ObjectHideFlags: 0
@@ -29089,7 +28674,6 @@ GameObject:
   - component: {fileID: 1385241781}
   - component: {fileID: 1385241780}
   - component: {fileID: 1385241779}
-  - component: {fileID: 1385241778}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -29111,18 +28695,6 @@ Transform:
   m_Father: {fileID: 856353135}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1385241778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1385241776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1385241779
 Light:
   m_ObjectHideFlags: 0
@@ -29337,7 +28909,8 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e9b0ca875d4879b409d76235135784e0, type: 3}
 --- !u!4 &1387420770
 Transform:
@@ -29812,7 +29385,6 @@ GameObject:
   - component: {fileID: 1411815440}
   - component: {fileID: 1411815439}
   - component: {fileID: 1411815438}
-  - component: {fileID: 1411815437}
   m_Layer: 0
   m_Name: LightOrb (15)
   m_TagString: Untagged
@@ -29834,18 +29406,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1411815437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1411815435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1411815438
 Light:
   m_ObjectHideFlags: 0
@@ -29995,7 +29555,6 @@ GameObject:
   - component: {fileID: 1413828534}
   - component: {fileID: 1413828533}
   - component: {fileID: 1413828532}
-  - component: {fileID: 1413828531}
   m_Layer: 0
   m_Name: LightOrb (7)
   m_TagString: Untagged
@@ -30017,18 +29576,6 @@ Transform:
   m_Father: {fileID: 2112053363}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1413828531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1413828529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1413828532
 Light:
   m_ObjectHideFlags: 0
@@ -30339,7 +29886,6 @@ GameObject:
   - component: {fileID: 1419073267}
   - component: {fileID: 1419073266}
   - component: {fileID: 1419073265}
-  - component: {fileID: 1419073264}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -30362,19 +29908,6 @@ Transform:
   m_Father: {fileID: 2097639189}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1419073264
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 11415526, guid: e9b0ca875d4879b409d76235135784e0,
-    type: 3}
-  m_PrefabInstance: {fileID: 2097639188}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1419073262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1419073265
 Light:
   m_ObjectHideFlags: 0
@@ -30842,7 +30375,6 @@ GameObject:
   - component: {fileID: 1454560145}
   - component: {fileID: 1454560144}
   - component: {fileID: 1454560143}
-  - component: {fileID: 1454560142}
   m_Layer: 0
   m_Name: LightOrb (9)
   m_TagString: Untagged
@@ -30864,18 +30396,6 @@ Transform:
   m_Father: {fileID: 2112053363}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1454560142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1454560140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1454560143
 Light:
   m_ObjectHideFlags: 0
@@ -31042,7 +30562,6 @@ GameObject:
   - component: {fileID: 1462816184}
   - component: {fileID: 1462816183}
   - component: {fileID: 1462816182}
-  - component: {fileID: 1462816181}
   m_Layer: 0
   m_Name: LightOrb (18)
   m_TagString: Untagged
@@ -31064,18 +30583,6 @@ Transform:
   m_Father: {fileID: 1619904897}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1462816181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1462816179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1462816182
 Light:
   m_ObjectHideFlags: 0
@@ -31304,7 +30811,6 @@ GameObject:
   - component: {fileID: 1464963866}
   - component: {fileID: 1464963865}
   - component: {fileID: 1464963864}
-  - component: {fileID: 1464963863}
   m_Layer: 0
   m_Name: LightOrb (20)
   m_TagString: Untagged
@@ -31326,18 +30832,6 @@ Transform:
   m_Father: {fileID: 1619904897}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1464963863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1464963861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1464963864
 Light:
   m_ObjectHideFlags: 0
@@ -31678,7 +31172,8 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e9b0ca875d4879b409d76235135784e0, type: 3}
 --- !u!4 &1497957782
 Transform:
@@ -33794,7 +33289,6 @@ GameObject:
   - component: {fileID: 1542521343}
   - component: {fileID: 1542521342}
   - component: {fileID: 1542521341}
-  - component: {fileID: 1542521340}
   m_Layer: 0
   m_Name: LightOrb (6)
   m_TagString: Untagged
@@ -33816,18 +33310,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1542521340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1542521338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1542521341
 Light:
   m_ObjectHideFlags: 0
@@ -34695,7 +34177,6 @@ GameObject:
   - component: {fileID: 1590662438}
   - component: {fileID: 1590662437}
   - component: {fileID: 1590662436}
-  - component: {fileID: 1590662435}
   m_Layer: 0
   m_Name: LightOrb (4)
   m_TagString: Untagged
@@ -34717,18 +34198,6 @@ Transform:
   m_Father: {fileID: 2112053363}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1590662435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1590662433}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1590662436
 Light:
   m_ObjectHideFlags: 0
@@ -35495,7 +34964,6 @@ GameObject:
   - component: {fileID: 1651945820}
   - component: {fileID: 1651945819}
   - component: {fileID: 1651945818}
-  - component: {fileID: 1651945817}
   m_Layer: 0
   m_Name: LightOrb (16)
   m_TagString: Untagged
@@ -35517,18 +34985,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1651945817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1651945815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1651945818
 Light:
   m_ObjectHideFlags: 0
@@ -35942,7 +35398,8 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e9b0ca875d4879b409d76235135784e0, type: 3}
 --- !u!4 &1682914725
 Transform:
@@ -36162,7 +35619,6 @@ GameObject:
   - component: {fileID: 1707364288}
   - component: {fileID: 1707364287}
   - component: {fileID: 1707364286}
-  - component: {fileID: 1707364285}
   m_Layer: 0
   m_Name: LightOrb (1)
   m_TagString: Untagged
@@ -36184,18 +35640,6 @@ Transform:
   m_Father: {fileID: 2112053363}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1707364285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707364283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1707364286
 Light:
   m_ObjectHideFlags: 0
@@ -37020,7 +36464,6 @@ GameObject:
   - component: {fileID: 1740691983}
   - component: {fileID: 1740691982}
   - component: {fileID: 1740691981}
-  - component: {fileID: 1740691980}
   m_Layer: 0
   m_Name: LightOrb (19)
   m_TagString: Untagged
@@ -37042,18 +36485,6 @@ Transform:
   m_Father: {fileID: 1619904897}
   m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1740691980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1740691978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1740691981
 Light:
   m_ObjectHideFlags: 0
@@ -37954,7 +37385,6 @@ GameObject:
   - component: {fileID: 1781747333}
   - component: {fileID: 1781747332}
   - component: {fileID: 1781747331}
-  - component: {fileID: 1781747330}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -37977,19 +37407,6 @@ Transform:
   m_Father: {fileID: 688574697}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1781747330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 11415526, guid: e9b0ca875d4879b409d76235135784e0,
-    type: 3}
-  m_PrefabInstance: {fileID: 688574696}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1781747328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1781747331
 Light:
   m_ObjectHideFlags: 0
@@ -38310,7 +37727,6 @@ GameObject:
   - component: {fileID: 1810879448}
   - component: {fileID: 1810879447}
   - component: {fileID: 1810879446}
-  - component: {fileID: 1810879445}
   m_Layer: 0
   m_Name: LightOrb (14)
   m_TagString: Untagged
@@ -38332,18 +37748,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1810879445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1810879443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1810879446
 Light:
   m_ObjectHideFlags: 0
@@ -38729,7 +38133,6 @@ GameObject:
   - component: {fileID: 1839188026}
   - component: {fileID: 1839188025}
   - component: {fileID: 1839188024}
-  - component: {fileID: 1839188023}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -38752,19 +38155,6 @@ Transform:
   m_Father: {fileID: 1387420770}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1839188023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 11415526, guid: e9b0ca875d4879b409d76235135784e0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1387420769}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1839188021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1839188024
 Light:
   m_ObjectHideFlags: 0
@@ -38919,7 +38309,6 @@ GameObject:
   - component: {fileID: 1857673649}
   - component: {fileID: 1857673648}
   - component: {fileID: 1857673647}
-  - component: {fileID: 1857673646}
   m_Layer: 0
   m_Name: LightOrb (12)
   m_TagString: Untagged
@@ -38941,18 +38330,6 @@ Transform:
   m_Father: {fileID: 2112053363}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1857673646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1857673644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1857673647
 Light:
   m_ObjectHideFlags: 0
@@ -41267,7 +40644,7 @@ PrefabInstance:
     - target: {fileID: 7264181408041424334, guid: 4ab2e03e0ed13f043b17f2648f295d87,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7264181408041424327, guid: 4ab2e03e0ed13f043b17f2648f295d87,
         type: 3}
@@ -41324,6 +40701,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7264181408041424323, guid: 4ab2e03e0ed13f043b17f2648f295d87,
+        type: 3}
+      propertyPath: doRegister
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7264181408041424332, guid: 4ab2e03e0ed13f043b17f2648f295d87,
         type: 3}
       propertyPath: health.regenAmount
@@ -41332,7 +40714,12 @@ PrefabInstance:
     - target: {fileID: 7264181408041424332, guid: 4ab2e03e0ed13f043b17f2648f295d87,
         type: 3}
       propertyPath: characterColour
-      value: 4
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7264181408041424332, guid: 4ab2e03e0ed13f043b17f2648f295d87,
+        type: 3}
+      propertyPath: shouldSpawn
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3478400417857769122, guid: 4ab2e03e0ed13f043b17f2648f295d87,
         type: 3}
@@ -42741,7 +42128,6 @@ GameObject:
   - component: {fileID: 1914871043}
   - component: {fileID: 1914871042}
   - component: {fileID: 1914871041}
-  - component: {fileID: 1914871040}
   m_Layer: 0
   m_Name: LightOrb
   m_TagString: Untagged
@@ -42764,19 +42150,6 @@ Transform:
   m_Father: {fileID: 844418044}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1914871040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 11415526, guid: e9b0ca875d4879b409d76235135784e0,
-    type: 3}
-  m_PrefabInstance: {fileID: 844418043}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1914871038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1914871041
 Light:
   m_ObjectHideFlags: 0
@@ -47861,7 +47234,8 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: e9b0ca875d4879b409d76235135784e0, type: 3}
 --- !u!4 &2097639189
 Transform:
@@ -48173,7 +47547,6 @@ GameObject:
   - component: {fileID: 2117692313}
   - component: {fileID: 2117692312}
   - component: {fileID: 2117692311}
-  - component: {fileID: 2117692310}
   m_Layer: 0
   m_Name: LightOrb (22)
   m_TagString: Untagged
@@ -48195,18 +47568,6 @@ Transform:
   m_Father: {fileID: 1619904897}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2117692310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2117692308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &2117692311
 Light:
   m_ObjectHideFlags: 0
@@ -48356,7 +47717,6 @@ GameObject:
   - component: {fileID: 2118374001}
   - component: {fileID: 2118374000}
   - component: {fileID: 2118373999}
-  - component: {fileID: 2118373998}
   m_Layer: 0
   m_Name: LightOrb (7)
   m_TagString: Untagged
@@ -48378,18 +47738,6 @@ Transform:
   m_Father: {fileID: 646101005}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2118373998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2118373996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf698b02e01d493459bcd352ab072a31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &2118373999
 Light:
   m_ObjectHideFlags: 0
@@ -49192,6 +48540,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 768482836}
     m_Modifications:
+    - target: {fileID: 2017731464007154117, guid: 52871025683cd0b4c85ed62fb677d707,
+        type: 3}
+      propertyPath: m_Name
+      value: GreenRock
+      objectReference: {fileID: 0}
     - target: {fileID: 2021505383913628529, guid: 52871025683cd0b4c85ed62fb677d707,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -49246,11 +48599,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -88.911
-      objectReference: {fileID: 0}
-    - target: {fileID: 2017731464007154117, guid: 52871025683cd0b4c85ed62fb677d707,
-        type: 3}
-      propertyPath: m_Name
-      value: GreenRock
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52871025683cd0b4c85ed62fb677d707, type: 3}
@@ -49478,6 +48826,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 768482836}
     m_Modifications:
+    - target: {fileID: 4806139590028015394, guid: e7a09a9dff9d7e94eb7b3bcf77330074,
+        type: 3}
+      propertyPath: m_Name
+      value: YellowRock
+      objectReference: {fileID: 0}
     - target: {fileID: 4809683883601934012, guid: e7a09a9dff9d7e94eb7b3bcf77330074,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -49532,11 +48885,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 9.56
-      objectReference: {fileID: 0}
-    - target: {fileID: 4806139590028015394, guid: e7a09a9dff9d7e94eb7b3bcf77330074,
-        type: 3}
-      propertyPath: m_Name
-      value: YellowRock
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7a09a9dff9d7e94eb7b3bcf77330074, type: 3}
@@ -49621,6 +48969,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 346952525}
     m_Modifications:
+    - target: {fileID: 8434047766226836930, guid: 0e92992ab79394a43801bb2595bfdab7,
+        type: 3}
+      propertyPath: m_Name
+      value: GreenPlat
+      objectReference: {fileID: 0}
     - target: {fileID: 8434047766227081812, guid: 0e92992ab79394a43801bb2595bfdab7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -49676,11 +49029,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8434047766226836930, guid: 0e92992ab79394a43801bb2595bfdab7,
-        type: 3}
-      propertyPath: m_Name
-      value: GreenPlat
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e92992ab79394a43801bb2595bfdab7, type: 3}
 --- !u!1001 &8812258323569101831
@@ -49690,6 +49038,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 768482836}
     m_Modifications:
+    - target: {fileID: 8811543085965717904, guid: dd73252f90d4db34f9119d933ce7d9db,
+        type: 3}
+      propertyPath: m_Name
+      value: RedRock
+      objectReference: {fileID: 0}
     - target: {fileID: 8810549111615482660, guid: dd73252f90d4db34f9119d933ce7d9db,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -49744,11 +49097,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -147.242
-      objectReference: {fileID: 0}
-    - target: {fileID: 8811543085965717904, guid: dd73252f90d4db34f9119d933ce7d9db,
-        type: 3}
-      propertyPath: m_Name
-      value: RedRock
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd73252f90d4db34f9119d933ce7d9db, type: 3}

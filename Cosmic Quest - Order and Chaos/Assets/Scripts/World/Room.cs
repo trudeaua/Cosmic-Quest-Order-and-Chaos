@@ -61,11 +61,13 @@ public class Room : MonoBehaviour
 
     private void Start()
     {
-        Door = transform.Find("Door").gameObject;
-
-        Collider = Door.GetComponent<Collider>();
-        Anim = Door.GetComponent<Animator>();
-        DoorAudio = Door.GetComponent<AudioSource>();
+        Transform doorTransform = transform.Find("Door");
+        if (doorTransform != null) {
+            Door = doorTransform.gameObject;
+            Collider = Door.GetComponent<Collider>();
+            Anim = Door.GetComponent<Animator>();
+            DoorAudio = Door.GetComponent<AudioSource>();
+        }
     }
 
     /// <summary>
@@ -145,11 +147,19 @@ public class Room : MonoBehaviour
     /// <returns>An IEnumerator</returns>
     public virtual IEnumerator SetAnimTrigger ()
     {
-        DoorAudio.Play(0);
+        if (DoorAudio)
+        {
+            DoorAudio.Play(0);
+        }
         yield return new WaitForSeconds(1);
-        Anim.SetTrigger("OpenDoor");
-        Collider.enabled = false;
-
+        if (Anim)
+        {
+            Anim.SetTrigger("OpenDoor");
+        }
+        if (Collider)
+        {
+            Collider.enabled = false;
+        }
         yield break;
     }
 }
