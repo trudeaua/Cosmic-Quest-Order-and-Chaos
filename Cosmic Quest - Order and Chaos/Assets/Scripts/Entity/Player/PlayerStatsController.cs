@@ -165,9 +165,9 @@ public class PlayerStatsController : EntityStatsController
         {
             return;
         }
-        if (!PauseMenuController._instance.IsPaused)
+        if (!PauseMenuController.Instance.IsPaused)
         {
-            PauseMenuController._instance.PauseGame(gameObject);
+            PauseMenuController.Instance.PauseGame(gameObject);
         }
     }
 
@@ -177,9 +177,9 @@ public class PlayerStatsController : EntityStatsController
         {
             return;
         }
-        if (PauseMenuController._instance.IsPaused)
+        if (PauseMenuController.Instance.IsPaused)
         {
-            PauseMenuController._instance.ResumeGame();
+            PauseMenuController.Instance.ResumeGame();
         }
     }
 
@@ -189,15 +189,15 @@ public class PlayerStatsController : EntityStatsController
         {
             return;
         }
-        if (PauseMenuController._instance.IsPaused)
+        if (PauseMenuController.Instance.IsPaused)
         {
-            if (PauseMenuController._instance.IsAtRoot())
+            if (PauseMenuController.Instance.IsAtRoot())
             {
-                PauseMenuController._instance.ResumeGame();
+                PauseMenuController.Instance.ResumeGame();
             }
             else
             {
-                PauseMenuController._instance.PopMenu();
+                PauseMenuController.Instance.PopMenu();
             }
 
         }
