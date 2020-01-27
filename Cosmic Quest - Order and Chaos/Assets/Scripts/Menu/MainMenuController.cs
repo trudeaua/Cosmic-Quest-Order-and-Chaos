@@ -3,17 +3,16 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
-using UnityEngine.UI;
 
 public class MainMenuController : MenuController
 {
     #region Singleton
-    public new static MainMenuController _instance;
+    public new static MainMenuController Instance;
 
     protected override void Awake()
     {
-        if (_instance == null)
-            _instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Debug.LogWarning("Only one main menu controller should be in the scene!");
     }
@@ -90,7 +89,7 @@ public class MainMenuController : MenuController
     protected void SetPlayerRoot(MultiplayerEventSystem eventSystem, int playerNumber)
     {
         GameObject playerRoot = null;
-        RectTransform[] rectTransforms = _instance.activeMenu.GetComponentsInChildren<RectTransform>(true);
+        RectTransform[] rectTransforms = activeMenu.GetComponentsInChildren<RectTransform>(true);
         foreach (RectTransform rectTransform in rectTransforms)
         {
             // Tags are used to distinguish which submenus can be controlled by which player
@@ -273,7 +272,7 @@ public class MainMenuController : MenuController
             // Remove all but player 1 from the multiplayer lobby
             for (int i = NumberOfPlayers - 1; i >= 1; i--)
             {
-                PlayerManager._instance.RemovePlayer(i);
+                PlayerManager.Instance.RemovePlayer(i);
                 multiplayerEventSystems.RemoveAt(i);
                 ReadyPlayers.RemoveAt(i);
                 SetNumberOfPlayers(NumberOfPlayers - 1);
@@ -302,7 +301,7 @@ public class MainMenuController : MenuController
     {
         for (int i = 0; i < NumberOfPlayers; i++)
         {
-            GameObject playerInstance = PlayerManager._instance.InstantiatePlayer(i);
+            GameObject playerInstance = PlayerManager.Instance.InstantiatePlayer(i);
             playerInstance.transform.parent = positionObj.transform;
 
             // Transform the player instance so it looks nice on screen
@@ -331,20 +330,6 @@ public class MainMenuController : MenuController
         foreach(EntityStatsController child in children)
         {
             Destroy(child.gameObject);
-        }
-    }
-
-    /// <summary>
-    /// Log each player's colour, character selection, and class selection
-    /// </summary>
-    public void LogPlayerInfo()
-    {
-        foreach(Player p in PlayerManager._Players)
-        {
-            if (p != null)
-            {
-                Debug.Log(p.characterColour + "\n" + p.characterChoice + "\n" + p.playerObject.name);
-            }
         }
     }
 

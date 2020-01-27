@@ -28,8 +28,8 @@ public class StepperControl : MonoBehaviour
         btn = GetComponent<Button>();
         btn = GetComponent<Button>();
         gui = btn.gameObject.GetComponentInChildren<TextMeshProUGUI>();
-        characterNames = PlayerManager._instance.GetCharacterNames();
-        classNames = PlayerManager._instance.GetClassNames();
+        characterNames = PlayerManager.Instance.GetCharacterNames();
+        classNames = PlayerManager.Instance.GetClassNames();
 
         switch (property)
         {
@@ -100,12 +100,12 @@ public class StepperControl : MonoBehaviour
 
     private void SetCharacter()
     {
-        PlayerManager._instance.AssignCharacterChoice(playerNumber, selectedIndex);
+        PlayerManager.Instance.AssignCharacterChoice(playerNumber, selectedIndex);
     }
 
     private void SetClass()
     {
-        PlayerManager._instance.AssignPrefab(playerNumber, selectedIndex);
+        PlayerManager.Instance.AssignPrefab(playerNumber, selectedIndex);
     }
 
     private void RefreshPlayer()
@@ -122,7 +122,7 @@ public class StepperControl : MonoBehaviour
             SetClass();
         }
         UpdatePlayer();
-        GameObject playerInstance = PlayerManager._instance.InstantiatePlayer(playerNumber);
+        GameObject playerInstance = PlayerManager.Instance.InstantiatePlayer(playerNumber);
         playerInstance.transform.parent = playerContainer.transform;
 
         // Transform the player instance so it looks nice on screen

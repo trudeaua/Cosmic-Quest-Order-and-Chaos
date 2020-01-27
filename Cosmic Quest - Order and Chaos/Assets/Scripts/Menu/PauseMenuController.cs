@@ -2,17 +2,16 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
-using UnityEngine.UI;
 
 public class PauseMenuController : MenuController
 {
     #region Singleton
-    public new static PauseMenuController _instance;
+    public new static PauseMenuController Instance;
 
     protected override void Awake()
     {
-        if (_instance == null)
-            _instance = this;
+        if (Instance == null)
+            Instance = this;
         else
             Debug.LogWarning("Only one pause menu controller should be in the scene!");
     }
