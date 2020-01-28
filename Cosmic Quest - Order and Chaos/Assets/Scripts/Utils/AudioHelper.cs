@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioHelper : MonoBehaviour
@@ -99,6 +100,20 @@ public class AudioHelper : MonoBehaviour
     public static void SetVoiceVolume(float value)
     {
         VoiceVolume = Mathf.Max(0, value);
+    }
+
+    public static void SetAudioSpeakerMode(AudioSpeakerMode mode)
+    {
+        AudioSettings.speakerMode = mode;
+    }
+
+    public static List<KeyValuePair<string, AudioSpeakerMode>> GetAudioSpeakerModes()
+    {
+        List<KeyValuePair<string, AudioSpeakerMode>> modes = new List<KeyValuePair<string, AudioSpeakerMode>>();
+        modes.Add(new KeyValuePair<string, AudioSpeakerMode>("Mono", AudioSpeakerMode.Mono));
+        modes.Add(new KeyValuePair<string, AudioSpeakerMode>("Stereo", AudioSpeakerMode.Stereo));
+        modes.Add(new KeyValuePair<string, AudioSpeakerMode>("Surround", AudioSpeakerMode.Surround));
+        return modes;
     }
 
     public static float GetAudioModifier(EntityAudioClip.AudioType audioType)
