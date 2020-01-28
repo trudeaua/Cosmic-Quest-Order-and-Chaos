@@ -82,31 +82,55 @@ public class AudioHelper : MonoBehaviour
         source.Stop();
     }
 
+    /// <summary>
+    /// Set the master volume level
+    /// </summary>
+    /// <param name="value">Value to set the master volume to (bewteen 0 and 1)</param>
     public static void SetMasterVolume(float value)
     {
         MasterVolume = Mathf.Max(0, value);
     }
 
+    /// <summary>
+    /// Set the music volume level
+    /// </summary>
+    /// <param name="value">Value to set the music volume to (bewteen 0 and 1)</param>
     public static void SetMusicVolume(float value)
     {
         MusicVolume = Mathf.Max(0, value);
     }
 
+    /// <summary>
+    /// Set the sfx volume level
+    /// </summary>
+    /// <param name="value">Value to set the sfx volume to (bewteen 0 and 1)</param>
     public static void SetSfxVolume(float value)
     {
         SfxVolume = Mathf.Max(0, value);
     }
 
+    /// <summary>
+    /// Set the voice volume level
+    /// </summary>
+    /// <param name="value">Value to set the voice volume to (bewteen 0 and 1)</param>
     public static void SetVoiceVolume(float value)
     {
         VoiceVolume = Mathf.Max(0, value);
     }
 
+    /// <summary>
+    /// Set the audio speaker mode
+    /// </summary>
+    /// <param name="mode">Mode to set the speaker mode to</param>
     public static void SetAudioSpeakerMode(AudioSpeakerMode mode)
     {
         AudioSettings.speakerMode = mode;
     }
 
+    /// <summary>
+    /// Get a list of all allowed speaker modes
+    /// </summary>
+    /// <returns></returns>
     public static List<KeyValuePair<string, AudioSpeakerMode>> GetAudioSpeakerModes()
     {
         List<KeyValuePair<string, AudioSpeakerMode>> modes = new List<KeyValuePair<string, AudioSpeakerMode>>();
@@ -116,6 +140,11 @@ public class AudioHelper : MonoBehaviour
         return modes;
     }
 
+    /// <summary>
+    /// Get a modifier value that represents the volume level of the specified audio type adjusted with the master volume level
+    /// </summary>
+    /// <param name="audioType">Type of the audio clip</param>
+    /// <returns>A modifier value (between 0 and 1)</returns>
     public static float GetAudioModifier(EntityAudioClip.AudioType audioType)
     {
         float audioModifier = MasterVolume;

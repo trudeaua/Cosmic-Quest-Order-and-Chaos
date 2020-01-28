@@ -643,17 +643,6 @@ public class @GameControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9ce1a645-1d5f-457b-9a19-1f242a387ef2"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""MenuClose"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""e29e0273-10a2-47e0-ac03-c415b231246e"",
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",

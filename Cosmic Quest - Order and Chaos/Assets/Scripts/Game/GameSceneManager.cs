@@ -5,13 +5,13 @@ using UnityEngine.SceneManagement;
 public class GameSceneManager : MonoBehaviour
 {
     #region Singleton
-    private static GameSceneManager _instance;
+    private static GameSceneManager Instance;
 
     private void Awake()
     {
-        if (_instance == null)
+        if (Instance == null)
         {
-            _instance = this;
+            Instance = this;
         }
         else
         {
@@ -26,7 +26,8 @@ public class GameSceneManager : MonoBehaviour
     public void StartTutorial()
     {
         // Load Tutorial scene
-        _instance.StartCoroutine(LoadYourAsyncScene("Tutorial"));
+        //Instance.StartCoroutine(LoadYourAsyncScene("Tutorial"));
+        LoadYourScene("Tutorial");
     }
 
     /// <summary>
@@ -35,7 +36,8 @@ public class GameSceneManager : MonoBehaviour
     public void StartLevel1()
     {
         // Load Level 1
-        _instance.StartCoroutine(LoadYourAsyncScene("ChaosVoid1"));
+        //Instance.StartCoroutine(LoadYourAsyncScene("ChaosVoid1"));
+        LoadYourScene("ChaosVoid1");
     }
 
     /// <summary>
@@ -49,12 +51,13 @@ public class GameSceneManager : MonoBehaviour
 
     public void BackToMenu()
     {
-        _instance.StartCoroutine(LoadYourAsyncScene("MenuStaging"));
+        //_instance.StartCoroutine(LoadYourAsyncScene("MenuStaging"));
+        LoadYourScene("MenuStaging");
 
     }
 
     /// <summary>
-    /// Load a scene asynchronously
+    /// Load a scene asynchronously in the background
     /// </summary>
     /// <param name="sceneName">Name of the scene to load</param>
     /// <returns>An IEnumerator</returns>
@@ -67,5 +70,14 @@ public class GameSceneManager : MonoBehaviour
         {
             yield return null;
         }
+    }
+
+    /// <summary>
+    /// Load a scene synchronously
+    /// </summary>
+    /// <param name="sceneName">Name of the scene to load</param>
+    private void LoadYourScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }

@@ -62,7 +62,7 @@ public class MenuController : MonoBehaviour
     /// </summary>
     public virtual void PopMenu()
     {
-        if (menuStack.Count > 0)
+        if (menuStack.Count > 1) // always want to have root menu remaining on stack
         {
             activeMenu.SetActive(false);
             menuStack.Pop();

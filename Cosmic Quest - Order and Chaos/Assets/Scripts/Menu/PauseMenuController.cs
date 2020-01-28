@@ -67,7 +67,6 @@ public class PauseMenuController : MenuController
         }
         Time.timeScale = 0;
         // Set pause menu active
-        activeMenu.SetActive(true);
         IsPaused = true;
         playerEventSystem = playerObject.GetComponent<MultiplayerEventSystem>();
         if (playerEventSystem == null)
@@ -102,7 +101,6 @@ public class PauseMenuController : MenuController
         }
         Time.timeScale = 1;
         IsPaused = false;
-        // Set pause menu inactive
         playerEventSystem.SetSelectedGameObject(null);
         activeMenu.SetActive(false);
         activeMenu = GetRootMenu();
