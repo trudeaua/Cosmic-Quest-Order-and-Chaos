@@ -27,12 +27,22 @@ public class MenuController : MonoBehaviour
 
     protected AudioSource musicSource;
 
+    [SerializeField] protected GameObject speakerModesDropdown;
+
+    [SerializeField] protected GameObject qualitySettingsDropdown;
+
+    protected List<KeyValuePair<string, AudioSpeakerMode>> speakerModes;
+
+    protected  string[] qualitySettings;
+
     protected virtual void Start()
     {
         menuStack = new Stack<GameObject>();
         activeMenu.SetActive(true);
         menuStack.Push(activeMenu);
         FindCameraAndMusic();
+        FindSpeakerModesDropdown();
+        FindQualitySettingsDropdown();
     }
 
     /// <summary>
@@ -103,6 +113,34 @@ public class MenuController : MonoBehaviour
         musicSource = mainCamera.GetComponent<AudioSource>();
     }
 
+    protected void FindQualitySettingsDropdown()
+    {
+        if (qualitySettingsDropdown)
+        {
+            qualitySettings = VideoHelper.GetQualityLevels();
+            List<TMPro.TMP_Dropdown.OptionData> qualityDropdownOptions = new List<TMPro.TMP_Dropdown.OptionData>();
+            foreach (string qualitySetting in qualitySettings)
+            {
+                qualityDropdownOptions.Add(new TMPro.TMP_Dropdown.OptionData(qualitySetting));
+            }
+            qualitySettingsDropdown.GetComponent<TMPro.TMP_Dropdown>().options = qualityDropdownOptions;
+        }
+    }
+
+    protected void FindSpeakerModesDropdown()
+    {
+        if (speakerModesDropdown)
+        {
+            speakerModes = AudioHelper.GetAudioSpeakerModes();
+            List<TMPro.TMP_Dropdown.OptionData> speakerDropdownOptions = new List<TMPro.TMP_Dropdown.OptionData>();
+            for (int i = 0; i < speakerModes.Count; i++)
+            {
+                speakerDropdownOptions.Add(new TMPro.TMP_Dropdown.OptionData(speakerModes[i].Key));
+            }
+            speakerModesDropdown.GetComponent<TMPro.TMP_Dropdown>().options = speakerDropdownOptions;
+        }
+    }
+
     /// <summary>
     /// Set the master volume
     /// </summary>
@@ -144,6 +182,31 @@ public class MenuController : MonoBehaviour
     {
         float value = slider.normalizedValue;
         AudioHelper.SetVoiceVolume(value);
+    }
+
+    public void SetVideoQualityLevel()
+    {
+        TMPro.TMP_Dropdown dropdown = qualitySettingsDropdown.GetComponent<TMPro.TMP_Dropdown>();
+        for(int i = 0; i < qualitySettings.Length; i++)
+        {
+            if (qualitySettings[i] == dropdown.itemText.text)
+            {
+                VideoHelper.SetQualityLevel(i);
+            }
+        }
+    }
+
+    public void SetAudioSpeakerMode()
+    {
+        TMPro.TMP_Dropdown dropdown = speakerModesDropdown.GetComponent<TMPro.TMP_Dropdown>();
+        foreach(KeyValuePair<string, AudioSpeakerMode> speakerMode in speakerModes)
+        {
+            if (speakerMode.Key == dropdown.itemText.text)
+            {
+                AudioHelper.SetAudioSpeakerMode(speakerMode.Value);
+                return;
+            }
+        }
     }
 
     /// <summary>
