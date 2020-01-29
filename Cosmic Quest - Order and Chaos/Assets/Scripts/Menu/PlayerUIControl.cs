@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerUIControl : MonoBehaviour
 {
+    private int assignedPlayer;
     void Start()
     {
-        int assignedPlayer = PlayerManager.Instance.AssignUIControlToPlayer(gameObject);
+        assignedPlayer = PlayerManager.Instance.AssignUIControlToPlayer(gameObject);
         if (assignedPlayer >= 0)
         {
             name = "Player " + (assignedPlayer + 1) + " UI Control";
@@ -13,6 +15,18 @@ public class PlayerUIControl : MonoBehaviour
         else
         {
             Debug.LogError("UI Control not assigned, no available player");
+        }
+    }
+
+    public void OnMenuCancel(InputValue value)
+    {
+        if (!value.isPressed)
+        {
+            return;
+        }
+        if (assignedPlayer == 0)
+        {
+            MainMenuController.Instance.PopMenu();
         }
     }
 }

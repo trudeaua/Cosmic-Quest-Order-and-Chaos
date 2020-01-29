@@ -28,10 +28,12 @@ public class PauseMenuController : MenuController
     protected override void Start()
     {
         menuStack = new Stack<GameObject>();
+        selectedButtonsStack = new Stack<GameObject>();
         activeMenu.SetActive(false);
         FindCameraAndMusic();
-        FindSpeakerModesDropdown();
-        FindQualitySettingsDropdown();
+        SetUpSpeakerModesDropdown();
+        SetUpQualitySettingsDropdown();
+        SetUpAntiAliasingDropdown();
     }
 
     /// <summary>
@@ -40,6 +42,11 @@ public class PauseMenuController : MenuController
     /// <param name="menu">The menu to navigate to</param>
     public override void PushMenu(GameObject menu)
     {
+        GameObject button = GetSelectedButton(playerEventSystem);
+        if (button)
+        {
+            selectedButtonsStack.Push(button);
+        }
         base.PushMenu(menu);
         SetPlayerRoot(playerEventSystem);
     }
@@ -51,6 +58,8 @@ public class PauseMenuController : MenuController
     {
         base.PopMenu();
         SetPlayerRoot(playerEventSystem);
+        GameObject button = PopButton();
+        playerEventSystem.SetSelectedGameObject(button);
     }
 
     public bool IsAtRoot()

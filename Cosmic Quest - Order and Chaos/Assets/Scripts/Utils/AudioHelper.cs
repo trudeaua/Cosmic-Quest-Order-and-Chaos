@@ -140,6 +140,11 @@ public class AudioHelper : MonoBehaviour
         return modes;
     }
 
+    public static AudioSpeakerMode GetCurrentSpeakerMode()
+    {
+        return AudioSettings.speakerMode;
+    }
+
     /// <summary>
     /// Get a modifier value that represents the volume level of the specified audio type adjusted with the master volume level
     /// </summary>

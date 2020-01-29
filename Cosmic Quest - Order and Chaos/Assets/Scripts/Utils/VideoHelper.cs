@@ -13,6 +13,11 @@ public class VideoHelper : MonoBehaviour
         QualitySettings.SetQualityLevel(level);
     }
 
+    public static void SetAntiAliasingLevel(int level)
+    {
+        QualitySettings.antiAliasing = level;
+    }
+
     /// <summary>
     /// Get a list of the names of all Unity quality levels
     /// </summary>
@@ -20,5 +25,21 @@ public class VideoHelper : MonoBehaviour
     public static string[] GetQualityLevels()
     {
         return QualitySettings.names;
+    }
+
+    public static int GetCurrentQualityLevel()
+    {
+        return QualitySettings.GetQualityLevel();
+    }
+
+    public static int GetCurrentAntiAliasingLevel()
+    {
+        return QualitySettings.antiAliasing;
+    }
+
+    public static int[] GetAntiAliasingLevels()
+    {
+        int[] levels = { 0, 2, 4, 8 };
+        return levels;
     }
 }

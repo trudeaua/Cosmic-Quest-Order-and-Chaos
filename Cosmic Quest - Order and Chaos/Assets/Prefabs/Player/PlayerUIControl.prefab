@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1626825108134895846
 Transform:
   m_ObjectHideFlags: 0
@@ -88,6 +88,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1626825109976161651}
   - component: {fileID: 9173871938856283549}
+  - component: {fileID: 9203923533277710030}
+  - component: {fileID: 4730332113486414468}
+  - component: {fileID: 7299259842068518254}
+  - component: {fileID: 8445244511582724763}
   m_Layer: 0
   m_Name: PlayerUIControl
   m_TagString: Untagged
@@ -123,6 +127,177 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c650d120b6a9c9e4b83e9e3040a55ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9203923533277710030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626825109976161650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b16c6f78230fa4964a222622d8aae332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+  m_PlayerRoot: {fileID: 0}
+--- !u!114 &4730332113486414468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626825109976161650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RepeatDelay: 0.5
+  m_RepeatRate: 0.1
+  m_ActionsAsset: {fileID: -944628639613478452, guid: c06fc4b6157b8a44db74538c44351f65,
+    type: 3}
+  m_PointAction: {fileID: 0}
+  m_MoveAction: {fileID: -7021254025963542836, guid: c06fc4b6157b8a44db74538c44351f65,
+    type: 3}
+  m_SubmitAction: {fileID: -8635381211642257738, guid: c06fc4b6157b8a44db74538c44351f65,
+    type: 3}
+  m_CancelAction: {fileID: 2161689634332582612, guid: c06fc4b6157b8a44db74538c44351f65,
+    type: 3}
+  m_LeftClickAction: {fileID: 0}
+  m_MiddleClickAction: {fileID: 0}
+  m_RightClickAction: {fileID: 0}
+  m_ScrollWheelAction: {fileID: 0}
+  m_TrackedDevicePositionAction: {fileID: 0}
+  m_TrackedDeviceOrientationAction: {fileID: 0}
+  m_TrackedDeviceSelectAction: {fileID: 0}
+--- !u!114 &7299259842068518254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626825109976161650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: c06fc4b6157b8a44db74538c44351f65,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 4730332113486414468}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a2411fe7-c6e6-4bd0-b021-87e5e42de7aa
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/mayflash
+      limited MAYFLASH GameCube Controller Adapter/stick,/mayflash limited MAYFLASH
+      GameCube Controller Adapter1/stick,/mayflash limited MAYFLASH GameCube Controller
+      Adapter2/stick,/mayflash limited MAYFLASH GameCube Controller Adapter/stick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 298efebf-dd14-4d04-9a10-a0e016650a8f
+    m_ActionName: Player/Look[/mayflash limited MAYFLASH GameCube Controller Adapter/stick,/mayflash
+      limited MAYFLASH GameCube Controller Adapter1/stick,/mayflash limited MAYFLASH
+      GameCube Controller Adapter2/stick,/mayflash limited MAYFLASH GameCube Controller
+      Adapter/stick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4376de81-1207-42e1-8154-ed6200a68419
+    m_ActionName: Player/PrimaryAttack[/Mouse/leftButton,/mayflash limited MAYFLASH
+      GameCube Controller Adapter/button8,/mayflash limited MAYFLASH GameCube Controller
+      Adapter1/button8,/mayflash limited MAYFLASH GameCube Controller Adapter2/button8,/mayflash
+      limited MAYFLASH GameCube Controller Adapter/button8]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7fcc6c30-bd3c-41a9-92de-0f7a4fa0d592
+    m_ActionName: Player/SecondaryAttack[/Mouse/rightButton,/mayflash limited MAYFLASH
+      GameCube Controller Adapter/button6,/mayflash limited MAYFLASH GameCube Controller
+      Adapter1/button6,/mayflash limited MAYFLASH GameCube Controller Adapter2/button6,/mayflash
+      limited MAYFLASH GameCube Controller Adapter/button6]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e02c0312-8f9d-4012-bd07-e9f92deaf64f
+    m_ActionName: Player/Interact[/Keyboard/e,/mayflash limited MAYFLASH GameCube
+      Controller Adapter/trigger,/mayflash limited MAYFLASH GameCube Controller Adapter1/trigger,/mayflash
+      limited MAYFLASH GameCube Controller Adapter2/trigger,/mayflash limited MAYFLASH
+      GameCube Controller Adapter/trigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c9be423e-0edd-45eb-857e-3609d971d47d
+    m_ActionName: Player/UltimateAbility[/Keyboard/space,/mayflash limited MAYFLASH
+      GameCube Controller Adapter/button4,/mayflash limited MAYFLASH GameCube Controller
+      Adapter1/button4,/mayflash limited MAYFLASH GameCube Controller Adapter2/button4,/mayflash
+      limited MAYFLASH GameCube Controller Adapter/button4]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f6bdf6d2-d3eb-4038-9778-443f8827d98a
+    m_ActionName: Player/PauseGame[/Keyboard/escape,/mayflash limited MAYFLASH GameCube
+      Controller Adapter/button10,/mayflash limited MAYFLASH GameCube Controller Adapter1/button10,/mayflash
+      limited MAYFLASH GameCube Controller Adapter2/button10,/mayflash limited MAYFLASH
+      GameCube Controller Adapter/button10]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6b206bb7-c9cc-4a35-951b-7f7a81206839
+    m_ActionName: UI/MenuNavigate[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/mayflash
+      limited MAYFLASH GameCube Controller Adapter/stick,/mayflash limited MAYFLASH
+      GameCube Controller Adapter1/stick,/mayflash limited MAYFLASH GameCube Controller
+      Adapter2/stick,/mayflash limited MAYFLASH GameCube Controller Adapter/stick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 42861f1a-b0d3-4966-9c50-9dd60852ca5a
+    m_ActionName: UI/MenuSelect[/Mouse/leftButton,/mayflash limited MAYFLASH GameCube
+      Controller Adapter/button2,/mayflash limited MAYFLASH GameCube Controller Adapter1/button2,/mayflash
+      limited MAYFLASH GameCube Controller Adapter2/button2,/mayflash limited MAYFLASH
+      GameCube Controller Adapter/button2,/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 70ba4ddf-fdf6-4b37-a8b7-62d4f8ca6203
+    m_ActionName: UI/MenuCancel[/Keyboard/escape,/mayflash limited MAYFLASH GameCube
+      Controller Adapter/button3,/mayflash limited MAYFLASH GameCube Controller Adapter1/button3,/mayflash
+      limited MAYFLASH GameCube Controller Adapter2/button3,/mayflash limited MAYFLASH
+      GameCube Controller Adapter/button3]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6b143529-40bc-40ad-b621-0a10ab3a6ead
+    m_ActionName: UI/MenuOpen[/Keyboard/escape,/mayflash limited MAYFLASH GameCube
+      Controller Adapter/button10,/mayflash limited MAYFLASH GameCube Controller Adapter1/button10,/mayflash
+      limited MAYFLASH GameCube Controller Adapter2/button10,/mayflash limited MAYFLASH
+      GameCube Controller Adapter/button10]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 684789e1-b3ac-4f60-92a9-eba3718282db
+    m_ActionName: UI/MenuClose[/mayflash limited MAYFLASH GameCube Controller Adapter/button10,/mayflash
+      limited MAYFLASH GameCube Controller Adapter1/button10,/mayflash limited MAYFLASH
+      GameCube Controller Adapter2/button10,/mayflash limited MAYFLASH GameCube Controller
+      Adapter/button10]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Gamepad
+  m_DefaultActionMap: UI
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &8445244511582724763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626825109976161650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
 --- !u!1 &1626825109989449800
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,7 +314,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1626825109989449801
 Transform:
   m_ObjectHideFlags: 0
@@ -219,6 +394,6 @@ MonoBehaviour:
     m_ActionName: Player/MenuOpen[/Keyboard/escape,/DualShock4GamepadHID/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
-  m_DefaultActionMap: a960e2a2-3101-4b42-b86d-ee315aaec8b1
+  m_DefaultActionMap: UI
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

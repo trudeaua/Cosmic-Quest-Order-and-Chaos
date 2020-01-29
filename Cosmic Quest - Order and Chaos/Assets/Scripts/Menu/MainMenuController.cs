@@ -43,6 +43,14 @@ public class MainMenuController : MenuController
     /// <param name="menu">The menu to navigate to</param>
     public override void PushMenu(GameObject menu)
     {
+        if (multiplayerEventSystems.Count > 0)
+        {
+            GameObject button = GetSelectedButton(multiplayerEventSystems[0]);
+            if (button)
+            {
+                selectedButtonsStack.Push(button);
+            }
+        }
         base.PushMenu(menu);
         SetPlayerRoots();
     }
@@ -54,6 +62,11 @@ public class MainMenuController : MenuController
     {
         base.PopMenu();
         SetPlayerRoots();
+        if (multiplayerEventSystems.Count > 0)
+        {
+            GameObject button = PopButton();
+            multiplayerEventSystems[0].SetSelectedGameObject(button);
+        }
     }
 
     /// <summary>

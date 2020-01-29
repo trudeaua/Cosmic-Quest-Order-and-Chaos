@@ -22,6 +22,7 @@ public class MenuController : MonoBehaviour
 
     // Maintains the menus that the player has navigated through
     protected Stack<GameObject> menuStack;
+    protected Stack<GameObject> selectedButtonsStack;
 
     protected Camera mainCamera;
 
@@ -31,18 +32,24 @@ public class MenuController : MonoBehaviour
 
     [SerializeField] protected GameObject qualitySettingsDropdown;
 
+    [SerializeField] protected GameObject antiAliasingDropdown;
+
     protected List<KeyValuePair<string, AudioSpeakerMode>> speakerModes;
 
-    protected  string[] qualitySettings;
+    protected string[] qualitySettings;
+
+    protected int[] antiAliasingLevels;
 
     protected virtual void Start()
     {
         menuStack = new Stack<GameObject>();
+        selectedButtonsStack = new Stack<GameObject>();
         activeMenu.SetActive(true);
         menuStack.Push(activeMenu);
         FindCameraAndMusic();
-        FindSpeakerModesDropdown();
-        FindQualitySettingsDropdown();
+        SetUpSpeakerModesDropdown();
+        SetUpQualitySettingsDropdown();
+        SetUpAntiAliasingDropdown();
     }
 
     /// <summary>
@@ -71,6 +78,16 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    protected virtual void PushButton(GameObject button)
+    {
+        selectedButtonsStack.Push(button);
+    }
+
+    protected virtual GameObject PopButton()
+    {
+        return selectedButtonsStack.Pop();
+    }
+
     /// <summary>
     /// Gets the first selectable `GameObject` found in the specified menu
     /// </summary>
@@ -90,6 +107,11 @@ public class MenuController : MonoBehaviour
         {
             return null;
         }
+    }
+
+    protected virtual GameObject GetSelectedButton(MultiplayerEventSystem eventSystem)
+    {
+        return eventSystem.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -113,31 +135,61 @@ public class MenuController : MonoBehaviour
         musicSource = mainCamera.GetComponent<AudioSource>();
     }
 
-    protected void FindQualitySettingsDropdown()
+    protected void SetUpQualitySettingsDropdown()
     {
         if (qualitySettingsDropdown)
         {
             qualitySettings = VideoHelper.GetQualityLevels();
+            int current = VideoHelper.GetCurrentQualityLevel();
             List<TMPro.TMP_Dropdown.OptionData> qualityDropdownOptions = new List<TMPro.TMP_Dropdown.OptionData>();
-            foreach (string qualitySetting in qualitySettings)
+            for (int i = 0; i < qualitySettings.Length; i++)
             {
-                qualityDropdownOptions.Add(new TMPro.TMP_Dropdown.OptionData(qualitySetting));
+                qualityDropdownOptions.Add(new TMPro.TMP_Dropdown.OptionData(qualitySettings[i]));
             }
             qualitySettingsDropdown.GetComponent<TMPro.TMP_Dropdown>().options = qualityDropdownOptions;
+            qualitySettingsDropdown.GetComponent<TMPro.TMP_Dropdown>().SetValueWithoutNotify(current);
         }
     }
 
-    protected void FindSpeakerModesDropdown()
+    protected void SetUpAntiAliasingDropdown()
+    {
+        if (antiAliasingDropdown)
+        {
+            antiAliasingLevels = VideoHelper.GetAntiAliasingLevels();
+            int current = VideoHelper.GetCurrentAntiAliasingLevel();
+            int selected = 0;
+            List<TMPro.TMP_Dropdown.OptionData> qualityDropdownOptions = new List<TMPro.TMP_Dropdown.OptionData>();
+            for (int i = 0; i < antiAliasingLevels.Length; i++)
+            {
+                qualityDropdownOptions.Add(new TMPro.TMP_Dropdown.OptionData(antiAliasingLevels[i].ToString() + "x"));
+                if (antiAliasingLevels[i] == current)
+                {
+                    selected = i;
+                }
+            }
+            antiAliasingDropdown.GetComponent<TMPro.TMP_Dropdown>().options = qualityDropdownOptions;
+            antiAliasingDropdown.GetComponent<TMPro.TMP_Dropdown>().SetValueWithoutNotify(selected);
+        }
+    }
+
+    protected void SetUpSpeakerModesDropdown()
     {
         if (speakerModesDropdown)
         {
             speakerModes = AudioHelper.GetAudioSpeakerModes();
+            AudioSpeakerMode current = AudioHelper.GetCurrentSpeakerMode();
+            int selected = 0;
             List<TMPro.TMP_Dropdown.OptionData> speakerDropdownOptions = new List<TMPro.TMP_Dropdown.OptionData>();
             for (int i = 0; i < speakerModes.Count; i++)
             {
                 speakerDropdownOptions.Add(new TMPro.TMP_Dropdown.OptionData(speakerModes[i].Key));
+                if (speakerModes[i].Value == current)
+                {
+                    selected = i;
+                }
             }
             speakerModesDropdown.GetComponent<TMPro.TMP_Dropdown>().options = speakerDropdownOptions;
+            speakerModesDropdown.GetComponent<TMPro.TMP_Dropdown>().SetValueWithoutNotify(selected);
         }
     }
 
@@ -188,6 +240,18 @@ public class MenuController : MonoBehaviour
     {
         TMPro.TMP_Dropdown dropdown = qualitySettingsDropdown.GetComponent<TMPro.TMP_Dropdown>();
         for(int i = 0; i < qualitySettings.Length; i++)
+        {
+            if (qualitySettings[i] == dropdown.itemText.text)
+            {
+                VideoHelper.SetQualityLevel(i);
+            }
+        }
+    }
+
+    public void SetAntiAliasingLevel()
+    {
+        TMPro.TMP_Dropdown dropdown = antiAliasingDropdown.GetComponent<TMPro.TMP_Dropdown>();
+        for (int i = 0; i < qualitySettings.Length; i++)
         {
             if (qualitySettings[i] == dropdown.itemText.text)
             {
