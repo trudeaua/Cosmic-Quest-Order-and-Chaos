@@ -20,12 +20,13 @@ public class PlayerUIControl : MonoBehaviour
 
     public void OnMenuCancel(InputValue value)
     {
-        if (!value.isPressed)
-        {
-            return;
-        }
+        // only player 1 may activate this
         if (assignedPlayer == 0)
         {
+            if (!value.isPressed)
+            {
+                return;
+            }
             MainMenuController.Instance.PopMenu();
         }
     }

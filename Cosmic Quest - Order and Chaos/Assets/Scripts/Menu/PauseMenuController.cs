@@ -62,11 +62,19 @@ public class PauseMenuController : MenuController
         playerEventSystem.SetSelectedGameObject(button);
     }
 
+    /// <summary>
+    /// Indicates whether the player is at the root menu or not
+    /// </summary>
+    /// <returns></returns>
     public bool IsAtRoot()
     {
         return menuStack.Count == 1;
     }
 
+    /// <summary>
+    /// Pause the game
+    /// </summary>
+    /// <param name="playerObject">Game object of the player that paused the game</param>
     public void PauseGame(GameObject playerObject)
     {
         if (IsPaused)
@@ -98,6 +106,7 @@ public class PauseMenuController : MenuController
         PushMenu(activeMenu);
         SwitchCurrentActionMap("UI");
     }
+
     /// <summary>
     /// Resume the game
     /// </summary>

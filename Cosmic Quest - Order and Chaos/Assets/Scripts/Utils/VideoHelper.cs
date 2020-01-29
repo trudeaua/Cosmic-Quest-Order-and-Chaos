@@ -13,6 +13,10 @@ public class VideoHelper : MonoBehaviour
         QualitySettings.SetQualityLevel(level);
     }
 
+    /// <summary>
+    /// Set the anti aliasing level
+    /// </summary>
+    /// <param name="level">Index of the anti aliasing level as found under the project settings</param>
     public static void SetAntiAliasingLevel(int level)
     {
         QualitySettings.antiAliasing = level;
@@ -27,16 +31,28 @@ public class VideoHelper : MonoBehaviour
         return QualitySettings.names;
     }
 
+    /// <summary>
+    /// Get the current quality level
+    /// </summary>
+    /// <returns>The index of the quality level in the project settings</returns>
     public static int GetCurrentQualityLevel()
     {
         return QualitySettings.GetQualityLevel();
     }
 
+    /// <summary>
+    /// Get the current anti aliasing level
+    /// </summary>
+    /// <returns>The index of the current anti aliasing level in the project settings</returns>
     public static int GetCurrentAntiAliasingLevel()
     {
         return QualitySettings.antiAliasing;
     }
 
+    /// <summary>
+    /// Get all allowed anti aliasing levels
+    /// </summary>
+    /// <returns>An array of all allowed anti aliasing levels</returns>
     public static int[] GetAntiAliasingLevels()
     {
         int[] levels = { 0, 2, 4, 8 };

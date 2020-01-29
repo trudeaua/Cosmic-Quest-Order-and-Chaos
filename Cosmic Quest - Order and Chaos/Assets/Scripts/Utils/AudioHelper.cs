@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class AudioHelper : MonoBehaviour
 {
-    // Audio clip to play along with some parameters
     [System.Serializable]
     public class EntityAudioClip
     {
@@ -140,6 +139,10 @@ public class AudioHelper : MonoBehaviour
         return modes;
     }
 
+    /// <summary>
+    /// Get the current speaker mode
+    /// </summary>
+    /// <returns>The current speaker mode</returns>
     public static AudioSpeakerMode GetCurrentSpeakerMode()
     {
         return AudioSettings.speakerMode;
