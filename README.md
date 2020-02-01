@@ -45,3 +45,7 @@ One of the main areas for merge conflicts is in files using Unity's YAML format 
 ```
 
 Replace `<path to UnityYAMLMerge.exe>` with the appropriate path to this tool. The path will look something like this: `'<Unity install directory>\\Editor\\Data\\Tools\\UnityYAMLMerge.exe'` (Remember to escape the backslashes on windows, as seen in the example).
+
+#### Using SmartMerge to resolve merge conflicts
+
+When you have merge conflicts including Unity files (`*.unity`, `*.prefab`, `*.asset`), be sure to first resolve any merge conflicts in any other files such as any `*.cs` files (mergetool can't handle these files and will throw a warning). Once these conflicts are figured out, run the command `git mergetool` and SmartMerge will smoothly handle merging the Unity objects. It will ask you if the merge was successful (a chance for you to check quickly that things look alright), then after it finishes it will create backups with the file ending `*.orig` (if you could remove those before committing that would be great). Once all the merging is sorted out, then run `git add .` to add all of the new changes, then finally `git merge --continue` to complete the merge.
