@@ -21,7 +21,7 @@ public class LeverPuzzle : Puzzle
         }
     }
 
-    private void AddColour(CharacterColour colour)
+    protected virtual void AddColour(CharacterColour colour)
     {
         // Don't store duplicates of the same colour entry
         if (!Received.Contains(colour))

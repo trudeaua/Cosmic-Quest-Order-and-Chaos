@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 9062949075337675939}
   - component: {fileID: 9062949075337675950}
   - component: {fileID: 9062949075337675948}
-  - component: {fileID: 2851436488834046242}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -63,7 +62,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.33333334
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: 22e1a107dbae2f044a9ca5a3d93e2e7c, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 67f36466785f06c4caadf7b6a870e913, type: 2}
 --- !u!114 &9062949075337675939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +119,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testPlayerTexture: {fileID: 2800000, guid: e60f9332c6bc71545a7681efd9875f01, type: 3}
+  classOptions: []
+  characterOptions: []
 --- !u!114 &9062949075337675948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,50 +149,3 @@ MonoBehaviour:
       type: 3}
     expandable: 0
     pooledObjects: []
---- !u!114 &2851436488834046242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9062949075337675951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b28d758f11cbf7478bb77a0c89a4a37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnWaves: 0
-  enemyProbabilities:
-  - enemyPrefab: {fileID: 5856349497122564323, guid: 7d23062a3aa58d145b24deb3a64ec100,
-      type: 3}
-    probability: 0.1
-  - enemyPrefab: {fileID: 8337127725775014206, guid: 247072e77a39e354782deb5f4999e3c7,
-      type: 3}
-    probability: 0.1
-  - enemyPrefab: {fileID: 3528824016199519653, guid: 7f21f526564b0534ebd96fa82e79e46f,
-      type: 3}
-    probability: 0.1
-  - enemyPrefab: {fileID: 4806872650656697234, guid: ff77bf24f4dfd89478742f2e7513b0b6,
-      type: 3}
-    probability: 0.1
-  - enemyPrefab: {fileID: 9092795395475728631, guid: b2682d4b201ae36408c0a465b0bdd4db,
-      type: 3}
-    probability: 0.2
-  - enemyPrefab: {fileID: 3183467393437911326, guid: 5f6b88a455537a64e8591c930683f1e0,
-      type: 3}
-    probability: 0.2
-  - enemyPrefab: {fileID: 8580762847473201239, guid: 0b6a2935dd466c243936236a29414fbd,
-      type: 3}
-    probability: 0.2
-  - enemyPrefab: {fileID: 4074194950858497397, guid: fc6fbc7ec5d2a8f41b0c9073f8b5b085,
-      type: 3}
-    probability: 0.15
-  - enemyPrefab: {fileID: 7833114917082258782, guid: 240a34e2ca2a1a545ab19e69a92fe163,
-      type: 3}
-    probability: 0.15
-  - enemyPrefab: {fileID: 9167914555847376949, guid: 1e27f2b4e9f3add4b8d743f3a6a19d0f,
-      type: 3}
-    probability: 0.05
-  spawnDelay: 0.1
-  waveIntervalStart: 60
-  waveIntervalEnd: 120

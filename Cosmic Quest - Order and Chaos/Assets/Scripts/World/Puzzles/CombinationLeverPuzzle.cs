@@ -5,7 +5,7 @@ public class CombinationLeverPuzzle : LeverPuzzle
     // The expected order of colours
     [SerializeField] private CharacterColour[] combination;
 
-    public new void AddColour(CharacterColour colour)
+    protected override void AddColour(CharacterColour colour)
     {
         Received.Add(colour);
 

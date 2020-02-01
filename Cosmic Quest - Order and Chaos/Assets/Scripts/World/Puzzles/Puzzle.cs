@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Puzzle : MonoBehaviour, ISerializable
 {
-    public delegate void OnCompletion();
-    public OnCompletion onCompletion;
+    public UnityEvent onCompletion;
     
     public bool isComplete { get; private set; }
 
@@ -13,7 +13,7 @@ public class Puzzle : MonoBehaviour, ISerializable
     {
         isComplete = true;
         
-        // Invoke any delegate functions
+        // Invoke any event functions
         onCompletion?.Invoke();
     }
 

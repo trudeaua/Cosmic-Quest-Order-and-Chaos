@@ -7,7 +7,6 @@ public class Door : MonoBehaviour, ISerializable
     private Animator _anim;
     private BoxCollider _col;
 
-    public Puzzle puzzle;
     public bool isOpen { get; private set; }
 
     private void Awake()
@@ -17,13 +16,7 @@ public class Door : MonoBehaviour, ISerializable
         _col = GetComponent<BoxCollider>();
     }
 
-    private void Start()
-    {
-        // Subscribe the door to open when its puzzle is complete
-        puzzle.onCompletion += Open;
-    }
-
-    private void Open()
+    public void Open()
     {
         if (!isOpen)
         {
