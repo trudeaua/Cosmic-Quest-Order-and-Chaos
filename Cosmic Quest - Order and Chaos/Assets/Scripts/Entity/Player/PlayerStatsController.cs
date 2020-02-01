@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 public class PlayerStatsController : EntityStatsController
 {
@@ -34,10 +38,13 @@ public class PlayerStatsController : EntityStatsController
         // colour the player's weapon
         AssignWeaponColour(gameObject, playerColour);
 
-        // Create a VFX where the player will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the player colour
-        StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0), Quaternion.identity, playerColour, 0.5f));
-        // "Spawn" the player (they float up through the stage)
-        StartCoroutine(Spawn(gameObject, spawnSpeed, spawnDelay, spawnCooldown));
+        if (shouldSpawn)
+        {
+            // Create a VFX where the player will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the player colour
+            StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0), Quaternion.identity, playerColour, 0.5f));
+            // "Spawn" the player (they float up through the stage)
+            StartCoroutine(Spawn(gameObject, spawnSpeed, spawnDelay, spawnCooldown));
+        }
     }
 
     protected override void Update()
@@ -145,10 +152,54 @@ public class PlayerStatsController : EntityStatsController
     /// <param name="cooldown">How many seconds to wait before enabling the enemy's movement</param>
     protected override IEnumerator Spawn(GameObject obj, float speed = 0.05f, float delay = 0f, float cooldown = 0)
     {
-        // disable movement until spawn sequence is done
-        PlayerMotorController motorController = GetComponent<PlayerMotorController>();
-        motorController.ApplyMovementModifier(0);
+        // disable player input until spawn sequence is done
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+        playerInput.PassivateInput();
         yield return base.Spawn(obj, speed, delay, cooldown);
-        motorController.ResetMovementModifier();
+        playerInput.ActivateInput();
+    }
+
+    protected virtual void OnPauseGame(InputValue value)
+    {
+        if (!value.isPressed)
+        {
+            return;
+        }
+        if (!PauseMenuController.Instance.IsPaused)
+        {
+            PauseMenuController.Instance.PauseGame(gameObject);
+        }
+    }
+
+    protected virtual void OnMenuClose(InputValue value)
+    {
+        if (!value.isPressed)
+        {
+            return;
+        }
+        if (PauseMenuController.Instance.IsPaused)
+        {
+            PauseMenuController.Instance.ResumeGame();
+        }
+    }
+
+    protected virtual void OnMenuCancel(InputValue value)
+    {
+        if (!value.isPressed)
+        {
+            return;
+        }
+        if (PauseMenuController.Instance.IsPaused)
+        {
+            if (PauseMenuController.Instance.IsAtRoot())
+            {
+                PauseMenuController.Instance.ResumeGame();
+            }
+            else
+            {
+                PauseMenuController.Instance.PopMenu();
+            }
+
+        }
     }
 }

@@ -1,61 +1,91 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    /// <summary>
-    /// Start the tutorial level
-    /// </summary>
-    public void StartTutorial()
+    #region Singleton
+    public static MenuController Instance;
+
+    protected virtual void Awake()
     {
-        // Load Tutorial scene
-        StartCoroutine(LoadYourAsyncScene("Tutorial"));
+        if (Instance == null)
+            Instance = this;
+        else
+            Debug.LogWarning("Only one menu controller should be in the scene!");
+    }
+    #endregion
+
+    // Maintains the currently active menu in the menu canvas
+    [SerializeField] protected GameObject activeMenu;
+
+    // Maintains the menus that the player has navigated through
+    protected Stack<GameObject> menuStack;
+
+    protected virtual void Start()
+    {
+        menuStack = new Stack<GameObject>();
+        activeMenu.SetActive(true);
+        menuStack.Push(activeMenu);
     }
 
     /// <summary>
-    /// Start level 1
+    /// Navigate to the previous menu, if any
     /// </summary>
-    public void StartLevel() 
+    /// <param name="menu">The menu to navigate to</param>
+    public virtual void PushMenu(GameObject menu)
     {
-        // Load Level 1
-        StartCoroutine(LoadYourAsyncScene("ChaosVoid1"));
+        activeMenu.SetActive(false);
+        activeMenu = menu;
+        activeMenu.SetActive(true);
+        menuStack.Push(menu);
     }
 
     /// <summary>
-    /// Exit the game
+    /// Navigate to the previous menu, if any
     /// </summary>
-    public void ExitGame()
+    public virtual void PopMenu()
     {
-        Debug.Log("Exit");
-        Application.Quit();
-    }
-
-    public static IEnumerator BackToMenu()
-    {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MenuStaging");
-
-        // Wait until the asynchronous scene fully loads
-        while (!asyncLoad.isDone)
+        if (menuStack.Count > 0)
         {
-            yield return null;
+            activeMenu.SetActive(false);
+            menuStack.Pop();
+            activeMenu = menuStack.Peek();
+            activeMenu.SetActive(true);
         }
     }
 
     /// <summary>
-    /// Load a scene asynchronously
+    /// Gets the first selectable `GameObject` found in the specified menu
     /// </summary>
-    /// <param name="sceneName">Name of the scene to load</param>
-    /// <returns>An IEnumerator</returns>
-    private IEnumerator LoadYourAsyncScene(string sceneName)
+    /// <param name="menu">Game object to search for buttons in</param>
+    protected virtual GameObject GetDefaultButton(GameObject menu)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-
-        // Wait until the asynchronous scene fully loads
-        while (!asyncLoad.isDone)
+        if (menu == null)
         {
-            yield return null;
+            return null;
         }
+        Selectable btn = menu.GetComponentInChildren<Selectable>();
+        if (btn)
+        {
+            return btn.gameObject;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Sets the root of a multiplayer event system to a submenu that can only be controlled by that player
+    /// </summary>
+    /// <param name="eventSystem">A multiplayer event system that corresponds to `playerNumber`</param>
+    protected virtual void SetPlayerRoot(MultiplayerEventSystem eventSystem)
+    {
+        eventSystem.playerRoot = activeMenu;
+        GameObject defaultButton = GetDefaultButton(activeMenu);
+        eventSystem.firstSelectedGameObject = defaultButton;
+        eventSystem.SetSelectedGameObject(defaultButton);
     }
 }

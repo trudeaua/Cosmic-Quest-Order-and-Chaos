@@ -551,6 +551,8 @@ GameObject:
   - component: {fileID: 749148863823978123}
   - component: {fileID: 432121220}
   - component: {fileID: 728777991}
+  - component: {fileID: 1027977347}
+  - component: {fileID: 1027977348}
   m_Layer: 9
   m_Name: Healer Player
   m_TagString: Player
@@ -619,7 +621,7 @@ MonoBehaviour:
   m_Actions: {fileID: -944628639613478452, guid: c06fc4b6157b8a44db74538c44351f65,
     type: 3}
   m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
+  m_UIInputModule: {fileID: 1027977347}
   m_DeviceLostEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -671,6 +673,7 @@ MonoBehaviour:
   maxVelocity: 6
   maxAcceleration: 25
   rotationSpeed: 10
+  doRegister: 1
 --- !u!114 &5664751899185293677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -705,6 +708,7 @@ MonoBehaviour:
   defense:
     baseValue: 0
   characterColour: 0
+  shouldSpawn: 1
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
   spawnSpeed: 0.08
   spawnDelay: 0.9
@@ -975,6 +979,52 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1027977347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749148863823978120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RepeatDelay: 0.5
+  m_RepeatRate: 0.1
+  m_ActionsAsset: {fileID: -944628639613478452, guid: c06fc4b6157b8a44db74538c44351f65,
+    type: 3}
+  m_PointAction: {fileID: 0}
+  m_MoveAction: {fileID: -7021254025963542836, guid: c06fc4b6157b8a44db74538c44351f65,
+    type: 3}
+  m_SubmitAction: {fileID: -8635381211642257738, guid: c06fc4b6157b8a44db74538c44351f65,
+    type: 3}
+  m_CancelAction: {fileID: 2161689634332582612, guid: c06fc4b6157b8a44db74538c44351f65,
+    type: 3}
+  m_LeftClickAction: {fileID: 0}
+  m_MiddleClickAction: {fileID: 0}
+  m_RightClickAction: {fileID: 0}
+  m_ScrollWheelAction: {fileID: 0}
+  m_TrackedDevicePositionAction: {fileID: 0}
+  m_TrackedDeviceOrientationAction: {fileID: 0}
+  m_TrackedDeviceSelectAction: {fileID: 0}
+--- !u!114 &1027977348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749148863823978120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b16c6f78230fa4964a222622d8aae332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+  m_PlayerRoot: {fileID: 0}
 --- !u!1 &1303803950702866906
 GameObject:
   m_ObjectHideFlags: 0
