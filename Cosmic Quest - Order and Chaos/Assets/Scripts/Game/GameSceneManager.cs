@@ -24,6 +24,7 @@ public class GameSceneManager : MonoBehaviour
     public GameObject loadingScreen;
     public Slider slider;
     public TMPro.TextMeshProUGUI progressText;
+    private bool isSceneLoading = false;
 
     /// <summary>
     /// Start the tutorial level
@@ -68,19 +69,28 @@ public class GameSceneManager : MonoBehaviour
     /// <returns>An IEnumerator</returns>
     private IEnumerator LoadYourAsyncScene(string sceneName)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-        loadingScreen.SetActive(true);
-        float progress = 0;
-        // Wait until the asynchronous scene fully loads
-        while (!asyncLoad.isDone)
+        if (!isSceneLoading)
         {
-            progress = Mathf.Clamp01(asyncLoad.progress / .9f);
-            progressText.text = (Mathf.RoundToInt(progress * 100)).ToString() + "%";
-            slider.value = progress;
+            isSceneLoading = true;
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+            loadingScreen.SetActive(true);
+            float progress = 0;
+            // Wait until the asynchronous scene fully loads
+            while (!asyncLoad.isDone)
+            {
+                progress = Mathf.Clamp01(asyncLoad.progress / .9f);
+                progressText.text = (Mathf.RoundToInt(progress * 100)).ToString() + "%";
+                slider.value = progress;
+                yield return null;
+            }
+            yield return new WaitForSeconds(1);
+            loadingScreen.SetActive(false);
+            isSceneLoading = false;
+        }
+        else
+        {
             yield return null;
         }
-        yield return new WaitForSeconds(1);
-        loadingScreen.SetActive(false);
     }
 
     /// <summary>
