@@ -31,3 +31,17 @@ $ git push origin my-branch
 # Pull the latest changes from master to your branch (may cause merge issues)
 $ git pull origin master
 ```
+
+### Setting up Unity's SmartMerge
+
+One of the main areas for merge conflicts is in files using Unity's YAML format (i.e. Prefabs, scenes, etc.). However, Unity provides a tool that can merge these files from a content-area perspective. The repo is setup to use this tool for merging these files, however you do need to *manually set up the git config so git knows where this tool is*. To do so, simply append the following to `.git/config`:
+
+```
+[merge]
+    tool = unityyamlmerge
+[mergetool "unityyamlmerge"]
+    trustExitCode = false
+    cmd = <path to UnityYAMLMerge.exe> merge -p "$BASE" "$REMOTE" "$LOCAL" "$MERGED"
+```
+
+Replace `<path to UnityYAMLMerge.exe>` with the appropriate path to this tool. The path will look something like this: `'<Unity install directory>\\Editor\\Data\\Tools\\UnityYAMLMerge.exe'` (Remember to escape the backslashes on windows, as seen in the example).
