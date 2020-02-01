@@ -6,7 +6,7 @@ public class ColourCollider : MonoBehaviour
 
     private void Start()
     {
-        foreach (GameObject player in PlayerManager.Players)
+        foreach (GameObject player in PlayerManager.Instance.Players)
         {
             // Ignore collisions with any players who match the set colour
             if (player.GetComponent<PlayerStatsController>().characterColour == colour)

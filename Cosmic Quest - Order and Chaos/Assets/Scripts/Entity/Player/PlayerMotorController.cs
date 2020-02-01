@@ -29,7 +29,7 @@ public class PlayerMotorController : MonoBehaviour
         // TODO Temporary - player should be registered after lobby
         if (doRegister)
         {
-            PlayerManager.RegisterPlayer(gameObject);
+            PlayerManager.Instance.RegisterPlayer(gameObject);
         }
     }
 
@@ -50,7 +50,7 @@ public class PlayerMotorController : MonoBehaviour
         // Ensure there's no invalid references hanging around
         if (doRegister)
         {
-            PlayerManager.DeregisterPlayer(gameObject);
+            PlayerManager.Instance.DeregisterPlayer(gameObject);
         }
     }
 

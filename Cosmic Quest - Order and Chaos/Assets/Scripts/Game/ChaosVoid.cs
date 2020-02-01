@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
+[System.Serializable]
 public class ChaosVoid : ScriptableObject, ISerializable
 {
     // Reference to the scene for this chaos void
-    public Scene chaosVoidScene;
+    public Object scene;
+    // List of chaos voids required to be completed before starting this one
+    public ChaosVoid[] prerequisites;
     
     // Whether this chaos void has been cleared
     public bool cleared { get; private set; }
@@ -14,14 +16,13 @@ public class ChaosVoid : ScriptableObject, ISerializable
     public bool started { get; private set; }
     // The final boss for this chaos void
     public GameObject boss { get; private set; }
-    // The doors in this chaos void
-    public GameObject[] doors { get; private set; }
 
     public void LoadLevel()
     {
         // Load the scene
+        LevelManager.Instance.LoadYourAsyncScene(scene.name);
         // Initialize whatever...
-        // Find all doors in the scene
+        // Find all serializables in the level
         // Find the final boss in the scene
         started = true;
     }

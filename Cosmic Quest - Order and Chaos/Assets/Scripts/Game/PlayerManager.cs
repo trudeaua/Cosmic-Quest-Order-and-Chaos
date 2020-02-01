@@ -83,11 +83,11 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
-    public static readonly List<GameObject> Players = new List<GameObject>();
+    public readonly List<GameObject> Players = new List<GameObject>();
 
     public static PlayerColours colours = new PlayerColours();
     
-    // TODO change this to a pool of textures, or assigned to a player at class selection
+    // TODO this is only here to auto-assign players a texture if game isn't started through the menus for testing
     public Texture testPlayerTexture;
 
     [Tooltip("Classes that the players can choose")]
@@ -126,9 +126,10 @@ public class PlayerManager : MonoBehaviour
     /// Register a player
     /// </summary>
     /// <param name="player">Player gameobject</param>
-    public static void RegisterPlayer(GameObject player)
+    public void RegisterPlayer(GameObject player)
     {
         Players.Add(player);
+        
         // assign the player a colour as soon as they're registered
         CharacterColour characterColour = player.GetComponent<EntityStatsController>().characterColour;
         if (characterColour == CharacterColour.None) {
@@ -144,7 +145,7 @@ public class PlayerManager : MonoBehaviour
     /// Deregister a player
     /// </summary>
     /// <param name="player">Player gameobject</param>
-    public static void DeregisterPlayer(GameObject player)
+    public void DeregisterPlayer(GameObject player)
     {
         Players.Remove(player);
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -23,27 +24,31 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    public static GameState CurrentState { get; private set; } = GameState.Menu;
+    public GameState currentState { get; private set; } = GameState.Menu;
 
     private void Start()
     {
         // This code simply updates the initial state based upon the scene the game was started in for testing purposes
         // TODO remove this when no longer needed
         string activeScene = SceneManager.GetActiveScene().name;
-        CurrentState = activeScene.Equals("MenuStaging") ? GameState.Menu : GameState.Playing;
+        currentState = activeScene.Equals("MenuStaging") ? GameState.Menu : GameState.Playing;
     }
 
     private void Update()
     {
         // Polls for game events and handles any state changes
-        switch (CurrentState)
+        switch (currentState)
         {
             case GameState.Menu:
             case GameState.Paused:
                 break;
             case GameState.Playing:
+                
+                // Check if all players are dead
                 break;
             case GameState.GameOver:
+                // Trigger game over screen
+                // Restart to the last checkpoint?
                 break;
             default:
                 break;

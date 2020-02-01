@@ -62,7 +62,6 @@ public class PlayerStatsController : EntityStatsController
     /// </summary>
     protected override void Die()
     {
-        Debug.Log(transform.name + " died.");
         isDead = true;
         Anim.enabled = false;
         EnableRagdoll(true);

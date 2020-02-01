@@ -342,7 +342,7 @@ public class MainMenuController : MenuController
         EntityStatsController[] players = playerContainer.GetComponentsInChildren<EntityStatsController>();
         foreach (EntityStatsController entityStats in players)
         {
-            PlayerManager.RegisterPlayer(entityStats.gameObject);
+            PlayerManager.Instance.RegisterPlayer(entityStats.gameObject);
         }
     }
 
@@ -355,7 +355,7 @@ public class MainMenuController : MenuController
         EntityStatsController[] players = playerContainer.GetComponentsInChildren<EntityStatsController>();
         foreach (EntityStatsController entityStats in players)
         {
-            PlayerManager.DeregisterPlayer(entityStats.gameObject);
+            PlayerManager.Instance.DeregisterPlayer(entityStats.gameObject);
         }
     }
 }
