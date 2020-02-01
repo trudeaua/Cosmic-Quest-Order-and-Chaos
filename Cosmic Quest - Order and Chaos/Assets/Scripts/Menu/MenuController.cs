@@ -144,7 +144,7 @@ public class MenuController : MonoBehaviour
     /// </summary>
     protected void FindCameraAndMusic()
     {
-        mainCamera = FindObjectOfType<Camera>();
+        mainCamera = Camera.main;
         musicSource = mainCamera.GetComponent<AudioSource>();
     }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameSceneManager : MonoBehaviour
 {
@@ -20,6 +21,10 @@ public class GameSceneManager : MonoBehaviour
     }
     #endregion
 
+    public GameObject loadingScreen;
+    public Slider slider;
+    public TMPro.TextMeshProUGUI progressText;
+
     /// <summary>
     /// Start the tutorial level
     /// </summary>
@@ -27,7 +32,7 @@ public class GameSceneManager : MonoBehaviour
     {
         // Load Tutorial scene
         //Instance.StartCoroutine(LoadYourAsyncScene("Tutorial"));
-        LoadYourScene("Tutorial");
+        StartCoroutine(LoadYourAsyncScene("Tutorial"));
     }
 
     /// <summary>
@@ -37,7 +42,7 @@ public class GameSceneManager : MonoBehaviour
     {
         // Load Level 1
         //Instance.StartCoroutine(LoadYourAsyncScene("ChaosVoid1"));
-        LoadYourScene("ChaosVoid1");
+        StartCoroutine(LoadYourAsyncScene("ChaosVoid1"));
     }
 
     /// <summary>
@@ -52,7 +57,7 @@ public class GameSceneManager : MonoBehaviour
     public void BackToMenu()
     {
         //_instance.StartCoroutine(LoadYourAsyncScene("MenuStaging"));
-        LoadYourScene("MenuStaging");
+        StartCoroutine(LoadYourAsyncScene("MenuStaging"));
 
     }
 
@@ -64,12 +69,18 @@ public class GameSceneManager : MonoBehaviour
     private IEnumerator LoadYourAsyncScene(string sceneName)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
-
+        loadingScreen.SetActive(true);
+        float progress = 0;
         // Wait until the asynchronous scene fully loads
         while (!asyncLoad.isDone)
         {
+            progress = Mathf.Clamp01(asyncLoad.progress / .9f);
+            progressText.text = (Mathf.RoundToInt(progress * 100)).ToString() + "%";
+            slider.value = progress;
             yield return null;
         }
+        yield return new WaitForSeconds(1);
+        loadingScreen.SetActive(false);
     }
 
     /// <summary>
