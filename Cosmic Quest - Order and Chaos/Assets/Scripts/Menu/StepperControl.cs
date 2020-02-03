@@ -26,7 +26,6 @@ public class StepperControl : MonoBehaviour
     private void Awake()
     {
         btn = GetComponent<Button>();
-        btn = GetComponent<Button>();
         gui = btn.gameObject.GetComponentInChildren<TextMeshProUGUI>();
         characterNames = PlayerManager.Instance.GetCharacterNames();
         classNames = PlayerManager.Instance.GetClassNames();

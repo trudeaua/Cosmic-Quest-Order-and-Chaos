@@ -1,16 +1,17 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioHelper : MonoBehaviour
 {
-    // Audio clip to play along with some parameters
     [System.Serializable]
     public class EntityAudioClip
     {
         public enum AudioType
         {
-            Weapon,
-            Vocal
+            Sfx,
+            Vocal,
+            Music
         }
         [Tooltip("Pitch of the audio (affects tempo as well)")]
         public float pitch;
@@ -24,8 +25,12 @@ public class AudioHelper : MonoBehaviour
         public float delay;
         [Tooltip("Should the audio loop?")]
         public bool loop;
-
     }
+
+    public static float MasterVolume { get; internal set; } = 0.5f;
+    public static float MusicVolume { get; internal set; } = 0.5f;
+    public static float SfxVolume { get; internal set; } = 0.5f;
+    public static float VoiceVolume { get; internal set; } = 0.5f;
 
     /// <summary>
     /// Plays an audio clip that overlaps with currently playing audio clips from the same audio source.<br/>
@@ -40,8 +45,9 @@ public class AudioHelper : MonoBehaviour
         {
             yield return new WaitForSeconds(entityAudio.delay);
         }
+        
         source.pitch = entityAudio.pitch;
-        source.volume = entityAudio.volume;
+        source.volume = entityAudio.volume * GetAudioModifier(entityAudio.type);
         source.loop = entityAudio.loop;
         source.PlayOneShot(entityAudio.clip);
     }
@@ -60,7 +66,7 @@ public class AudioHelper : MonoBehaviour
             yield return new WaitForSeconds(entityAudio.delay);
         }
         source.pitch = entityAudio.pitch;
-        source.volume = entityAudio.volume;
+        source.volume = entityAudio.volume * GetAudioModifier(entityAudio.type);
         source.loop = entityAudio.loop;
         source.clip = entityAudio.clip;
         source.Play();
@@ -73,5 +79,97 @@ public class AudioHelper : MonoBehaviour
     public static void StopAudio(AudioSource source)
     {
         source.Stop();
+    }
+
+    /// <summary>
+    /// Set the master volume level
+    /// </summary>
+    /// <param name="value">Value to set the master volume to (bewteen 0 and 1)</param>
+    public static void SetMasterVolume(float value)
+    {
+        MasterVolume = Mathf.Max(0, value);
+    }
+
+    /// <summary>
+    /// Set the music volume level
+    /// </summary>
+    /// <param name="value">Value to set the music volume to (bewteen 0 and 1)</param>
+    public static void SetMusicVolume(float value)
+    {
+        MusicVolume = Mathf.Max(0, value);
+    }
+
+    /// <summary>
+    /// Set the sfx volume level
+    /// </summary>
+    /// <param name="value">Value to set the sfx volume to (bewteen 0 and 1)</param>
+    public static void SetSfxVolume(float value)
+    {
+        SfxVolume = Mathf.Max(0, value);
+    }
+
+    /// <summary>
+    /// Set the voice volume level
+    /// </summary>
+    /// <param name="value">Value to set the voice volume to (bewteen 0 and 1)</param>
+    public static void SetVoiceVolume(float value)
+    {
+        VoiceVolume = Mathf.Max(0, value);
+    }
+
+    /// <summary>
+    /// Set the audio speaker mode
+    /// </summary>
+    /// <param name="mode">Mode to set the speaker mode to</param>
+    public static void SetAudioSpeakerMode(AudioSpeakerMode mode)
+    {
+        AudioSettings.speakerMode = mode;
+    }
+
+    /// <summary>
+    /// Get a list of all allowed speaker modes
+    /// </summary>
+    /// <returns></returns>
+    public static List<KeyValuePair<string, AudioSpeakerMode>> GetAudioSpeakerModes()
+    {
+        List<KeyValuePair<string, AudioSpeakerMode>> modes = new List<KeyValuePair<string, AudioSpeakerMode>>();
+        modes.Add(new KeyValuePair<string, AudioSpeakerMode>("Mono", AudioSpeakerMode.Mono));
+        modes.Add(new KeyValuePair<string, AudioSpeakerMode>("Stereo", AudioSpeakerMode.Stereo));
+        modes.Add(new KeyValuePair<string, AudioSpeakerMode>("Surround", AudioSpeakerMode.Surround));
+        return modes;
+    }
+
+    /// <summary>
+    /// Get the current speaker mode
+    /// </summary>
+    /// <returns>The current speaker mode</returns>
+    public static AudioSpeakerMode GetCurrentSpeakerMode()
+    {
+        return AudioSettings.speakerMode;
+    }
+
+    /// <summary>
+    /// Get a modifier value that represents the volume level of the specified audio type adjusted with the master volume level
+    /// </summary>
+    /// <param name="audioType">Type of the audio clip</param>
+    /// <returns>A modifier value (between 0 and 1)</returns>
+    public static float GetAudioModifier(EntityAudioClip.AudioType audioType)
+    {
+        float audioModifier = MasterVolume;
+        switch (audioType)
+        {
+            case EntityAudioClip.AudioType.Music:
+                audioModifier *= MusicVolume;
+                break;
+            case EntityAudioClip.AudioType.Sfx:
+                audioModifier *= SfxVolume;
+                break;
+            case EntityAudioClip.AudioType.Vocal:
+                audioModifier *= VoiceVolume;
+                break;
+            default:
+                break;
+        }
+        return audioModifier;
     }
 }
