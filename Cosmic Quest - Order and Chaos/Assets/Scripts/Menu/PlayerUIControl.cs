@@ -63,7 +63,7 @@ public class PlayerUIControl : MonoBehaviour
             Vector2 input = value.Get<Vector2>();
             int horizontalInput = input.x > 0 ? 1 : -1;
             int verticalInput = input.y > 0 ? 1 : -1;
-            if (Mathf.Approximately(input.x, 0) || Mathf.Approximately(input.y, 0) || cooldown > 0)
+            if ((Mathf.Approximately(input.x, 0) && Mathf.Approximately(input.y, 0)) || cooldown > 0)
             {
                 return;
             }
