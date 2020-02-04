@@ -17,6 +17,7 @@ public class LevelsController : MonoBehaviour
     #endregion
 
     public GameObject cursor;
+    public Camera camera;
     private LevelPreview[] levelPreviews;
     private LevelPreview currentlySelected;
     // Start is called before the first frame update
@@ -26,6 +27,8 @@ public class LevelsController : MonoBehaviour
         if (levelPreviews.Length > 0)
         {
             currentlySelected = levelPreviews[0];
+            StartCoroutine(MoveCursor(0.3f));
+            StartCoroutine(MoveCamera(0.3f));
         }
     }
 
@@ -40,7 +43,8 @@ public class LevelsController : MonoBehaviour
         if (currentlySelected.selectOnUp != null)
         {
             currentlySelected = currentlySelected.selectOnUp;
-            MoveCursor();
+            StartCoroutine(MoveCursor(0.3f));
+            StartCoroutine(MoveCamera(0.3f));
         }
     }
 
@@ -49,7 +53,8 @@ public class LevelsController : MonoBehaviour
         if (currentlySelected.selectOnDown != null)
         {
             currentlySelected = currentlySelected.selectOnDown;
-            MoveCursor();
+            StartCoroutine(MoveCursor(0.3f));
+            StartCoroutine(MoveCamera(0.3f));
         }
     }
 
@@ -58,7 +63,8 @@ public class LevelsController : MonoBehaviour
         if (currentlySelected.selectOnLeft != null)
         {
             currentlySelected = currentlySelected.selectOnLeft;
-            MoveCursor();
+            StartCoroutine(MoveCursor(0.3f));
+            StartCoroutine(MoveCamera(0.3f));
         }
     }
 
@@ -67,7 +73,8 @@ public class LevelsController : MonoBehaviour
         if (currentlySelected.selectOnRight != null)
         {
             currentlySelected = currentlySelected.selectOnRight;
-            MoveCursor();
+            StartCoroutine(MoveCursor(0.3f));
+            StartCoroutine(MoveCamera(0.3f));
         }
     }
 
@@ -76,8 +83,28 @@ public class LevelsController : MonoBehaviour
         StartCoroutine(GameSceneManager.Instance.LoadYourAsyncScene(currentlySelected.levelSceneName));
     }
 
-    private void MoveCursor()
+    private IEnumerator MoveCursor(float time)
     {
-        cursor.transform.position = currentlySelected.transform.position;
+        //cursor.transform.position = currentlySelected.transform.position;
+        float elapsed = 0;
+        while (elapsed < time)
+        {
+            float newX = Mathf.Lerp(cursor.transform.position.x, currentlySelected.transform.position.x, elapsed / time);
+            cursor.transform.position = new Vector3(newX, cursor.transform.position.y, cursor.transform.position.z);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private IEnumerator MoveCamera(float time)
+    {
+        float elapsed = 0;
+        while (elapsed < time)
+        {
+            float newX = Mathf.Lerp(camera.transform.position.x, currentlySelected.transform.position.x, elapsed / time);
+            camera.transform.position = new Vector3(newX, camera.transform.position.y, camera.transform.position.z);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
     }
 }
