@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GameSceneManager : MonoBehaviour
 {
     #region Singleton
-    private static GameSceneManager Instance;
+    public static GameSceneManager Instance;
 
     private void Awake()
     {
@@ -25,6 +25,12 @@ public class GameSceneManager : MonoBehaviour
     public Slider slider;
     public TMPro.TextMeshProUGUI progressText;
     private bool isSceneLoading = false;
+    public string currentSceneName { get; internal set; }
+
+    private void Start()
+    {
+        currentSceneName = SceneManager.GetActiveScene().name;
+    }
 
     /// <summary>
     /// Start the tutorial level
@@ -67,12 +73,13 @@ public class GameSceneManager : MonoBehaviour
     /// </summary>
     /// <param name="sceneName">Name of the scene to load</param>
     /// <returns>An IEnumerator</returns>
-    private IEnumerator LoadYourAsyncScene(string sceneName)
+    public IEnumerator LoadYourAsyncScene(string _sceneName)
     {
         if (!isSceneLoading)
         {
             isSceneLoading = true;
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_sceneName);
+            currentSceneName = _sceneName;
             loadingScreen.SetActive(true);
             float progress = 0;
             // Wait until the asynchronous scene fully loads
