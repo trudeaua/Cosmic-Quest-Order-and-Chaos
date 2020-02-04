@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 public class PlayerUIControl : MonoBehaviour
 {
     private int assignedPlayer;
-    private float cooldown = 0.2f;
     private void Start()
     {
         assignedPlayer = PlayerManager.Instance.AssignUIControlToPlayer(gameObject);
@@ -19,18 +18,6 @@ public class PlayerUIControl : MonoBehaviour
         else
         {
             Debug.LogError("UI Control not assigned, no available player");
-        }
-    }
-
-    private void Update()
-    {
-        if (cooldown > 0)
-        {
-            cooldown -= Time.deltaTime;
-            if (cooldown < 0)
-            {
-                cooldown = 0;
-            }
         }
     }
 
@@ -63,7 +50,7 @@ public class PlayerUIControl : MonoBehaviour
             Vector2 input = value.Get<Vector2>();
             int horizontalInput = input.x > 0 ? 1 : -1;
             int verticalInput = input.y > 0 ? 1 : -1;
-            if ((Mathf.Approximately(input.x, 0) && Mathf.Approximately(input.y, 0)) || cooldown > 0)
+            if ((Mathf.Approximately(input.x, 0) && Mathf.Approximately(input.y, 0)))
             {
                 return;
             }
@@ -93,7 +80,6 @@ public class PlayerUIControl : MonoBehaviour
                     LevelsController.Instance.NavigateUp();
                 }
             }
-            cooldown = 0.2f;
         }
     }
 }
