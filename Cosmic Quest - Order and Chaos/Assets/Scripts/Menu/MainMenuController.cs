@@ -307,7 +307,7 @@ public class MainMenuController : MenuController
     }
 
     /// <summary>
-    ///  Instantiate the players around a certain position
+    /// Instantiate the players around a certain position
     /// </summary>
     /// <param name="positionObj">Game object in which to instantiate the players</param>
     public void PreviewPlayers(GameObject positionObj)

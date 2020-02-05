@@ -7,7 +7,7 @@ public class LevelsController : MonoBehaviour
     #region Singleton
     public static LevelsController Instance;
 
-    protected virtual void Awake()
+    private void Awake()
     {
         if (Instance == null)
             Instance = this;
@@ -18,13 +18,13 @@ public class LevelsController : MonoBehaviour
 
     public GameObject cursor;
     public Camera mainCamera;
+    public GameObject previewScreen;
     private Vector3 initialCameraPos;
     private float selectionCooldown = 0.25f;
     private LevelPreview[] levelPreviews;
     private LevelPreview currentlySelected;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         initialCameraPos = mainCamera.transform.position;
         levelPreviews = GetComponentsInChildren<LevelPreview>();
@@ -36,8 +36,7 @@ public class LevelsController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (selectionCooldown > 0)
         {
@@ -49,6 +48,10 @@ public class LevelsController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Description: Navigates to the level listed as "above" the currently selected level.
+    /// Rationale: Users should be able to easily navigate to a level above the currently selected one.
+    /// </summary>
     public void NavigateUp()
     {
         if (currentlySelected.selectOnUp != null)
@@ -57,6 +60,10 @@ public class LevelsController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Description: Navigates to the level listed as "above" the currently selected level.
+    /// Rationale: Users should be able to easily navigate to a level above the currently selected one.
+    /// </summary>
     public void NavigateDown()
     {
         if (currentlySelected.selectOnDown != null)
@@ -65,6 +72,10 @@ public class LevelsController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Description: Navigates to the level listed as "below" the currently selected level.
+    /// Rationale: Users should be able to easily navigate to a level below the currently selected one.
+    /// </summary>
     public void NavigateLeft()
     {
         if (currentlySelected.selectOnLeft != null)
@@ -73,6 +84,10 @@ public class LevelsController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Description: Navigates to the level listed as "to the right of" the currently selected level.
+    /// Rationale: Users should be able to easily navigate to a level to the right of the currently selected one.
+    /// </summary>
     public void NavigateRight()
     {
         if (currentlySelected.selectOnRight != null)
@@ -81,11 +96,37 @@ public class LevelsController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Description: Zoom in on a level and display the preview screen
+    /// Rationale: Users should be able to confirm whether they want to play the level or not and view information about the level
+    /// </summary>
     public void SelectLevel()
     {
-        StartCoroutine(GameSceneManager.Instance.LoadYourAsyncScene(currentlySelected.levelSceneName));
+        previewScreen.SetActive(true);
     }
 
+    /// <summary>
+    /// Description: Zoom out on a selected level and hide the preview screen
+    /// Rationale: Users should be able to back out of playing the level and go back to the map
+    /// </summary>
+    public void DeselectLevel()
+    {
+    }
+
+    /// <summary>
+    /// Description: Load and play the level associated with the currently selected level
+    /// Rationale: Users should be able to play different levels
+    /// </summary>
+    public void PlayLevel()
+    {
+        StartCoroutine(GameSceneManager.Instance.LoadYourAsyncScene(currentlySelected.GetLevelName()));
+    }
+
+    /// <summary>
+    /// Description: Moves the main camera and level selection cursor to the selected level
+    /// Rationale: Main camera and level selection cursor should move as the user selects a level to signify which level is selected
+    /// </summary>
+    /// <param name="levelPreview">The selected level</param>
     private void Navigate(LevelPreview levelPreview)
     {
         if (selectionCooldown > 0)
@@ -98,9 +139,13 @@ public class LevelsController : MonoBehaviour
         selectionCooldown = 0.25f;
     }
 
+    /// <summary>
+    /// Description: Moves the level selection cursor position to the currently selected level position
+    /// Rationale: Level selection cursor should move as the user selects a level to signify which level is selected
+    /// </summary>
+    /// <param name="time">Time in seconds in which to transition the cursor to the selected level position</param>
     private IEnumerator MoveCursor(float time)
     {
-        //cursor.transform.position = currentlySelected.transform.position;
         float elapsed = 0;
         while (elapsed < time)
         {
@@ -111,7 +156,11 @@ public class LevelsController : MonoBehaviour
             yield return null;
         }
     }
-
+    /// <summary>
+    /// Description: Moves the main camera position to put the currently selected level in the centre of the view
+    /// Rationale: Main camera should move as the user selects a level to signify which level is selected
+    /// </summary>
+    /// <param name="time">Time in seconds in which to transition the main camera to the selected level position</param>
     private IEnumerator MoveCamera(float time)
     {
         float elapsed = 0;

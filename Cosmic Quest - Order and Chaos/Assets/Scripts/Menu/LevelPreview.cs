@@ -5,25 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class LevelPreview : MonoBehaviour
 {
-    public string levelSceneName;
+    [SerializeField] private string levelSceneName;
 
     [Header("Navigation")]
     public LevelPreview selectOnUp;
     public LevelPreview selectOnDown;
     public LevelPreview selectOnLeft;
     public LevelPreview selectOnRight;
-    
-    private bool selected;
 
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// Description: Get the name of the level preview's associated scene
+    /// Rationale: Other classes should be able to access the scene name of the level preview
+    /// </summary>
+    /// <returns></returns>
+    public string GetLevelName()
     {
-        
+        return levelSceneName;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -1,112 +1,72 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 
-public class PauseMenuController : MenuController
+public class PreviewMenuController : MenuController
 {
     #region Singleton
-    public new static PauseMenuController Instance;
+    public new static MenuController Instance;
 
     protected override void Awake()
     {
         if (Instance == null)
             Instance = this;
         else
-            Debug.LogWarning("Only one pause menu controller should be in the scene!");
+            Debug.LogWarning("Only one preview menu controller should be in the scene!");
     }
     #endregion
 
-    public bool IsPaused { get; internal set; }
-
-    // for caching which player paused the game
+    private bool isPreviewing;
     private MultiplayerEventSystem playerEventSystem;
     private PlayerInput playerInput;
     private InputSystemUIInputModule uIInputModule;
 
-    // Start is called before the first frame update
     protected override void Start()
     {
         menuStack = new Stack<GameObject>();
         selectedButtonsStack = new Stack<GameObject>();
-        activeMenu.SetActive(false);
-        FindCameraAndMusic();
-        SetUpSpeakerModesDropdown();
-        SetUpQualitySettingsDropdown();
-        SetUpAntiAliasingDropdown();
+        activeMenu.SetActive(true);
+        menuStack.Push(activeMenu);
     }
 
-    /// <summary>
-    /// Navigate to the previous menu, if any
-    /// </summary>
-    /// <param name="menu">The menu to navigate to</param>
-    public override void PushMenu(GameObject menu)
+    // Update is called once per frame
+    void Update()
     {
-        GameObject button = GetSelectedButton(playerEventSystem);
-        if (button)
-        {
-            selectedButtonsStack.Push(button);
-        }
-        base.PushMenu(menu);
-        SetPlayerRoot(playerEventSystem);
+        
     }
 
     /// <summary>
-    /// Navigate to the previous menu, if any
-    /// </summary>
-    public override void PopMenu()
-    {
-        base.PopMenu();
-        SetPlayerRoot(playerEventSystem);
-        GameObject button = PopButton();
-        playerEventSystem.SetSelectedGameObject(button);
-    }
-
-    /// <summary>
-    /// Indicates whether the player is at the root menu or not
-    /// </summary>
-    /// <returns></returns>
-    public bool IsAtRoot()
-    {
-        return menuStack.Count == 1;
-    }
-
-    /// <summary>
-    /// Description: Pause the game
-    /// Rationale: Players should be able to pause the game and navigate menu options
+    /// Pause the game
     /// </summary>
     /// <param name="playerObject">Game object of the player that paused the game</param>
-    public void PauseGame(GameObject playerObject)
+    public void PreviewLevel(GameObject playerObject)
     {
-        if (IsPaused)
+        if (isPreviewing)
         {
             return;
         }
-        Time.timeScale = 0;
-        IsPaused = true;
+        isPreviewing = true;
         playerEventSystem = playerObject.GetComponent<MultiplayerEventSystem>();
         playerInput = playerObject.GetComponent<PlayerInput>();
         uIInputModule = playerObject.GetComponent<InputSystemUIInputModule>();
         PushMenu(activeMenu);
-        SwitchCurrentActionMap("UI");
     }
 
     /// <summary>
-    /// Description: Resume the game
-    /// Rationale: Players should be able to resume the game after pausing
+    /// Resume the game
     /// </summary>
-    public void ResumeGame()
+    public void UnpreviewLevel()
     {
-        if (!IsPaused)
+        if (!isPreviewing)
         {
             return;
         }
-        Time.timeScale = 1;
-        IsPaused = false;
+        isPreviewing = false;
         playerEventSystem.SetSelectedGameObject(null);
         activeMenu.SetActive(false);
         activeMenu = GetRootMenu();
-        SwitchCurrentActionMap("Player");
     }
 
     /// <summary>
