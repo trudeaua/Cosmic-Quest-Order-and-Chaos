@@ -19,7 +19,10 @@ public class LevelsController : MonoBehaviour
     public GameObject cursor;
     public Camera mainCamera;
     public GameObject previewScreen;
+    public float fovOnSelect = 26.3f;
+    public float fovOnDeselect = 20f;
     private Vector3 initialCameraPos;
+    private bool isZoomed = false;
     private float selectionCooldown = 0.25f;
     private LevelPreview[] levelPreviews;
     private LevelPreview currentlySelected;
@@ -102,7 +105,12 @@ public class LevelsController : MonoBehaviour
     /// </summary>
     public void SelectLevel()
     {
-        previewScreen.SetActive(true);
+        if (!isZoomed)
+        {
+            previewScreen.SetActive(true);
+            StartCoroutine(ZoomCamera(0.5f));
+            isZoomed = true;
+        }
     }
 
     /// <summary>
@@ -111,6 +119,12 @@ public class LevelsController : MonoBehaviour
     /// </summary>
     public void DeselectLevel()
     {
+        if (isZoomed)
+        {
+            previewScreen.SetActive(false);
+            StartCoroutine(ZoomCamera(0.5f));
+            isZoomed = false;
+        }
     }
 
     /// <summary>
@@ -129,7 +143,7 @@ public class LevelsController : MonoBehaviour
     /// <param name="levelPreview">The selected level</param>
     private void Navigate(LevelPreview levelPreview)
     {
-        if (selectionCooldown > 0)
+        if (selectionCooldown > 0 || isZoomed)
         {
             return;
         }
@@ -169,6 +183,25 @@ public class LevelsController : MonoBehaviour
             float newX = Mathf.Lerp(mainCamera.transform.position.x, initialCameraPos.x + currentlySelected.transform.position.x, elapsed / time);
             float newZ = Mathf.Lerp(mainCamera.transform.position.z, initialCameraPos.z + currentlySelected.transform.position.z, elapsed / time);
             mainCamera.transform.position = new Vector3(newX, mainCamera.transform.position.y, newZ);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// Description: Sets the field of view of the main camera to zoom in on a selected level
+    /// Rationale: Zooming in/out on a level signifies that it is selected/deselected
+    /// </summary>
+    /// <param name="time">Time in seconds in which to transition the main camera's field of view to the zoom in/out level</param>
+    private IEnumerator ZoomCamera(float time)
+    {
+        float start = isZoomed ? fovOnSelect : fovOnDeselect; ;
+        float stop = isZoomed ? fovOnDeselect : fovOnSelect;
+        float elapsed = 0;
+        while (elapsed < time)
+        {
+            float newFov = Mathf.Lerp(start, stop, elapsed / time);
+            mainCamera.fieldOfView = newFov;
             elapsed += Time.deltaTime;
             yield return null;
         }

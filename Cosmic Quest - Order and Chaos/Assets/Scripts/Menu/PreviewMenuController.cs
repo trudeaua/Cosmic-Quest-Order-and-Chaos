@@ -7,7 +7,7 @@ using UnityEngine.InputSystem.UI;
 public class PreviewMenuController : MenuController
 {
     #region Singleton
-    public new static MenuController Instance;
+    public new static PreviewMenuController Instance;
 
     protected override void Awake()
     {
@@ -27,35 +27,52 @@ public class PreviewMenuController : MenuController
     {
         menuStack = new Stack<GameObject>();
         selectedButtonsStack = new Stack<GameObject>();
-        activeMenu.SetActive(true);
         menuStack.Push(activeMenu);
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Navigate to the previous menu, if any
+    /// </summary>
+    /// <param name="menu">The menu to navigate to</param>
+    public override void PushMenu(GameObject menu)
     {
-        
+        GameObject button = GetSelectedButton(playerEventSystem);
+        if (button)
+        {
+            selectedButtonsStack.Push(button);
+        }
+        base.PushMenu(menu);
+        SetPlayerRoot(playerEventSystem);
     }
 
     /// <summary>
-    /// Pause the game
+    /// Navigate to the previous menu, if any
     /// </summary>
-    /// <param name="playerObject">Game object of the player that paused the game</param>
-    public void PreviewLevel(GameObject playerObject)
+    public override void PopMenu()
+    {
+        base.PopMenu();
+        SetPlayerRoot(playerEventSystem);
+        GameObject button = PopButton();
+        playerEventSystem.SetSelectedGameObject(button);
+    }
+
+    /// <summary>
+    /// Preview the level
+    /// </summary>
+    /// <param name="playerObject">Game object of the player's UI control</param>
+    public void PreviewLevel()
     {
         if (isPreviewing)
         {
             return;
         }
         isPreviewing = true;
-        playerEventSystem = playerObject.GetComponent<MultiplayerEventSystem>();
-        playerInput = playerObject.GetComponent<PlayerInput>();
-        uIInputModule = playerObject.GetComponent<InputSystemUIInputModule>();
         PushMenu(activeMenu);
+        LevelsController.Instance.SelectLevel();
     }
 
     /// <summary>
-    /// Resume the game
+    /// Unpreview the level
     /// </summary>
     public void UnpreviewLevel()
     {
@@ -67,25 +84,17 @@ public class PreviewMenuController : MenuController
         playerEventSystem.SetSelectedGameObject(null);
         activeMenu.SetActive(false);
         activeMenu = GetRootMenu();
+        LevelsController.Instance.DeselectLevel();
     }
 
     /// <summary>
-    /// Description: Switch the player's action map
-    /// Rationale: Should be able to switch the action map between Player and UI states
+    /// Assign a Player UI Control game object to a default button
     /// </summary>
-    /// <param name="name">Name of the action map</param>
-    private void SwitchCurrentActionMap(string name)
+    /// <param name="uiControl">UI Control prefab</param>
+    public void AssignMultiplayerUIControl(GameObject uiControl)
     {
-        playerInput.SwitchCurrentActionMap(name);
-        /*
-         * IMPORTANT this seemingly redundant code is to prevent a bug in the new input system
-         * cause by "states not being stored correctly" according to the developers. If the
-         * disable-enable sequence isn't there the input system will throw an error every frame
-         * after switching action maps.
-         * 
-         * See https://github.com/Unity-Technologies/InputSystem/issues/941 for more info
-         */
-        uIInputModule.enabled = false;
-        uIInputModule.enabled = true;
+        playerEventSystem = uiControl.GetComponent<MultiplayerEventSystem>();
+        playerInput = uiControl.GetComponent<PlayerInput>();
+        uIInputModule = uiControl.GetComponent<InputSystemUIInputModule>();
     }
 }

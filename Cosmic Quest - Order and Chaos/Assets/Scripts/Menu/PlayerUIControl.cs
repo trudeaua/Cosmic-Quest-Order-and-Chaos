@@ -14,6 +14,10 @@ public class PlayerUIControl : MonoBehaviour
             {
                 MainMenuController.Instance.AssignMultiplayerUIControl(gameObject, assignedPlayer);
             }
+            else if (GameSceneManager.Instance.currentSceneName == "LevelsScene")
+            {
+                PreviewMenuController.Instance.AssignMultiplayerUIControl(gameObject);
+            }
         }
         else
         {
@@ -34,11 +38,15 @@ public class PlayerUIControl : MonoBehaviour
         }
     }
 
-    public void OnMenuSelect()
+    public void OnMenuSelect(InputValue value)
     {
         if (assignedPlayer == 0 && GameSceneManager.Instance.currentSceneName == "LevelsScene")
         {
-            LevelsController.Instance.SelectLevel();
+            if (!value.isPressed)
+            {
+                return;
+            }
+            PreviewMenuController.Instance.PreviewLevel();
         }
     }
 
