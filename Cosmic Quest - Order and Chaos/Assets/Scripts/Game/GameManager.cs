@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
         Menu,
         Paused,
         Playing,
+        Tutorial,
+        BossFight,
         GameOver
     }
     
@@ -43,15 +45,29 @@ public class GameManager : MonoBehaviour
             case GameState.Paused:
                 break;
             case GameState.Playing:
-                
+            case GameState.Tutorial:
+            case GameState.BossFight:
+
                 // Check if all players are dead
+                if (PlayerManager.Instance.NumPlayersAlive() == 0)
+                {
+                    currentState = GameState.GameOver;
+                }
                 break;
             case GameState.GameOver:
                 // Trigger game over screen
                 // Restart to the last checkpoint?
+                
+                LevelManager.Instance.StartLevel1();
+                currentState = GameState.Playing;
                 break;
             default:
                 break;
         }
+    }
+
+    public void SetGameState(GameState state)
+    {
+        currentState = state;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -17,17 +16,16 @@ public class ChaosVoid : ScriptableObject, ISerializable
     // The final boss for this chaos void
     public GameObject boss { get; private set; }
 
-    public void LoadLevel()
+
+    public void Initialize()
     {
-        // Load the scene
-        LevelManager.Instance.LoadYourAsyncScene(scene.name);
         // Initialize whatever...
         // Find all serializables in the level
         // Find the final boss in the scene
         started = true;
     }
 
-    public void LoadLevel(string saved)
+    public void Initialize(string saved)
     {
         
     }

@@ -56,12 +56,12 @@ public class LevelManager : MonoBehaviour
 
     /// <summary>
     /// Starts a given chaos void
-    /// TODO this method may be redundant (i.e. just call the chaosVoid.LoadLevel() from the level select menu)
     /// </summary>
     /// <param name="chaosVoid">Reference to the chaos void level to load</param>
     public void StartChaosVoid(ChaosVoid chaosVoid)
     {
-        chaosVoid.LoadLevel();
+        StartCoroutine(LoadYourAsyncScene(chaosVoid.scene.name));
+        chaosVoid.Initialize();
     }
 
     /// <summary>

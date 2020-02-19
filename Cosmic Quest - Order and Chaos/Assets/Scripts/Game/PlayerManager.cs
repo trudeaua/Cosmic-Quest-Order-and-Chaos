@@ -122,6 +122,11 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public int NumPlayersAlive()
+    {
+        return Players.Count(player => !player.GetComponent<PlayerStatsController>().isDead);
+    }
+
     /// <summary>
     /// Register a player
     /// </summary>
