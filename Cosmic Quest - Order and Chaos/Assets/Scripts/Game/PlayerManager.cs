@@ -321,7 +321,11 @@ public class PlayerManager : MonoBehaviour
             // TODO do the rest of this method better
             if (MenuCanvas == null)
             {
-                MenuCanvas = FindObjectOfType<MainMenuController>().gameObject;
+                MainMenuController mainMenu = FindObjectOfType<MainMenuController>();
+                if (mainMenu != null)
+                {
+                    MenuCanvas = mainMenu.gameObject;
+                }
             }
             // i.e. If we're on the menu
             if (MenuCanvas != null)

@@ -1,10 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
 
 public class PlayerStatsController : EntityStatsController
 {
@@ -176,7 +172,7 @@ public class PlayerStatsController : EntityStatsController
         {
             return;
         }
-        if (PauseMenuController.Instance.IsPaused)
+        if (PauseMenuController.Instance.IsPaused && PauseMenuController.Instance.IsAtRoot())
         {
             PauseMenuController.Instance.ResumeGame();
         }
