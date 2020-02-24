@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -8,14 +9,22 @@ public class ChaosVoid : ScriptableObject, ISerializable
     public Object scene;
     // List of chaos voids required to be completed before starting this one
     public ChaosVoid[] prerequisites;
-    
-    // Whether this chaos void has been cleared
-    public bool cleared { get; private set; }
-    // Whether this chaos void has been started
-    public bool started { get; private set; }
-    // The final boss for this chaos void
-    public GameObject boss { get; private set; }
 
+    // Returns whether all the prerequisite levels have been completed
+    public bool isLocked
+    {
+        get
+        {
+            return prerequisites.Count(cv => cv.cleared) < prerequisites.Length;
+        }
+    }
+
+    // Whether this chaos void has been cleared
+    public bool cleared;
+    // Whether this chaos void has been started
+    public bool started;
+    // The final boss for this chaos void
+    public GameObject boss;
 
     public void Initialize()
     {

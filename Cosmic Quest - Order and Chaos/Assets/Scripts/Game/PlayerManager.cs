@@ -26,6 +26,7 @@ public class PlayerColours
     }
 }
 
+[Serializable]
 public class Player
 {
     // Which input device is the player connected to
@@ -52,7 +53,6 @@ public class Player
         characterChoice = _characterChoice;
         deviceId = _deviceId;
     }
-
 }
 
 [Serializable]
@@ -84,11 +84,7 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     public readonly List<GameObject> Players = new List<GameObject>();
-
     public static PlayerColours colours = new PlayerColours();
-    
-    // TODO this is only here to auto-assign players a texture if game isn't started through the menus for testing
-    public Texture testPlayerTexture;
 
     [Tooltip("Classes that the players can choose")]
     [SerializeField] private ClassOption[] classOptions;
@@ -100,27 +96,16 @@ public class PlayerManager : MonoBehaviour
     public static List<CharacterColour> playerColours = new List<CharacterColour>();
 
     // Maintains the players that have joined the game
-    public static readonly Player[] _Players = { null, null ,null, null };
-    public static readonly CharacterColour[] _PlayerColours = { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
+    public readonly Player[] _Players = { null, null ,null, null };
+    public readonly CharacterColour[] _PlayerColours = { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
+
+    public int numPlayers
+    {
+        get { return _Players.Count(p => p != null); }
+    }
 
     // GameObject containing all selectables and submenus for the main menu
     private GameObject MenuCanvas;
-
-    private void Start()
-    {
-        // Assign players their correct colour outline
-        // TODO Perhaps materials should be dynamically assigned elsewhere?
-        foreach (GameObject player in Players)
-        {
-            // Dynamically assign each player their respective outline texture
-            Color playerColour = colours.GetColour(player.GetComponent<EntityStatsController>().characterColour);
-            Material playerMaterial = new Material(Shader.Find("Custom/Outline"));
-            playerMaterial.SetFloat("_Outline", 0.0005f);
-            playerMaterial.SetColor("_OutlineColor", playerColour);
-            playerMaterial.SetTexture("_MainTex", testPlayerTexture);
-            player.GetComponentInChildren<Renderer>().sharedMaterial = playerMaterial;
-        }
-    }
 
     public int NumPlayersAlive()
     {
@@ -128,26 +113,27 @@ public class PlayerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Register a player
+    /// Initializes the player instance tracking for the current scene
+    /// </summary>
+    public void InitializePlayers()
+    {
+        Players.Clear();
+    }
+    
+    /// <summary>
+    /// Registers a player character instance for the current scene
     /// </summary>
     /// <param name="player">Player gameobject</param>
     public void RegisterPlayer(GameObject player)
     {
-        Players.Add(player);
-        
-        // assign the player a colour as soon as they're registered
-        CharacterColour characterColour = player.GetComponent<EntityStatsController>().characterColour;
-        if (characterColour == CharacterColour.None) {
-            // if they don't have a colour, give them one
-            characterColour = availableColours[0];
-            availableColours.Remove(characterColour);
-        }
-        playerColours.Add(characterColour);
-        player.GetComponent<EntityStatsController>().characterColour = characterColour;
+        if (Players.Count < numPlayers)
+            Players.Add(player);
+        else
+            Debug.LogError("Attempted to register more player instances than players!");
     }
 
     /// <summary>
-    /// Deregister a player
+    /// Deregister a player character instance for the current scene. Is this necessary?
     /// </summary>
     /// <param name="player">Player gameobject</param>
     public void DeregisterPlayer(GameObject player)
@@ -168,12 +154,10 @@ public class PlayerManager : MonoBehaviour
             // the PlayerInputManager treats it as a new player being connected to the scene. So disabling the PlayerInput 
             // in the prefab and then instantiating does not cause it to be treated as a new player
             _Players[whichPlayer].playerObject.GetComponent<PlayerInput>().enabled = false;
-            _Players[whichPlayer].playerObject.GetComponent<PlayerMotorController>().doRegister = false;
             GameObject playerInstance = Instantiate(_Players[whichPlayer].playerObject);
             _Players[whichPlayer].playerObject.GetComponent<PlayerInput>().enabled = true;
-            _Players[whichPlayer].playerObject.GetComponent<PlayerMotorController>().doRegister = true;
 
-            // Assign the player their respective outline texture
+            // Assign the player their respective outline colour and texture
             playerInstance.GetComponent<EntityStatsController>().characterColour = _Players[whichPlayer].characterColour;
             Material playerMaterial = new Material(Shader.Find("Custom/Outline"));
             playerMaterial.SetFloat("_Outline", 0.0005f);
@@ -183,10 +167,8 @@ public class PlayerManager : MonoBehaviour
 
             return playerInstance;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     /// <summary>
@@ -196,7 +178,7 @@ public class PlayerManager : MonoBehaviour
     /// <returns>The player number that the control was assigned to, -1 if not assigned.</returns>
     public int AssignUIControlToPlayer(GameObject playerUIControl)
     {
-        for(int i = 0; i < _Players.Length; i++)
+        for (int i = 0; i < _Players.Length; i++)
         {
             if (!_Players[i].playerUIControl)
             {
@@ -223,7 +205,7 @@ public class PlayerManager : MonoBehaviour
     /// <summary>
     /// Assign a player prefab to a player
     /// </summary>
-    /// <param name="player">Number of the player to apply the plaeyer prefab to (0-3)</param>
+    /// <param name="player">Number of the player to apply the player prefab to (0-3)</param>
     /// <param name="classChoice">A class choice representing which player prefab to select</param>
     public void AssignPrefab(int player, int classChoice)
     {
@@ -239,12 +221,7 @@ public class PlayerManager : MonoBehaviour
     /// <returns>An array of character names</returns>
     public string[] GetCharacterNames()
     {
-        string[] names = new string[characterOptions.Length];
-        for(int i = 0; i < names.Length; i++)
-        {
-            names[i] = characterOptions[i].name;
-        }
-        return names;
+        return characterOptions.Select(option => option.name).ToArray();
     }
 
     /// <summary>
@@ -253,12 +230,7 @@ public class PlayerManager : MonoBehaviour
     /// <returns>An array of class names</returns>
     public string[] GetClassNames()
     {
-        string[] names = new string[classOptions.Length];
-        for (int i = 0; i < names.Length; i++)
-        {
-            names[i] = classOptions[i].name;
-        }
-        return names;
+        return classOptions.Select(option => option.name).ToArray();
     }
 
     /// <summary>
@@ -267,7 +239,7 @@ public class PlayerManager : MonoBehaviour
     /// </summary>
     /// <param name="playerNumber">Number of the player (0-3)</param>
     /// <param name="actionMap">Name of the action map</param>
-    public static void SwitchActionMap(int playerNumber, string actionMap)
+    public void SwitchActionMap(int playerNumber, string actionMap)
     {
         if (playerNumber >= 0 && playerNumber < _Players.Length)
         {
@@ -358,7 +330,7 @@ public class PlayerManager : MonoBehaviour
     /// <returns></returns>
     public int GetPlayerNumber(int deviceId)
     {
-        for(int i = 0; i < _Players.Length; i++)
+        for (int i = 0; i < _Players.Length; i++)
         {
             if (_Players[i] != null && _Players[i].deviceId == deviceId)
             {
@@ -376,10 +348,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (playerNumber >= 0 && playerNumber < _Players.Length)
         {
-            if (_Players[playerNumber] != null)
-            {
-                _Players[playerNumber] = null;
-            }
+            _Players[playerNumber] = null;
         }
     }
 }

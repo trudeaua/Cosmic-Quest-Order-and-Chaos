@@ -345,30 +345,4 @@ public class MainMenuController : MenuController
             Destroy(child.gameObject);
         }
     }
-
-    /// <summary>
-    /// Register all selected players with the player manager
-    /// </summary>
-    /// <param name="playerContainer">Game object whose children are the selected players</param>
-    public void RegisterPlayers(GameObject playerContainer)
-    {
-        EntityStatsController[] players = playerContainer.GetComponentsInChildren<EntityStatsController>();
-        foreach (EntityStatsController entityStats in players)
-        {
-            PlayerManager.Instance.RegisterPlayer(entityStats.gameObject);
-        }
-    }
-
-    /// <summary>
-    /// Deregister all selected players with the player manager
-    /// </summary>
-    /// <param name="playerContainer">Game object whose children are the selected players</param>
-    public void DeregisterPlayers(GameObject playerContainer)
-    {
-        EntityStatsController[] players = playerContainer.GetComponentsInChildren<EntityStatsController>();
-        foreach (EntityStatsController entityStats in players)
-        {
-            PlayerManager.Instance.DeregisterPlayer(entityStats.gameObject);
-        }
-    }
 }

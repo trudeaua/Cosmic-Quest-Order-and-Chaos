@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
         Menu,
         Paused,
         Playing,
-        Tutorial,
         BossFight,
         GameOver
     }
@@ -20,21 +19,20 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         if (_instance == null)
+        {
             _instance = this;
+        }
         else
+        {
             Debug.LogWarning("Only one GameManager should be in the scene!");
+            Destroy(gameObject);
+        }
+
+        DontDestroyOnLoad(gameObject);
     }
     #endregion
 
     public GameState currentState { get; private set; } = GameState.Menu;
-
-    private void Start()
-    {
-        // This code simply updates the initial state based upon the scene the game was started in for testing purposes
-        // TODO remove this when no longer needed
-        string activeScene = SceneManager.GetActiveScene().name;
-        currentState = activeScene.Equals("MenuStaging") ? GameState.Menu : GameState.Playing;
-    }
 
     private void Update()
     {
@@ -45,7 +43,6 @@ public class GameManager : MonoBehaviour
             case GameState.Paused:
                 break;
             case GameState.Playing:
-            case GameState.Tutorial:
             case GameState.BossFight:
 
                 // Check if all players are dead
@@ -58,8 +55,8 @@ public class GameManager : MonoBehaviour
                 // Trigger game over screen
                 // Restart to the last checkpoint?
                 
-                LevelManager.Instance.StartLevel1();
-                currentState = GameState.Playing;
+                //LevelManager.Instance.StartLevel1();
+                //currentState = GameState.Playing;
                 break;
             default:
                 break;
