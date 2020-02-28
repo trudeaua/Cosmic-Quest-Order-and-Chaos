@@ -248,7 +248,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private void OnPlayerJoined(PlayerInput playerInput)
+    public void OnPlayerJoined(PlayerInput playerInput)
     {
         Debug.Log("Player " + playerInput.user.id + " Joined");
         // If not existing player, add new
@@ -317,7 +317,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private void OnPlayerLeft(PlayerInput playerInput)
+    public void OnPlayerLeft(PlayerInput playerInput)
     {
         Debug.Log("Player " + playerInput.user.id + " Left");
         playerInput.user.UnpairDevicesAndRemoveUser();

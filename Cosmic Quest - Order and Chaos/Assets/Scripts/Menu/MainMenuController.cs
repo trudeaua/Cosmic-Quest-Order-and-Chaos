@@ -243,7 +243,7 @@ public class MainMenuController : MenuController
         {
             ReadyPlayers[playerNumber] = true;
             ToggleReady(playerNumber, ReadyPlayers[playerNumber]);
-            if (ReadyPlayers.Where(r => r == true).Count() == NumberOfPlayers && NumberOfPlayers >= 2)
+            if (ReadyPlayers.Count(r => r == true) == NumberOfPlayers && NumberOfPlayers >= 2)
             {
                 lobbyConfirmButton.SetActive(true);
                 multiplayerEventSystems[0].SetSelectedGameObject(lobbyConfirmButton);

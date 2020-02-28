@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9062949075337675949}
   - component: {fileID: 5560360140146796072}
-  - component: {fileID: 9062949075337675939}
   - component: {fileID: 9062949075337675950}
   - component: {fileID: 1250025627}
   m_Layer: 0
@@ -46,74 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 509caa89ac9e45019e415e01219edea3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9062949075337675939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9062949075337675951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_NotificationBehavior: 0
-  m_MaxPlayerCount: 4
-  m_AllowJoining: 1
-  m_JoinBehavior: 1
-  m_PlayerJoinedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_PlayerLeftEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_JoinAction:
-    m_UseReference: 0
-    m_Action:
-      m_Name: Action
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: b5b20c91-f556-4818-9963-372d20ed6420
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings:
-      - m_Name: 
-        m_Id: cbadf076-7b24-43bd-aa00-2a42edf6596a
-        m_Path: <Gamepad>/buttonSouth
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: 
-        m_Action: Action
-        m_Flags: 0
-      - m_Name: 
-        m_Id: e172c0bd-0cd7-4b0f-aa7d-61d1ae59885f
-        m_Path: <Keyboard>/anyKey
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: 
-        m_Action: Action
-        m_Flags: 0
-      - m_Name: 
-        m_Id: 18581030-2b9c-40c2-8f23-d42dd941fd56
-        m_Path: <HID::mayflash limited MAYFLASH GameCube Controller Adapter>/button2
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: 
-        m_Action: Action
-        m_Flags: 0
-    m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 1626825109976161650, guid: b2aef357050c0044197ee8f16e6cd04b,
-    type: 3}
-  m_SplitScreen: 0
-  m_MaintainAspectRatioInSplitScreen: 0
-  m_FixedNumberOfSplitScreens: -1
-  m_SplitScreenRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
 --- !u!114 &9062949075337675950
 MonoBehaviour:
   m_ObjectHideFlags: 0
