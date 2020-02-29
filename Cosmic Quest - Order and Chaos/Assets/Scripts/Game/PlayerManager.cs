@@ -141,36 +141,55 @@ public class PlayerManager : MonoBehaviour
         Players.Remove(player);
     }
 
-    /// <summary>
-    /// Instantiate one of the players
-    /// </summary>
-    /// <param name="whichPlayer">The number of the player to instantiate (0-3)</param>
-    /// <returns></returns>
-    public GameObject InstantiatePlayer(int whichPlayer)
+    public GameObject InstantiatePlayer(int playerNumber)
     {
-        if (_Players[whichPlayer] != null)
-        {
-            // PlayerInput is disabled then reenabled here because when a new instance of PlayerInput is added to the scene,
-            // the PlayerInputManager treats it as a new player being connected to the scene. So disabling the PlayerInput 
-            // in the prefab and then instantiating does not cause it to be treated as a new player
-            _Players[whichPlayer].playerObject.GetComponent<PlayerInput>().enabled = false;
-            GameObject playerInstance = Instantiate(_Players[whichPlayer].playerObject);
-            _Players[whichPlayer].playerObject.GetComponent<PlayerInput>().enabled = true;
+        if (_Players[playerNumber] == null)
+            return null;
 
-            // Assign the player their respective outline colour and texture
-            playerInstance.GetComponent<EntityStatsController>().characterColour = _Players[whichPlayer].characterColour;
-            Material playerMaterial = new Material(Shader.Find("Custom/Outline"));
-            playerMaterial.SetFloat("_Outline", 0.0005f);
-            playerMaterial.SetColor("_OutlineColor", colours.GetColour(_Players[whichPlayer].characterColour));
-            playerMaterial.SetTexture("_MainTex", _Players[whichPlayer].characterChoice.skin);
-            playerInstance.GetComponentInChildren<Renderer>().sharedMaterial = playerMaterial;
+        // Instantiate the player model and pair to their input device
+        InputDevice device = InputDevice.all.First(d => d.deviceId == _Players[playerNumber].deviceId);
+        PlayerInput playerInstance = PlayerInput.Instantiate(_Players[playerNumber].playerObject, playerNumber, "Gamepad", -1, device);
 
-            return playerInstance;
-        }
+        // Assign the player their respective outline colour and texture
+        SetPlayerLooksAndColour(playerInstance.gameObject, playerNumber);
 
-        return null;
+        return playerInstance.gameObject;
     }
 
+    /// <summary>
+    /// Instantiates a preview model of one of the players
+    /// </summary>
+    /// <param name="playerNumber">The number of the player to instantiate (0-3)</param>
+    /// <returns></returns>
+    public GameObject InstantiatePlayerPreview(int playerNumber)
+    {
+        if (_Players[playerNumber] == null)
+            return null;
+        
+        // PlayerInput is disabled then reenabled here because when a new instance of PlayerInput is added to the scene,
+        // the PlayerInputManager treats it as a new player being connected to the scene. So disabling the PlayerInput 
+        // in the prefab and then instantiating does not cause it to be treated as a new player
+        _Players[playerNumber].playerObject.GetComponent<PlayerInput>().enabled = false;
+        GameObject playerInstance = Instantiate(_Players[playerNumber].playerObject);
+        //GameObject playerInstance = PlayerInput.Instantiate(_Players[whichPlayer].playerObject, whichPlayer, "player", -1, _Players[whichPlayer].deviceId);
+        _Players[playerNumber].playerObject.GetComponent<PlayerInput>().enabled = true;
+
+        // Assign the player their respective outline colour and texture
+        SetPlayerLooksAndColour(playerInstance, playerNumber);
+
+        return playerInstance;
+    }
+
+    public void SetPlayerLooksAndColour(GameObject playerInstance, int playerNumber)
+    {
+        playerInstance.GetComponent<EntityStatsController>().characterColour = _Players[playerNumber].characterColour;
+        Material playerMaterial = new Material(Shader.Find("Custom/Outline"));
+        playerMaterial.SetFloat("_Outline", 0.0005f);
+        playerMaterial.SetColor("_OutlineColor", colours.GetColour(_Players[playerNumber].characterColour));
+        playerMaterial.SetTexture("_MainTex", _Players[playerNumber].characterChoice.skin);
+        playerInstance.GetComponentInChildren<Renderer>().sharedMaterial = playerMaterial;
+    }
+    
     /// <summary>
     /// Assign a Player UI Control game object to a player
     /// </summary>

@@ -314,7 +314,7 @@ public class MainMenuController : MenuController
     {
         for (int i = 0; i < NumberOfPlayers; i++)
         {
-            GameObject playerInstance = PlayerManager.Instance.InstantiatePlayer(i);
+            GameObject playerInstance = PlayerManager.Instance.InstantiatePlayerPreview(i);
             playerInstance.transform.parent = positionObj.transform;
 
             // Transform the player instance so it looks nice on screen

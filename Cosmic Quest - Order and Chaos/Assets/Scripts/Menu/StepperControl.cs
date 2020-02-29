@@ -121,7 +121,7 @@ public class StepperControl : MonoBehaviour
             SetClass();
         }
         UpdatePlayer();
-        GameObject playerInstance = PlayerManager.Instance.InstantiatePlayer(playerNumber);
+        GameObject playerInstance = PlayerManager.Instance.InstantiatePlayerPreview(playerNumber);
         playerInstance.transform.parent = playerContainer.transform;
 
         // Transform the player instance so it looks nice on screen
