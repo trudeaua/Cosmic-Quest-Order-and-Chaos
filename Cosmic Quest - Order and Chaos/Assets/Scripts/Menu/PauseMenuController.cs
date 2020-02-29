@@ -105,6 +105,7 @@ public class PauseMenuController : MenuController
         }
         PushMenu(activeMenu);
         SwitchCurrentActionMap("UI");
+        GameManager.Instance.SetPausedState();
     }
 
     /// <summary>
@@ -123,6 +124,7 @@ public class PauseMenuController : MenuController
         activeMenu.SetActive(false);
         activeMenu = GetRootMenu();
         SwitchCurrentActionMap("Player");
+        GameManager.Instance.SetPlayState();
     }
 
     /// <summary>

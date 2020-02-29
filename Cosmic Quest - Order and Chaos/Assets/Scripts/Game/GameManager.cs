@@ -1,12 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public enum GameState
     {
         Menu,
+        Loading,
         Paused,
         Playing,
         BossFight,
@@ -14,13 +16,13 @@ public class GameManager : MonoBehaviour
     }
     
     #region Singleton
-    private static GameManager _instance;
+    public static GameManager Instance;
 
     private void Awake()
     {
-        if (_instance == null)
+        if (Instance == null)
         {
-            _instance = this;
+            Instance = this;
         }
         else
         {
@@ -31,16 +33,18 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
     #endregion
-
-    public GameState currentState { get; private set; } = GameState.Menu;
+    
+    public GameState CurrentState { get; private set; } = GameState.Menu;
 
     private void Update()
     {
         // Polls for game events and handles any state changes
-        switch (currentState)
+        switch (CurrentState)
         {
             case GameState.Menu:
             case GameState.Paused:
+                break;
+            case GameState.Loading:
                 break;
             case GameState.Playing:
             case GameState.BossFight:
@@ -48,23 +52,46 @@ public class GameManager : MonoBehaviour
                 // Check if all players are dead
                 if (PlayerManager.Instance.NumPlayersAlive() == 0)
                 {
-                    currentState = GameState.GameOver;
+                    CurrentState = GameState.GameOver;
                 }
                 break;
             case GameState.GameOver:
                 // Trigger game over screen
                 // Restart to the last checkpoint?
-                
-                //LevelManager.Instance.StartLevel1();
-                //currentState = GameState.Playing;
+
+                StartCoroutine(RestartLevel());
                 break;
             default:
                 break;
         }
     }
 
-    public void SetGameState(GameState state)
+    private IEnumerator RestartLevel()
     {
-        currentState = state;
+        CurrentState = GameState.Loading;
+        yield return new WaitForSeconds(3f);
+        
+        // TODO TEMPORARY - Probably should open some game over menu
+        LevelManager.Instance.StartLevel1();
+    }
+
+    public void SetLoadingState()
+    {
+        CurrentState = GameState.Loading;
+    }
+    
+    public void SetPlayState()
+    {
+        CurrentState = GameState.Playing;
+    }
+
+    public void SetMenuState()
+    {
+        CurrentState = GameState.Menu;
+    }
+
+    public void SetPausedState()
+    {
+        CurrentState = GameState.Paused;
     }
 }

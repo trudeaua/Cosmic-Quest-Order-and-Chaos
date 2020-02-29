@@ -113,15 +113,16 @@ public class CameraController : MonoBehaviour
     /// <returns>The centre position of all active players</returns>
     private Vector3 FindPlayersCenter()
     {
-        if (PlayerManager.Instance.Players.Count == 0)
+        List<GameObject> players = PlayerManager.Instance.AlivePlayers;
+        if (players.Count == 0)
         {
             // No players detected, so don't move camera target
             return Vector3.zero;
         }
-        else if (PlayerManager.Instance.Players.Count == 1)
+        else if (players.Count == 1)
         {
             // Only one player, so simply follow them
-            Vector3 pos = PlayerManager.Instance.Players[0].transform.position;
+            Vector3 pos = players[0].transform.position;
             return new Vector3(pos.x, 0, pos.z);
         }
 
@@ -130,7 +131,7 @@ public class CameraController : MonoBehaviour
         float zMin = float.MaxValue;
         float zMax = float.MinValue;
 
-        foreach (GameObject player in PlayerManager.Instance.Players)
+        foreach (GameObject player in players)
         {
             if (player.activeSelf)
             {

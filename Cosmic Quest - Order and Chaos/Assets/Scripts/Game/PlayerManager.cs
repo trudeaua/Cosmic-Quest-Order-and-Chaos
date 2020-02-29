@@ -84,6 +84,11 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     public readonly List<GameObject> Players = new List<GameObject>();
+
+    public List<GameObject> AlivePlayers
+    {
+        get { return Players.FindAll(p => !p.GetComponent<PlayerStatsController>().isDead); }
+    }
     public static PlayerColours colours = new PlayerColours();
 
     [Tooltip("Classes that the players can choose")]

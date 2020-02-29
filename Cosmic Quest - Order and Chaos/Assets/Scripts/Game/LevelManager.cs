@@ -36,13 +36,13 @@ public class LevelManager : MonoBehaviour
     public void StartTutorial()
     {
         // Load Tutorial scene
-        StartCoroutine(LoadYourAsyncScene("Tutorial"));
+        StartCoroutine(LoadYourAsyncScene("Tutorial", true));
     }
     
     public void StartLevel1()
     {
-        // TODO temporary
-        StartCoroutine(LoadYourAsyncScene("ChaosVoid1"));
+        // TODO DELETE ME AND THIS SCENE
+        StartCoroutine(LoadYourAsyncScene("ChaosVoid1", true));
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public class LevelManager : MonoBehaviour
     /// <param name="chaosVoid">Reference to the chaos void level to load</param>
     public void StartChaosVoid(ChaosVoid chaosVoid)
     {
-        StartCoroutine(LoadYourAsyncScene(chaosVoid.scene.name));
+        StartCoroutine(LoadYourAsyncScene(chaosVoid.scene.name, true));
         chaosVoid.Initialize();
     }
 
@@ -82,9 +82,11 @@ public class LevelManager : MonoBehaviour
     /// Load a scene asynchronously
     /// </summary>
     /// <param name="sceneName">Name of the scene to load</param>
+    /// <param name="isLevel">Whether the scene being loaded is a level</param>
     /// <returns>An IEnumerator</returns>
-    public IEnumerator LoadYourAsyncScene(string sceneName)
+    private IEnumerator LoadYourAsyncScene(string sceneName, bool isLevel = false)
     {
+        GameManager.Instance.SetLoadingState();
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
 
         // Wait until the asynchronous scene fully loads
@@ -92,5 +94,11 @@ public class LevelManager : MonoBehaviour
         {
             yield return null;
         }
+
+        // Set the new game state after loading is finished
+        if (isLevel)
+            GameManager.Instance.SetPlayState();
+        else
+            GameManager.Instance.SetMenuState();
     }
 }
