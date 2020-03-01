@@ -71,8 +71,9 @@ public class PlayerRangedCombatController : PlayerCombatController
     protected override void PrimaryAttack()
     {
         float chargePercent = Mathf.InverseLerp(0f, primaryAttackChargeTime, _primaryChargeTime);
+        float baseDamage = Stats.damage.GetValue();
 
-        float damageValue = primaryAttackEffectCurve.Evaluate(chargePercent) * Random.Range(primaryAttackMinDamage, primaryAttackMaxDamage + Stats.damage.GetValue());
+        float damageValue = primaryAttackEffectCurve.Evaluate(chargePercent) * Random.Range(primaryAttackMinDamage + baseDamage, primaryAttackMaxDamage + baseDamage);
         float primaryAttackLaunchForce = Mathf.Lerp(primaryAttackMinLaunchForce, primaryAttackMaxLaunchForce, primaryAttackEffectCurve.Evaluate(chargePercent));
 
         // Launch projectile in the direction the player is facing
@@ -167,8 +168,6 @@ public class PlayerRangedCombatController : PlayerCombatController
             _primaryChargeTime = 0f;
             Anim.SetBool("PrimaryAttack", true);
             StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackChargeWeaponSFX));
-            // pause mana regeneration
-            (Stats as PlayerStatsController).mana.PauseRegen();
             Motor.ApplyMovementModifier(primaryAttackMovementModifier);
         }
         else if (_isPrimaryCharging)
@@ -177,8 +176,6 @@ public class PlayerRangedCombatController : PlayerCombatController
             Anim.SetBool("PrimaryAttack", false);
             AudioHelper.StopAudio(WeaponAudio);
             StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackReleaseWeaponSFX));
-            // resume mana regeneration
-            (Stats as PlayerStatsController).mana.StartRegen();
             Motor.ResetMovementModifier();
             PrimaryAttack();
         }

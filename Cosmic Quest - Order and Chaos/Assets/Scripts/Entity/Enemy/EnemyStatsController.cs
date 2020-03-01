@@ -30,7 +30,7 @@ public class EnemyStatsController : EntityStatsController
     private EnemyBrainController _brain;
     private NavMeshAgent _agent;
 
-    private float _minTimeBetweenDamageText = 0.5f;
+    private float _minTimeBetweenDamageText = 0.3f;
     private float _damageTextValue = 0f;
     private float _damageTextCounter = 0f;
 
