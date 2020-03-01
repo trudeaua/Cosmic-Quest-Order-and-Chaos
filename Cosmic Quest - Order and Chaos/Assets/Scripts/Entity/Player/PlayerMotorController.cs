@@ -16,9 +16,6 @@ public class PlayerMotorController : MonoBehaviour
     private Vector2 _moveInput;
     private Vector2 _lookInput;
 
-    // TODO temporary until playermanager is finalized
-    public bool doRegister = true;
-
     private CameraController _cameraController;
 
     private void Awake()
@@ -26,11 +23,6 @@ public class PlayerMotorController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         _cameraController = Camera.main.GetComponent<CameraController>();
-        // TODO Temporary - player should be registered after lobby
-        if (doRegister)
-        {
-            PlayerManager.RegisterPlayer(gameObject);
-        }
     }
 
     private void OnEnable()
@@ -45,21 +37,13 @@ public class PlayerMotorController : MonoBehaviour
         _rb.isKinematic = true;
     }
 
-    private void OnDestroy()
-    {
-        // Ensure there's no invalid references hanging around
-        if (doRegister)
-        {
-            PlayerManager.DeregisterPlayer(gameObject);
-        }
-    }
-
     private void FixedUpdate()
     {
         Move();
     }
+    
     /// <summary>
-    /// Move the player
+    /// Move and face the player in the given input directions
     /// </summary>
     private void Move()
     {
@@ -113,6 +97,7 @@ public class PlayerMotorController : MonoBehaviour
         // Set whether the player should strafe or not
         _anim.SetBool("Strafe", (inputLookAngle >= 35f && inputLookAngle <= 145f));
 
+        // Accelerate player towards desired velocity vector
         inputMoveDirection *= maxVelocity;
         AccelerateTo(inputMoveDirection);
 

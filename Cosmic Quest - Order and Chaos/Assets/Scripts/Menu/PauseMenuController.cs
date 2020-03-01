@@ -28,7 +28,12 @@ public class PauseMenuController : MenuController
     protected override void Start()
     {
         menuStack = new Stack<GameObject>();
+        selectedButtonsStack = new Stack<GameObject>();
         activeMenu.SetActive(false);
+        FindCameraAndMusic();
+        SetUpSpeakerModesDropdown();
+        SetUpQualitySettingsDropdown();
+        SetUpAntiAliasingDropdown();
     }
 
     /// <summary>
@@ -37,6 +42,11 @@ public class PauseMenuController : MenuController
     /// <param name="menu">The menu to navigate to</param>
     public override void PushMenu(GameObject menu)
     {
+        GameObject button = GetSelectedButton(playerEventSystem);
+        if (button)
+        {
+            selectedButtonsStack.Push(button);
+        }
         base.PushMenu(menu);
         SetPlayerRoot(playerEventSystem);
     }
@@ -48,13 +58,23 @@ public class PauseMenuController : MenuController
     {
         base.PopMenu();
         SetPlayerRoot(playerEventSystem);
+        GameObject button = PopButton();
+        playerEventSystem.SetSelectedGameObject(button);
     }
 
+    /// <summary>
+    /// Indicates whether the player is at the root menu or not
+    /// </summary>
+    /// <returns></returns>
     public bool IsAtRoot()
     {
         return menuStack.Count == 1;
     }
 
+    /// <summary>
+    /// Pause the game
+    /// </summary>
+    /// <param name="playerObject">Game object of the player that paused the game</param>
     public void PauseGame(GameObject playerObject)
     {
         if (IsPaused)
@@ -64,7 +84,6 @@ public class PauseMenuController : MenuController
         }
         Time.timeScale = 0;
         // Set pause menu active
-        activeMenu.SetActive(true);
         IsPaused = true;
         playerEventSystem = playerObject.GetComponent<MultiplayerEventSystem>();
         if (playerEventSystem == null)
@@ -86,7 +105,9 @@ public class PauseMenuController : MenuController
         }
         PushMenu(activeMenu);
         SwitchCurrentActionMap("UI");
+        GameManager.Instance.SetPausedState();
     }
+
     /// <summary>
     /// Resume the game
     /// </summary>
@@ -99,11 +120,11 @@ public class PauseMenuController : MenuController
         }
         Time.timeScale = 1;
         IsPaused = false;
-        // Set pause menu inactive
         playerEventSystem.SetSelectedGameObject(null);
         activeMenu.SetActive(false);
         activeMenu = GetRootMenu();
         SwitchCurrentActionMap("Player");
+        GameManager.Instance.SetPlayState();
     }
 
     /// <summary>

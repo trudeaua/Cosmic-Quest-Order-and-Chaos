@@ -6,18 +6,17 @@ using System.Text;
 // Class for player-lever interaction
 public class Lever : Interactable
 {
-    protected Animator Anim;
-    protected Room Room;
-    public bool IsPulled;
-    private AudioSource _audioClip;
+    // Delegate for when lever is activated
+    public delegate void OnActivation(CharacterColour colour);
+    public OnActivation onActivation;
+    
+    private Animator _anim;
+    private AudioSource _audio;
 
-    private void Start()
-    { 
-        // Find Room that lever is in
-        Room = transform.parent.parent.gameObject.GetComponent<Room>();
-        
-        Anim = GetComponent<Animator>();
-        _audioClip = GetComponent<AudioSource>(); 
+    private void Awake()
+    {
+        _anim = GetComponent<Animator>();
+        _audio = GetComponent<AudioSource>(); 
     }
 
     /// <summary>
@@ -37,17 +36,15 @@ public class Lever : Interactable
     {
         if (CanInteract(target))
         {
-            Debug.Log("Interacted with " + target.name);
+            _anim.enabled = true;
+            _anim.Play("LeverAnimation");
+            _anim.SetBool("LeverPulled", true);
             
-            Anim.enabled = true;
-            Anim.Play("LeverAnimation");
-            Anim.SetBool("LeverPulled", true);
-            
-            _audioClip.PlayDelayed(0);
-            IsPulled = true;
+            _audio.PlayDelayed(0);
 
             // Add lever colour to the code input
-            Room.Input.Add(this.colour);
+            //puzzle.AddColour(colour);
+            onActivation?.Invoke(colour);
         }
     }
 
@@ -56,6 +53,6 @@ public class Lever : Interactable
     /// </summary>
     void PauseAnimationEvent ()
     {
-        Anim.enabled = false;
+        _anim.enabled = false;
     }
 }

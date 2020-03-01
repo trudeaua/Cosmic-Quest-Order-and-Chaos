@@ -72,7 +72,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""id"": ""f6bdf6d2-d3eb-4038-9778-443f8827d98a"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Press""
+                    ""interactions"": ""Press(behavior=2)""
                 }
             ],
             ""bindings"": [
@@ -638,17 +638,6 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Joystick"",
                     ""action"": ""MenuOpen"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9ce1a645-1d5f-457b-9a19-1f242a387ef2"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""MenuClose"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },

@@ -43,6 +43,14 @@ public class MainMenuController : MenuController
     /// <param name="menu">The menu to navigate to</param>
     public override void PushMenu(GameObject menu)
     {
+        if (multiplayerEventSystems.Count > 0)
+        {
+            GameObject button = GetSelectedButton(multiplayerEventSystems[0]);
+            if (button)
+            {
+                selectedButtonsStack.Push(button);
+            }
+        }
         base.PushMenu(menu);
         SetPlayerRoots();
     }
@@ -54,6 +62,11 @@ public class MainMenuController : MenuController
     {
         base.PopMenu();
         SetPlayerRoots();
+        if (multiplayerEventSystems.Count > 0)
+        {
+            GameObject button = PopButton();
+            multiplayerEventSystems[0].SetSelectedGameObject(button);
+        }
     }
 
     /// <summary>
@@ -230,7 +243,7 @@ public class MainMenuController : MenuController
         {
             ReadyPlayers[playerNumber] = true;
             ToggleReady(playerNumber, ReadyPlayers[playerNumber]);
-            if (ReadyPlayers.Where(r => r == true).Count() == NumberOfPlayers && NumberOfPlayers >= 2)
+            if (ReadyPlayers.Count(r => r == true) == NumberOfPlayers && NumberOfPlayers >= 2)
             {
                 lobbyConfirmButton.SetActive(true);
                 multiplayerEventSystems[0].SetSelectedGameObject(lobbyConfirmButton);
@@ -301,7 +314,7 @@ public class MainMenuController : MenuController
     {
         for (int i = 0; i < NumberOfPlayers; i++)
         {
-            GameObject playerInstance = PlayerManager.Instance.InstantiatePlayer(i);
+            GameObject playerInstance = PlayerManager.Instance.InstantiatePlayerPreview(i);
             playerInstance.transform.parent = positionObj.transform;
 
             // Transform the player instance so it looks nice on screen
@@ -330,32 +343,6 @@ public class MainMenuController : MenuController
         foreach(EntityStatsController child in children)
         {
             Destroy(child.gameObject);
-        }
-    }
-
-    /// <summary>
-    /// Register all selected players with the player manager
-    /// </summary>
-    /// <param name="playerContainer">Game object whose children are the selected players</param>
-    public void RegisterPlayers(GameObject playerContainer)
-    {
-        EntityStatsController[] players = playerContainer.GetComponentsInChildren<EntityStatsController>();
-        foreach (EntityStatsController entityStats in players)
-        {
-            PlayerManager.RegisterPlayer(entityStats.gameObject);
-        }
-    }
-
-    /// <summary>
-    /// Deregister all selected players with the player manager
-    /// </summary>
-    /// <param name="playerContainer">Game object whose children are the selected players</param>
-    public void DeregisterPlayers(GameObject playerContainer)
-    {
-        EntityStatsController[] players = playerContainer.GetComponentsInChildren<EntityStatsController>();
-        foreach (EntityStatsController entityStats in players)
-        {
-            PlayerManager.DeregisterPlayer(entityStats.gameObject);
         }
     }
 }

@@ -1,50 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // Class for managing rock placement detection
 public class Platform : MonoBehaviour
 {
-    protected Animator Anim;
-    public CharacterColour Colour = CharacterColour.All;
-    public bool IsActivated;
-
-    private AudioSource audioClip;
-
-    // Start is called before the first frame update
-    void Start()
+    public delegate void OnActivation(bool isActivated);
+    public OnActivation onActivation;
+    
+    private Animator _anim;
+    private AudioSource _audio;
+    
+    public CharacterColour colour;
+    private bool _isActivated;
+    
+    private void Awake()
     {
-        Anim = GetComponent<Animator>();
-        audioClip = GetComponent<AudioSource>();
+        _anim = GetComponent<Animator>();
+        _audio = GetComponent<AudioSource>();
     }
 
-    void OnTriggerEnter (Collider other) 
+    private void OnTriggerEnter (Collider other) 
     {
-        if ((other.tag == "Rock") &&
-            (other.gameObject.GetComponent<Interactable>().colour == Colour))
+        if (!_isActivated && other.CompareTag("Rock") && other.GetComponent<Interactable>().colour == colour)
         {
-            IsActivated = true;
-            Anim.SetTrigger("PlatformActivated");
+            _anim.SetTrigger("PlatformActivated");
 
-            audioClip.PlayDelayed(0);
+            _audio.PlayDelayed(0);
+            _isActivated = true;
+            
+            onActivation?.Invoke(true);
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if ((other.tag == "Rock") &&
-            (other.gameObject.GetComponent<Interactable>().colour == Colour))
+        if (_isActivated && other.CompareTag("Rock") && other.GetComponent<Interactable>().colour == colour)
         {
-            IsActivated = false;
-            Anim.enabled = true;
+            _anim.enabled = true;
+            _isActivated = false;
+            
+            onActivation?.Invoke(false);
         }
-    }
-
-    /// <summary>
-    /// Pause the platform animation
-    /// </summary>
-    void PausePlatformAnimationEvent ()
-    {
-        Anim.enabled = false;
     }
 }

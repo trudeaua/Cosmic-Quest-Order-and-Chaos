@@ -26,7 +26,6 @@ public class StepperControl : MonoBehaviour
     private void Awake()
     {
         btn = GetComponent<Button>();
-        btn = GetComponent<Button>();
         gui = btn.gameObject.GetComponentInChildren<TextMeshProUGUI>();
         characterNames = PlayerManager.Instance.GetCharacterNames();
         classNames = PlayerManager.Instance.GetClassNames();
@@ -122,7 +121,7 @@ public class StepperControl : MonoBehaviour
             SetClass();
         }
         UpdatePlayer();
-        GameObject playerInstance = PlayerManager.Instance.InstantiatePlayer(playerNumber);
+        GameObject playerInstance = PlayerManager.Instance.InstantiatePlayerPreview(playerNumber);
         playerInstance.transform.parent = playerContainer.transform;
 
         // Transform the player instance so it looks nice on screen

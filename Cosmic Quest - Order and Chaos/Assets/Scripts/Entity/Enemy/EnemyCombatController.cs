@@ -19,7 +19,7 @@ public class EnemyCombatController : EntityCombatController
 
     private void Start()
     {
-        Players = PlayerManager.Players;
+        Players = PlayerManager.Instance.Players;
     }
     /// <summary>
     /// Placeholder for enemy primary attack
