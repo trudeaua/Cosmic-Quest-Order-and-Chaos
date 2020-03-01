@@ -26,6 +26,11 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = "";
     }
 
+    void OnDestroy()
+    {
+        Instance = null;
+    }
+
     /// <summary>
     /// Start showing dialogue
     /// </summary>
