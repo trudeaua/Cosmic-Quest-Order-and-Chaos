@@ -45,8 +45,7 @@ public class EnemyStatsController : EntityStatsController
     [SerializeField] protected bool rotateColouring = false;
     [SerializeField] protected float minTimeBetweenColourChanges = 7.0f;
     protected float colourChangeTimeCounter = 0;
-    public float weakColourModifier = 0.35f;
-    public float strongColourModifier = 1f;
+    public float colourResistanceModifier = 0.35f;
 
 
     protected override void Awake()
@@ -98,10 +97,10 @@ public class EnemyStatsController : EntityStatsController
         if (isDead)
             return;
 
-        float colourDamageModifier = characterColour == CharacterColour.All || attacker.characterColour == characterColour ? strongColourModifier : weakColourModifier;
+        float colourDamangePercentage  = characterColour == CharacterColour.All || attacker.characterColour == characterColour ? 1 : colourResistanceModifier;
 
         // Calculate any changes based on stats and modifiers here first
-        float hitValue = Mathf.Max(colourDamageModifier * (damageValue - ComputeDefenseModifier()), 0) * timeDelta;
+        float hitValue = Mathf.Max(colourDamangePercentage * (damageValue - ComputeDefenseModifier()), 0) * timeDelta;
         health.Subtract(hitValue);
         ShowDamage(hitValue);
         Anim.SetTrigger("TakeDamage");
