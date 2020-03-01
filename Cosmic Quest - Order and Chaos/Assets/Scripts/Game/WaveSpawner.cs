@@ -91,13 +91,13 @@ public class WaveSpawner : MonoBehaviour
             yield return new WaitForSeconds(delay);
         }
         if (numEnemies == 0)
-            numEnemies = (int)Mathf.Max(Mathf.Pow(PlayerManager.Players.Count, 2) * Random.Range(0.75f, 1.25f), 1);
+            numEnemies = (int)Mathf.Max(Mathf.Pow(PlayerManager.Instance.Players.Count, 2) * Random.Range(0.75f, 1.25f), 1);
         Vector3 playerAvgPosition = new Vector3(0, 0, 0);
-        foreach(GameObject player in PlayerManager.Players)
+        foreach(GameObject player in PlayerManager.Instance.Players)
         {
             playerAvgPosition += player.transform.position;
         }
-        playerAvgPosition = playerAvgPosition / PlayerManager.Players.Count;
+        playerAvgPosition = playerAvgPosition / PlayerManager.Instance.Players.Count;
         for (int i = 0; i < numEnemies; i++)
         {
             float rand = Random.Range(0, totalProbability);
@@ -128,7 +128,7 @@ public class WaveSpawner : MonoBehaviour
             yield return new WaitForSeconds(delay);
         }
         if (numEnemies == 0)
-            numEnemies = (int)Mathf.Max(Mathf.Pow(PlayerManager.Players.Count, 2) * Random.Range(0.75f, 1.25f), 1);
+            numEnemies = (int)Mathf.Max(Mathf.Pow(PlayerManager.Instance.Players.Count, 2) * Random.Range(0.75f, 1.25f), 1);
         for (int i = 0; i < numEnemies; i++)
         {
             float rand = Random.Range(0, totalProbability);
@@ -170,7 +170,7 @@ public class WaveSpawner : MonoBehaviour
     {
         // players' average position
         Vector3 avgPlayerPostion = new Vector3(0, 0, 0);
-        foreach (GameObject player in PlayerManager.Players)
+        foreach (GameObject player in PlayerManager.Instance.Players)
         {
             avgPlayerPostion += player.transform.position;
         }

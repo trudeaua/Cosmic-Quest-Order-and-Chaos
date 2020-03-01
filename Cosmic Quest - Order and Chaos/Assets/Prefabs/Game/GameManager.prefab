@@ -9,17 +9,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9062949075337675949}
-  - component: {fileID: 9062949075337675938}
-  - component: {fileID: 9062949075337675939}
+  - component: {fileID: 5560360140146796072}
   - component: {fileID: 9062949075337675950}
-  - component: {fileID: 9062949075337675948}
-  - component: {fileID: 2851436488834046242}
+  - component: {fileID: 1250025627}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &9062949075337675949
 Transform:
@@ -35,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9062949075337675938
+--- !u!114 &5560360140146796072
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,69 +42,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 9062949075337675951}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Script: {fileID: 11500000, guid: 509caa89ac9e45019e415e01219edea3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AgentTypeID: -1372625422
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 311
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.33333334
-  m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: 22e1a107dbae2f044a9ca5a3d93e2e7c, type: 2}
---- !u!114 &9062949075337675939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9062949075337675951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_NotificationBehavior: 0
-  m_MaxPlayerCount: 4
-  m_AllowJoining: 1
-  m_JoinBehavior: 2
-  m_PlayerJoinedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_PlayerLeftEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_JoinAction:
-    m_UseReference: 0
-    m_Action:
-      m_Name: 
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-    m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 0}
-  m_SplitScreen: 0
-  m_MaintainAspectRatioInSplitScreen: 0
-  m_FixedNumberOfSplitScreens: -1
-  m_SplitScreenRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
 --- !u!114 &9062949075337675950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,8 +57,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0607cb14e4293d46ab5f902a8615a6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testPlayerTexture: {fileID: 2800000, guid: e60f9332c6bc71545a7681efd9875f01, type: 3}
---- !u!114 &9062949075337675948
+  classOptions:
+  - name: Mage
+    prefab: {fileID: 6347770635181394814, guid: d888342ddcde8dc49bcbe1ff51966fce,
+      type: 3}
+  - name: Melee
+    prefab: {fileID: 5427924387950366933, guid: 972b911c54195d04e8ffbf026c247c9a,
+      type: 3}
+  - name: Healer
+    prefab: {fileID: 749148863823978120, guid: 3beb1b77335ed6645a24666d0d67c2d0, type: 3}
+  - name: Ranger
+    prefab: {fileID: 7264181408041424334, guid: 4ab2e03e0ed13f043b17f2648f295d87,
+      type: 3}
+  characterOptions:
+  - name: Alien A
+    skin: {fileID: 2800000, guid: e60f9332c6bc71545a7681efd9875f01, type: 3}
+  - name: Alien B
+    skin: {fileID: 2800000, guid: e85c2603e89e0914797e93048b2b8c36, type: 3}
+  - name: Alien C
+    skin: {fileID: 2800000, guid: 2088600b5689e2c4ca3d582dbea2711d, type: 3}
+  - name: Robot
+    skin: {fileID: 2800000, guid: 198eb07572599594b9a7a8900e7f99b9, type: 3}
+--- !u!114 &1250025627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,69 +87,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9062949075337675951}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 131036762b57e245da1be73d14fcc73b, type: 3}
+  m_Script: {fileID: 11500000, guid: 34945a3d6725b0a4185800e2e79e593a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pooledItems:
-  - pooledAmount: 10
-    pooledObject: {fileID: 9070515875191536467, guid: 89cf1e6c9119eae40a90576421de14d2,
-      type: 3}
-    expandable: 0
-    pooledObjects: []
-  - pooledAmount: 10
-    pooledObject: {fileID: 9157185116791405800, guid: 8b20befda0c4d8e4995dac019d5c7be0,
-      type: 3}
-    expandable: 0
-    pooledObjects: []
-  - pooledAmount: 10
-    pooledObject: {fileID: 8766964442698227007, guid: daefe39a199a2674bb5d421ea52854e9,
-      type: 3}
-    expandable: 0
-    pooledObjects: []
---- !u!114 &2851436488834046242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9062949075337675951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b28d758f11cbf7478bb77a0c89a4a37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnWaves: 0
-  enemyProbabilities:
-  - enemyPrefab: {fileID: 5856349497122564323, guid: 7d23062a3aa58d145b24deb3a64ec100,
-      type: 3}
-    probability: 0.1
-  - enemyPrefab: {fileID: 8337127725775014206, guid: 247072e77a39e354782deb5f4999e3c7,
-      type: 3}
-    probability: 0.1
-  - enemyPrefab: {fileID: 3528824016199519653, guid: 7f21f526564b0534ebd96fa82e79e46f,
-      type: 3}
-    probability: 0.1
-  - enemyPrefab: {fileID: 4806872650656697234, guid: ff77bf24f4dfd89478742f2e7513b0b6,
-      type: 3}
-    probability: 0.1
-  - enemyPrefab: {fileID: 9092795395475728631, guid: b2682d4b201ae36408c0a465b0bdd4db,
-      type: 3}
-    probability: 0.2
-  - enemyPrefab: {fileID: 3183467393437911326, guid: 5f6b88a455537a64e8591c930683f1e0,
-      type: 3}
-    probability: 0.2
-  - enemyPrefab: {fileID: 8580762847473201239, guid: 0b6a2935dd466c243936236a29414fbd,
-      type: 3}
-    probability: 0.2
-  - enemyPrefab: {fileID: 4074194950858497397, guid: fc6fbc7ec5d2a8f41b0c9073f8b5b085,
-      type: 3}
-    probability: 0.15
-  - enemyPrefab: {fileID: 7833114917082258782, guid: 240a34e2ca2a1a545ab19e69a92fe163,
-      type: 3}
-    probability: 0.15
-  - enemyPrefab: {fileID: 9167914555847376949, guid: 1e27f2b4e9f3add4b8d743f3a6a19d0f,
-      type: 3}
-    probability: 0.05
-  spawnDelay: 0.1
-  waveIntervalStart: 60
-  waveIntervalEnd: 120
+  chaosVoids: []
