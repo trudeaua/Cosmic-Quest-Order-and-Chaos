@@ -16,7 +16,14 @@ public class LevelManager : MonoBehaviour
         else
         {
             Debug.LogWarning("Only one scene manager should be in the scene!");
+            Destroy(this);
         }
+    }
+    
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
     #endregion
     

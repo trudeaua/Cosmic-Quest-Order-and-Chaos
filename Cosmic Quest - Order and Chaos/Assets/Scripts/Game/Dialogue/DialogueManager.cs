@@ -12,9 +12,10 @@ public class DialogueManager : MonoBehaviour
     public float TYPE_SPEED = 0.05f;
     private Queue<string> sentences;
 
+    #region Singleton
     public static DialogueManager Instance = null;
 
-    void Awake()
+    private void Awake()
     {
         if (Instance is null)
             Instance = this;
@@ -26,10 +27,12 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = "";
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
-        Instance = null;
+        if (Instance == this)
+            Instance = null;
     }
+    #endregion
 
     /// <summary>
     /// Start showing dialogue

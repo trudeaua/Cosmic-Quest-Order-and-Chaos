@@ -32,7 +32,16 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
     }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
     #endregion
+
+    [Tooltip("Y coordinate where players instantly die if they fall below")]
+    public float playerDeathZone = -30f;
     
     public GameState CurrentState { get; private set; } = GameState.Menu;
 

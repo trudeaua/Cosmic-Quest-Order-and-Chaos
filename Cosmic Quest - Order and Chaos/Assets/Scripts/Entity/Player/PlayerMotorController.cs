@@ -9,7 +9,7 @@ public class PlayerMotorController : MonoBehaviour
     public float maxAcceleration = 25.0f;
     public float rotationSpeed = 10.0f;
     private float _speedModifier = 1f;
-    
+
     private Rigidbody _rb;
     private Animator _anim;
 
@@ -27,7 +27,7 @@ public class PlayerMotorController : MonoBehaviour
 
     private void OnEnable()
     {
-        // Ensure player is not kinematic
+        // Ensure player is not kinematic so rigidbody is affected by physics
         _rb.isKinematic = false;
     }
 
@@ -101,9 +101,7 @@ public class PlayerMotorController : MonoBehaviour
         inputMoveDirection *= maxVelocity;
         AccelerateTo(inputMoveDirection);
 
-        // TODO add proper gravity to players. Should be able to detect if currently on the "ground", which is when it apply gravity
-
-        // Don't clamp if player is stationary
+        // Don't clamp if player is stationary or is not on the ground
         if (inputMoveDirection != Vector3.zero)
         {
             Vector3 clamped = _cameraController.ClampToScreenEdge(_rb.position);
@@ -121,7 +119,9 @@ public class PlayerMotorController : MonoBehaviour
 
         if (accel.sqrMagnitude > maxAcceleration * maxAcceleration)
             accel = accel.normalized * maxAcceleration;
-        
+
+        // Allow gravity to act on the rigidbody naturally
+        accel.y = 0f;
         _rb.AddForce(accel, ForceMode.Acceleration);
     }
 
@@ -146,8 +146,7 @@ public class PlayerMotorController : MonoBehaviour
     {
         _moveInput = value.Get<Vector2>();
     }
-
-
+    
     private void OnLook(InputValue value)
     {
         _lookInput = value.Get<Vector2>();
