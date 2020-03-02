@@ -15568,7 +15568,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1c0d74fc4e2991849827da68e65fbdca, type: 2}
+  - {fileID: 2100000, guid: 82d28d0901cdd7a42a26571265094727, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16406,6 +16406,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2046070314, guid: 61698089ee48e65438fdecc8d23ccc7e, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61698089ee48e65438fdecc8d23ccc7e, type: 3}
 --- !u!114 &1250025626 stripped
@@ -17056,7 +17060,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57758e5486b1eb643b3c0db8cceb2b3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 0.025
 --- !u!1 &1299923512
 GameObject:
   m_ObjectHideFlags: 0
@@ -18351,7 +18354,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ed99e87245f45bc498291b176efdfd80, type: 2}
+  - {fileID: 2100000, guid: 82d28d0901cdd7a42a26571265094727, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -22061,6 +22064,7 @@ GameObject:
   - component: {fileID: 1622050414}
   - component: {fileID: 1622050413}
   - component: {fileID: 1622050412}
+  - component: {fileID: 1622050411}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -22068,6 +22072,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1622050411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622050410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 949d8a17e07735e4286ff51403354486, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 0.025
 --- !u!82 &1622050412
 AudioSource:
   m_ObjectHideFlags: 0
@@ -26794,7 +26811,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1250025627}
-        m_MethodName: StartLevel1
+        m_MethodName: StartTestLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

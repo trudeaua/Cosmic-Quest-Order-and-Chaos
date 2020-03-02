@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         
         // TODO TEMPORARY - Probably should open some game over menu
-        LevelManager.Instance.StartLevel1();
+        LevelManager.Instance.StartTestLevel();
     }
 
     public void SetLoadingState()

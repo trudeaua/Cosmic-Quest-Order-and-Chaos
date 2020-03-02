@@ -57,9 +57,9 @@ public class LevelManager : MonoBehaviour
         StartCoroutine(LoadYourAsyncScene("Tutorial", true));
     }
     
-    public void StartLevel1()
+    public void StartTestLevel()
     {
-        // TODO DELETE ME AND THIS SCENE
+        // TODO DELETE ME
         StartCoroutine(LoadYourAsyncScene("ChaosVoid1", true));
     }
 
