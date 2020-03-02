@@ -76,7 +76,6 @@ public class CameraController : MonoBehaviour
         Vector3 edgePos;
 
         // Handle clamping along the x-axis
-        // TODO probably don't need to use ScreenToWorldPoint for x-axis?
         if (screenPos.x < deadBoundary)
         {
             // Left edge
@@ -105,8 +104,9 @@ public class CameraController : MonoBehaviour
             targetPos.z = edgePos.z + ((edgePos.y - targetPos.y) * _invTanOfView);
         }
 
-        return targetPos - new Vector3(0f, _playerHeight, 0f); ;
+        return targetPos - new Vector3(0f, _playerHeight, 0f);
     }
+    
     /// <summary>
     /// Find the centre of all player positions
     /// </summary>

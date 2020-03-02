@@ -7,7 +7,7 @@ public class PlayerSpawn : MonoBehaviour
     private void Start()
     {
         Vector3 spawnPos = transform.position;
-        int numPlayers = PlayerManager.Instance.numPlayers;
+        int numPlayers = PlayerManager.Instance.NumPlayers;
 
         PlayerManager.Instance.InitializePlayers();
 

@@ -79,16 +79,21 @@ public class PlayerManager : MonoBehaviour
         if (Instance == null)
             Instance = this;
         else
+        {
             Debug.LogWarning("Only one player manager should be in the scene!");
+            Destroy(this);
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
     #endregion
 
     public readonly List<GameObject> Players = new List<GameObject>();
-
-    public List<GameObject> AlivePlayers
-    {
-        get { return Players.FindAll(p => !p.GetComponent<PlayerStatsController>().isDead); }
-    }
+    
     public static PlayerColours colours = new PlayerColours();
 
     [Tooltip("Classes that the players can choose")]
@@ -104,9 +109,14 @@ public class PlayerManager : MonoBehaviour
     public readonly Player[] _Players = { null, null ,null, null };
     public readonly CharacterColour[] _PlayerColours = { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
 
-    public int numPlayers
+    public int NumPlayers
     {
         get { return _Players.Count(p => p != null); }
+    }
+    
+    public List<GameObject> AlivePlayers
+    {
+        get { return Players.FindAll(p => !p.GetComponent<PlayerStatsController>().isDead); }
     }
 
     // GameObject containing all selectables and submenus for the main menu
@@ -131,7 +141,7 @@ public class PlayerManager : MonoBehaviour
     /// <param name="player">Player gameobject</param>
     public void RegisterPlayer(GameObject player)
     {
-        if (Players.Count < numPlayers)
+        if (Players.Count < NumPlayers)
             Players.Add(player);
         else
             Debug.LogError("Attempted to register more player instances than players!");

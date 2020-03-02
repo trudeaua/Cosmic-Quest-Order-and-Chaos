@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,12 +17,29 @@ public class LevelManager : MonoBehaviour
         else
         {
             Debug.LogWarning("Only one scene manager should be in the scene!");
+            Destroy(this);
         }
     }
+    
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
     #endregion
+
+    // Loading screen to use for scene transitions
+    public GameObject loadingScene;
     
     // List of all chaos voids
     public ChaosVoid[] chaosVoids;
+
+    private Animator _anim;
+
+    private void Start()
+    {
+        _anim = loadingScene.GetComponent<Animator>();
+    }
 
     public void LoadGame(string saveData)
     {
@@ -39,9 +57,9 @@ public class LevelManager : MonoBehaviour
         StartCoroutine(LoadYourAsyncScene("Tutorial", true));
     }
     
-    public void StartLevel1()
+    public void StartTestLevel()
     {
-        // TODO DELETE ME AND THIS SCENE
+        // TODO DELETE ME
         StartCoroutine(LoadYourAsyncScene("ChaosVoid1", true));
     }
 
@@ -87,6 +105,12 @@ public class LevelManager : MonoBehaviour
     private IEnumerator LoadYourAsyncScene(string sceneName, bool isLevel = false)
     {
         GameManager.Instance.SetLoadingState();
+        
+        // Start the loading screen
+        _anim.SetTrigger("Show");
+        yield return new WaitForSeconds(0.5f);
+        
+        // Load the scene asynchronously
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
 
         // Wait until the asynchronous scene fully loads
@@ -94,6 +118,10 @@ public class LevelManager : MonoBehaviour
         {
             yield return null;
         }
+        
+        // Hide the loading screen
+        _anim.SetTrigger("Hide");
+        yield return new WaitForSeconds(0.5f);
 
         // Set the new game state after loading is finished
         if (isLevel)

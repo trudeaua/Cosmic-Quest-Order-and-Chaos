@@ -32,7 +32,16 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
     }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
     #endregion
+
+    [Tooltip("Y coordinate where players instantly die if they fall below")]
+    public float playerDeathZone = -30f;
     
     public GameState CurrentState { get; private set; } = GameState.Menu;
 
@@ -72,7 +81,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         
         // TODO TEMPORARY - Probably should open some game over menu
-        LevelManager.Instance.StartLevel1();
+        LevelManager.Instance.StartTestLevel();
     }
 
     public void SetLoadingState()
