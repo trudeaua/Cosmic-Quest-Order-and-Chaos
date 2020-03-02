@@ -670,8 +670,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 116f94a827a74833caa507f307ad8489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVelocity: 6
-  maxAcceleration: 25
+  maxVelocity: 5.5
+  maxAcceleration: 20
   rotationSpeed: 10
 --- !u!114 &5664751899185293677
 MonoBehaviour:
@@ -703,9 +703,9 @@ MonoBehaviour:
     minValue: 0
     regenAmount: 1
   damage:
-    baseValue: 5
+    baseValue: 1
   defense:
-    baseValue: 0
+    baseValue: 3
   characterColour: 0
   shouldSpawn: 1
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
@@ -729,7 +729,7 @@ MonoBehaviour:
   mana:
     maxValue: 100
     minValue: 0
-    regenAmount: 10
+    regenAmount: 15
 --- !u!114 &749148863823978123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,15 +756,15 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
-  primaryAttackTimeout: 1.5
-  secondaryAttackTimeout: 2
-  primaryAttackMinDamage: 0
-  primaryAttackMaxDamage: 5
-  primaryAttackRadius: 4
+  primaryAttackTimeout: 1.2
+  secondaryAttackTimeout: 0.3
+  primaryAttackMinDamage: 3
+  primaryAttackMaxDamage: 6
+  primaryAttackRadius: 6
   primaryAttackSweepAngle: 100
   primaryAttackDamageDelay: 0.6
-  primaryAttackManaDepletion: 25
-  primaryAttackMovementModifier: 0.5
+  primaryAttackManaDepletion: 32
+  primaryAttackMovementModifier: 0.4
   primaryAttackWeaponSFX:
     pitch: 1
     volume: 0.5
@@ -772,11 +772,15 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
-  secondaryAttackLaunchForce: 500
-  secondaryAttackRange: 20
+  secondaryAttackMinDamage: 5
+  secondaryAttackMaxDamage: 8
+  secondaryAttackMinHealing: 8
+  secondaryAttackMaxHealing: 12
+  secondaryAttackLaunchForce: 450
+  secondaryAttackRange: 14
   secondaryAttackLaunchDelay: 0.2
-  secondaryAttackManaDepletion: 30
-  secondaryAttackMovementModifier: 0.5
+  secondaryAttackManaDepletion: 60
+  secondaryAttackMovementModifier: 0.6
   projectilePrefab: {fileID: 9070515875191536467, guid: 89cf1e6c9119eae40a90576421de14d2,
     type: 3}
   secondaryAttackWeaponSFX:
