@@ -78,16 +78,17 @@ public class PlayerMageCombatController : PlayerCombatController
         (Stats as PlayerStatsController).mana.Subtract(primaryAttackManaDepletion * Time.deltaTime);
 
         ResetTakeDamageAnim();
-        Vector3 vfxPos = transform.position + transform.forward * 1.5f + new Vector3(0, 2f);
+        Vector3 vfxPos = transform.position + transform.forward * 1.6f + new Vector3(0, 2f);
         StartCoroutine(VfxHelper.CreateVFX(primaryVFX, vfxPos, transform.rotation));
 
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(primaryAttackRadius);
+        float baseDamage = Stats.damage.GetValue();
+        float damageValue = Random.Range(primaryAttackMinDamage + baseDamage, primaryAttackMaxDamage + baseDamage);
 
         // Attack any enemies within the attack sweep and range
         foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, primaryAttackRadius, primaryAttackSweepAngle)))
-        {
-            float damageValue = Random.Range(primaryAttackMinDamage, primaryAttackMaxDamage + Stats.damage.GetValue());
+        {    
             enemy.GetComponent<EntityStatsController>().TakeDamage(Stats, damageValue, Time.deltaTime);
         }
     }
@@ -104,12 +105,14 @@ public class PlayerMageCombatController : PlayerCombatController
 
         // Check all enemies within attack radius of the player
         List<Transform> enemies = GetSurroundingEnemies(secondaryAttackRadius);
+        float baseDamage = Stats.damage.GetValue();
+        float damage = secondaryAttackMaxDamage + baseDamage;
 
         // Attack any enemies within the AOE range
         foreach (var enemy in enemies)
         {
             StartCoroutine(PerformExplosiveDamage(enemy.GetComponent<EntityStatsController>(),
-                                                          secondaryAttackMaxDamage, secondaryAttackStunTime, secondaryAttackExplosionForce,
+                                                          damage, secondaryAttackStunTime, secondaryAttackExplosionForce,
                                                           transform.position, secondaryAttackRadius, secondaryAttackDamageDelay));
         }
 
@@ -140,9 +143,12 @@ public class PlayerMageCombatController : PlayerCombatController
     /// <param name="value">Value of the input controller primary attack button state</param>
     protected override void OnPrimaryAttack(InputValue value)
     {
+        if (AttackCooldown > 0) return;
+        
         if (value.isPressed)
         {
             Interaction.StopInteract();
+            (Stats as PlayerStatsController).mana.Subtract(primaryAttackManaDepletion);
             _isPrimaryActive = true;
             Anim.SetBool("PrimaryAttack", true);
             StartCoroutine(AudioHelper.PlayAudio(WeaponAudio, primaryAttackWeaponSFX));

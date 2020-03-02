@@ -2296,7 +2296,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -2365,7 +2365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxVelocity: 6
-  maxAcceleration: 25
+  maxAcceleration: 20
   rotationSpeed: 10
 --- !u!114 &6975488913218141092
 MonoBehaviour:
@@ -2397,9 +2397,9 @@ MonoBehaviour:
     minValue: 0
     regenAmount: 1
   damage:
-    baseValue: 7
+    baseValue: 1
   defense:
-    baseValue: 0
+    baseValue: 1
   characterColour: 0
   shouldSpawn: 1
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
@@ -2423,7 +2423,7 @@ MonoBehaviour:
   mana:
     maxValue: 100
     minValue: 0
-    regenAmount: 10
+    regenAmount: 18
 --- !u!114 &6347770635181394817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2451,13 +2451,13 @@ MonoBehaviour:
     delay: 0
     loop: 0
   primaryAttackTimeout: 0.5
-  secondaryAttackTimeout: 4
-  primaryAttackMinDamage: 0
-  primaryAttackMaxDamage: 5
-  primaryAttackRadius: 3
+  secondaryAttackTimeout: 0.8
+  primaryAttackMinDamage: 3
+  primaryAttackMaxDamage: 7
+  primaryAttackRadius: 7
   primaryAttackSweepAngle: 60
   primaryAttackManaDepletion: 20
-  primaryAttackMovementModifier: 0.5
+  primaryAttackMovementModifier: 0.45
   primaryVFX: {fileID: 1634767862067424, guid: 73f960c3d84f6194c9437a721da34230, type: 3}
   primaryAttackWeaponSFX:
     pitch: 1
@@ -2466,12 +2466,12 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 1
-  secondaryAttackMaxDamage: 6
-  secondaryAttackStunTime: 1.5
-  secondaryAttackRadius: 8
+  secondaryAttackMaxDamage: 10
+  secondaryAttackStunTime: 2.2
+  secondaryAttackRadius: 7
   secondaryAttackExplosionForce: 500
   secondaryAttackDamageDelay: 0.6
-  secondaryAttackManaDepletion: 50
+  secondaryAttackManaDepletion: 65
   secondaryAttackMovementModifier: 0.5
   secondaryVFX: {fileID: 1426469549788950, guid: b97b870115dcffa43910a02a013598ad,
     type: 3}

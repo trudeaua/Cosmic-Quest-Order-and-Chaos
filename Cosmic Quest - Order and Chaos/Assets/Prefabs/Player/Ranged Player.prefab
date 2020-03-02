@@ -2087,7 +2087,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -2155,9 +2155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 116f94a827a74833caa507f307ad8489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVelocity: 6
+  maxVelocity: 6.5
   maxAcceleration: 25
-  rotationSpeed: 10
+  rotationSpeed: 15
 --- !u!114 &5900325691706687465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2188,9 +2188,9 @@ MonoBehaviour:
     minValue: 0
     regenAmount: 1
   damage:
-    baseValue: 5
+    baseValue: 3
   defense:
-    baseValue: 0
+    baseValue: 1
   characterColour: 0
   shouldSpawn: 1
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
@@ -2243,13 +2243,13 @@ MonoBehaviour:
     loop: 0
   primaryAttackTimeout: 0.4
   secondaryAttackTimeout: 1
-  primaryAttackMinDamage: 4
-  primaryAttackMaxDamage: 5
-  primaryAttackRange: 20
-  primaryAttackChargeTime: 1.5
-  primaryAttackMinLaunchForce: 150
+  primaryAttackMinDamage: 5
+  primaryAttackMaxDamage: 9
+  primaryAttackRange: 22
+  primaryAttackChargeTime: 1.1
+  primaryAttackMinLaunchForce: 350
   primaryAttackMaxLaunchForce: 800
-  primaryAttackLaunchDelay: 0.3
+  primaryAttackLaunchDelay: 0.2
   primaryAttackEffectCurve:
     serializedVersion: 2
     m_Curve:
@@ -2274,8 +2274,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  primaryAttackManaDepletion: 25
-  primaryAttackMovementModifier: 0.5
+  primaryAttackManaDepletion: 30
+  primaryAttackMovementModifier: 0.35
   primaryProjectilePrefab: {fileID: 8766964442698227007, guid: daefe39a199a2674bb5d421ea52854e9,
     type: 3}
   primaryAttackChargeWeaponSFX:

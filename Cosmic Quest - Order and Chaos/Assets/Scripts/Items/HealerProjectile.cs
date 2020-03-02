@@ -6,6 +6,16 @@ using UnityEngine;
 public class HealerProjectile : Projectile
 {
     public GameObject FloatingText;
+    private float _damageAmount;
+    private float _healAmount; 
+    
+    public void Launch(EntityStatsController launcherStats, Vector3 direction, float launchForce, float range, float damageAmount, float healAmount)
+    {
+        // Store the damage amount and call the base launch function
+        _damageAmount = damageAmount;
+        _healAmount = healAmount;
+        Launch(launcherStats, direction, launchForce, range);
+    }
 
     protected override void OnTriggerEnter(Collider other)
     {
@@ -14,15 +24,14 @@ public class HealerProjectile : Projectile
         if (col.CompareTag("Enemy"))
         {
             EnemyStatsController enemy = col.GetComponent<EnemyStatsController>();
-            enemy.TakeDamage(LauncherStats, LauncherStats.ComputeDamageModifer()); // TODO may need to calculate damage differently?
+            enemy.TakeDamage(LauncherStats, _damageAmount);
         }
         else if (col.CompareTag("Player"))
         {
             PlayerStatsController player = col.GetComponent<PlayerStatsController>();
-            int healAmount = Random.Range(5, 10);
 
-            ShowHealing(healAmount, player.transform);
-            player.health.Add(healAmount); // TODO may need to calculate health differently?
+            ShowHealingText(_healAmount, player.transform);
+            player.health.Add(_healAmount);
         }
         else
         {
@@ -37,7 +46,7 @@ public class HealerProjectile : Projectile
     /// <param name="transform">Transform to show the healing text at</param>
     /// <param name="duration">Number of seconds to show the healing text for</param>
     /// <returns></returns>
-    public void ShowHealing(float healing, Transform transform, float duration = 0.5f)
+    public void ShowHealingText(float healing, Transform transform, float duration = 0.5f)
     {
         Vector3 offset = new Vector3(0, 5f, 0); // Want to do this dynamically based off enemy height
         float x = 1f, y = 0.5f;
