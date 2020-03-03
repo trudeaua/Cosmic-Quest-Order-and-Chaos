@@ -83,6 +83,15 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Restarts the current level
+    /// </summary>
+    public void RestartCurrentLevel()
+    {
+        StartCoroutine(LoadYourAsyncScene(SceneManager.GetActiveScene().name, true));
+        // TODO initialize chaos void
+    }
+
+    /// <summary>
     /// Exit the game
     /// </summary>
     public void ExitGame()
