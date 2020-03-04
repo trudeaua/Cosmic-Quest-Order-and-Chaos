@@ -50,6 +50,12 @@ public class PlayerStatsController : EntityStatsController
         if (!isDead) {
             health.Regen();
             mana.Regen();
+            
+            // Check if player has fallen into the abyss
+            if (transform.position.y < GameManager.Instance.playerDeathZone)
+            {
+                Die();
+            }
         }
     }
 
@@ -58,7 +64,6 @@ public class PlayerStatsController : EntityStatsController
     /// </summary>
     protected override void Die()
     {
-        Debug.Log(transform.name + " died.");
         isDead = true;
         Anim.enabled = false;
         EnableRagdoll(true);

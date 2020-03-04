@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 public class LevelPreview : MonoBehaviour
 {
@@ -13,6 +10,8 @@ public class LevelPreview : MonoBehaviour
     public LevelPreview selectOnLeft;
     public LevelPreview selectOnRight;
 
+    private bool selected = false;
+
     /// <summary>
     /// Description: Get the name of the level preview's associated scene
     /// Rationale: Other classes should be able to access the scene name of the level preview
@@ -23,4 +22,13 @@ public class LevelPreview : MonoBehaviour
         return levelSceneName;
     }
 
+    public void HighlightLevel()
+    {
+        selected = true;
+    }
+
+    public void UnhighlightLevel()
+    {
+        selected = false;
+    }
 }

@@ -30,7 +30,7 @@ public class EnemyStatsController : EntityStatsController
     private EnemyBrainController _brain;
     private NavMeshAgent _agent;
 
-    private float _minTimeBetweenDamageText = 0.5f;
+    private float _minTimeBetweenDamageText = 0.3f;
     private float _damageTextValue = 0f;
     private float _damageTextCounter = 0f;
 
@@ -45,6 +45,7 @@ public class EnemyStatsController : EntityStatsController
     [SerializeField] protected bool rotateColouring = false;
     [SerializeField] protected float minTimeBetweenColourChanges = 7.0f;
     protected float colourChangeTimeCounter = 0;
+    public float colourResistanceModifier = 0.35f;
 
 
     protected override void Awake()
@@ -96,13 +97,10 @@ public class EnemyStatsController : EntityStatsController
         if (isDead)
             return;
 
-        if (characterColour != CharacterColour.All && attacker.characterColour != characterColour)
-        {
-            return;
-        }
+        float colourDamangePercentage  = characterColour == CharacterColour.All || attacker.characterColour == characterColour ? 1 : colourResistanceModifier;
 
         // Calculate any changes based on stats and modifiers here first
-        float hitValue = Mathf.Max(damageValue - ComputeDefenseModifier(), 0) * timeDelta;
+        float hitValue = Mathf.Max(colourDamangePercentage * (damageValue - ComputeDefenseModifier()), 0) * timeDelta;
         health.Subtract(hitValue);
         ShowDamage(hitValue);
         Anim.SetTrigger("TakeDamage");
@@ -253,13 +251,15 @@ public class EnemyStatsController : EntityStatsController
     /// Assign a random colour to the enemy
     /// </summary>
     /// <returns>An IEnumerator</returns>
-    protected IEnumerator AssignRandomColour() {
+    protected IEnumerator AssignRandomColour()
+    {
+        CharacterColour randomColour;
         // Get a colour that is used by a registered player
-        CharacterColour randomColour = PlayerManager.playerColours[Random.Range(0, PlayerManager.playerColours.Count)];
-        // keep choosing a random colour until a different one is chosen
-        while (randomColour == characterColour) {
-            randomColour = PlayerManager.playerColours[Random.Range(0, PlayerManager.playerColours.Count)];
-        }
+        // Keep choosing a random colour until a different one is chosen
+        do {
+            randomColour = PlayerManager.Instance.PlayerColours[Random.Range(0, PlayerManager.Instance.NumPlayers)];
+        } while (randomColour == characterColour);
+        
         // Assign the enemy colour
         AssignEnemyColour(randomColour);
         yield return null;

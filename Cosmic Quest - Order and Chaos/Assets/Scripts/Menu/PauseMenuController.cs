@@ -89,6 +89,7 @@ public class PauseMenuController : MenuController
         uIInputModule = playerObject.GetComponent<InputSystemUIInputModule>();
         PushMenu(activeMenu);
         SwitchCurrentActionMap("UI");
+        GameManager.Instance.SetPausedState();
     }
 
     /// <summary>
@@ -107,6 +108,7 @@ public class PauseMenuController : MenuController
         activeMenu.SetActive(false);
         activeMenu = GetRootMenu();
         SwitchCurrentActionMap("Player");
+        GameManager.Instance.SetPlayState();
     }
 
     /// <summary>

@@ -18,7 +18,19 @@ public class ObjectPooler : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Debug.LogWarning("Only one object pooler should be in the scene!");
+            Destroy(this);
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
     #endregion
 

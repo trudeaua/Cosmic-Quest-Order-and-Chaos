@@ -9,15 +9,12 @@ public class PlayerMotorController : MonoBehaviour
     public float maxAcceleration = 25.0f;
     public float rotationSpeed = 10.0f;
     private float _speedModifier = 1f;
-    
+
     private Rigidbody _rb;
     private Animator _anim;
 
     private Vector2 _moveInput;
     private Vector2 _lookInput;
-
-    // TODO temporary until playermanager is finalized
-    public bool doRegister = true;
 
     private CameraController _cameraController;
 
@@ -26,16 +23,11 @@ public class PlayerMotorController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         _cameraController = Camera.main.GetComponent<CameraController>();
-        // TODO Temporary - player should be registered after lobby
-        if (doRegister)
-        {
-            PlayerManager.RegisterPlayer(gameObject);
-        }
     }
 
     private void OnEnable()
     {
-        // Ensure player is not kinematic
+        // Ensure player is not kinematic so rigidbody is affected by physics
         _rb.isKinematic = false;
     }
 
@@ -45,21 +37,13 @@ public class PlayerMotorController : MonoBehaviour
         _rb.isKinematic = true;
     }
 
-    private void OnDestroy()
-    {
-        // Ensure there's no invalid references hanging around
-        if (doRegister)
-        {
-            PlayerManager.DeregisterPlayer(gameObject);
-        }
-    }
-
     private void FixedUpdate()
     {
         Move();
     }
+    
     /// <summary>
-    /// Move the player
+    /// Move and face the player in the given input directions
     /// </summary>
     private void Move()
     {
@@ -113,12 +97,11 @@ public class PlayerMotorController : MonoBehaviour
         // Set whether the player should strafe or not
         _anim.SetBool("Strafe", (inputLookAngle >= 35f && inputLookAngle <= 145f));
 
+        // Accelerate player towards desired velocity vector
         inputMoveDirection *= maxVelocity;
         AccelerateTo(inputMoveDirection);
 
-        // TODO add proper gravity to players. Should be able to detect if currently on the "ground", which is when it apply gravity
-
-        // Don't clamp if player is stationary
+        // Don't clamp if player is stationary or is not on the ground
         if (inputMoveDirection != Vector3.zero)
         {
             Vector3 clamped = _cameraController.ClampToScreenEdge(_rb.position);
@@ -136,7 +119,9 @@ public class PlayerMotorController : MonoBehaviour
 
         if (accel.sqrMagnitude > maxAcceleration * maxAcceleration)
             accel = accel.normalized * maxAcceleration;
-        
+
+        // Allow gravity to act on the rigidbody naturally
+        accel.y = 0f;
         _rb.AddForce(accel, ForceMode.Acceleration);
     }
 
@@ -161,8 +146,7 @@ public class PlayerMotorController : MonoBehaviour
     {
         _moveInput = value.Get<Vector2>();
     }
-
-
+    
     private void OnLook(InputValue value)
     {
         _lookInput = value.Get<Vector2>();
