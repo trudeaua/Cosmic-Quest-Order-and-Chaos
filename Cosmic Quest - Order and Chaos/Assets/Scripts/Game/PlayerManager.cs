@@ -102,16 +102,13 @@ public class PlayerManager : MonoBehaviour
     [Tooltip("Characters that the players can choose")]
     [SerializeField] private CharacterOption[] characterOptions;
 
-    public static List<CharacterColour> availableColours = new List<CharacterColour> { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
-    public static List<CharacterColour> playerColours = new List<CharacterColour>();
-
     // Maintains the players that have joined the game
-    public readonly Player[] _Players = { null, null ,null, null };
-    public readonly CharacterColour[] _PlayerColours = { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
+    private readonly Player[] _playerSlots = { null, null ,null, null };
+    public readonly CharacterColour[] PlayerColours = { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
 
     public int NumPlayers
     {
-        get { return _Players.Count(p => p != null); }
+        get { return _playerSlots.Count(p => p != null); }
     }
     
     public List<GameObject> AlivePlayers
@@ -158,17 +155,27 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject InstantiatePlayer(int playerNumber)
     {
-        if (_Players[playerNumber] == null)
+        if (_playerSlots[playerNumber] == null)
             return null;
 
-        // Instantiate the player model and pair to their input device
-        InputDevice device = InputDevice.all.First(d => d.deviceId == _Players[playerNumber].deviceId);
-        PlayerInput playerInstance = PlayerInput.Instantiate(_Players[playerNumber].playerObject, playerNumber, "Gamepad", -1, device);
+        GameObject playerInstance;
+        if (GameManager.Instance.isTestInstance)
+        {
+            // Simply instantiate the player and let it choose a device randomly
+            playerInstance = Instantiate(_playerSlots[playerNumber].playerObject);
+        }
+        else
+        {
+            // Instantiate the player model and pair to their input device
+            InputDevice device = InputDevice.all.First(d => d.deviceId == _playerSlots[playerNumber].deviceId);
+            PlayerInput playerInstanceInput = PlayerInput.Instantiate(_playerSlots[playerNumber].playerObject, playerNumber, "Gamepad", -1, device);
+            playerInstance = playerInstanceInput.gameObject;
+        }
 
         // Assign the player their respective outline colour and texture
-        SetPlayerLooksAndColour(playerInstance.gameObject, playerNumber);
+        SetPlayerLooksAndColour(playerInstance, playerNumber);
 
-        return playerInstance.gameObject;
+        return playerInstance;
     }
 
     /// <summary>
@@ -178,16 +185,16 @@ public class PlayerManager : MonoBehaviour
     /// <returns></returns>
     public GameObject InstantiatePlayerPreview(int playerNumber)
     {
-        if (_Players[playerNumber] == null)
+        if (_playerSlots[playerNumber] == null)
             return null;
         
         // PlayerInput is disabled then reenabled here because when a new instance of PlayerInput is added to the scene,
         // the PlayerInputManager treats it as a new player being connected to the scene. So disabling the PlayerInput 
         // in the prefab and then instantiating does not cause it to be treated as a new player
-        _Players[playerNumber].playerObject.GetComponent<PlayerInput>().enabled = false;
-        GameObject playerInstance = Instantiate(_Players[playerNumber].playerObject);
+        _playerSlots[playerNumber].playerObject.GetComponent<PlayerInput>().enabled = false;
+        GameObject playerInstance = Instantiate(_playerSlots[playerNumber].playerObject);
         //GameObject playerInstance = PlayerInput.Instantiate(_Players[whichPlayer].playerObject, whichPlayer, "player", -1, _Players[whichPlayer].deviceId);
-        _Players[playerNumber].playerObject.GetComponent<PlayerInput>().enabled = true;
+        _playerSlots[playerNumber].playerObject.GetComponent<PlayerInput>().enabled = true;
 
         // Assign the player their respective outline colour and texture
         SetPlayerLooksAndColour(playerInstance, playerNumber);
@@ -197,11 +204,11 @@ public class PlayerManager : MonoBehaviour
 
     public void SetPlayerLooksAndColour(GameObject playerInstance, int playerNumber)
     {
-        playerInstance.GetComponent<EntityStatsController>().characterColour = _Players[playerNumber].characterColour;
+        playerInstance.GetComponent<EntityStatsController>().characterColour = _playerSlots[playerNumber].characterColour;
         Material playerMaterial = new Material(Shader.Find("Custom/Outline"));
         playerMaterial.SetFloat("_Outline", 0.0005f);
-        playerMaterial.SetColor("_OutlineColor", colours.GetColour(_Players[playerNumber].characterColour));
-        playerMaterial.SetTexture("_MainTex", _Players[playerNumber].characterChoice.skin);
+        playerMaterial.SetColor("_OutlineColor", colours.GetColour(_playerSlots[playerNumber].characterColour));
+        playerMaterial.SetTexture("_MainTex", _playerSlots[playerNumber].characterChoice.skin);
         playerInstance.GetComponentInChildren<Renderer>().sharedMaterial = playerMaterial;
     }
     
@@ -212,11 +219,11 @@ public class PlayerManager : MonoBehaviour
     /// <returns>The player number that the control was assigned to, -1 if not assigned.</returns>
     public int AssignUIControlToPlayer(GameObject playerUIControl)
     {
-        for (int i = 0; i < _Players.Length; i++)
+        for (int i = 0; i < _playerSlots.Length; i++)
         {
-            if (!_Players[i].playerUIControl)
+            if (!_playerSlots[i].playerUIControl)
             {
-                _Players[i].playerUIControl = playerUIControl;
+                _playerSlots[i].playerUIControl = playerUIControl;
                 return i;
             }
         }
@@ -230,9 +237,9 @@ public class PlayerManager : MonoBehaviour
     /// <param name="characterChoice">A character choice representing which texture to select</param>
     public void AssignCharacterChoice(int player, int characterChoice)
     {
-        if (_Players[player] != null)
+        if (_playerSlots[player] != null)
         {
-            _Players[player].characterChoice = characterOptions[characterChoice];
+            _playerSlots[player].characterChoice = characterOptions[characterChoice];
         }
     }
 
@@ -243,9 +250,9 @@ public class PlayerManager : MonoBehaviour
     /// <param name="classChoice">A class choice representing which player prefab to select</param>
     public void AssignPrefab(int player, int classChoice)
     {
-        if (_Players[player] != null)
+        if (_playerSlots[player] != null)
         {
-            _Players[player].playerObject = classOptions[classChoice].prefab;
+            _playerSlots[player].playerObject = classOptions[classChoice].prefab;
         }
     }
 
@@ -275,9 +282,9 @@ public class PlayerManager : MonoBehaviour
     /// <param name="actionMap">Name of the action map</param>
     public void SwitchActionMap(int playerNumber, string actionMap)
     {
-        if (playerNumber >= 0 && playerNumber < _Players.Length)
+        if (playerNumber >= 0 && playerNumber < _playerSlots.Length)
         {
-            PlayerInput playerInput = _Players[playerNumber].playerInput;
+            PlayerInput playerInput = _playerSlots[playerNumber].playerInput;
             playerInput.SwitchCurrentActionMap(actionMap);
         }
     }
@@ -293,7 +300,7 @@ public class PlayerManager : MonoBehaviour
             Debug.LogError("No input device detected for Player " + playerInput.user.id);
             return;
         }
-        foreach (Player p in _Players)
+        foreach (Player p in _playerSlots)
         {
             if (p != null)
             {
@@ -309,16 +316,16 @@ public class PlayerManager : MonoBehaviour
             Player newPlayer = new Player(playerInput, CharacterColour.None, characterOptions[0], inputDevice.deviceId);
             // Assign the new player a colour
             int playerNumber = 0;
-            for (int i = 0; i < _Players.Length; i++)
+            for (int i = 0; i < _playerSlots.Length; i++)
             {
-                if (_Players[i] == null)
+                if (_playerSlots[i] == null)
                 {
                     playerNumber = i;
                     break;
                 }
             }
-            newPlayer.characterColour = _PlayerColours[playerNumber];
-            _Players[playerNumber] = newPlayer;
+            newPlayer.characterColour = PlayerColours[playerNumber];
+            _playerSlots[playerNumber] = newPlayer;
             if (inputDevice is Gamepad)
             {
                 Gamepad gamepad = inputDevice as Gamepad;
@@ -364,11 +371,11 @@ public class PlayerManager : MonoBehaviour
     /// <returns></returns>
     public int GetPlayerNumber(int deviceId)
     {
-        for (int i = 0; i < _Players.Length; i++)
+        for (int i = 0; i < _playerSlots.Length; i++)
         {
-            if (_Players[i] != null && _Players[i].deviceId == deviceId)
+            if (_playerSlots[i] != null && _playerSlots[i].deviceId == deviceId)
             {
-                return _Players[i].deviceId;
+                return _playerSlots[i].deviceId;
             }
         }
         return -1;
@@ -380,9 +387,27 @@ public class PlayerManager : MonoBehaviour
     /// <param name="playerNumber">Number of the player to remove (0-3)</param>
     public void RemovePlayer(int playerNumber)
     {
-        if (playerNumber >= 0 && playerNumber < _Players.Length)
+        if (playerNumber >= 0 && playerNumber < _playerSlots.Length)
         {
-            _Players[playerNumber] = null;
+            _playerSlots[playerNumber] = null;
         }
+    }
+
+    public int AddTestPlayer()
+    {
+        Player newPlayer = new Player(null, CharacterColour.None, characterOptions[0], -1);
+        // Assign the new player a colour
+        int playerNumber = 0;
+        for (int i = 0; i < _playerSlots.Length; i++)
+        {
+            if (_playerSlots[i] == null)
+            {
+                playerNumber = i;
+                break;
+            }
+        }
+        newPlayer.characterColour = PlayerColours[playerNumber];
+        _playerSlots[playerNumber] = newPlayer;
+        return playerNumber;
     }
 }

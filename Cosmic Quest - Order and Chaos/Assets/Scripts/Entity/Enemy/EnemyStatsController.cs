@@ -251,13 +251,15 @@ public class EnemyStatsController : EntityStatsController
     /// Assign a random colour to the enemy
     /// </summary>
     /// <returns>An IEnumerator</returns>
-    protected IEnumerator AssignRandomColour() {
+    protected IEnumerator AssignRandomColour()
+    {
+        CharacterColour randomColour;
         // Get a colour that is used by a registered player
-        CharacterColour randomColour = PlayerManager.playerColours[Random.Range(0, PlayerManager.playerColours.Count)];
-        // keep choosing a random colour until a different one is chosen
-        while (randomColour == characterColour) {
-            randomColour = PlayerManager.playerColours[Random.Range(0, PlayerManager.playerColours.Count)];
-        }
+        // Keep choosing a random colour until a different one is chosen
+        do {
+            randomColour = PlayerManager.Instance.PlayerColours[Random.Range(0, PlayerManager.Instance.NumPlayers)];
+        } while (randomColour == characterColour);
+        
         // Assign the enemy colour
         AssignEnemyColour(randomColour);
         yield return null;

@@ -42,6 +42,9 @@ public class GameManager : MonoBehaviour
 
     [Tooltip("Y coordinate where players instantly die if they fall below")]
     public float playerDeathZone = -30f;
+
+    // Keeps track if the game is in a testing state (i.e. not started from the menu)
+    [HideInInspector] public bool isTestInstance = false;
     
     public GameState CurrentState { get; private set; } = GameState.Menu;
 
@@ -68,20 +71,11 @@ public class GameManager : MonoBehaviour
                 // Trigger game over screen
                 // Restart to the last checkpoint?
 
-                StartCoroutine(RestartLevel());
+                LevelManager.Instance.RestartCurrentLevel();
                 break;
             default:
                 break;
         }
-    }
-
-    private IEnumerator RestartLevel()
-    {
-        CurrentState = GameState.Loading;
-        yield return new WaitForSeconds(3f);
-        
-        // TODO TEMPORARY - Probably should open some game over menu
-        LevelManager.Instance.StartTestLevel();
     }
 
     public void SetLoadingState()
