@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour
         Paused,
         Playing,
         BossFight,
-        GameOver
+        GameOver,
+        SelectingLevel
     }
     
     #region Singleton
@@ -96,5 +97,10 @@ public class GameManager : MonoBehaviour
     public void SetPausedState()
     {
         CurrentState = GameState.Paused;
+    }
+
+    public void SetSelectingLevelState()
+    {
+        CurrentState = GameState.SelectingLevel;
     }
 }

@@ -29,6 +29,7 @@ public class LevelsController : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Instance.SetSelectingLevelState();
         initialCameraPos = mainCamera.transform.position;
         levelPreviews = GetComponentsInChildren<LevelPreview>();
         if (levelPreviews.Length > 0)
@@ -133,7 +134,7 @@ public class LevelsController : MonoBehaviour
     /// </summary>
     public void PlayLevel()
     {
-        StartCoroutine(GameSceneManager.Instance.LoadYourAsyncScene(currentlySelected.GetLevelName()));
+        //StartCoroutine(LevelManager.Instance.StartChaosVoid());
     }
 
     /// <summary>

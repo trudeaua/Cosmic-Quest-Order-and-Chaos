@@ -2,13 +2,15 @@
 
 public class LevelPreview : MonoBehaviour
 {
-    [SerializeField] private string levelSceneName;
+    public GameObject pathToNextLevel;
 
     [Header("Navigation")]
     public LevelPreview selectOnUp;
     public LevelPreview selectOnDown;
     public LevelPreview selectOnLeft;
     public LevelPreview selectOnRight;
+
+    [SerializeField] private string levelSceneName;
 
     private bool selected = false;
 

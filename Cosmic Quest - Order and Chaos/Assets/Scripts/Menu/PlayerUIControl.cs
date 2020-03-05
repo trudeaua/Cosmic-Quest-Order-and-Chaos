@@ -10,11 +10,11 @@ public class PlayerUIControl : MonoBehaviour
         if (assignedPlayer >= 0)
         {
             name = "Player " + (assignedPlayer + 1) + " UI Control";
-            if (GameSceneManager.Instance.currentSceneName == "MenuStaging")
+            if (GameManager.Instance.CurrentState == GameManager.GameState.Menu)
             {
                 MainMenuController.Instance.AssignMultiplayerUIControl(gameObject, assignedPlayer);
             }
-            else if (GameSceneManager.Instance.currentSceneName == "LevelsScene")
+            else if (GameManager.Instance.CurrentState == GameManager.GameState.SelectingLevel)
             {
                 PreviewMenuController.Instance.AssignMultiplayerUIControl(gameObject);
             }
@@ -28,7 +28,7 @@ public class PlayerUIControl : MonoBehaviour
     public void OnMenuCancel(InputValue value)
     {
         // only player 1 may activate this
-        if (assignedPlayer == 0 && GameSceneManager.Instance.currentSceneName == "MenuStaging")
+        if (assignedPlayer == 0 && GameManager.Instance.CurrentState == GameManager.GameState.Menu)
         {
             if (!value.isPressed)
             {
@@ -40,7 +40,7 @@ public class PlayerUIControl : MonoBehaviour
 
     public void OnMenuSelect(InputValue value)
     {
-        if (assignedPlayer == 0 && GameSceneManager.Instance.currentSceneName == "LevelsScene")
+        if (assignedPlayer == 0 && GameManager.Instance.CurrentState == GameManager.GameState.SelectingLevel)
         {
             if (!value.isPressed)
             {
@@ -53,7 +53,7 @@ public class PlayerUIControl : MonoBehaviour
     public void OnMenuNavigate(InputValue value)
     {
         // only player 1 may activate this
-        if (assignedPlayer == 0 && GameSceneManager.Instance.currentSceneName == "LevelsScene")
+        if (assignedPlayer == 0 && GameManager.Instance.CurrentState == GameManager.GameState.SelectingLevel)
         {
             Vector2 input = value.Get<Vector2>();
             int horizontalInput = input.x > 0 ? 1 : -1;
