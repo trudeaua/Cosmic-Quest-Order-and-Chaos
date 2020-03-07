@@ -9,20 +9,47 @@ public class EnemyMotorController : MonoBehaviour
 {
     private EnemyStatsController _stats;
     private EnemyBrainController _brain;
-    private Animator _anim;
     private NavMeshAgent _agent;
 
-    private Transform _currentTarget = null;
+    private Transform _target;
 
     private void Awake()
     {
         _stats = GetComponent<EnemyStatsController>();
         _brain = GetComponent<EnemyBrainController>();
-        _anim = GetComponentInChildren<Animator>();
         _agent = GetComponent<NavMeshAgent>();
+        
+        // Set avoidance priority to random number (0-99)
+        _agent.avoidancePriority = Random.Range(0, 100);
     }
 
-    private void Update()
+    public void StartFollow()
+    {
+        _agent.isStopped = false;
+        StartCoroutine(FollowTarget());
+    }
+
+    public void StopFollow()
+    {
+        StopCoroutine(FollowTarget());
+    }
+
+    private IEnumerator FollowTarget()
+    {
+        while (true)
+        {
+            _target = _brain.GetCurrentTarget();
+
+            if (_target && _agent.enabled)
+            {
+                _agent.SetDestination(_target.position);
+            }
+            
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    /*private void Update()
     {
         // Prevent enemy activity during death animation
         if (_stats.isDead)
@@ -45,17 +72,17 @@ public class EnemyMotorController : MonoBehaviour
 
         // Trigger walking animation
         _anim.SetFloat("WalkSpeed", _agent.velocity.magnitude);
-    }
+    }*/
     
     /// <summary>
     /// Rotate the enemy to face the current target
     /// </summary>
     private void FaceTarget()
     {
-        if (_currentTarget is null)
+        if (_target is null)
             return;
         
-        Vector3 direction = (_currentTarget.position - transform.position).normalized;
+        Vector3 direction = (_target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }

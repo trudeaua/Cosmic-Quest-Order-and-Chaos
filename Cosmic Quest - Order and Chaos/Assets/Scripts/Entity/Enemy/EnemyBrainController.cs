@@ -12,8 +12,8 @@ public class EnemyBrainController : MonoBehaviour
     {
         public GameObject Player;
         public EntityStatsController Stats;
-        public float Aggro = 0f;
-        public bool IsKnown = false;
+        public float Aggro;
+        public bool IsKnown;
     }
     
     [Tooltip("The radius around the enemy where a player can trigger aggro")]
@@ -28,7 +28,7 @@ public class EnemyBrainController : MonoBehaviour
     private List<TargetPlayer> _targets;
 
     public bool IsStunned { get; private set; }
-    private float _decisionTimer = 0f;
+    private float _decisionTimer;
 
     private void Awake()
     {
@@ -57,7 +57,7 @@ public class EnemyBrainController : MonoBehaviour
         UpdateTargetList();
         
         // Make any combat decisions
-        MakeCombatDecision();
+        //MakeCombatDecision();
         
         _decisionTimer -= Time.deltaTime;
         if (_decisionTimer > 0f)
@@ -93,7 +93,7 @@ public class EnemyBrainController : MonoBehaviour
             }
             else if (target.IsKnown)
             {
-                // Reset player targets state
+                // Reset player target's state if out of sight
                 target.IsKnown = false;
                 target.Aggro = 0f;
             }

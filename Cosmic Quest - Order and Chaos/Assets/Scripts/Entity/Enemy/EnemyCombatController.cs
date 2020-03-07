@@ -21,6 +21,7 @@ public class EnemyCombatController : EntityCombatController
     {
         Players = PlayerManager.Instance.Players;
     }
+    
     /// <summary>
     /// Placeholder for enemy primary attack
     /// </summary>
@@ -28,6 +29,7 @@ public class EnemyCombatController : EntityCombatController
     {
         Debug.Log(gameObject.name + "'s primary attack triggered");
     }
+    
     /// <summary>
     /// Placeholder for enemy secondary attack
     /// </summary>
@@ -35,6 +37,7 @@ public class EnemyCombatController : EntityCombatController
     {
         Debug.Log(gameObject.name + "'s secondary attack triggered");
     }
+    
     /// <summary>
     /// Placeholder for enemy tertiary attack
     /// </summary>
