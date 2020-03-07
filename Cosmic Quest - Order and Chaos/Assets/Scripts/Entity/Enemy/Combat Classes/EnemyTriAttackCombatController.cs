@@ -18,7 +18,8 @@ public class EnemyTriAttackCombatController : EnemyCombatController
     /// </summary>
     public override void PrimaryAttack()
     {
-        if (AttackCooldown > 0f)
+        Debug.Log(name + " is attacking!!");
+        /*if (AttackCooldown > 0f)
             return;
 
         Anim.SetTrigger("PrimaryAttack");
@@ -32,7 +33,7 @@ public class EnemyTriAttackCombatController : EnemyCombatController
             StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer(), primaryAttackDelay));
         }
 
-        AttackCooldown = primaryAttackCooldown;
+        AttackCooldown = primaryAttackCooldown;*/
     }
     /// <summary>
     /// Triple attack enemy's secondary attack
