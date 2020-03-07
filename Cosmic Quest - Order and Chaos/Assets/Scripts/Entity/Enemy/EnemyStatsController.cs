@@ -237,6 +237,7 @@ public class EnemyStatsController : EntityStatsController
                 enemyColouring = EnemyColouring.Default;
                 break;
         }
+        
         if (!enemyColouring.textureMaterial)
         {
             skin.materials = new Material[] { skin.materials[0], enemyColouring.highlightMaterial };

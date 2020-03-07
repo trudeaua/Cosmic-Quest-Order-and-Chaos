@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyStatsController))]
@@ -73,6 +74,16 @@ public class EnemyBrainController : MonoBehaviour
     /// </summary>
     private void UpdateTargetList()
     {
+        // Check if any players are missing from list
+        foreach (GameObject player in PlayerManager.Instance.Players)
+        {
+            if (_targets.Count(p => p.Player == player) == 0)
+            {
+                TargetPlayer target = new TargetPlayer {Player = player, Stats = player.GetComponent<EntityStatsController>()};
+                _targets.Add(target);
+            }
+        }
+        
         foreach (TargetPlayer target in _targets)
         {
             if (CanSee(target))
@@ -88,6 +99,7 @@ public class EnemyBrainController : MonoBehaviour
             }
         }
     }
+    
     /// <summary>
     /// Decide which player to target
     /// </summary>
@@ -112,6 +124,7 @@ public class EnemyBrainController : MonoBehaviour
         // 3. No target
         _currentTarget = null;
     }
+    
     /// <summary>
     /// Decide which attack to perform
     /// </summary>
@@ -147,6 +160,7 @@ public class EnemyBrainController : MonoBehaviour
             }
         }
     }
+    
     /// <summary>
     /// Update the target player by prioritizing any attacking players
     /// </summary>
@@ -168,6 +182,7 @@ public class EnemyBrainController : MonoBehaviour
 
         return targetPlayer;
     }
+    
     /// <summary>
     /// Find the nearest player to the enemy
     /// </summary>
@@ -189,6 +204,7 @@ public class EnemyBrainController : MonoBehaviour
 
         return targetPlayer;
     }
+    
     /// <summary>
     /// Checks whether an enemy can see a target or not
     /// </summary>
@@ -201,6 +217,7 @@ public class EnemyBrainController : MonoBehaviour
         }
         return false;
     }
+    
     /// <summary>
     /// Get the transform of the current target
     /// </summary>
@@ -209,6 +226,7 @@ public class EnemyBrainController : MonoBehaviour
     {
         return _currentTarget?.Player.transform;
     }
+    
     /// <summary>
     /// Update the aggro value of a certain target
     /// </summary>
@@ -222,6 +240,7 @@ public class EnemyBrainController : MonoBehaviour
         target.Aggro += damageAmount;
         target.IsKnown = true;
     }
+    
     /// <summary>
     /// Set the stun value of the enemy
     /// </summary>
@@ -230,6 +249,7 @@ public class EnemyBrainController : MonoBehaviour
     {
         IsStunned = isStunned;
     }
+    
     /// <summary>
     /// Draw the wire sphere of the enemy's aggro radius when selected in the scene
     /// </summary>

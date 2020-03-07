@@ -46,6 +46,7 @@ public class EnemyMotorController : MonoBehaviour
         // Trigger walking animation
         _anim.SetFloat("WalkSpeed", _agent.velocity.magnitude);
     }
+    
     /// <summary>
     /// Rotate the enemy to face the current target
     /// </summary>
