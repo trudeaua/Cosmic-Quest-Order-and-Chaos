@@ -44,8 +44,9 @@ public class EnemyMotorController : MonoBehaviour
             {
                 _agent.SetDestination(_target.position);
             }
-            
-            yield return new WaitForEndOfFrame();
+
+            // Delay loop to increase lessen load on path finding
+            yield return new WaitForSeconds(0.1f);
         }
     }
 

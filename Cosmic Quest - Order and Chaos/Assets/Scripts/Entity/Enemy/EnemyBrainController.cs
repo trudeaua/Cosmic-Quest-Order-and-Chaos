@@ -18,6 +18,8 @@ public class EnemyBrainController : MonoBehaviour
     
     [Tooltip("The radius around the enemy where a player can trigger aggro")]
     public float aggroRadius = 10f;
+    [Tooltip("The distance from a player when the enemy will attempt to attack")]
+    public float attackRadius = 4f;
     [Tooltip("The time in seconds between decisions on which player to aggro")]
     public float decisionDelay = 0.5f;
 
@@ -124,43 +126,7 @@ public class EnemyBrainController : MonoBehaviour
         // 3. No target
         _currentTarget = null;
     }
-    
-    /// <summary>
-    /// Decide which attack to perform
-    /// </summary>
-    private void MakeCombatDecision()
-    {
-        if (_currentTarget is null || _combat is null)
-            return;
 
-        // Choose a new target if the current one is now dead
-        if (_currentTarget.Stats.isDead)
-        {
-            MakeTargetDecision();
-            if (_currentTarget is null)
-                return;
-        }
-        
-        float distance = (_currentTarget.Player.transform.position - transform.position).sqrMagnitude;
-        if (distance <= _combat.attackRadius * _combat.attackRadius)
-        {
-            // TODO make decision on whether to do primary attack, secondary attack, or spell (when applicable).
-            // For now it's random and they all do the same damage
-            int whichAttack = Random.Range(0, 3);
-            switch (whichAttack) {
-                case 0:
-                    _combat.PrimaryAttack();
-                    break;
-                case 1:
-                    _combat.SecondaryAttack();
-                    break;
-                case 2:
-                    _combat.TertiaryAttack();
-                    break;
-            }
-        }
-    }
-    
     /// <summary>
     /// Update the target player by prioritizing any attacking players
     /// </summary>

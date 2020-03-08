@@ -19,15 +19,26 @@ public class IdleBehaviour : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (animator.IsInTransition(0))
+            return;
+        
         _target = _brain.GetCurrentTarget();
 
-        if (_target)
+        if (!_target)
+            return;
+        
+        // Try to attack player if they are close enough
+        if (Vector3.Distance(animator.transform.position, _target.position) <= _brain.attackRadius)
         {
-            if (canFollow)
-            {
-                // Pursue target
-                animator.SetTrigger("Follow");
-            }
+            // Go to attack state
+            _combat.ChooseAttack();
+            return;
+        }
+        
+        // Follow player if possible
+        if (canFollow)
+        {
+            animator.SetTrigger("Follow");
         }
     }
 

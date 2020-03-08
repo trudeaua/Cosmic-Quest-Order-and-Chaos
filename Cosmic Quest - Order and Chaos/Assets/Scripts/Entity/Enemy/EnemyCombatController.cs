@@ -8,20 +8,10 @@ using UnityEngine.AI;
 [RequireComponent(typeof(EnemyBrainController))]
 public class EnemyCombatController : EntityCombatController
 {
-    [Header("Primary Attack")]
-    public float primaryAttackCooldown = 1f;
-    public float primaryAttackDelay = 0.6f; // TODO remove me
-    public float attackRadius = 3f;
-    public float attackAngle = 45f;
-    [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackSFX;
-
-    protected List<GameObject> Players;
-
-    private void Start()
-    {
-        Players = PlayerManager.Instance.Players;
-    }
+    public bool IsCoolingDown => AttackCooldown > 0f;
     
+    protected IEnumerable<GameObject> Players => PlayerManager.Instance.Players;
+
     /// <summary>
     /// Placeholder for enemy primary attack
     /// </summary>
@@ -44,6 +34,14 @@ public class EnemyCombatController : EntityCombatController
     public virtual void TertiaryAttack()
     {
         Debug.Log(gameObject.name + "'s tertiary attack triggered");
+    }
+
+    /// <summary>
+    /// Selects an attack to perform based on enemy's attack strategy
+    /// </summary>
+    public virtual void ChooseAttack()
+    {
+        Debug.Log("Default ChooseAttack() implementation triggered");
     }
 
     /// <summary>

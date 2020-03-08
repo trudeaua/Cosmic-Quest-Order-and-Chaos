@@ -23,6 +23,9 @@ public class FollowBehaviour : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (animator.IsInTransition(0))
+            return;
+        
         _target = _brain.GetCurrentTarget();
 
         if (_target is null)
@@ -33,10 +36,10 @@ public class FollowBehaviour : StateMachineBehaviour
 
         if (_agent.enabled)
         {
-            if (Vector3.Distance(_agent.destination, animator.transform.position) <= _combat.attackRadius)
+            if (Vector3.Distance(_target.position, animator.transform.position) <= _brain.attackRadius)
             {
                 // Go to attack state
-                animator.SetTrigger("PrimaryAttack");
+                _combat.ChooseAttack();
                 _agent.isStopped = true;
             }
         }
@@ -46,8 +49,6 @@ public class FollowBehaviour : StateMachineBehaviour
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.ResetTrigger("Idle");
-        animator.ResetTrigger("PrimaryAttack");
         _motor.StopFollow();
     }
 
