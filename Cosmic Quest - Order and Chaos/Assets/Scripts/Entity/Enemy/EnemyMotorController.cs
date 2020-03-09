@@ -76,7 +76,8 @@ public class EnemyMotorController : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
             }
             
-            yield return new WaitForEndOfFrame();
+            // Wait for end of frame
+            yield return null;
         }
     }
 }

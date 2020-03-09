@@ -171,7 +171,8 @@ public class EnemyStatsController : EntityStatsController
         isDead = true;
         _agent.enabled = false;
         StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, entityDeathVocalSFX));
-        StartCoroutine(EnemyDeath());
+        Anim.SetBool("Dead", true);
+        //StartCoroutine(EnemyDeath());
     }
 
     /// <summary>
@@ -238,14 +239,7 @@ public class EnemyStatsController : EntityStatsController
                 break;
         }
         
-        if (!enemyColouring.textureMaterial)
-        {
-            skin.materials = new Material[] { skin.materials[0], enemyColouring.highlightMaterial };
-        }
-        else
-        {
-            skin.materials = new Material[] { enemyColouring.textureMaterial, enemyColouring.highlightMaterial };
-        }
+        skin.materials[0] = !enemyColouring.textureMaterial ? skin.materials[0] : enemyColouring.textureMaterial;
     }
     
     /// <summary>
