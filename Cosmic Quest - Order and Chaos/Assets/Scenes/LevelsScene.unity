@@ -784,6 +784,15 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1250025627, guid: 61698089ee48e65438fdecc8d23ccc7e, type: 3}
+      propertyPath: chaosVoids.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250025627, guid: 61698089ee48e65438fdecc8d23ccc7e, type: 3}
+      propertyPath: chaosVoids.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f430f0b2f3279674b9c667912337c408,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61698089ee48e65438fdecc8d23ccc7e, type: 3}
 --- !u!1 &337489672
@@ -1514,7 +1523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 2
   m_MaxPlayerCount: 4
   m_AllowJoining: 1
   m_JoinBehavior: 1
@@ -1523,10 +1532,10 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 974627791}
         m_MethodName: OnPlayerJoined
-        m_Mode: 2
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.InputSystem.PlayerInput, Unity.InputSystem
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1537,10 +1546,10 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 974627791}
         m_MethodName: OnPlayerLeft
-        m_Mode: 2
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.InputSystem.PlayerInput, Unity.InputSystem
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
