@@ -2,59 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleBehaviour : StateMachineBehaviour
+public class FacePlayerBehaviour : StateMachineBehaviour
 {
     private EnemyBrainController _brain;
-    private EnemyCombatController _combat;
+    private EnemyMotorController _motor;
     private Transform _target;
 
-    public bool canFollow = true;
-    public bool canRotate = true;
-    public bool canPatrol;
-    
+    private float _angle;
+
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _brain = animator.GetComponent<EnemyBrainController>();
-        _combat = animator.GetComponent<EnemyCombatController>();
+        _motor = animator.GetComponent<EnemyMotorController>();
+        
+        _motor.StartRotate();
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (animator.IsInTransition(layerIndex))
             return;
-        
+
         _target = _brain.GetCurrentTarget();
 
-        if (_target is null)
-            return;
-        
-        // Try to attack player if they are close enough
-        if (Vector3.Distance(animator.transform.position, _target.position) <= _brain.attackRadius)
+        if (_target)
         {
-            if (canRotate && Vector3.Angle(_target.position - animator.transform.position, animator.transform.forward) > 15f)
-            {
-                animator.SetTrigger("Rotate");
-                return;
-            }
+            _angle = Vector3.SignedAngle(_target.position - animator.transform.position, animator.transform.forward, Vector3.up);
+        }
+        
+        // If there is no target or within 30 degree view of target, exit state
+        if (_target is null || Mathf.Abs(_angle) < 15f)
+        {
+            animator.SetTrigger("Idle");
+        }
 
-            if (!_combat.IsCoolingDown)
-            {
-                // Go to attack state
-                _combat.ChooseAttack();
-                return;
-            }
-        }
-        
-        // Follow player if possible
-        if (canFollow)
-        {
-            animator.SetTrigger("Follow");
-        }
+        animator.SetFloat("RotationSpeed", _angle < 0f ? -1f : 1f);
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        _motor.StopRotate();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

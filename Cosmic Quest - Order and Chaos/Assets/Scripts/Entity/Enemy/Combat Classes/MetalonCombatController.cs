@@ -13,6 +13,7 @@ public class MetalonCombatController : EnemyCombatController
     [Header("Secondary Attack - Slam Attack")]
     public float secondaryAttackCooldown = 1f;
     public float secondaryAttackRadius = 5f;
+    public float secondaryAttackAngle = 200f;
     [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackSFX;
 
     /// <summary>
@@ -40,7 +41,7 @@ public class MetalonCombatController : EnemyCombatController
         StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, secondaryAttackSFX));
 
         // Attack any enemies within the attack range (AOE-type effect)
-        foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, secondaryAttackRadius)))
+        foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, secondaryAttackRadius, secondaryAttackAngle)))
         {
             // Calculate and perform damage
             StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer()));
@@ -55,10 +56,12 @@ public class MetalonCombatController : EnemyCombatController
         float randNum = Random.Range(0f, 1f);
         if (randNum <= primaryAttackProbability)
         {
+            AttackCooldown = primaryAttackCooldown;
             Anim.SetTrigger("PrimaryAttack");
         }
         else
         {
+            AttackCooldown = secondaryAttackCooldown;
             Anim.SetTrigger("SecondaryAttack");
         }
     }

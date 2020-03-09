@@ -23,7 +23,7 @@ public class FollowBehaviour : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (animator.IsInTransition(0))
+        if (animator.IsInTransition(layerIndex))
             return;
         
         _target = _brain.GetCurrentTarget();
@@ -36,7 +36,7 @@ public class FollowBehaviour : StateMachineBehaviour
 
         if (_agent.enabled)
         {
-            if (Vector3.Distance(_target.position, animator.transform.position) <= _brain.attackRadius)
+            if (!_combat.IsCoolingDown && Vector3.Distance(_target.position, animator.transform.position) <= _brain.attackRadius)
             {
                 // Go to attack state
                 _combat.ChooseAttack();

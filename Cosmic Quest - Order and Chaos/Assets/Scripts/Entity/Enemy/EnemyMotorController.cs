@@ -13,13 +13,15 @@ public class EnemyMotorController : MonoBehaviour
 
     private Transform _target;
 
+    public float rotationSpeed = 1.0f;
+
     private void Awake()
     {
         _stats = GetComponent<EnemyStatsController>();
         _brain = GetComponent<EnemyBrainController>();
         _agent = GetComponent<NavMeshAgent>();
         
-        // Set avoidance priority to random number (0-99)
+        // Set avoidance priority to random number (0-99) to prevent enemy clustering
         _agent.avoidancePriority = Random.Range(0, 100);
     }
 
@@ -32,6 +34,16 @@ public class EnemyMotorController : MonoBehaviour
     public void StopFollow()
     {
         StopCoroutine(FollowTarget());
+    }
+
+    public void StartRotate()
+    {
+        StartCoroutine(RotateToTarget());
+    }
+
+    public void StopRotate()
+    {
+        StopCoroutine(RotateToTarget());
     }
 
     private IEnumerator FollowTarget()
@@ -50,41 +62,21 @@ public class EnemyMotorController : MonoBehaviour
         }
     }
 
-    /*private void Update()
+    private IEnumerator RotateToTarget()
     {
-        // Prevent enemy activity during death animation
-        if (_stats.isDead)
-            return;
-
-        // Ensure current target is up to date
-        _currentTarget = _brain.GetCurrentTarget();
-        
-        // Follow current aggro decision
-        if (_currentTarget && _agent.enabled)
+        while (true)
         {
-            _agent.SetDestination(_currentTarget.position);
+            _target = _brain.GetCurrentTarget();
 
-            float distance = (_currentTarget.position - transform.position).sqrMagnitude;
-            if (distance <= _agent.stoppingDistance * _agent.stoppingDistance)
+            if (_target)
             {
-                FaceTarget();
+                // Rotate enemy to face target
+                Vector3 direction = (_target.position - transform.position).normalized;
+                Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
             }
+            
+            yield return new WaitForEndOfFrame();
         }
-
-        // Trigger walking animation
-        _anim.SetFloat("WalkSpeed", _agent.velocity.magnitude);
-    }*/
-    
-    /// <summary>
-    /// Rotate the enemy to face the current target
-    /// </summary>
-    private void FaceTarget()
-    {
-        if (_target is null)
-            return;
-        
-        Vector3 direction = (_target.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 }

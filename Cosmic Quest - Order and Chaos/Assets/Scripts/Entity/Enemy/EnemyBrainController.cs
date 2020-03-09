@@ -57,10 +57,7 @@ public class EnemyBrainController : MonoBehaviour
         
         // Update list of targets
         UpdateTargetList();
-        
-        // Make any combat decisions
-        //MakeCombatDecision();
-        
+
         _decisionTimer -= Time.deltaTime;
         if (_decisionTimer > 0f)
             return;
@@ -183,7 +180,7 @@ public class EnemyBrainController : MonoBehaviour
         }
         return false;
     }
-    
+
     /// <summary>
     /// Get the transform of the current target
     /// </summary>

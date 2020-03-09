@@ -180,7 +180,7 @@ public class EnemyStatsController : EntityStatsController
     /// <returns>An IEnumerator</returns>
     private IEnumerator EnemyDeath()
     {
-        Anim.SetTrigger("Die");
+        Anim.SetBool("Dead", true);
         yield return new WaitForSeconds(5.0f);
         transform.gameObject.SetActive(false);
     }
