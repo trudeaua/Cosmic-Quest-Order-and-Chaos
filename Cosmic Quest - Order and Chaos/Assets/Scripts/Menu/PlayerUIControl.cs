@@ -36,6 +36,14 @@ public class PlayerUIControl : MonoBehaviour
             }
             MainMenuController.Instance.PopMenu();
         }
+        if (assignedPlayer == 0 && GameManager.Instance.CurrentState == GameManager.GameState.SelectingLevel)
+        {
+            if (!value.isPressed)
+            {
+                return;
+            }
+            LevelsController.Instance.DeselectLevel();
+        }
     }
 
     public void OnMenuSelect(InputValue value)
@@ -46,7 +54,7 @@ public class PlayerUIControl : MonoBehaviour
             {
                 return;
             }
-            PreviewMenuController.Instance.PreviewLevel();
+            LevelsController.Instance.SelectLevel();
         }
     }
 

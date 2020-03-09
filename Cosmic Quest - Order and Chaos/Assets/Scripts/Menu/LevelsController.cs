@@ -1,9 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelsController : MonoBehaviour
 {
+    public enum LevelMenuState
+    {
+        Transitioning,
+        Selecting,
+        Selected
+    }
+
     #region Singleton
     public static LevelsController Instance;
 
@@ -19,25 +27,27 @@ public class LevelsController : MonoBehaviour
     public GameObject cursor;
     public Camera mainCamera;
     public GameObject previewScreen;
-    public float fovOnSelect = 26.3f;
-    public float fovOnDeselect = 20f;
+    private Vector3 cameraOffset;
     private Vector3 initialCameraPos;
     private bool isZoomed = false;
     private float selectionCooldown = 0.25f;
     private LevelPreview[] levelPreviews;
     private LevelPreview currentlySelected;
+    private LevelMenuState CurrentState;
 
     private void Start()
     {
         GameManager.Instance.SetSelectingLevelState();
-        initialCameraPos = mainCamera.transform.position;
         levelPreviews = GetComponentsInChildren<LevelPreview>();
+        cameraOffset = mainCamera.transform.position;
         if (levelPreviews.Length > 0)
         {
             currentlySelected = levelPreviews[0];
             cursor.transform.position = new Vector3(currentlySelected.transform.position.x, cursor.transform.position.y, cursor.transform.position.z);
             mainCamera.transform.position = new Vector3(currentlySelected.transform.position.x, mainCamera.transform.position.y, mainCamera.transform.position.z);
         }
+        initialCameraPos = mainCamera.transform.position;
+        CurrentState = LevelMenuState.Selecting;
     }
 
     private void Update()
@@ -48,6 +58,7 @@ public class LevelsController : MonoBehaviour
             if (selectionCooldown < 0)
             {
                 selectionCooldown = 0;
+                CurrentState = LevelMenuState.Selecting;
             }
         }
     }
@@ -106,9 +117,11 @@ public class LevelsController : MonoBehaviour
     /// </summary>
     public void SelectLevel()
     {
-        if (!isZoomed)
+        if (CurrentState == LevelMenuState.Selecting)
         {
-            previewScreen.SetActive(true);
+            //PreviewMenuController.Instance.PreviewLevel();
+            CurrentState = LevelMenuState.Selected;
+            initialCameraPos = mainCamera.transform.position;
             StartCoroutine(ZoomCamera(0.5f));
             isZoomed = true;
         }
@@ -120,9 +133,10 @@ public class LevelsController : MonoBehaviour
     /// </summary>
     public void DeselectLevel()
     {
-        if (isZoomed)
+        if (CurrentState == LevelMenuState.Selected)
         {
-            previewScreen.SetActive(false);
+            //PreviewMenuController.Instance.UnpreviewLevel();
+            CurrentState = LevelMenuState.Selecting;
             StartCoroutine(ZoomCamera(0.5f));
             isZoomed = false;
         }
@@ -134,7 +148,10 @@ public class LevelsController : MonoBehaviour
     /// </summary>
     public void PlayLevel()
     {
-        //StartCoroutine(LevelManager.Instance.StartChaosVoid());
+        if (CurrentState == LevelMenuState.Selected)
+        {
+            LevelManager.Instance.StartChaosVoid(currentlySelected.chaosVoid);
+        }
     }
 
     /// <summary>
@@ -144,10 +161,11 @@ public class LevelsController : MonoBehaviour
     /// <param name="levelPreview">The selected level</param>
     private void Navigate(LevelPreview levelPreview)
     {
-        if (selectionCooldown > 0 || isZoomed)
+        if (selectionCooldown > 0 || CurrentState == LevelMenuState.Selected)
         {
             return;
         }
+        CurrentState = LevelMenuState.Transitioning;
         currentlySelected = levelPreview;
         StartCoroutine(MoveCursor(0.25f));
         StartCoroutine(MoveCamera(0.25f));
@@ -181,8 +199,8 @@ public class LevelsController : MonoBehaviour
         float elapsed = 0;
         while (elapsed < time)
         {
-            float newX = Mathf.Lerp(mainCamera.transform.position.x, initialCameraPos.x + currentlySelected.transform.position.x, elapsed / time);
-            float newZ = Mathf.Lerp(mainCamera.transform.position.z, initialCameraPos.z + currentlySelected.transform.position.z, elapsed / time);
+            float newX = Mathf.Lerp(mainCamera.transform.position.x, cameraOffset.x + currentlySelected.transform.position.x, elapsed / time);
+            float newZ = Mathf.Lerp(mainCamera.transform.position.z, cameraOffset.z + currentlySelected.transform.position.z, elapsed / time);
             mainCamera.transform.position = new Vector3(newX, mainCamera.transform.position.y, newZ);
             elapsed += Time.deltaTime;
             yield return null;
@@ -196,15 +214,26 @@ public class LevelsController : MonoBehaviour
     /// <param name="time">Time in seconds in which to transition the main camera's field of view to the zoom in/out level</param>
     private IEnumerator ZoomCamera(float time)
     {
-        float start = isZoomed ? fovOnSelect : fovOnDeselect; ;
-        float stop = isZoomed ? fovOnDeselect : fovOnSelect;
+        float zoomFactor = isZoomed ? -1 : 1;
+        Vector3 start = mainCamera.transform.position;
+        Vector3 stop = isZoomed ? initialCameraPos : start + zoomFactor * mainCamera.transform.forward * 20;
+
+        if (zoomFactor < 0)
+        {
+            PreviewMenuController.Instance.UnpreviewLevel();
+        }
         float elapsed = 0;
         while (elapsed < time)
         {
-            float newFov = Mathf.Lerp(start, stop, elapsed / time);
-            mainCamera.fieldOfView = newFov;
+            Vector3 newPos = Vector3.Lerp(start, stop, elapsed / time);
+            mainCamera.transform.position = newPos;
             elapsed += Time.deltaTime;
             yield return null;
         }
+        if (zoomFactor > 0)
+        {
+            PreviewMenuController.Instance.PreviewLevel();
+        }
+        
     }
 }

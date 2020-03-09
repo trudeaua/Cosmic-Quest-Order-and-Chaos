@@ -27,7 +27,7 @@ public class PreviewMenuController : MenuController
     {
         menuStack = new Stack<GameObject>();
         selectedButtonsStack = new Stack<GameObject>();
-        menuStack.Push(activeMenu);
+        activeMenu.SetActive(false);
     }
 
     /// <summary>
@@ -68,7 +68,6 @@ public class PreviewMenuController : MenuController
         }
         isPreviewing = true;
         PushMenu(activeMenu);
-        LevelsController.Instance.SelectLevel();
     }
 
     /// <summary>
@@ -82,9 +81,10 @@ public class PreviewMenuController : MenuController
         }
         isPreviewing = false;
         playerEventSystem.SetSelectedGameObject(null);
+        playerEventSystem.firstSelectedGameObject = null;
+        playerEventSystem.playerRoot = null;
         activeMenu.SetActive(false);
         activeMenu = GetRootMenu();
-        LevelsController.Instance.DeselectLevel();
     }
 
     /// <summary>
