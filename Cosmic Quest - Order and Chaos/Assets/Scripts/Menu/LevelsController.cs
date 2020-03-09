@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,12 +42,16 @@ public class LevelsController : MonoBehaviour
         cameraOffset = mainCamera.transform.position;
         if (levelPreviews.Length > 0)
         {
-            currentlySelected = levelPreviews[0];
+            currentlySelected = levelPreviews.LastOrDefault(e => e.chaosVoid.started);
             cursor.transform.position = new Vector3(currentlySelected.transform.position.x, cursor.transform.position.y, cursor.transform.position.z);
             mainCamera.transform.position = new Vector3(currentlySelected.transform.position.x, mainCamera.transform.position.y, mainCamera.transform.position.z);
         }
         initialCameraPos = mainCamera.transform.position;
         CurrentState = LevelMenuState.Selecting;
+        foreach (LevelPreview levelPreview in levelPreviews)
+        {
+            levelPreview.pathToNextLevel.SetActive(levelPreview.chaosVoid.cleared);
+        }
     }
 
     private void Update()
@@ -161,10 +165,11 @@ public class LevelsController : MonoBehaviour
     /// <param name="levelPreview">The selected level</param>
     private void Navigate(LevelPreview levelPreview)
     {
-        if (selectionCooldown > 0 || CurrentState == LevelMenuState.Selected)
+        if (selectionCooldown > 0 || CurrentState == LevelMenuState.Selected || levelPreview.chaosVoid.isLocked)
         {
             return;
         }
+        
         CurrentState = LevelMenuState.Transitioning;
         currentlySelected = levelPreview;
         StartCoroutine(MoveCursor(0.25f));
