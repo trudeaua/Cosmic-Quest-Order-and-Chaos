@@ -1,28 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 
-public class PreviewMenuController : MenuController
+public class LevelOverlayController : MenuController
 {
     #region Singleton
-    public new static PreviewMenuController Instance;
+    public new static LevelOverlayController Instance;
 
     protected override void Awake()
     {
         if (Instance == null)
             Instance = this;
         else
-            Debug.LogWarning("Only one preview menu controller should be in the scene!");
+            Debug.LogWarning("Only one level overlay controller should be in the scene!");
     }
     #endregion
 
     [SerializeField] private TMPro.TextMeshProUGUI levelTitle;
     private bool isPreviewing;
     private MultiplayerEventSystem playerEventSystem;
-    private PlayerInput playerInput;
-    private InputSystemUIInputModule uIInputModule;
 
     protected override void Start()
     {
@@ -61,7 +58,7 @@ public class PreviewMenuController : MenuController
     /// Preview the level
     /// </summary>
     /// <param name="playerObject">Game object of the player's UI control</param>
-    public void PreviewLevel()
+    public void ShowOverlay()
     {
         if (isPreviewing)
         {
@@ -74,7 +71,7 @@ public class PreviewMenuController : MenuController
     /// <summary>
     /// Unpreview the level
     /// </summary>
-    public void UnpreviewLevel()
+    public void HideOverlay()
     {
         if (!isPreviewing)
         {
@@ -95,12 +92,10 @@ public class PreviewMenuController : MenuController
     public void AssignMultiplayerUIControl(GameObject uiControl)
     {
         playerEventSystem = uiControl.GetComponent<MultiplayerEventSystem>();
-        playerInput = uiControl.GetComponent<PlayerInput>();
-        uIInputModule = uiControl.GetComponent<InputSystemUIInputModule>();
     }
 
     /// <summary>
-    /// Set the title text of the level preview
+    /// Set the title text of the level overlay
     /// </summary>
     /// <param name="text">Text to change the title to</param>
     public IEnumerator SetTitle(string text, float delay)

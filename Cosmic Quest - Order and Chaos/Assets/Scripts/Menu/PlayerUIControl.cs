@@ -14,9 +14,9 @@ public class PlayerUIControl : MonoBehaviour
             {
                 MainMenuController.Instance.AssignMultiplayerUIControl(gameObject, assignedPlayer);
             }
-            else if (GameManager.Instance.CurrentState == GameManager.GameState.SelectingLevel)
+            else if (assignedPlayer == 0 && GameManager.Instance.CurrentState == GameManager.GameState.SelectingLevel)
             {
-                PreviewMenuController.Instance.AssignMultiplayerUIControl(gameObject);
+                LevelOverlayController.Instance.AssignMultiplayerUIControl(gameObject);
             }
         }
         else
@@ -27,7 +27,7 @@ public class PlayerUIControl : MonoBehaviour
 
     public void OnMenuCancel(InputValue value)
     {
-        // only player 1 may activate this
+        // only player 1 may activate this so we check if their player num is 0
         if (assignedPlayer == 0 && GameManager.Instance.CurrentState == GameManager.GameState.Menu)
         {
             if (!value.isPressed)
@@ -42,59 +42,89 @@ public class PlayerUIControl : MonoBehaviour
             {
                 return;
             }
-            LevelsController.Instance.DeselectLevel();
+            OverworldController.Instance.DeselectLevel();
         }
     }
 
     public void OnMenuSelect(InputValue value)
     {
+        // only player 1 may activate this so we check if their player num is 0
         if (assignedPlayer == 0 && GameManager.Instance.CurrentState == GameManager.GameState.SelectingLevel)
         {
             if (!value.isPressed)
             {
                 return;
             }
-            LevelsController.Instance.SelectLevel();
+            OverworldController.Instance.SelectLevel();
         }
     }
 
     public void OnMenuNavigate(InputValue value)
     {
-        // only player 1 may activate this
+        // only player 1 may activate this so we check if their player num is 0
         if (assignedPlayer == 0 && GameManager.Instance.CurrentState == GameManager.GameState.SelectingLevel)
         {
             Vector2 input = value.Get<Vector2>();
-            int horizontalInput = input.x > 0 ? 1 : -1;
-            int verticalInput = input.y > 0 ? 1 : -1;
-            if ((Mathf.Approximately(input.x, 0) && Mathf.Approximately(input.y, 0)))
+            //int horizontalInput = input.x > 0 ? 1 : -1;
+            //int verticalInput = input.y > 0 ? 1 : -1;
+            float angle = Vector2.Angle(Vector2.up, input);
+            if (Mathf.Approximately(input.x, 0) && Mathf.Approximately(input.y, 0))
             {
                 return;
             }
-            if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
+            //if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
+            //{
+            //    if (horizontalInput < 0)
+            //    {
+            //        OverworldController.Instance.NavigateLeft();
+            //    }
+            //    else
+            //    {
+            //        OverworldController.Instance.NavigateRight();
+            //    }
+            //}
+            //else
+            //{
+            //    if (verticalInput < 0)
+            //    {
+            //        OverworldController.Instance.NavigateDown();
+            //    }
+            //    else
+            //    {
+            //        OverworldController.Instance.NavigateUp();
+            //    }
+            //}
+            if (angle > 337.5 && angle < 22.5)
             {
-                if (horizontalInput < 0)
-                {
-                    // left
-                    LevelsController.Instance.NavigateLeft();
-                }
-                else
-                {
-                    // right
-                    LevelsController.Instance.NavigateRight();
-                }
+                OverworldController.Instance.NavigateUp();
             }
-            else
+            else if (angle >= 22.5 && angle < 67.5)
             {
-                if (verticalInput < 0)
-                {
-                    // down
-                    LevelsController.Instance.NavigateDown();
-                }
-                else
-                {
-                    // up
-                    LevelsController.Instance.NavigateUp();
-                }
+                OverworldController.Instance.NavigateUpRight();
+            }
+            else if (angle >= 67.5 && angle < 112.5)
+            {
+                OverworldController.Instance.NavigateRight();
+            }
+            else if (angle >= 112.5 && angle < 157.5)
+            {
+                OverworldController.Instance.NavigateDownRight();
+            }
+            else if (angle >= 157.5 && angle < 202.5)
+            {
+                OverworldController.Instance.NavigateDown();
+            }
+            else if (angle >= 202.5 && angle < 247.5)
+            {
+                OverworldController.Instance.NavigateDownLeft();
+            }
+            else if (angle >= 247.5 && angle < 292.5)
+            {
+                OverworldController.Instance.NavigateLeft();
+            }
+            else if (angle >= 292.5 && angle < 337.5)
+            {
+                OverworldController.Instance.NavigateUpLeft();
             }
         }
     }

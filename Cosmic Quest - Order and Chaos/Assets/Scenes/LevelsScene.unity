@@ -132,8 +132,10 @@ GameObject:
   - component: {fileID: 31677202}
   - component: {fileID: 31677201}
   - component: {fileID: 31677200}
+  - component: {fileID: 31677204}
+  - component: {fileID: 31677203}
   m_Layer: 0
-  m_Name: PathToNextLevel
+  m_Name: OverworldPath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,12 +148,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31677198}
-  m_LocalRotation: {x: 0, y: 0.15229586, z: 0, w: 0.98833495}
-  m_LocalPosition: {x: 10.2, y: 0, z: 33.4}
-  m_LocalScale: {x: 0.05, y: 1, z: 6}
+  m_LocalRotation: {x: -0, y: 0.15229586, z: -0, w: 0.98833495}
+  m_LocalPosition: {x: -11.400009, y: 0, z: -34.6}
+  m_LocalScale: {x: 0.050000004, y: 1, z: 6}
   m_Children: []
-  m_Father: {fileID: 2125561957}
-  m_RootOrder: 1
+  m_Father: {fileID: 337489673}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 17.52, z: 0}
 --- !u!64 &31677200
 MeshCollider:
@@ -184,7 +186,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b96853a69da300f47871cb53ea4893e5, type: 2}
+  - {fileID: 2100000, guid: ebfae17d3a351e44a8d63465af289345, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -213,6 +215,39 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31677198}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!95 &31677203
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31677198}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0a9dbbe0ebb7a64ca21454ff20dcc1d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &31677204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31677198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a86b20918232834096dfc0dfbbbe4fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  from: {fileID: 2125561958}
+  to: {fileID: 337489674}
 --- !u!1 &51968948
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,6 +258,7 @@ GameObject:
   m_Component:
   - component: {fileID: 51968949}
   - component: {fileID: 51968950}
+  - component: {fileID: 51968951}
   m_Layer: 0
   m_Name: Level4-Glacia
   m_TagString: Untagged
@@ -242,7 +278,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1913347277}
-  - {fileID: 334322376}
+  - {fileID: 1446014173}
   - {fileID: 732707266}
   m_Father: {fileID: 1213250880}
   m_RootOrder: 4
@@ -259,12 +295,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a0d389c4cc4e84ab47a103426a35ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathToNextLevel: {fileID: 334322375}
   chaosVoid: {fileID: 11400000, guid: d0c7c46a848ef8b46a5f835ef0e86d40, type: 2}
   selectOnUp: {fileID: 1558282365}
   selectOnDown: {fileID: 839317647}
   selectOnLeft: {fileID: 839317647}
   selectOnRight: {fileID: 0}
+--- !u!95 &51968951
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51968948}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0a9dbbe0ebb7a64ca21454ff20dcc1d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &165354190 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 395521160435010772, guid: 2a4668dfe897ec742ab9cb902be898de,
@@ -795,8 +849,10 @@ GameObject:
   - component: {fileID: 334322379}
   - component: {fileID: 334322378}
   - component: {fileID: 334322377}
+  - component: {fileID: 334322381}
+  - component: {fileID: 334322380}
   m_Layer: 0
-  m_Name: PathToNextLevel
+  m_Name: OverworldPath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -809,11 +865,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 334322375}
-  m_LocalRotation: {x: 0, y: 0.3970678, z: 0, w: 0.91778934}
-  m_LocalPosition: {x: -22.3, y: 0, z: -21.6}
-  m_LocalScale: {x: 0.05, y: 1, z: 4.9}
+  m_LocalRotation: {x: -0, y: 0.3970678, z: -0, w: 0.91778934}
+  m_LocalPosition: {x: 24.500002, y: 0, z: 21.5}
+  m_LocalScale: {x: 0.050000012, y: 1, z: 4.900001}
   m_Children: []
-  m_Father: {fileID: 51968949}
+  m_Father: {fileID: 839317646}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 46.79, z: 0}
 --- !u!64 &334322377
@@ -847,7 +903,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b96853a69da300f47871cb53ea4893e5, type: 2}
+  - {fileID: 2100000, guid: ebfae17d3a351e44a8d63465af289345, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -876,6 +932,39 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 334322375}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!95 &334322380
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334322375}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0a9dbbe0ebb7a64ca21454ff20dcc1d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &334322381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334322375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a86b20918232834096dfc0dfbbbe4fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  from: {fileID: 51968950}
+  to: {fileID: 839317647}
 --- !u!1 &337489672
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,6 +975,7 @@ GameObject:
   m_Component:
   - component: {fileID: 337489673}
   - component: {fileID: 337489674}
+  - component: {fileID: 337489675}
   m_Layer: 0
   m_Name: Level2-Kulaka
   m_TagString: Untagged
@@ -906,7 +996,7 @@ Transform:
   m_Children:
   - {fileID: 879392011}
   - {fileID: 1235127213}
-  - {fileID: 1035298831}
+  - {fileID: 31677199}
   m_Father: {fileID: 1213250880}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -922,12 +1012,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a0d389c4cc4e84ab47a103426a35ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathToNextLevel: {fileID: 1035298830}
   chaosVoid: {fileID: 11400000, guid: f430f0b2f3279674b9c667912337c408, type: 2}
   selectOnUp: {fileID: 1558282365}
   selectOnDown: {fileID: 2125561958}
   selectOnLeft: {fileID: 2125561958}
   selectOnRight: {fileID: 1558282365}
+--- !u!95 &337489675
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 337489672}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0a9dbbe0ebb7a64ca21454ff20dcc1d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &359151582
 GameObject:
   m_ObjectHideFlags: 0
@@ -1369,7 +1477,7 @@ Transform:
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 1280275550}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 35, y: 0, z: 0}
 --- !u!102 &496818345
 TextMesh:
@@ -1625,6 +1733,7 @@ GameObject:
   m_Component:
   - component: {fileID: 839317646}
   - component: {fileID: 839317647}
+  - component: {fileID: 839317648}
   m_Layer: 0
   m_Name: Level5-Buroo
   m_TagString: Untagged
@@ -1644,7 +1753,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 165354190}
-  - {fileID: 1316545666}
+  - {fileID: 334322376}
   - {fileID: 371201331}
   m_Father: {fileID: 1213250880}
   m_RootOrder: 5
@@ -1661,12 +1770,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a0d389c4cc4e84ab47a103426a35ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathToNextLevel: {fileID: 1316545665}
   chaosVoid: {fileID: 11400000, guid: d0c7c46a848ef8b46a5f835ef0e86d40, type: 2}
   selectOnUp: {fileID: 1280275551}
   selectOnDown: {fileID: 0}
   selectOnLeft: {fileID: 0}
   selectOnRight: {fileID: 51968950}
+--- !u!95 &839317648
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 839317645}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0a9dbbe0ebb7a64ca21454ff20dcc1d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &844735921 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 147022, guid: b696a85a1bdab3d4096cfcbcc7e4fe38,
@@ -1716,7 +1843,7 @@ Transform:
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 2125561957}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 35, y: 0, z: 0}
 --- !u!102 &845739030
 TextMesh:
@@ -1965,6 +2092,14 @@ MonoBehaviour:
         m_Groups: 
         m_Action: Action
         m_Flags: 0
+      - m_Name: 
+        m_Id: 7f1b1f16-cc7c-4d9c-b8f7-53d1026f3fc5
+        m_Path: <Mouse>/leftButton
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Action
+        m_Flags: 0
     m_Reference: {fileID: 0}
   m_PlayerPrefab: {fileID: 1626825109976161650, guid: b2aef357050c0044197ee8f16e6cd04b,
     type: 3}
@@ -2003,8 +2138,10 @@ GameObject:
   - component: {fileID: 1035298834}
   - component: {fileID: 1035298833}
   - component: {fileID: 1035298832}
+  - component: {fileID: 1035298836}
+  - component: {fileID: 1035298835}
   m_Layer: 0
-  m_Name: PathToNextLevel
+  m_Name: OverworldPath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2017,12 +2154,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035298830}
-  m_LocalRotation: {x: 0, y: 0.6170358, z: 0, w: 0.7869351}
-  m_LocalPosition: {x: 44.9, y: 0, z: 11}
+  m_LocalRotation: {x: -0, y: 0.6170358, z: -0, w: 0.7869351}
+  m_LocalPosition: {x: -45.399994, y: 0, z: -10.100002}
   m_LocalScale: {x: 0.05, y: 1, z: 8}
   m_Children: []
-  m_Father: {fileID: 337489673}
-  m_RootOrder: 2
+  m_Father: {fileID: 1558282364}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 76.2, z: 0}
 --- !u!64 &1035298832
 MeshCollider:
@@ -2055,7 +2192,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b96853a69da300f47871cb53ea4893e5, type: 2}
+  - {fileID: 2100000, guid: ebfae17d3a351e44a8d63465af289345, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2084,6 +2221,39 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1035298830}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!95 &1035298835
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035298830}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0a9dbbe0ebb7a64ca21454ff20dcc1d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1035298836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035298830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a86b20918232834096dfc0dfbbbe4fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  from: {fileID: 337489674}
+  to: {fileID: 1558282365}
 --- !u!1001 &1122733285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2218,8 +2388,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursor: {fileID: 646041883}
-  mainCamera: {fileID: 1951821697}
   previewScreen: {fileID: 1307199591055484075}
+  zoomLevel: 30
+  zoomSpeed: 0.5
+  navigationSpeed: 0.25
 --- !u!4 &1213250880
 Transform:
   m_ObjectHideFlags: 0
@@ -2349,6 +2521,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1280275550}
   - component: {fileID: 1280275551}
+  - component: {fileID: 1280275552}
   m_Layer: 0
   m_Name: Level6-Final
   m_TagString: Untagged
@@ -2368,6 +2541,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2068211972}
+  - {fileID: 1316545666}
   - {fileID: 496818344}
   m_Father: {fileID: 1213250880}
   m_RootOrder: 6
@@ -2384,12 +2558,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a0d389c4cc4e84ab47a103426a35ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathToNextLevel: {fileID: 0}
   chaosVoid: {fileID: 11400000, guid: d0c7c46a848ef8b46a5f835ef0e86d40, type: 2}
   selectOnUp: {fileID: 0}
   selectOnDown: {fileID: 839317647}
   selectOnLeft: {fileID: 0}
   selectOnRight: {fileID: 0}
+--- !u!95 &1280275552
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280275549}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0a9dbbe0ebb7a64ca21454ff20dcc1d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1316545665
 GameObject:
   m_ObjectHideFlags: 0
@@ -2402,8 +2594,10 @@ GameObject:
   - component: {fileID: 1316545669}
   - component: {fileID: 1316545668}
   - component: {fileID: 1316545667}
+  - component: {fileID: 1316545671}
+  - component: {fileID: 1316545670}
   m_Layer: 0
-  m_Name: PathToNextLevel
+  m_Name: OverworldPath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2416,11 +2610,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1316545665}
-  m_LocalRotation: {x: 0, y: 0.09280506, z: 0, w: 0.9956843}
-  m_LocalPosition: {x: 3.6, y: 0, z: 18.1}
+  m_LocalRotation: {x: -0, y: 0.09280506, z: -0, w: 0.9956843}
+  m_LocalPosition: {x: -3.5, y: 0, z: -20.300001}
   m_LocalScale: {x: 0.05, y: 1, z: 2.3}
   m_Children: []
-  m_Father: {fileID: 839317646}
+  m_Father: {fileID: 1280275550}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 10.65, z: 0}
 --- !u!64 &1316545667
@@ -2454,7 +2648,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b96853a69da300f47871cb53ea4893e5, type: 2}
+  - {fileID: 2100000, guid: ebfae17d3a351e44a8d63465af289345, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2483,6 +2677,39 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1316545665}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!95 &1316545670
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316545665}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0a9dbbe0ebb7a64ca21454ff20dcc1d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1316545671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316545665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a86b20918232834096dfc0dfbbbe4fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  from: {fileID: 839317647}
+  to: {fileID: 1280275551}
 --- !u!1 &1446014172
 GameObject:
   m_ObjectHideFlags: 0
@@ -2495,8 +2722,10 @@ GameObject:
   - component: {fileID: 1446014176}
   - component: {fileID: 1446014175}
   - component: {fileID: 1446014174}
+  - component: {fileID: 1446014178}
+  - component: {fileID: 1446014177}
   m_Layer: 0
-  m_Name: PathToNextLevel
+  m_Name: OverworldPath
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2509,11 +2738,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1446014172}
-  m_LocalRotation: {x: 0, y: -0.16719894, z: 0, w: 0.9859232}
-  m_LocalPosition: {x: 11.2, y: 0, z: -30.3}
-  m_LocalScale: {x: 0.05, y: 1, z: 5.1}
+  m_LocalRotation: {x: -0, y: -0.16719894, z: -0, w: 0.9859232}
+  m_LocalPosition: {x: -9.900002, y: 0, z: 30.400002}
+  m_LocalScale: {x: 0.05000001, y: 1, z: 5.1000004}
   m_Children: []
-  m_Father: {fileID: 1558282364}
+  m_Father: {fileID: 51968949}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -19.25, z: 0}
 --- !u!64 &1446014174
@@ -2547,7 +2776,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b96853a69da300f47871cb53ea4893e5, type: 2}
+  - {fileID: 2100000, guid: ebfae17d3a351e44a8d63465af289345, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2576,6 +2805,39 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1446014172}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!95 &1446014177
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446014172}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0a9dbbe0ebb7a64ca21454ff20dcc1d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1446014178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446014172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a86b20918232834096dfc0dfbbbe4fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  from: {fileID: 1558282365}
+  to: {fileID: 51968950}
 --- !u!1 &1558282363
 GameObject:
   m_ObjectHideFlags: 0
@@ -2586,6 +2848,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1558282364}
   - component: {fileID: 1558282365}
+  - component: {fileID: 1558282366}
   m_Layer: 0
   m_Name: Level3-Zenzo
   m_TagString: Untagged
@@ -2605,7 +2868,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 361175988}
-  - {fileID: 1446014173}
+  - {fileID: 1035298831}
   - {fileID: 359151583}
   m_Father: {fileID: 1213250880}
   m_RootOrder: 3
@@ -2622,12 +2885,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a0d389c4cc4e84ab47a103426a35ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathToNextLevel: {fileID: 1446014172}
   chaosVoid: {fileID: 11400000, guid: d0c7c46a848ef8b46a5f835ef0e86d40, type: 2}
   selectOnUp: {fileID: 0}
   selectOnDown: {fileID: 51968950}
   selectOnLeft: {fileID: 337489674}
   selectOnRight: {fileID: 51968950}
+--- !u!95 &1558282366
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558282363}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0a9dbbe0ebb7a64ca21454ff20dcc1d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1566130008
 GameObject:
   m_ObjectHideFlags: 0
@@ -3285,7 +3566,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1951821694}
   m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
-  m_LocalPosition: {x: 0, y: 15, z: -38.8}
+  m_LocalPosition: {x: 0, y: 13, z: -38.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3305,7 +3586,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showEditorMainBehavior: 1
   showEditorBloomBehavior: 1
-  showEditorLensSurfaceBehavior: 0
+  showEditorLensSurfaceBehavior: 1
   showEditorLensFlareBehavior: 0
   showEditorGlareBehavior: 0
   allowGeometryShaders: 1
@@ -3313,7 +3594,7 @@ MonoBehaviour:
   renderPriority: 0
   debugView: 0
   quality: 1
-  workflow: 1
+  workflow: 2
   selectiveRenderLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -3321,10 +3602,10 @@ MonoBehaviour:
   lumaScale: 0.5
   blooming: 0
   bloomThreshold:
-    minValue: 1.25
+    minValue: 6.2916555
     maxValue: 10
-  bloomScattering: 7
-  bloomIntensity: 1
+  bloomScattering: 2
+  bloomIntensity: 0.19
   allowLensSurface: 0
   lensSurfaceDirtTexture: {fileID: 0}
   lensSurfaceDirtIntensity: 2.5
@@ -3541,6 +3822,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2125561957}
   - component: {fileID: 2125561958}
+  - component: {fileID: 2125561959}
   m_Layer: 0
   m_Name: Level1-Tutorial
   m_TagString: Untagged
@@ -3560,7 +3842,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1245675221}
-  - {fileID: 31677199}
   - {fileID: 845739029}
   m_Father: {fileID: 1213250880}
   m_RootOrder: 1
@@ -3577,12 +3858,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a0d389c4cc4e84ab47a103426a35ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathToNextLevel: {fileID: 31677198}
   chaosVoid: {fileID: 11400000, guid: 78d85496fd500334288f7edb52c34cca, type: 2}
   selectOnUp: {fileID: 337489674}
   selectOnDown: {fileID: 0}
   selectOnLeft: {fileID: 0}
   selectOnRight: {fileID: 337489674}
+--- !u!95 &2125561959
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125561956}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0a9dbbe0ebb7a64ca21454ff20dcc1d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &124421910774570548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3612,7 +3911,7 @@ GameObject:
   - component: {fileID: 8440877660678566342}
   - component: {fileID: 7762635581567356807}
   m_Layer: 5
-  m_Name: PreviewScreen
+  m_Name: LevelOverlayScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4055,7 +4354,7 @@ GameObject:
   - component: {fileID: 124421910774570548}
   - component: {fileID: 8819911966843181408}
   m_Layer: 5
-  m_Name: PreviewScreen
+  m_Name: LevelOverlayScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
