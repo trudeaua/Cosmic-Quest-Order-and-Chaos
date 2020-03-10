@@ -18,6 +18,7 @@ public class PreviewMenuController : MenuController
     }
     #endregion
 
+    [SerializeField] private TMPro.TextMeshProUGUI levelTitle;
     private bool isPreviewing;
     private MultiplayerEventSystem playerEventSystem;
     private PlayerInput playerInput;
@@ -96,5 +97,16 @@ public class PreviewMenuController : MenuController
         playerEventSystem = uiControl.GetComponent<MultiplayerEventSystem>();
         playerInput = uiControl.GetComponent<PlayerInput>();
         uIInputModule = uiControl.GetComponent<InputSystemUIInputModule>();
+    }
+
+    /// <summary>
+    /// Set the title text of the level preview
+    /// </summary>
+    /// <param name="text">Text to change the title to</param>
+    public IEnumerator SetTitle(string text, float delay)
+    {
+        levelTitle.text = null;
+        yield return new WaitForSeconds(delay);
+        levelTitle.text = text;
     }
 }

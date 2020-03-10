@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelsController : MonoBehaviour
@@ -29,7 +28,6 @@ public class LevelsController : MonoBehaviour
     public GameObject previewScreen;
     private Vector3 cameraOffset;
     private Vector3 initialCameraPos;
-    private bool isZoomed = false;
     private float selectionCooldown = 0.25f;
     private LevelPreview[] levelPreviews;
     private LevelPreview currentlySelected;
@@ -43,14 +41,22 @@ public class LevelsController : MonoBehaviour
         if (levelPreviews.Length > 0)
         {
             currentlySelected = levelPreviews.LastOrDefault(e => e.chaosVoid.started);
+            if (!currentlySelected)
+            {
+                currentlySelected = levelPreviews[0];
+            }
             cursor.transform.position = new Vector3(currentlySelected.transform.position.x, cursor.transform.position.y, cursor.transform.position.z);
-            mainCamera.transform.position = new Vector3(currentlySelected.transform.position.x, mainCamera.transform.position.y, mainCamera.transform.position.z);
+            mainCamera.transform.position = new Vector3(currentlySelected.transform.position.x, mainCamera.transform.position.y, cameraOffset.z + mainCamera.transform.position.z);
+            StartCoroutine(PreviewMenuController.Instance.SetTitle(currentlySelected.chaosVoid.scene.name, 0));
         }
         initialCameraPos = mainCamera.transform.position;
-        CurrentState = LevelMenuState.Selecting;
+        SetSelectingState();
+        // show paths to levels only if the level has been cleared
         foreach (LevelPreview levelPreview in levelPreviews)
         {
-            levelPreview.pathToNextLevel.SetActive(levelPreview.chaosVoid.cleared);
+            if (levelPreview.pathToNextLevel != null) {
+                levelPreview.pathToNextLevel.SetActive(levelPreview.chaosVoid.cleared);
+            }
         }
     }
 
@@ -62,9 +68,33 @@ public class LevelsController : MonoBehaviour
             if (selectionCooldown < 0)
             {
                 selectionCooldown = 0;
-                CurrentState = LevelMenuState.Selecting;
+                SetSelectingState();
             }
         }
+    }
+
+    /// <summary>
+    /// Set the state of the level controller to transitioning [to a level]
+    /// </summary>
+    public void SetTransitioningState()
+    {
+        CurrentState = LevelMenuState.Transitioning;
+    }
+
+    /// <summary>
+    /// Set the state of the level controller to selecting [a level]
+    /// </summary>
+    public void SetSelectingState()
+    {
+        CurrentState = LevelMenuState.Selecting;
+    }
+
+    /// <summary>
+    /// Set the state of the level controller to [a level has been] selected
+    /// </summary>
+    public void SetSelectedState()
+    {
+        CurrentState = LevelMenuState.Selected;
     }
 
     /// <summary>
@@ -123,11 +153,13 @@ public class LevelsController : MonoBehaviour
     {
         if (CurrentState == LevelMenuState.Selecting)
         {
-            //PreviewMenuController.Instance.PreviewLevel();
-            CurrentState = LevelMenuState.Selected;
+            SetSelectedState();
             initialCameraPos = mainCamera.transform.position;
-            StartCoroutine(ZoomCamera(0.5f));
-            isZoomed = true;
+
+            Vector3 start = mainCamera.transform.position;
+            Vector3 stop = start + mainCamera.transform.forward * 20;
+            StartCoroutine(ZoomCamera(0.5f, start, stop));
+            StartCoroutine(PreviewLevel(0.5f));
         }
     }
 
@@ -139,10 +171,12 @@ public class LevelsController : MonoBehaviour
     {
         if (CurrentState == LevelMenuState.Selected)
         {
-            //PreviewMenuController.Instance.UnpreviewLevel();
-            CurrentState = LevelMenuState.Selecting;
-            StartCoroutine(ZoomCamera(0.5f));
-            isZoomed = false;
+            SetSelectingState();
+
+            Vector3 start = mainCamera.transform.position;
+            Vector3 stop = initialCameraPos;
+            StartCoroutine(UnpreviewLevel(0));
+            StartCoroutine(ZoomCamera(0.5f, start, stop));
         }
     }
 
@@ -154,6 +188,15 @@ public class LevelsController : MonoBehaviour
     {
         if (CurrentState == LevelMenuState.Selected)
         {
+            Vector3 start = mainCamera.transform.position;
+            Vector3 stop = currentlySelected.transform.position;
+            float transitionTime = 0.5f;
+            StartCoroutine(ZoomCamera(transitionTime, start, stop));
+            float timer = transitionTime * 2;
+            while (timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
             LevelManager.Instance.StartChaosVoid(currentlySelected.chaosVoid);
         }
     }
@@ -170,8 +213,9 @@ public class LevelsController : MonoBehaviour
             return;
         }
         
-        CurrentState = LevelMenuState.Transitioning;
+        SetTransitioningState();
         currentlySelected = levelPreview;
+        StartCoroutine(PreviewMenuController.Instance.SetTitle(levelPreview.chaosVoid.scene.name, 0.25f));
         StartCoroutine(MoveCursor(0.25f));
         StartCoroutine(MoveCamera(0.25f));
         selectionCooldown = 0.25f;
@@ -213,20 +257,14 @@ public class LevelsController : MonoBehaviour
     }
 
     /// <summary>
-    /// Description: Sets the field of view of the main camera to zoom in on a selected level
+    /// Description: Translates the main camera's position from a start position to a stop position
     /// Rationale: Zooming in/out on a level signifies that it is selected/deselected
     /// </summary>
-    /// <param name="time">Time in seconds in which to transition the main camera's field of view to the zoom in/out level</param>
-    private IEnumerator ZoomCamera(float time)
+    /// <param name="time">Time in seconds in which to transition the camera from the start position to the stop position</param>
+    /// <param name="start">Position to start the camera zoom at</param>
+    /// <param name="stop">Position to stop the camera zoom at</param>
+    private IEnumerator ZoomCamera(float time, Vector3 start, Vector3 stop)
     {
-        float zoomFactor = isZoomed ? -1 : 1;
-        Vector3 start = mainCamera.transform.position;
-        Vector3 stop = isZoomed ? initialCameraPos : start + zoomFactor * mainCamera.transform.forward * 20;
-
-        if (zoomFactor < 0)
-        {
-            PreviewMenuController.Instance.UnpreviewLevel();
-        }
         float elapsed = 0;
         while (elapsed < time)
         {
@@ -235,10 +273,35 @@ public class LevelsController : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-        if (zoomFactor > 0)
+    }
+
+    /// <summary>
+    /// Displays the UI associated with the currently selected level
+    /// </summary>
+    /// <param name="delay">Time to wait before showing the UI</param>
+    /// <returns>An IEnumerator</returns>
+    private IEnumerator PreviewLevel(float delay)
+    {
+        if (delay < 0)
         {
-            PreviewMenuController.Instance.PreviewLevel();
+            yield return null;
         }
-        
+        yield return new WaitForSeconds(delay);
+        PreviewMenuController.Instance.PreviewLevel();
+    }
+
+    /// <summary>
+    /// Hides the UI associated with the currently selected level
+    /// </summary>
+    /// <param name="delay">Time to wait before hiding the UI</param>
+    /// <returns>An IEnumerator</returns>
+    private IEnumerator UnpreviewLevel(float delay)
+    {
+        if (delay < 0)
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(delay);
+        PreviewMenuController.Instance.UnpreviewLevel();
     }
 }

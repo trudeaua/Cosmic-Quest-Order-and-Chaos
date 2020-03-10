@@ -14,6 +14,11 @@ public class LevelPreview : MonoBehaviour
 
     private bool selected = false;
 
+    public void Start()
+    {
+        
+    }
+
     public void HighlightLevel()
     {
         selected = true;
