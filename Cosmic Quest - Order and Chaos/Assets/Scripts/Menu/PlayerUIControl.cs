@@ -65,14 +65,11 @@ public class PlayerUIControl : MonoBehaviour
         if (assignedPlayer == 0 && GameManager.Instance.CurrentState == GameManager.GameState.SelectingLevel)
         {
             Vector2 input = value.Get<Vector2>();
-            //int horizontalInput = input.x > 0 ? 1 : -1;
-            //int verticalInput = input.y > 0 ? 1 : -1;
-            float angle = Vector2.SignedAngle(Vector2.up, input);
-            Debug.Log(angle);
             if (Mathf.Approximately(input.x, 0) && Mathf.Approximately(input.y, 0))
             {
                 return;
             }
+            float angle = Vector2.SignedAngle(Vector2.up, input);
             if (angle >= -22.5 && angle < 22.5)
             {
                 OverworldController.Instance.NavigateUp();
