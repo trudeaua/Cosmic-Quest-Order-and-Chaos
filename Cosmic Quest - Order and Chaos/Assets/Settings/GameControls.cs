@@ -392,7 +392,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""a05432af-692b-4083-ac94-26390b19efd7"",
                     ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": ""Press"",
+                    ""interactions"": """",
                     ""processors"": ""StickDeadzone"",
                     ""groups"": ""Gamepad"",
                     ""action"": ""MenuNavigate"",

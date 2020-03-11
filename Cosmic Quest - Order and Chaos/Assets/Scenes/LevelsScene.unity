@@ -297,7 +297,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaosVoid: {fileID: 11400000, guid: d0c7c46a848ef8b46a5f835ef0e86d40, type: 2}
   selectOnUp: {fileID: 1558282365}
+  selectOnUpLeft: {fileID: 1558282365}
+  selectOnUpRight: {fileID: 0}
   selectOnDown: {fileID: 839317647}
+  selectOnDownLeft: {fileID: 839317647}
+  selectOnDownRight: {fileID: 0}
   selectOnLeft: {fileID: 839317647}
   selectOnRight: {fileID: 0}
 --- !u!95 &51968951
@@ -1013,9 +1017,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chaosVoid: {fileID: 11400000, guid: f430f0b2f3279674b9c667912337c408, type: 2}
-  selectOnUp: {fileID: 1558282365}
+  selectOnUp: {fileID: 0}
+  selectOnUpLeft: {fileID: 0}
+  selectOnUpRight: {fileID: 1558282365}
   selectOnDown: {fileID: 2125561958}
-  selectOnLeft: {fileID: 2125561958}
+  selectOnDownLeft: {fileID: 2125561958}
+  selectOnDownRight: {fileID: 0}
+  selectOnLeft: {fileID: 0}
   selectOnRight: {fileID: 1558282365}
 --- !u!95 &337489675
 Animator:
@@ -1772,7 +1780,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaosVoid: {fileID: 11400000, guid: d0c7c46a848ef8b46a5f835ef0e86d40, type: 2}
   selectOnUp: {fileID: 1280275551}
+  selectOnUpLeft: {fileID: 0}
+  selectOnUpRight: {fileID: 51968950}
   selectOnDown: {fileID: 0}
+  selectOnDownLeft: {fileID: 0}
+  selectOnDownRight: {fileID: 0}
   selectOnLeft: {fileID: 0}
   selectOnRight: {fileID: 51968950}
 --- !u!95 &839317648
@@ -2560,7 +2572,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaosVoid: {fileID: 11400000, guid: d0c7c46a848ef8b46a5f835ef0e86d40, type: 2}
   selectOnUp: {fileID: 0}
+  selectOnUpLeft: {fileID: 0}
+  selectOnUpRight: {fileID: 0}
   selectOnDown: {fileID: 839317647}
+  selectOnDownLeft: {fileID: 0}
+  selectOnDownRight: {fileID: 0}
   selectOnLeft: {fileID: 0}
   selectOnRight: {fileID: 0}
 --- !u!95 &1280275552
@@ -2887,9 +2903,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaosVoid: {fileID: 11400000, guid: d0c7c46a848ef8b46a5f835ef0e86d40, type: 2}
   selectOnUp: {fileID: 0}
+  selectOnUpLeft: {fileID: 0}
+  selectOnUpRight: {fileID: 0}
   selectOnDown: {fileID: 51968950}
+  selectOnDownLeft: {fileID: 337489674}
+  selectOnDownRight: {fileID: 51968950}
   selectOnLeft: {fileID: 337489674}
-  selectOnRight: {fileID: 51968950}
+  selectOnRight: {fileID: 0}
 --- !u!95 &1558282366
 Animator:
   serializedVersion: 3
@@ -3860,7 +3880,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaosVoid: {fileID: 11400000, guid: 78d85496fd500334288f7edb52c34cca, type: 2}
   selectOnUp: {fileID: 337489674}
+  selectOnUpLeft: {fileID: 0}
+  selectOnUpRight: {fileID: 337489674}
   selectOnDown: {fileID: 0}
+  selectOnDownLeft: {fileID: 0}
+  selectOnDownRight: {fileID: 0}
   selectOnLeft: {fileID: 0}
   selectOnRight: {fileID: 337489674}
 --- !u!95 &2125561959
@@ -4014,7 +4038,6 @@ GameObject:
   - component: {fileID: 6747882630197834430}
   - component: {fileID: 6747882630197834429}
   - component: {fileID: 6747882630197834428}
-  - component: {fileID: 6747882630197834431}
   m_Layer: 5
   m_Name: Button-Play
   m_TagString: Untagged
@@ -4084,7 +4107,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6747882630197834429}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1213250879}
+        m_MethodName: PlayLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6747882630197834429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4121,34 +4155,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6747882630197834426}
   m_CullTransparentMesh: 0
---- !u!114 &6747882630197834431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6747882630197834426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 15
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1213250879}
-          m_MethodName: PlayLevel
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &6747882631913988324
 GameObject:
   m_ObjectHideFlags: 0

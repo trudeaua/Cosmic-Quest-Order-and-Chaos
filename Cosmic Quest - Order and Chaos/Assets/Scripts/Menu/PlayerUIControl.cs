@@ -67,64 +67,43 @@ public class PlayerUIControl : MonoBehaviour
             Vector2 input = value.Get<Vector2>();
             //int horizontalInput = input.x > 0 ? 1 : -1;
             //int verticalInput = input.y > 0 ? 1 : -1;
-            float angle = Vector2.Angle(Vector2.up, input);
+            float angle = Vector2.SignedAngle(Vector2.up, input);
+            Debug.Log(angle);
             if (Mathf.Approximately(input.x, 0) && Mathf.Approximately(input.y, 0))
             {
                 return;
             }
-            //if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
-            //{
-            //    if (horizontalInput < 0)
-            //    {
-            //        OverworldController.Instance.NavigateLeft();
-            //    }
-            //    else
-            //    {
-            //        OverworldController.Instance.NavigateRight();
-            //    }
-            //}
-            //else
-            //{
-            //    if (verticalInput < 0)
-            //    {
-            //        OverworldController.Instance.NavigateDown();
-            //    }
-            //    else
-            //    {
-            //        OverworldController.Instance.NavigateUp();
-            //    }
-            //}
-            if (angle > 337.5 && angle < 22.5)
+            if (angle >= -22.5 && angle < 22.5)
             {
                 OverworldController.Instance.NavigateUp();
             }
             else if (angle >= 22.5 && angle < 67.5)
             {
-                OverworldController.Instance.NavigateUpRight();
+                OverworldController.Instance.NavigateUpLeft();
             }
             else if (angle >= 67.5 && angle < 112.5)
             {
-                OverworldController.Instance.NavigateRight();
+                OverworldController.Instance.NavigateLeft();
             }
             else if (angle >= 112.5 && angle < 157.5)
             {
-                OverworldController.Instance.NavigateDownRight();
+                OverworldController.Instance.NavigateDownLeft();
             }
-            else if (angle >= 157.5 && angle < 202.5)
+            else if (angle >= 157.5 || angle < -157.5)
             {
                 OverworldController.Instance.NavigateDown();
             }
-            else if (angle >= 202.5 && angle < 247.5)
+            else if (angle >= -157.5 && angle < -112.5)
             {
-                OverworldController.Instance.NavigateDownLeft();
+                OverworldController.Instance.NavigateDownRight();
             }
-            else if (angle >= 247.5 && angle < 292.5)
+            else if (angle >= -112.5 && angle < -67.5)
             {
-                OverworldController.Instance.NavigateLeft();
+                OverworldController.Instance.NavigateRight();
             }
-            else if (angle >= 292.5 && angle < 337.5)
+            else if (angle >= -67.5 && angle < -22.5)
             {
-                OverworldController.Instance.NavigateUpLeft();
+                OverworldController.Instance.NavigateUpRight();
             }
         }
     }
