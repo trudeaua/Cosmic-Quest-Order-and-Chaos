@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerUIControl : MonoBehaviour
@@ -44,12 +45,13 @@ public class PlayerUIControl : MonoBehaviour
         float timer = 0;
         while (timer < timeout)
         {
-            if (scene.isLoaded)
+            if (scene.isLoaded && GameManager.Instance.CurrentState != GameManager.GameState.Loading)
             {
-                // Input wasn't registering across scenes. Disabling and re-enabling the gameobject fixed it.
-                gameObject.SetActive(false);
-                gameObject.SetActive(true);
-
+                // Input wasn't registering across scenes. 
+                // Disabling and re-enabling the UI input system input module fixed it.
+                InputSystemUIInputModule uIInputModule = GetComponent<InputSystemUIInputModule>();
+                uIInputModule.enabled = false;
+                uIInputModule.enabled = true;
                 AssignMultiplayerUIControl();
                 break;
             }
@@ -96,6 +98,7 @@ public class PlayerUIControl : MonoBehaviour
 
     public void OnMenuSelect(InputValue value)
     {
+        Debug.Log("SUP");
         // only player 1 may activate this so we check if their player num is 0
         if (assignedPlayer == 0 && GameManager.Instance.CurrentState == GameManager.GameState.SelectingLevel)
         {

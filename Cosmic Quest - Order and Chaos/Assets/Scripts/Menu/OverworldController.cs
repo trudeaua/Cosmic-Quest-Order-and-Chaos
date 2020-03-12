@@ -265,6 +265,12 @@ public class OverworldController : MonoBehaviour
             StartCoroutine(MoveCamera(zoomSpeed, start, stop));
             StartCoroutine(SetCurrentState(LevelMenuState.Selecting, 1 - zoomSpeed));
         }
+        else if (CurrentState == LevelMenuState.Selecting)
+        {
+            // Not zoomed in on a level, so we go back to the main menu
+            // Maybe should be put somewhere else?
+            LevelManager.Instance.BackToMenu();
+        }
     }
 
     /// <summary>

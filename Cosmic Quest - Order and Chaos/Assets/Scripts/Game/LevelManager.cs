@@ -107,7 +107,7 @@ public class LevelManager : MonoBehaviour
 
     public void BackToMenu()
     {
-        StartCoroutine(LoadYourAsyncScene("MenuStaging"));
+        StartCoroutine(LoadYourAsyncScene("MenuStaging", SceneType.Menu));
     }
 
     /// <summary>
@@ -135,7 +135,6 @@ public class LevelManager : MonoBehaviour
         
         // Hide the loading screen
         _anim.SetTrigger("Hide");
-        yield return new WaitForSeconds(0.5f);
 
         // Set the new game state after loading is finished
         if (sceneType == SceneType.Level)
@@ -144,5 +143,6 @@ public class LevelManager : MonoBehaviour
             GameManager.Instance.SetMenuState();
         else if (sceneType == SceneType.Map)
             GameManager.Instance.SetSelectingLevelState();
+        yield return new WaitForSeconds(0.5f);
     }
 }
