@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    public enum SceneType {
+        Level,
+        Menu,
+        Map
+    }
     #region Singleton
     public static LevelManager Instance;
 
@@ -54,13 +59,13 @@ public class LevelManager : MonoBehaviour
     public void StartTutorial()
     {
         // Load Tutorial scene
-        StartCoroutine(LoadYourAsyncScene("Tutorial", true));
+        StartCoroutine(LoadYourAsyncScene("Tutorial", SceneType.Level));
     }
     
     public void StartTestLevel()
     {
         // TODO DELETE ME
-        StartCoroutine(LoadYourAsyncScene("ChaosVoid1", true));
+        StartCoroutine(LoadYourAsyncScene("ChaosVoid1", SceneType.Level));
     }
 
     /// <summary>
@@ -69,7 +74,7 @@ public class LevelManager : MonoBehaviour
     public void StartLevelMenu()
     {
         // TODO if tutorial is skipped then should be taken to the level selection map
-        StartCoroutine(LoadYourAsyncScene("LevelMenu"));
+        StartCoroutine(LoadYourAsyncScene("LevelsScene", SceneType.Map));
     }
 
     /// <summary>
@@ -78,7 +83,7 @@ public class LevelManager : MonoBehaviour
     /// <param name="chaosVoid">Reference to the chaos void level to load</param>
     public void StartChaosVoid(ChaosVoid chaosVoid)
     {
-        StartCoroutine(LoadYourAsyncScene(chaosVoid.scene.name, true));
+        StartCoroutine(LoadYourAsyncScene(chaosVoid.scene.name, SceneType.Level));
         chaosVoid.Initialize();
     }
 
@@ -87,7 +92,7 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void RestartCurrentLevel()
     {
-        StartCoroutine(LoadYourAsyncScene(SceneManager.GetActiveScene().name, true));
+        StartCoroutine(LoadYourAsyncScene(SceneManager.GetActiveScene().name, SceneType.Level));
         // TODO initialize chaos void
     }
 
@@ -111,7 +116,7 @@ public class LevelManager : MonoBehaviour
     /// <param name="sceneName">Name of the scene to load</param>
     /// <param name="isLevel">Whether the scene being loaded is a level</param>
     /// <returns>An IEnumerator</returns>
-    private IEnumerator LoadYourAsyncScene(string sceneName, bool isLevel = false)
+    private IEnumerator LoadYourAsyncScene(string sceneName, SceneType sceneType = SceneType.Menu)
     {
         GameManager.Instance.SetLoadingState();
         
@@ -133,9 +138,11 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // Set the new game state after loading is finished
-        if (isLevel)
+        if (sceneType == SceneType.Level)
             GameManager.Instance.SetPlayState();
-        else
+        else if (sceneType == SceneType.Menu)
             GameManager.Instance.SetMenuState();
+        else if (sceneType == SceneType.Map)
+            GameManager.Instance.SetSelectingLevelState();
     }
 }

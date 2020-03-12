@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class OverworldController : MonoBehaviour
 {
@@ -17,7 +18,10 @@ public class OverworldController : MonoBehaviour
     private void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
+            GameManager.Instance.SetSelectingLevelState();
+        }
         else
             Debug.LogWarning("Only one overworld controller should be in the scene!");
     }
@@ -44,7 +48,14 @@ public class OverworldController : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.SetSelectingLevelState();
+        if (GameManager.Instance.isTestInstance)
+        {
+            PlayerInputManager.instance.joinBehavior = PlayerJoinBehavior.JoinPlayersWhenJoinActionIsTriggered;
+        }
+        else
+        {
+            PlayerInputManager.instance.joinBehavior = PlayerJoinBehavior.JoinPlayersManually;
+        }
         levelPreviews = GetComponentsInChildren<OverworldLevel>();
         // store initial position of camera
         cameraOffset = Camera.main.transform.position;
@@ -62,6 +73,7 @@ public class OverworldController : MonoBehaviour
             StartCoroutine(LevelOverlayController.Instance.SetTitle(currentlySelected.chaosVoid.scene.name, 0));
         }
         SetSelectingState();
+        
     }
 
     /// <summary>
@@ -234,8 +246,8 @@ public class OverworldController : MonoBehaviour
             SetSelectedState();
             Vector3 start = Camera.main.transform.position;
             Vector3 stop = start + Camera.main.transform.forward * zoomLevel;
+            StartCoroutine(ShowLevelOverlay(1 - zoomSpeed));
             StartCoroutine(MoveCamera(zoomSpeed, start, stop));
-            StartCoroutine(ShowLevelOverlay(zoomSpeed));
         }
     }
 
@@ -247,11 +259,11 @@ public class OverworldController : MonoBehaviour
     {
         if (CurrentState == LevelMenuState.Selected)
         {
-            SetSelectingState();
             Vector3 start = Camera.main.transform.position;
             Vector3 stop = start - Camera.main.transform.forward * zoomLevel;
             StartCoroutine(HideLevelOverlay(0));
-            StartCoroutine(MoveCamera(0.5f, start, stop));
+            StartCoroutine(MoveCamera(zoomSpeed, start, stop));
+            StartCoroutine(SetCurrentState(LevelMenuState.Selecting, 1 - zoomSpeed));
         }
     }
 
@@ -262,7 +274,7 @@ public class OverworldController : MonoBehaviour
     /// <param name="overworldLevel">The selected level</param>
     private void Navigate(OverworldLevel overworldLevel)
     {
-        if (CurrentState == LevelMenuState.Transitioning || CurrentState == LevelMenuState.Selected || overworldLevel.chaosVoid.isLocked)
+        if (CurrentState != LevelMenuState.Selecting || overworldLevel.chaosVoid.isLocked)
         {
             return;
         }
@@ -272,17 +284,18 @@ public class OverworldController : MonoBehaviour
         Vector3 stop = new Vector3(cameraOffset.x + currentlySelected.transform.position.x, Camera.main.transform.position.y, cameraOffset.z + currentlySelected.transform.position.z);
         StartCoroutine(MoveCursor(navigationSpeed));
         StartCoroutine(MoveCamera(navigationSpeed, start, stop));
-        StartCoroutine(SetCurrentState(LevelMenuState.Selecting, navigationSpeed));
-        StartCoroutine(LevelOverlayController.Instance.SetTitle(overworldLevel.chaosVoid.scene.name, navigationSpeed));
+        StartCoroutine(SetCurrentState(LevelMenuState.Selecting, 1 - navigationSpeed));
+        StartCoroutine(LevelOverlayController.Instance.SetTitle(overworldLevel.chaosVoid.scene.name, 1 - navigationSpeed));
     }
 
     /// <summary>
     /// Description: Moves the level selection cursor position to the currently selected level position
     /// Rationale: Level selection cursor should move as the user selects a level to signify which level is selected
     /// </summary>
-    /// <param name="time">Time in seconds in which to transition the cursor to the selected level position</param>
-    private IEnumerator MoveCursor(float time)
+    /// <param name="speed">Speed at which to transition the camera from the start position to the stop position</param>
+    private IEnumerator MoveCursor(float speed)
     {
+        float time = 1 - speed;
         float elapsed = 0;
         if (time > 0)
         {
@@ -305,11 +318,12 @@ public class OverworldController : MonoBehaviour
     /// Description: Translates the main camera's position from a start position to a stop position
     /// Rationale: Moving the camera signifies an object being selected
     /// </summary>
-    /// <param name="time">Time in seconds in which to transition the camera from the start position to the stop position</param>
+    /// <param name="speed">Speed at which to transition the camera from the start position to the stop position</param>
     /// <param name="start">Position to start the camera zoom at</param>
     /// <param name="stop">Position to stop the camera zoom at</param>
-    private IEnumerator MoveCamera(float time, Vector3 start, Vector3 stop)
+    private IEnumerator MoveCamera(float speed, Vector3 start, Vector3 stop)
     {
+        float time = 1 - speed;
         float elapsed = 0;
         if (time > 0)
         {

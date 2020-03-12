@@ -221,7 +221,7 @@ public class PlayerManager : MonoBehaviour
     {
         for (int i = 0; i < _playerSlots.Length; i++)
         {
-            if (!_playerSlots[i].playerUIControl)
+            if (_playerSlots[i].playerUIControl == null)
             {
                 _playerSlots[i].playerUIControl = playerUIControl;
                 return i;
@@ -375,7 +375,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (_playerSlots[i] != null && _playerSlots[i].deviceId == deviceId)
             {
-                return _playerSlots[i].deviceId;
+                return i;
             }
         }
         return -1;

@@ -1,27 +1,75 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerUIControl : MonoBehaviour
 {
-    private int assignedPlayer;
-    private void Start()
+    private int assignedPlayer = -1;
+    private void Awake()
     {
         assignedPlayer = PlayerManager.Instance.AssignUIControlToPlayer(gameObject);
         if (assignedPlayer >= 0)
         {
+            DontDestroyOnLoad(gameObject);
+            SceneManager.activeSceneChanged += SceneSwitched;
             name = "Player " + (assignedPlayer + 1) + " UI Control";
-            if (GameManager.Instance.CurrentState == GameManager.GameState.Menu)
-            {
-                MainMenuController.Instance.AssignMultiplayerUIControl(gameObject, assignedPlayer);
-            }
-            else if (assignedPlayer == 0 && GameManager.Instance.CurrentState == GameManager.GameState.SelectingLevel)
-            {
-                LevelOverlayController.Instance.AssignMultiplayerUIControl(gameObject);
-            }
+            AssignMultiplayerUIControl();
         }
         else
         {
             Debug.LogError("UI Control not assigned, no available player");
+        }
+    }
+
+    /// <summary>
+    /// Description: Re-assigns the UI control when the scene switches
+    /// Rationale: UI control should persist across menus
+    /// </summary>
+    /// <param name="current">current scene</param>
+    /// <param name="next">next scene</param>
+    public void SceneSwitched(Scene current, Scene next)
+    {
+        StartCoroutine(AssignUIControl(10, next));
+    }
+
+    /// <summary>
+    /// Assigns the UI control to a scene after it is loaded
+    /// </summary>
+    /// <param name="timeout">Time to wait before stopping execution</param>
+    /// <param name="scene">The scene being loaded</param>
+    /// <returns>An IEnumerator</returns>
+    private IEnumerator AssignUIControl(float timeout, Scene scene)
+    {
+        float timer = 0;
+        while (timer < timeout)
+        {
+            if (scene.isLoaded)
+            {
+                // Input wasn't registering across scenes. Disabling and re-enabling the gameobject fixed it.
+                gameObject.SetActive(false);
+                gameObject.SetActive(true);
+
+                AssignMultiplayerUIControl();
+                break;
+            }
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// Assigns the UI Control based on the state of the game
+    /// </summary>
+    public void AssignMultiplayerUIControl()
+    {
+        if (GameManager.Instance.CurrentState == GameManager.GameState.Menu)
+        {
+            MainMenuController.Instance.AssignMultiplayerUIControl(gameObject, assignedPlayer);
+        }
+        else if (assignedPlayer == 0 && GameManager.Instance.CurrentState == GameManager.GameState.SelectingLevel)
+        {
+            LevelOverlayController.Instance.AssignMultiplayerUIControl(gameObject);
         }
     }
 
