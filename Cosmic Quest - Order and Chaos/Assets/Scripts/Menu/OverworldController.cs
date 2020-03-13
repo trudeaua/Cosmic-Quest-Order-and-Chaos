@@ -62,7 +62,7 @@ public class OverworldController : MonoBehaviour
             Vector3 start = Camera.main.transform.position;
             Vector3 stop = new Vector3(cameraOffset.x + currentlySelected.transform.position.x, Camera.main.transform.position.y, cameraOffset.z + currentlySelected.transform.position.z);
             StartCoroutine(MoveCamera(1, start, stop));
-            StartCoroutine(LevelOverlayController.Instance.SetTitle(currentlySelected.chaosVoid.scene.name, 0));
+            StartCoroutine(LevelOverlayController.Instance.SetTitle(currentlySelected.chaosVoid.name, 0));
         }
         SetSelectingState();
         
@@ -277,7 +277,7 @@ public class OverworldController : MonoBehaviour
         StartCoroutine(MoveCursor(navigationSpeed));
         StartCoroutine(MoveCamera(navigationSpeed, start, stop));
         StartCoroutine(SetCurrentState(LevelMenuState.Selecting, 1 - navigationSpeed));
-        StartCoroutine(LevelOverlayController.Instance.SetTitle(overworldLevel.chaosVoid.scene.name, 1 - navigationSpeed));
+        StartCoroutine(LevelOverlayController.Instance.SetTitle(overworldLevel.chaosVoid.name, 1 - navigationSpeed));
     }
 
     /// <summary>
