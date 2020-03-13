@@ -7,56 +7,17 @@ using UnityEngine.SceneManagement;
 public class PlayerUIControl : MonoBehaviour
 {
     private int assignedPlayer = -1;
-    private void Awake()
+    private void Start()
     {
         assignedPlayer = PlayerManager.Instance.AssignUIControlToPlayer(gameObject);
         if (assignedPlayer >= 0)
         {
-            DontDestroyOnLoad(gameObject);
-            SceneManager.activeSceneChanged += SceneSwitched;
             name = "Player " + (assignedPlayer + 1) + " UI Control";
             AssignMultiplayerUIControl();
         }
         else
         {
             Debug.LogError("UI Control not assigned, no available player");
-        }
-    }
-
-    /// <summary>
-    /// Description: Re-assigns the UI control when the scene switches
-    /// Rationale: UI control should persist across menus
-    /// </summary>
-    /// <param name="current">current scene</param>
-    /// <param name="next">next scene</param>
-    public void SceneSwitched(Scene current, Scene next)
-    {
-        StartCoroutine(AssignUIControl(10, next));
-    }
-
-    /// <summary>
-    /// Assigns the UI control to a scene after it is loaded
-    /// </summary>
-    /// <param name="timeout">Time to wait before stopping execution</param>
-    /// <param name="scene">The scene being loaded</param>
-    /// <returns>An IEnumerator</returns>
-    private IEnumerator AssignUIControl(float timeout, Scene scene)
-    {
-        float timer = 0;
-        while (timer < timeout)
-        {
-            if (scene.isLoaded && GameManager.Instance.CurrentState != GameManager.GameState.Loading)
-            {
-                // Input wasn't registering across scenes. 
-                // Disabling and re-enabling the UI input system input module fixed it.
-                InputSystemUIInputModule uIInputModule = GetComponent<InputSystemUIInputModule>();
-                uIInputModule.enabled = false;
-                uIInputModule.enabled = true;
-                AssignMultiplayerUIControl();
-                break;
-            }
-            timer += Time.deltaTime;
-            yield return null;
         }
     }
 
@@ -92,13 +53,19 @@ public class PlayerUIControl : MonoBehaviour
             {
                 return;
             }
-            OverworldController.Instance.DeselectLevel();
+            if (OverworldController.Instance.CurrentState == OverworldController.LevelMenuState.Selected)
+            {
+                OverworldController.Instance.DeselectLevel();
+            }
+            else if (OverworldController.Instance.CurrentState == OverworldController.LevelMenuState.Selecting)
+            {
+                LevelManager.Instance.BackToMenu();
+            }
         }
     }
 
     public void OnMenuSelect(InputValue value)
     {
-        Debug.Log("SUP");
         // only player 1 may activate this so we check if their player num is 0
         if (assignedPlayer == 0 && GameManager.Instance.CurrentState == GameManager.GameState.SelectingLevel)
         {

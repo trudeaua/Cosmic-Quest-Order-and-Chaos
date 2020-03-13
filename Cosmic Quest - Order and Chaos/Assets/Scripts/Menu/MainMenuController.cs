@@ -17,13 +17,14 @@ public class MainMenuController : MenuController
             Debug.LogWarning("Only one main menu controller should be in the scene!");
     }
     #endregion
+    [SerializeField] private GameObject startScreen;
     [SerializeField] private GameObject lobbyConfirmButton;
 
     // Maintains the number of players selected on the multiplayer menu
     private int NumberOfPlayers = 0;
 
     // Maintains all multiplayer event systems
-    protected static List<MultiplayerEventSystem> multiplayerEventSystems = new List<MultiplayerEventSystem>();
+    protected List<MultiplayerEventSystem> multiplayerEventSystems = new List<MultiplayerEventSystem>();
 
     [SerializeField] private GameObject[] playerJoinAreas;
 
@@ -33,6 +34,8 @@ public class MainMenuController : MenuController
     {
         lobbyConfirmButton.SetActive(false);
         base.Start();
+        startScreen.SetActive(true);
+        activeMenu.SetActive(false);
         ReadyPlayers = new List<bool>();
         SetJoinAreasActive(false);
     }
@@ -60,12 +63,15 @@ public class MainMenuController : MenuController
     /// </summary>
     public override void PopMenu()
     {
-        base.PopMenu();
-        SetPlayerRoots();
-        if (multiplayerEventSystems.Count > 0)
+        if (ReadyPlayers[0] == false)
         {
-            GameObject button = PopButton();
-            multiplayerEventSystems[0].SetSelectedGameObject(button);
+            base.PopMenu();
+            SetPlayerRoots();
+            if (multiplayerEventSystems.Count > 0)
+            {
+                GameObject button = PopButton();
+                multiplayerEventSystems[0].SetSelectedGameObject(button);
+            }
         }
     }
 
@@ -77,6 +83,7 @@ public class MainMenuController : MenuController
     public void AssignMultiplayerUIControl(GameObject uiControl, int playerNumber)
     {
         MultiplayerEventSystem eventSystem = uiControl.GetComponentInChildren<MultiplayerEventSystem>();
+        PlayerJoined(playerNumber);
         SetPlayerRoot(eventSystem, playerNumber);
         multiplayerEventSystems.Add(eventSystem);
     }
@@ -207,16 +214,19 @@ public class MainMenuController : MenuController
         // Joining is enabled again in the multiplayer lobby and then disabled when players leave it. See unity inspector.
         if (NumberOfPlayers == 1)
         {
+            // once a player joins hide the start screen and show the entry screen
+            startScreen.SetActive(false);
+            PushMenu(activeMenu);
             DisableJoining();
         }
     }
 
     /// <summary>
-    /// Toggle a player's "ready" and "character selection" states
+    /// Set a player's "ready" and "character selection" states
     /// </summary>
     /// <param name="playerNumber">Number of the player (0-3)</param>
     /// <param name="isPlayerReady">Indicates whether the player has finished selecting their character</param>
-    private void ToggleReady(int playerNumber, bool isPlayerReady)
+    private void SetReady(int playerNumber, bool isPlayerReady)
     {
         RectTransform[] rectTransforms = playerJoinAreas[playerNumber].GetComponentsInChildren<RectTransform>(true);
         for (int i = 0; i < rectTransforms.Length; i++)
@@ -242,7 +252,7 @@ public class MainMenuController : MenuController
         if (playerNumber >= 0 && playerNumber < ReadyPlayers.Count)
         {
             ReadyPlayers[playerNumber] = true;
-            ToggleReady(playerNumber, ReadyPlayers[playerNumber]);
+            SetReady(playerNumber, ReadyPlayers[playerNumber]);
             if (ReadyPlayers.Count(r => r == true) == NumberOfPlayers && NumberOfPlayers >= 2)
             {
                 lobbyConfirmButton.SetActive(true);
@@ -260,89 +270,8 @@ public class MainMenuController : MenuController
         if (playerNumber >= 0 && playerNumber < ReadyPlayers.Count)
         {
             ReadyPlayers[playerNumber] = false;
-            ToggleReady(playerNumber, ReadyPlayers[playerNumber]);
+            SetReady(playerNumber, ReadyPlayers[playerNumber]);
             lobbyConfirmButton.SetActive(false);
-        }
-    }
-
-    /// <summary>
-    /// Navigate to the previous menu if all players are not ready
-    /// </summary>
-    /// <param name="transitionTime">Number of seconds to wait before transitioning to the next menu</param>
-    public void CheckAllPlayersUnready(float transitionTime = 0)
-    {
-        bool allPlayersNotReady = true;
-        foreach (bool readyPlayer in ReadyPlayers)
-        {
-            if (readyPlayer)
-            {
-                allPlayersNotReady = false;
-                break;
-            }
-        }
-        if (allPlayersNotReady)
-        {
-            // Remove all but player 1 from the multiplayer lobby
-            for (int i = NumberOfPlayers - 1; i >= 1; i--)
-            {
-                PlayerManager.Instance.RemovePlayer(i);
-                multiplayerEventSystems.RemoveAt(i);
-                ReadyPlayers.RemoveAt(i);
-                SetNumberOfPlayers(NumberOfPlayers - 1);
-            }
-            // Remove all but player 1's UI control to deregister the player input with the PlayerInputManager
-            PlayerUIControl[] uiControls = FindObjectsOfType<PlayerUIControl>();
-            for (int i = 1; i < uiControls.Length + 1; i++)
-            {
-                if (uiControls[i - 1].gameObject.name == "Player " + (i + 1) + " UI Control")
-                {
-                    Destroy(uiControls[i - 1].gameObject);
-                }
-            }
-            DisableJoining();
-            // Hide all but player 1
-            SetJoinAreasActive(false, 1);
-            PopMenu();
-        }
-    }
-
-    /// <summary>
-    /// Instantiate the players around a certain position
-    /// </summary>
-    /// <param name="positionObj">Game object in which to instantiate the players</param>
-    public void PreviewPlayers(GameObject positionObj)
-    {
-        for (int i = 0; i < NumberOfPlayers; i++)
-        {
-            GameObject playerInstance = PlayerManager.Instance.InstantiatePlayerPreview(i);
-            playerInstance.transform.parent = positionObj.transform;
-
-            // Transform the player instance so it looks nice on screen
-            playerInstance.transform.localPosition = new Vector3(((i - 1) * NumberOfPlayers / 2 + (NumberOfPlayers % 2 == 0 ? 0.5f : 0)) * 200, 0, 1);
-            playerInstance.transform.Rotate(new Vector3(0, 180, 0));
-            playerInstance.transform.localScale = new Vector3(45, 45, 45);
-
-            // Turn off components so the player is simply displayed and can't be controlled
-            playerInstance.GetComponent<Collider>().enabled = false;
-            playerInstance.GetComponent<PlayerInput>().enabled = false;
-            playerInstance.GetComponent<PlayerInteractionController>().enabled = false;
-            playerInstance.GetComponent<EntityStatsController>().SetSpawn(false);
-            playerInstance.GetComponent<EntityCombatController>().enabled = false;
-            playerInstance.GetComponentInChildren<StatBar>().gameObject.SetActive(false);
-            playerInstance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY;
-        }
-    }
-
-    /// <summary>
-    /// Destroy the player preview objects
-    /// </summary>
-    /// <param name="positionObj">Parent game object of the player objects</param>
-    public void DestroyPlayerPreview(GameObject positionObj)
-    {
-        EntityStatsController[] children = positionObj.GetComponentsInChildren<EntityStatsController>();
-        foreach(EntityStatsController child in children)
-        {
-            Destroy(child.gameObject);
         }
     }
 }

@@ -102,6 +102,9 @@ public class PlayerManager : MonoBehaviour
     [Tooltip("Characters that the players can choose")]
     [SerializeField] private CharacterOption[] characterOptions;
 
+    [Tooltip("Prefab object of the player UI control")]
+    [SerializeField] private GameObject playerUIControlPrefab;
+
     // Maintains the players that have joined the game
     private readonly Player[] _playerSlots = { null, null ,null, null };
     public readonly CharacterColour[] PlayerColours = { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
@@ -176,6 +179,28 @@ public class PlayerManager : MonoBehaviour
         SetPlayerLooksAndColour(playerInstance, playerNumber);
 
         return playerInstance;
+    }
+
+    public GameObject InstantiatePlayerUIControl(int playerNumber)
+    {
+        if (_playerSlots[playerNumber] == null)
+            return null;
+
+        GameObject playerUIControlInstance;
+        if (GameManager.Instance.isTestInstance)
+        {
+            // Simply instantiate the player and let it choose a device randomly
+            playerUIControlInstance = Instantiate(playerUIControlPrefab);
+        }
+        else
+        {
+            // Instantiate the player model and pair to their input device
+            InputDevice device = InputDevice.all.First(d => d.deviceId == _playerSlots[playerNumber].deviceId);
+            PlayerInput playerInstanceInput = PlayerInput.Instantiate(playerUIControlPrefab, playerNumber, "Gamepad", -1, device);
+            playerUIControlInstance = playerInstanceInput.gameObject;
+        }
+
+        return playerUIControlInstance;
     }
 
     /// <summary>
@@ -348,7 +373,7 @@ public class PlayerManager : MonoBehaviour
             // i.e. If we're on the menu
             if (MenuCanvas != null)
             {
-                MenuCanvas.BroadcastMessage("PlayerJoined", playerNumber);
+               // MenuCanvas.BroadcastMessage("PlayerJoined", playerNumber);
             }
             // If not in menu we must be in a level (right???)
             else

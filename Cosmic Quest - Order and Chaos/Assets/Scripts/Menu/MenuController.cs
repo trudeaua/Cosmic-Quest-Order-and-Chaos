@@ -331,4 +331,19 @@ public class MenuController : MonoBehaviour
             musicSource.volume = AudioHelper.GetAudioModifier(AudioHelper.EntityAudioClip.AudioType.Music);
         }
     }
+
+    public void LoadLevelsScene()
+    {
+        LevelManager.Instance.StartLevelMenu();
+    }
+
+    public void ExitGame()
+    {
+        LevelManager.Instance.ExitGame();
+    }
+
+    public void LoadMenuScene()
+    {
+        LevelManager.Instance.BackToMenu();
+    }
 }

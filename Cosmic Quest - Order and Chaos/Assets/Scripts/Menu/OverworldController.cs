@@ -41,21 +41,13 @@ public class OverworldController : MonoBehaviour
     [Tooltip("How fast the camera moves to a level upon navigating to it")]
     [Range(0, 1)]
     public float navigationSpeed = 0.25f;
+    public LevelMenuState CurrentState;
     private Vector3 cameraOffset;
     private OverworldLevel[] levelPreviews;
     private OverworldLevel currentlySelected;
-    private LevelMenuState CurrentState;
 
     private void Start()
     {
-        if (GameManager.Instance.isTestInstance)
-        {
-            PlayerInputManager.instance.joinBehavior = PlayerJoinBehavior.JoinPlayersWhenJoinActionIsTriggered;
-        }
-        else
-        {
-            PlayerInputManager.instance.joinBehavior = PlayerJoinBehavior.JoinPlayersManually;
-        }
         levelPreviews = GetComponentsInChildren<OverworldLevel>();
         // store initial position of camera
         cameraOffset = Camera.main.transform.position;
@@ -69,7 +61,7 @@ public class OverworldController : MonoBehaviour
             }
             Vector3 start = Camera.main.transform.position;
             Vector3 stop = new Vector3(cameraOffset.x + currentlySelected.transform.position.x, Camera.main.transform.position.y, cameraOffset.z + currentlySelected.transform.position.z);
-            StartCoroutine(MoveCamera(0, start, stop));
+            StartCoroutine(MoveCamera(1, start, stop));
             StartCoroutine(LevelOverlayController.Instance.SetTitle(currentlySelected.chaosVoid.scene.name, 0));
         }
         SetSelectingState();
@@ -264,12 +256,6 @@ public class OverworldController : MonoBehaviour
             StartCoroutine(HideLevelOverlay(0));
             StartCoroutine(MoveCamera(zoomSpeed, start, stop));
             StartCoroutine(SetCurrentState(LevelMenuState.Selecting, 1 - zoomSpeed));
-        }
-        else if (CurrentState == LevelMenuState.Selecting)
-        {
-            // Not zoomed in on a level, so we go back to the main menu
-            // Maybe should be put somewhere else?
-            LevelManager.Instance.BackToMenu();
         }
     }
 
