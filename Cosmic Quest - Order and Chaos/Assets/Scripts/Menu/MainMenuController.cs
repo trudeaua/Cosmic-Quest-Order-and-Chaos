@@ -32,6 +32,7 @@ public class MainMenuController : MenuController
 
     protected override void Start()
     {
+        PlayerManager.Instance.InitializePlayers();
         lobbyConfirmButton.SetActive(false);
         base.Start();
         startScreen.SetActive(true);

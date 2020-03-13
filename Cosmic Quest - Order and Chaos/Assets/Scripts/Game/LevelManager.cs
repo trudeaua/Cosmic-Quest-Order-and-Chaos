@@ -122,8 +122,18 @@ public class LevelManager : MonoBehaviour
         
         // Start the loading screen
         _anim.SetTrigger("Show");
+
+        // Set time back to 1 for when players pause the game and go back to the main menu
+        Time.timeScale = 1;
         yield return new WaitForSeconds(0.5f);
-        
+
+        // check if scene has already been loaded, if it has then set it to active
+        Scene loadedScene = SceneManager.GetSceneByName(sceneName);
+        if (loadedScene.IsValid())
+        {
+            SceneManager.SetActiveScene(loadedScene);
+            yield break;
+        }
         // Load the scene asynchronously
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
 
@@ -135,7 +145,7 @@ public class LevelManager : MonoBehaviour
         
         // Hide the loading screen
         _anim.SetTrigger("Hide");
-
+        Debug.Log("SceneLoaded");
         // Set the new game state after loading is finished
         if (sceneType == SceneType.Level)
             GameManager.Instance.SetPlayState();
