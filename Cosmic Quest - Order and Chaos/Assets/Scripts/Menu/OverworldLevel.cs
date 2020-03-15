@@ -16,10 +16,6 @@ public class OverworldLevel : MonoBehaviour
 
     private bool selected = false;
 
-    public void Start()
-    {
-    }
-
     public void HighlightChaosVoid()
     {
         selected = true;
