@@ -72,50 +72,34 @@ public class PauseMenuController : MenuController
     }
 
     /// <summary>
-    /// Pause the game
+    /// Description: Pause the game
+    /// Rationale: Players should be able to pause the game and navigate menu options
     /// </summary>
     /// <param name="playerObject">Game object of the player that paused the game</param>
     public void PauseGame(GameObject playerObject)
     {
         if (IsPaused)
         {
-            Debug.LogWarning("Game is already paused");
             return;
         }
         Time.timeScale = 0;
-        // Set pause menu active
         IsPaused = true;
         playerEventSystem = playerObject.GetComponent<MultiplayerEventSystem>();
-        if (playerEventSystem == null)
-        {
-            Debug.LogError("Player object does not have an Multiplayer Event System component attached to it.");
-            return;
-        }
         playerInput = playerObject.GetComponent<PlayerInput>();
-        if (playerInput == null)
-        {
-            Debug.LogError("Player object does not have an Player Input component attached to it.");
-            return;
-        }
         uIInputModule = playerObject.GetComponent<InputSystemUIInputModule>();
-        if (uIInputModule == null)
-        {
-            Debug.LogError("Player object does not have an Input System UI Input Module component attached to it.");
-            return;
-        }
         PushMenu(activeMenu);
         SwitchCurrentActionMap("UI");
         GameManager.Instance.SetPausedState();
     }
 
     /// <summary>
-    /// Resume the game
+    /// Description: Resume the game
+    /// Rationale: Players should be able to resume the game after pausing
     /// </summary>
     public void ResumeGame()
     {
         if (!IsPaused)
         {
-            Debug.LogWarning("Game is already resumed!");
             return;
         }
         Time.timeScale = 1;
@@ -128,23 +112,10 @@ public class PauseMenuController : MenuController
     }
 
     /// <summary>
-    /// Find the root of the menu stack
+    /// Description: Switch the player's action map
+    /// Rationale: Should be able to switch the action map between Player and UI states
     /// </summary>
-    /// <returns>The root menu GameObject at the bottom of the menu stack</returns>
-    private GameObject GetRootMenu()
-    {
-        GameObject rootMenu = null;
-        for (int i = 0; i <= menuStack.Count; i++)
-        {
-            rootMenu = menuStack.Pop();
-        }
-        return rootMenu;
-    }
-
-    /// <summary>
-    /// Switch the player who paused the game's current controller action map
-    /// </summary>
-    /// <param name="name"></param>
+    /// <param name="name">Name of the action map</param>
     private void SwitchCurrentActionMap(string name)
     {
         playerInput.SwitchCurrentActionMap(name);
