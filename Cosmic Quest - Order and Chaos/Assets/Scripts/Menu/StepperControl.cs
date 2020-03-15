@@ -137,6 +137,10 @@ public class StepperControl : MonoBehaviour
         playerInstance.GetComponent<EntityCombatController>().enabled = false;
         playerInstance.GetComponentInChildren<StatBar>().gameObject.SetActive(false);
         playerInstance.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY;
+        foreach (Transform child in playerInstance.GetComponentsInChildren<Transform>())
+        {
+            child.gameObject.layer = LayerMask.NameToLayer("UI");  // add any layer you want. 
+        }
     }
 
     private void OnMove(BaseEventData data)

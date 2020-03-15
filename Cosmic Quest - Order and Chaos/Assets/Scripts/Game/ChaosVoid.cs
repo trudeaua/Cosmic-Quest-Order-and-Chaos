@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
+[CreateAssetMenu()]
 public class ChaosVoid : ScriptableObject, ISerializable
 {
     // Reference to the scene for this chaos void
