@@ -97,6 +97,21 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
+    /// Description: Clear the stack and return the menu Game Object at the bottom of the stack
+    /// Rationale: Should be able to close a menu and reset the menu to it's original state
+    /// </summary>
+    /// <returns>The root menu GameObject at the bottom of the menu stack</returns>
+    protected GameObject GetRootMenu()
+    {
+        GameObject rootMenu = null;
+        for (int i = 0; i <= menuStack.Count; i++)
+        {
+            rootMenu = menuStack.Pop();
+        }
+        return rootMenu;
+    }
+
+    /// <summary>
     /// Gets the first selectable `GameObject` found in the specified menu
     /// </summary>
     /// <param name="menu">Game object to search for buttons in</param>
@@ -315,5 +330,20 @@ public class MenuController : MonoBehaviour
         {
             musicSource.volume = AudioHelper.GetAudioModifier(AudioHelper.EntityAudioClip.AudioType.Music);
         }
+    }
+
+    public void LoadLevelsScene()
+    {
+        LevelManager.Instance.StartLevelMenu();
+    }
+
+    public void ExitGame()
+    {
+        LevelManager.Instance.ExitGame();
+    }
+
+    public void LoadMenuScene()
+    {
+        LevelManager.Instance.BackToMenu();
     }
 }
