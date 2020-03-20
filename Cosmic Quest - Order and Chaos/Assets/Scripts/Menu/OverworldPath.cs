@@ -8,17 +8,10 @@ public class OverworldPath : MonoBehaviour
     public OverworldLevel to;
     private Animator anim;
 
-    // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         SetPathVisibility(from.chaosVoid.cleared);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void UnlockIfCleared()
