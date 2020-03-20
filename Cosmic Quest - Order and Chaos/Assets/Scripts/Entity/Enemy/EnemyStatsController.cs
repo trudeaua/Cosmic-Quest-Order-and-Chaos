@@ -60,7 +60,8 @@ public class EnemyStatsController : EntityStatsController
     private void Start()
     {
         // Assign enemy a colour
-        if (characterColour == CharacterColour.None) AssignEnemyColour(characterColour);
+        if (characterColour != CharacterColour.None)
+            AssignEnemyColour(characterColour);
 
         // Create a VFX where the enemy will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the enemy colour
         StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0),
@@ -97,10 +98,10 @@ public class EnemyStatsController : EntityStatsController
         if (isDead)
             return;
 
-        float colourDamangePercentage  = characterColour == CharacterColour.All || attacker.characterColour == characterColour ? 1 : colourResistanceModifier;
+        float colourDamagePercentage  = characterColour == CharacterColour.All || attacker.characterColour == characterColour ? 1 : colourResistanceModifier;
 
         // Calculate any changes based on stats and modifiers here first
-        float hitValue = Mathf.Max(colourDamangePercentage * (damageValue - ComputeDefenseModifier()), 0) * timeDelta;
+        float hitValue = Mathf.Max(colourDamagePercentage * (damageValue - ComputeDefenseModifier()), 0) * timeDelta;
         health.Subtract(hitValue);
         ShowDamage(hitValue);
         Anim.SetTrigger("TakeDamage");
@@ -115,7 +116,7 @@ public class EnemyStatsController : EntityStatsController
     }
 
     /// <summary>
-    /// Display the amount of damge taken
+    /// Display the amount of damage taken
     /// </summary>
     /// <param name="value">Value to display</param>
     /// <param name="duration">How long to show the damage value for</param>
@@ -172,18 +173,6 @@ public class EnemyStatsController : EntityStatsController
         _agent.enabled = false;
         StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, entityDeathVocalSFX));
         Anim.SetBool("Dead", true);
-        //StartCoroutine(EnemyDeath());
-    }
-
-    /// <summary>
-    /// Animate the enemy death and turn off the game object's visibility
-    /// </summary>
-    /// <returns>An IEnumerator</returns>
-    private IEnumerator EnemyDeath()
-    {
-        Anim.SetBool("Dead", true);
-        yield return new WaitForSeconds(5.0f);
-        transform.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -239,7 +228,8 @@ public class EnemyStatsController : EntityStatsController
                 break;
         }
         
-        skin.materials[0] = !enemyColouring.textureMaterial ? skin.materials[0] : enemyColouring.textureMaterial;
+        if (enemyColouring.textureMaterial)
+            skin.material = enemyColouring.textureMaterial;
     }
     
     /// <summary>
