@@ -30,12 +30,14 @@ public class FacePlayerBehaviour : StateMachineBehaviour
             _angle = Vector3.SignedAngle(_target.position - animator.transform.position, animator.transform.forward, Vector3.up);
         }
         
-        // If there is no target or within 30 degree view of target, exit state
-        if (_target is null || Mathf.Abs(_angle) < 15f)
+        // If there is no target within reach, or within 30 degree view of target, exit state
+        if (_target is null
+            || Vector3.Distance(_target.position, animator.transform.position) > _brain.attackRadius
+            || Mathf.Abs(_angle) < 15f)
         {
             animator.SetTrigger("Idle");
         }
-
+        
         animator.SetFloat("RotationSpeed", _angle < 0f ? -1f : 1f);
     }
 

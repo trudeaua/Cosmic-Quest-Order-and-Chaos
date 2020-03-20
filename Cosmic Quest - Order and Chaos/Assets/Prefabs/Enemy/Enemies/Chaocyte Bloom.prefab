@@ -13,11 +13,12 @@ GameObject:
   - component: {fileID: 5409636645948524183}
   - component: {fileID: 1075828370203787331}
   - component: {fileID: 4114252832280898733}
-  - component: {fileID: 7408109251436440159}
+  - component: {fileID: 2101586245506534417}
   - component: {fileID: 729633795}
   - component: {fileID: 729633796}
   - component: {fileID: 1355644784}
   - component: {fileID: 1355644785}
+  - component: {fileID: 3639141630837612498}
   m_Layer: 9
   m_Name: Chaocyte Bloom
   m_TagString: Enemy
@@ -91,6 +92,7 @@ MonoBehaviour:
   defense:
     baseValue: 0
   characterColour: 0
+  shouldSpawn: 1
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
   spawnSpeed: 0.08
   spawnDelay: 0.9
@@ -131,6 +133,9 @@ MonoBehaviour:
     Default:
       textureMaterial: {fileID: 2100000, guid: 772851ede4f97c04f996125e2e13a5db, type: 2}
       highlightMaterial: {fileID: 0}
+  rotateColouring: 0
+  minTimeBetweenColourChanges: 7
+  colourResistanceModifier: 0.35
 --- !u!114 &4114252832280898733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,8 +149,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aggroRadius: 10
+  attackRadius: 4
   decisionDelay: 0.5
---- !u!114 &7408109251436440159
+--- !u!114 &2101586245506534417
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,7 +160,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5856349497122564323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca4e6cfd366a0174f89b2425827bb279, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f0a8b0c46cb5c542a78d6d644a48e35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   takeDamageVocalSFX:
@@ -171,32 +177,13 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
-  primaryAttackCooldown: 1.6
-  primaryAttackDelay: 1.08
+  primaryAttackCooldown: 1
+  primaryAttackRadius: 4
+  primaryAttackAngle: 45
   primaryAttackSFX:
-    pitch: 1
-    volume: 0.5
-    clip: {fileID: 8300000, guid: 048db73fda998474e8aec9825cbbaf5e, type: 3}
-    type: 0
-    delay: 0
-    loop: 0
-  attackRadius: 3.5
-  attackAngle: 45
-  secondaryAttackCooldown: 0.72
-  secondaryAttackDelay: 0.52
-  secondaryAttackSFX:
-    pitch: 1
-    volume: 0.5
-    clip: {fileID: 8300000, guid: 048db73fda998474e8aec9825cbbaf5e, type: 3}
-    type: 0
-    delay: 0
-    loop: 0
-  tertiaryAttackCooldown: 1
-  tertiaryAttackDelay: 0.6
-  tertiaryAttackSFX:
-    pitch: 1
-    volume: 0.5
-    clip: {fileID: 8300000, guid: e8b6eabdbaacefc4d94a781dbae09fa1, type: 3}
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
     type: 0
     delay: 0
     loop: 0
@@ -212,6 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbf61d82ceec0f41ae64dc94dab4842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationSpeed: 1
 --- !u!195 &729633796
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -426,6 +414,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &3639141630837612498
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5856349497122564323}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 25cab3194f9eccf43ae0afa99ea10076, type: 3}
+  m_Controller: {fileID: 9100000, guid: 35f4cb927445406479b8d45a56d82cea, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &5297745632592554505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -433,22 +440,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5856349497122564322}
     m_Modifications:
-    - target: {fileID: 100018, guid: 25cab3194f9eccf43ae0afa99ea10076, type: 3}
-      propertyPath: m_Name
-      value: EnemyPlant3
-      objectReference: {fileID: 0}
-    - target: {fileID: 100018, guid: 25cab3194f9eccf43ae0afa99ea10076, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 100016, guid: 25cab3194f9eccf43ae0afa99ea10076, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 100020, guid: 25cab3194f9eccf43ae0afa99ea10076, type: 3}
-      propertyPath: m_Layer
-      value: 9
-      objectReference: {fileID: 0}
     - target: {fileID: 400016, guid: 25cab3194f9eccf43ae0afa99ea10076, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -492,6 +483,22 @@ PrefabInstance:
     - target: {fileID: 400016, guid: 25cab3194f9eccf43ae0afa99ea10076, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100018, guid: 25cab3194f9eccf43ae0afa99ea10076, type: 3}
+      propertyPath: m_Name
+      value: EnemyPlant3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100018, guid: 25cab3194f9eccf43ae0afa99ea10076, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100016, guid: 25cab3194f9eccf43ae0afa99ea10076, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100020, guid: 25cab3194f9eccf43ae0afa99ea10076, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 9500000, guid: 25cab3194f9eccf43ae0afa99ea10076, type: 3}
       propertyPath: m_Controller
@@ -553,7 +560,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: 25cab3194f9eccf43ae0afa99ea10076, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 25cab3194f9eccf43ae0afa99ea10076, type: 3}
 --- !u!4 &5297745632592162969 stripped
 Transform:
@@ -568,11 +576,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5856349497122564322}
     m_Modifications:
-    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyBars
-      objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -677,6 +680,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyBars
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ede0b1d774556b14c96fc9892ebd7909, type: 3}

@@ -28,13 +28,13 @@ public class FollowBehaviour : StateMachineBehaviour
         
         _target = _brain.GetCurrentTarget();
 
-        if (_target is null)
+        if (_target is null && !_agent.hasPath)
         {
             animator.SetTrigger("Idle");
             return;
         }
 
-        if (_agent.enabled)
+        if (_agent.enabled && _target)
         {
             if (!_combat.IsCoolingDown && Vector3.Distance(_target.position, animator.transform.position) <= _brain.attackRadius)
             {

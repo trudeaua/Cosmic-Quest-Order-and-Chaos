@@ -132,7 +132,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7348721045985030076}
-  - component: {fileID: 1647991229435261957}
   m_Layer: 9
   m_Name: EnemyPlant2
   m_TagString: Untagged
@@ -156,25 +155,6 @@ Transform:
   m_Father: {fileID: 8337127725775014207}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1647991229435261957
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2212500090549073120}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 8dfde7a9b7e9ee242891542bc06830b4, type: 3}
-  m_Controller: {fileID: 9100000, guid: 66ac5269d02065f4e91abd27abcccab0, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2350519610905201075
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,11 +599,12 @@ GameObject:
   - component: {fileID: 5887437789540995832}
   - component: {fileID: 5573741756012928118}
   - component: {fileID: 7972639214902068382}
-  - component: {fileID: 326917778669000503}
+  - component: {fileID: 1791537986465276909}
   - component: {fileID: 566192205}
   - component: {fileID: 566192206}
   - component: {fileID: 1774544166}
   - component: {fileID: 1774544167}
+  - component: {fileID: 4097488569249658723}
   m_Layer: 9
   m_Name: Chaocyte Cactus
   m_TagString: Enemy
@@ -697,6 +678,7 @@ MonoBehaviour:
   defense:
     baseValue: 0
   characterColour: 0
+  shouldSpawn: 1
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
   spawnSpeed: 0.08
   spawnDelay: 0.9
@@ -737,6 +719,9 @@ MonoBehaviour:
     Default:
       textureMaterial: {fileID: 2100000, guid: 0409d2ea7161f3c4990ecd35f1d9fca4, type: 2}
       highlightMaterial: {fileID: 0}
+  rotateColouring: 0
+  minTimeBetweenColourChanges: 7
+  colourResistanceModifier: 0.35
 --- !u!114 &7972639214902068382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -750,8 +735,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aggroRadius: 10
+  attackRadius: 4
   decisionDelay: 0.5
---- !u!114 &326917778669000503
+--- !u!114 &1791537986465276909
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -760,7 +746,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8337127725775014206}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca4e6cfd366a0174f89b2425827bb279, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f0a8b0c46cb5c542a78d6d644a48e35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   takeDamageVocalSFX:
@@ -777,32 +763,13 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
-  primaryAttackCooldown: 1.4
-  primaryAttackDelay: 1.87
+  primaryAttackCooldown: 1
+  primaryAttackRadius: 4
+  primaryAttackAngle: 45
   primaryAttackSFX:
-    pitch: 1
-    volume: 0.5
-    clip: {fileID: 8300000, guid: 048db73fda998474e8aec9825cbbaf5e, type: 3}
-    type: 0
-    delay: 0
-    loop: 0
-  attackRadius: 3.5
-  attackAngle: 45
-  secondaryAttackCooldown: 2.4
-  secondaryAttackDelay: 1.07
-  secondaryAttackSFX:
-    pitch: 1
-    volume: 0.5
-    clip: {fileID: 8300000, guid: 048db73fda998474e8aec9825cbbaf5e, type: 3}
-    type: 0
-    delay: 0
-    loop: 0
-  tertiaryAttackCooldown: 1
-  tertiaryAttackDelay: 0.6
-  tertiaryAttackSFX:
-    pitch: 1
-    volume: 0.5
-    clip: {fileID: 8300000, guid: e8b6eabdbaacefc4d94a781dbae09fa1, type: 3}
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
     type: 0
     delay: 0
     loop: 0
@@ -818,6 +785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbf61d82ceec0f41ae64dc94dab4842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationSpeed: 1
 --- !u!195 &566192206
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1032,6 +1000,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &4097488569249658723
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8337127725775014206}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 8dfde7a9b7e9ee242891542bc06830b4, type: 3}
+  m_Controller: {fileID: 9100000, guid: 66ac5269d02065f4e91abd27abcccab0, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &8337127726349341675
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1039,11 +1026,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8337127725775014207}
     m_Modifications:
-    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyBars
-      objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1148,6 +1130,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyBars
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ede0b1d774556b14c96fc9892ebd7909, type: 3}
