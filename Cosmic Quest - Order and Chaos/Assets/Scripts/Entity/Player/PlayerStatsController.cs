@@ -10,9 +10,18 @@ public class PlayerStatsController : EntityStatsController
     // player collider
     private Collider _collider;
 
+    // Player input
+    PlayerInput playerInput;
+
     // ragdoll collider
     private Collider[] ragdollColliders;
     private Rigidbody[] ragdollRigidbodies;
+
+    // Respawn
+    public GameObject respawnBeaconPrefab;
+    private RespawnBeacon respawnBeacon;
+    public AudioHelper.EntityAudioClip playerRespawningSFX;
+    public AudioHelper.EntityAudioClip playerRespawnedSFX;
 
     protected override void Awake()
     {
@@ -23,12 +32,14 @@ public class PlayerStatsController : EntityStatsController
         _collider = GetComponent<Collider>();
         ragdollColliders = GetComponentsInChildren<Collider>();
         ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
+        
         EnableRagdoll(false);
         Anim.enabled = true;
     }
 
     private void Start()
     {
+        playerInput = GetComponent<PlayerInput>();
         Color playerColour = PlayerManager.colours.GetColour(characterColour);
 
         // colour the player's weapon
@@ -76,8 +87,11 @@ public class PlayerStatsController : EntityStatsController
     /// </summary>
     private IEnumerator PlayerDeath()
     {
-        yield return new WaitForSeconds(5.5f);
-        transform.gameObject.SetActive(false);
+        playerInput.PassivateInput();
+        yield return new WaitForSeconds(2.5f);
+        GameObject go = Instantiate(respawnBeaconPrefab, gameObject.transform.position, Quaternion.identity);
+        respawnBeacon = go.GetComponent<RespawnBeacon>();
+        respawnBeacon.playerStatsController = this;
     }
 
     /// <summary>
@@ -158,6 +172,18 @@ public class PlayerStatsController : EntityStatsController
         playerInput.PassivateInput();
         yield return base.Spawn(obj, speed, delay, cooldown);
         playerInput.ActivateInput();
+    }
+
+    public void Respawn()
+    {
+        playerInput.ActivateInput();
+        isDead = false;
+        Anim.enabled = true;
+        EnableRagdoll(false);
+        health.Add(health.maxValue * 0.2f);
+        health.StartRegen();
+        mana.StartRegen();
+        StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, playerRespawnedSFX));
     }
 
     protected virtual void OnPauseGame(InputValue value)
