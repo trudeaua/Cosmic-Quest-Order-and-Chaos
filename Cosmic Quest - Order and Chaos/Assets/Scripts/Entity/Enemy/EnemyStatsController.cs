@@ -6,22 +6,11 @@ using UnityEngine.AI;
 
 [System.Serializable]
 public class EnemyColouring {
-    /// <summary>
-    /// Describes a colour variant for an enemy containing which texture and highlight material to show
-    /// </summary>
-    [System.Serializable]
-    public class ColourVariant {
-        [Tooltip("Material containing the enemy \"picture\"")]
-        public Material textureMaterial;
-        [Tooltip("Emissive material that accents the enemy colour")]
-        public Material highlightMaterial;
-    }
-
-    public ColourVariant Green;
-    public ColourVariant Purple;
-    public ColourVariant Red;
-    public ColourVariant Yellow;
-    public ColourVariant Default;
+    public Material Green;
+    public Material Purple;
+    public Material Red;
+    public Material Yellow;
+    public Material Default;
 }
 
 [RequireComponent(typeof(EnemyBrainController))]
@@ -60,14 +49,19 @@ public class EnemyStatsController : EntityStatsController
     private void Start()
     {
         // Assign enemy a colour
-        if (characterColour != CharacterColour.None)
+        if (characterColour == CharacterColour.None)
+            AssignRandomColour();
+        else
             AssignEnemyColour(characterColour);
 
-        // Create a VFX where the enemy will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the enemy colour
-        StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0),
-            Quaternion.identity, PlayerManager.colours.GetColour(characterColour), 0.5f));
-        // "Spawn" the enemy (they float up through the stage)
-        StartCoroutine(Spawn(gameObject, spawnSpeed, spawnDelay, spawnCooldown));
+        if (shouldSpawn)
+        {
+            // Create a VFX where the enemy will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the enemy colour
+            StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0),
+                Quaternion.identity, PlayerManager.colours.GetColour(characterColour), 0.5f));
+            // "Spawn" the enemy (they float up through the stage)
+            StartCoroutine(Spawn(gameObject, spawnSpeed, spawnDelay, spawnCooldown));
+        }
     }
 
     protected override void Update()
@@ -81,7 +75,7 @@ public class EnemyStatsController : EntityStatsController
             colourChangeTimeCounter += Time.deltaTime;
             if (colourChangeTimeCounter > minTimeBetweenColourChanges) {
                 colourChangeTimeCounter = 0;
-                StartCoroutine(AssignRandomColour());
+                AssignRandomColour();
             }
         }
     }
@@ -209,34 +203,34 @@ public class EnemyStatsController : EntityStatsController
     {
         characterColour = colour;
         SkinnedMeshRenderer skin = GetComponentInChildren<SkinnedMeshRenderer>();
-        EnemyColouring.ColourVariant enemyColouring;
-        switch (colour) {
+        Material skinMaterial;
+        switch (colour)
+        {
             case CharacterColour.Red:
-                enemyColouring = EnemyColouring.Red;
+                skinMaterial = EnemyColouring.Red;
                 break;
             case CharacterColour.Yellow:
-                enemyColouring = EnemyColouring.Yellow;
+                skinMaterial = EnemyColouring.Yellow;
                 break;
             case CharacterColour.Green:
-                enemyColouring = EnemyColouring.Green;
+                skinMaterial = EnemyColouring.Green;
                 break;
             case CharacterColour.Purple:
-                enemyColouring = EnemyColouring.Purple;
+                skinMaterial = EnemyColouring.Purple;
                 break;
             default:
-                enemyColouring = EnemyColouring.Default;
+                skinMaterial = EnemyColouring.Default;
                 break;
         }
-        
-        if (enemyColouring.textureMaterial)
-            skin.material = enemyColouring.textureMaterial;
+
+        if (skinMaterial)
+            skin.material = skinMaterial;
     }
     
     /// <summary>
     /// Assign a random colour to the enemy
     /// </summary>
-    /// <returns>An IEnumerator</returns>
-    protected IEnumerator AssignRandomColour()
+    protected void AssignRandomColour()
     {
         CharacterColour randomColour;
         // Get a colour that is used by a registered player
@@ -247,6 +241,5 @@ public class EnemyStatsController : EntityStatsController
         
         // Assign the enemy colour
         AssignEnemyColour(randomColour);
-        yield return null;
     }
 }

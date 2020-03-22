@@ -127,7 +127,6 @@ public class PlayerRangedCombatController : PlayerCombatController
     /// <returns>An IEnumerator</returns>
     private IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float damage, float launchDelay = 0f)
     {
-        ResetTakeDamageAnim();
         if (launchDelay > 0f)
             yield return new WaitForSeconds(launchDelay);
 
@@ -143,7 +142,6 @@ public class PlayerRangedCombatController : PlayerCombatController
     /// <returns>An IEnumerator</returns>
     private IEnumerator PlaceTrap(GameObject trapPrefab, float spawnDelay = 0f)
     {
-        ResetTakeDamageAnim();
         if (spawnDelay > 0f)
             yield return new WaitForSeconds(spawnDelay);
 

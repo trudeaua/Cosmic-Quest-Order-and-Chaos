@@ -28,22 +28,17 @@ public class PlantAggroBehaviour : StateMachineBehaviour
             return;
         }
         
-        // Try to attack player if they are close enough
-        // This is where attack decisions are made for the plants
-        if (Vector3.Distance(animator.transform.position, _target.position) <= _brain.attackRadius)
+        // Face player if they are not in the field of attack
+        if (Vector3.Angle(_target.position - animator.transform.position, animator.transform.forward) > 15f)
         {
-            if (Vector3.Angle(_target.position - animator.transform.position, animator.transform.forward) > 15f)
-            {
-                animator.SetTrigger("Rotate");
-                return;
-            }
-
-            if (!_combat.IsCoolingDown)
-            {
-                // Go to attack state
-                _combat.ChooseAttack();
-                return;
-            }
+            animator.SetTrigger("Rotate");
+            return;
+        }
+        
+        // Try to attack player if they are close enough
+        if (Vector3.Distance(animator.transform.position, _target.position) <= _brain.attackRadius && !_combat.IsCoolingDown)
+        {
+            _combat.ChooseAttack();
         }
     }
 

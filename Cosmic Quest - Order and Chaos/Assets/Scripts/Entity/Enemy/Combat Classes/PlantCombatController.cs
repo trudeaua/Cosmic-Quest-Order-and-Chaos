@@ -10,6 +10,12 @@ public class PlantCombatController : EnemyCombatController
     public float meleeAttackAngle = 45f;
     [SerializeField] protected AudioHelper.EntityAudioClip meleeAttackSFX;
 
+    [Header("Ranged Attack")]
+    public bool hasRangedAttack = false;
+    public float rangedAttackCooldown = 1f;
+    public GameObject rangedAttackProjectile;
+    [SerializeField] protected AudioHelper.EntityAudioClip rangedAttackSFX;
+    
     /// <summary>
     /// Plant Melee Attack
     /// </summary>
@@ -27,11 +33,34 @@ public class PlantCombatController : EnemyCombatController
     }
 
     /// <summary>
-    /// Plant attack strategy.
+    /// Plant ranged attack
+    /// </summary>
+    public override void SecondaryAttack()
+    {
+        // Play attack audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, rangedAttackSFX));
+        
+        // Launch projectile to target player
+    }
+
+    /// <summary>
+    /// Plant attack strategy
     /// </summary>
     public override void ChooseAttack()
     {
-        AttackCooldown = meleeAttackCooldown;
-        Anim.SetTrigger("PrimaryAttack");
+        float targetDistance = Vector3.Distance(transform.position, Brain.GetCurrentTarget().position);
+        
+        if (hasMeleeAttack && targetDistance <= Brain.attackRadius)
+        {
+            // Perform melee attack if player is close enough
+            AttackCooldown = meleeAttackCooldown;
+            Anim.SetTrigger("PrimaryAttack");
+        }
+        else if (hasRangedAttack && targetDistance <= Brain.aggroRadius)
+        {
+            // Perform ranged attack if player is within aggro radius
+            AttackCooldown = rangedAttackCooldown;
+            Anim.SetTrigger("SecondaryAttack");
+        }
     }
 }

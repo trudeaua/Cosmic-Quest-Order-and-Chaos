@@ -9,8 +9,16 @@ using UnityEngine.AI;
 public class EnemyCombatController : EntityCombatController
 {
     public bool IsCoolingDown => AttackCooldown > 0f;
-    
+
+    protected EnemyBrainController Brain;
     protected IEnumerable<GameObject> Players => PlayerManager.Instance.Players;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        Brain = GetComponent<EnemyBrainController>();
+    }
 
     /// <summary>
     /// Placeholder for enemy primary attack

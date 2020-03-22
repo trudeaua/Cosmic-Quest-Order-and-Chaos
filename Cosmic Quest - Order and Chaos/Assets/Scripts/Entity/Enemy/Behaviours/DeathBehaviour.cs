@@ -39,7 +39,7 @@ public class DeathBehaviour : StateMachineBehaviour
                 _fadeAmount = 1f;
             
             // Animate the dissolve amount
-            _renderer.materials[0].SetFloat("_Amount", _fadeAmount);
+            _renderer.materials[0].SetFloat("_DissolveAmount", _fadeAmount);
         }
     }
 

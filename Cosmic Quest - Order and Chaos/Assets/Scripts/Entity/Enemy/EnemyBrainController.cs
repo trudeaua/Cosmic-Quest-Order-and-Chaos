@@ -218,8 +218,9 @@ public class EnemyBrainController : MonoBehaviour
     /// </summary>
     private void OnDrawGizmosSelected()
     {
-        // Draw the aggro radius of the enemy in the editor
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, aggroRadius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
 }

@@ -678,7 +678,7 @@ MonoBehaviour:
   defense:
     baseValue: 0
   characterColour: 0
-  shouldSpawn: 1
+  shouldSpawn: 0
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
   spawnSpeed: 0.08
   spawnDelay: 0.9
@@ -700,25 +700,11 @@ MonoBehaviour:
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
   EnemyColouring:
-    Green:
-      textureMaterial: {fileID: 2100000, guid: 0409d2ea7161f3c4990ecd35f1d9fca4, type: 2}
-      highlightMaterial: {fileID: 2100000, guid: b9de318508ee8fb43b623dd23913c94f,
-        type: 2}
-    Purple:
-      textureMaterial: {fileID: 2100000, guid: 0409d2ea7161f3c4990ecd35f1d9fca4, type: 2}
-      highlightMaterial: {fileID: 2100000, guid: 4b98073569ad6b4439f6c7bc0e414a33,
-        type: 2}
-    Red:
-      textureMaterial: {fileID: 2100000, guid: 0409d2ea7161f3c4990ecd35f1d9fca4, type: 2}
-      highlightMaterial: {fileID: 2100000, guid: a68e8bc4e1749ba4f816be2f4ce226e4,
-        type: 2}
-    Yellow:
-      textureMaterial: {fileID: 2100000, guid: 0409d2ea7161f3c4990ecd35f1d9fca4, type: 2}
-      highlightMaterial: {fileID: 2100000, guid: 32d790241f6a8394db1740488148f273,
-        type: 2}
-    Default:
-      textureMaterial: {fileID: 2100000, guid: 0409d2ea7161f3c4990ecd35f1d9fca4, type: 2}
-      highlightMaterial: {fileID: 0}
+    Green: {fileID: 2100000, guid: dee6f4b1d1c123647a33b6cf4c2e081b, type: 2}
+    Purple: {fileID: 2100000, guid: 4412705d166c69148b80a8c9b988eb6c, type: 2}
+    Red: {fileID: 2100000, guid: a55a63008b5637044891554f951836a5, type: 2}
+    Yellow: {fileID: 2100000, guid: 7c6e1cf4f55bac645a9d18a29bb20b6b, type: 2}
+    Default: {fileID: 2100000, guid: 1b1e20124bba0c64687e7611aa6cdfb7, type: 2}
   rotateColouring: 0
   minTimeBetweenColourChanges: 7
   colourResistanceModifier: 0.35
@@ -763,10 +749,21 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
-  primaryAttackCooldown: 1
-  primaryAttackRadius: 4
-  primaryAttackAngle: 45
-  primaryAttackSFX:
+  hasMeleeAttack: 1
+  meleeAttackCooldown: 1
+  meleeAttackRadius: 4
+  meleeAttackAngle: 45
+  meleeAttackSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
+  hasRangedAttack: 0
+  rangedAttackCooldown: 1
+  rangedAttackProjectile: {fileID: 0}
+  rangedAttackSFX:
     pitch: 0
     volume: 0
     clip: {fileID: 0}
@@ -785,7 +782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbf61d82ceec0f41ae64dc94dab4842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 1
+  rotationSpeed: 5
 --- !u!195 &566192206
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1026,6 +1023,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8337127725775014207}
     m_Modifications:
+    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyBars
+      objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1130,11 +1132,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyBars
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ede0b1d774556b14c96fc9892ebd7909, type: 3}
