@@ -1772,6 +1772,7 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+  statBars: {fileID: 8410303440912599415}
 --- !u!114 &6060052625781106135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3374,6 +3375,16 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Weapon
       objectReference: {fileID: 0}
+    - target: {fileID: 9101430577481724397, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
+        type: 3}
+      propertyPath: m_Name
+      value: Outer Blade
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101430577481724397, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
     - target: {fileID: -8626751840527039810, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
         type: 3}
       propertyPath: m_Name
@@ -3469,26 +3480,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
-    - target: {fileID: -157825318150610632, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
     - target: {fileID: 5902419001559106108, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
-    - target: {fileID: 9101430577481724397, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
+    - target: {fileID: -157825318150610632, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
         type: 3}
-      propertyPath: m_Name
-      value: Outer Blade
-      objectReference: {fileID: 0}
-    - target: {fileID: 9101430577481724397, guid: 3b93fdd039b162b4bb9183f9c5c297b3,
-        type: 3}
-      propertyPath: m_TagString
-      value: Weapon Glow
-      objectReference: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b93fdd039b162b4bb9183f9c5c297b3, type: 3}
 --- !u!4 &5006512736075784769 stripped
@@ -3622,3 +3623,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 5381190420048170541}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8410303440912599415 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4475085195198039898, guid: e9d371cb638ed8145954162ce430dac9,
+    type: 3}
+  m_PrefabInstance: {fileID: 5381190420048170541}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c556fba1c92f124dbd8d0c882eb2a10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

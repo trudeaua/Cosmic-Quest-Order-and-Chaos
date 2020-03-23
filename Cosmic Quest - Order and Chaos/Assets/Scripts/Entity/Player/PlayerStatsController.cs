@@ -23,6 +23,9 @@ public class PlayerStatsController : EntityStatsController
     public AudioHelper.EntityAudioClip playerRespawningSFX;
     public AudioHelper.EntityAudioClip playerRespawnedSFX;
 
+    // Player stat bars
+    public StatBar statBars;
+
     protected override void Awake()
     {
         base.Awake();
@@ -89,6 +92,7 @@ public class PlayerStatsController : EntityStatsController
     {
         playerInput.PassivateInput();
         yield return new WaitForSeconds(2.5f);
+        statBars.Hide();
         GameObject go = Instantiate(respawnBeaconPrefab, gameObject.transform.position, Quaternion.identity);
         respawnBeacon = go.GetComponent<RespawnBeacon>();
         respawnBeacon.playerStatsController = this;
@@ -183,6 +187,7 @@ public class PlayerStatsController : EntityStatsController
         health.Add(health.maxValue * 0.35f);
         health.StartRegen();
         mana.StartRegen();
+        statBars.Show();
         StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, playerRespawnedSFX));
     }
 

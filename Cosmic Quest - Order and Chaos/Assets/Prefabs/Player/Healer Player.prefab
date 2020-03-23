@@ -746,6 +746,7 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+  statBars: {fileID: 1669494066074108555}
 --- !u!114 &749148863823978123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3376,6 +3377,36 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Weapon
       objectReference: {fileID: 0}
+    - target: {fileID: 9101430577481724397, guid: bde43346e9f53f34daa40477a4d16b07,
+        type: 3}
+      propertyPath: m_Name
+      value: Halberd Rear Decoration
+      objectReference: {fileID: 0}
+    - target: {fileID: 9101430577481724397, guid: bde43346e9f53f34daa40477a4d16b07,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
+    - target: {fileID: -4214470490016819149, guid: bde43346e9f53f34daa40477a4d16b07,
+        type: 3}
+      propertyPath: m_Name
+      value: Halberd Top Decoration
+      objectReference: {fileID: 0}
+    - target: {fileID: -4214470490016819149, guid: bde43346e9f53f34daa40477a4d16b07,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
+    - target: {fileID: 9198531897541347679, guid: bde43346e9f53f34daa40477a4d16b07,
+        type: 3}
+      propertyPath: m_Name
+      value: Halberd Blade
+      objectReference: {fileID: 0}
+    - target: {fileID: 9198531897541347679, guid: bde43346e9f53f34daa40477a4d16b07,
+        type: 3}
+      propertyPath: m_TagString
+      value: Weapon Glow
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: bde43346e9f53f34daa40477a4d16b07,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3446,21 +3477,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.2500002
       objectReference: {fileID: 0}
-    - target: {fileID: -4214470490016819149, guid: bde43346e9f53f34daa40477a4d16b07,
-        type: 3}
-      propertyPath: m_Name
-      value: Halberd Top Decoration
-      objectReference: {fileID: 0}
-    - target: {fileID: -4214470490016819149, guid: bde43346e9f53f34daa40477a4d16b07,
-        type: 3}
-      propertyPath: m_TagString
-      value: Weapon Glow
-      objectReference: {fileID: 0}
-    - target: {fileID: -157825318150610632, guid: bde43346e9f53f34daa40477a4d16b07,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
     - target: {fileID: 5586821640661732521, guid: bde43346e9f53f34daa40477a4d16b07,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -3471,26 +3487,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
-    - target: {fileID: 9101430577481724397, guid: bde43346e9f53f34daa40477a4d16b07,
+    - target: {fileID: -157825318150610632, guid: bde43346e9f53f34daa40477a4d16b07,
         type: 3}
-      propertyPath: m_Name
-      value: Halberd Rear Decoration
-      objectReference: {fileID: 0}
-    - target: {fileID: 9101430577481724397, guid: bde43346e9f53f34daa40477a4d16b07,
-        type: 3}
-      propertyPath: m_TagString
-      value: Weapon Glow
-      objectReference: {fileID: 0}
-    - target: {fileID: 9198531897541347679, guid: bde43346e9f53f34daa40477a4d16b07,
-        type: 3}
-      propertyPath: m_Name
-      value: Halberd Blade
-      objectReference: {fileID: 0}
-    - target: {fileID: 9198531897541347679, guid: bde43346e9f53f34daa40477a4d16b07,
-        type: 3}
-      propertyPath: m_TagString
-      value: Weapon Glow
-      objectReference: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b1dcb4ec9a7a95f4aa86d4166cba1142, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bde43346e9f53f34daa40477a4d16b07, type: 3}
 --- !u!4 &5006512734901360032 stripped
@@ -3624,3 +3625,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2968310067651921361}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1669494066074108555 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4475085195198039898, guid: e9d371cb638ed8145954162ce430dac9,
+    type: 3}
+  m_PrefabInstance: {fileID: 2968310067651921361}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c556fba1c92f124dbd8d0c882eb2a10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
