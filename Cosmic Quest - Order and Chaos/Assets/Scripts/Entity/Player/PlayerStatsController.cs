@@ -11,7 +11,7 @@ public class PlayerStatsController : EntityStatsController
     private Collider _collider;
 
     // Player input
-    PlayerInput playerInput;
+    private PlayerInput playerInput;
 
     // ragdoll collider
     private Collider[] ragdollColliders;
@@ -180,7 +180,7 @@ public class PlayerStatsController : EntityStatsController
         isDead = false;
         Anim.enabled = true;
         EnableRagdoll(false);
-        health.Add(health.maxValue * 0.2f);
+        health.Add(health.maxValue * 0.35f);
         health.StartRegen();
         mana.StartRegen();
         StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, playerRespawnedSFX));

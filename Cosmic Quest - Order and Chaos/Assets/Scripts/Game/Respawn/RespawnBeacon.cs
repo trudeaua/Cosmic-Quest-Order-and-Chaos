@@ -9,47 +9,40 @@ public class RespawnBeacon : MonoBehaviour
     public float respawnRate = 0.5f;
     public PlayerStatsController playerStatsController;
     public GameObject respawnEffectPrefab;
+    public string[] reviveTextList;
 
+    private string reviveText;
     private float respawnPercentage = 0f;
-    private bool activated = false;
     private List<Collider> playerColliders = new List<Collider>();
+
+    void Start()
+    {
+        reviveText = reviveTextList[Random.Range(0, reviveTextList.Length - 1)];
+        UpdateRespawnPercentage(playerColliders.Count > 0);
+    }
 
     private void Update()
     {
-        if (playerColliders.Count <= 0) UpdateRespawnPercentage(false);
-    }
-
-    void OnTriggerStay(Collider other)
-    {
-        if (other.tag == "Player" && activated)
-        {
-            UpdateRespawnPercentage();
-        }
+        UpdateRespawnPercentage(playerColliders.Count > 0);
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            activated = true;
             playerColliders.Add(other);
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (activated && other.tag == "Player")
+        if (other.tag == "Player")
         {
             playerColliders.Remove(other);
-            if (playerColliders.Count <= 0)
-            {
-                activated = false;
-                UpdateRespawnPercentage(false);
-            }
         }
     }
 
-    private void UpdateRespawnPercentage(bool playersOnBeacon = true)
+    private void UpdateRespawnPercentage(bool playersOnBeacon)
     {
         if (playersOnBeacon)
         {
@@ -64,10 +57,9 @@ public class RespawnBeacon : MonoBehaviour
         else
         {
             respawnPercentage = Mathf.Max(0, respawnPercentage - 2f * respawnRate);
-
             if (respawnPercentage <= 0)
             {
-                text.text = "Please help!";
+                text.text = reviveText;
                 return;
             }
         }
