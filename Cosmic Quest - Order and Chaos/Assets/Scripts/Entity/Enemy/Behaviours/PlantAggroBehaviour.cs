@@ -35,8 +35,8 @@ public class PlantAggroBehaviour : StateMachineBehaviour
             return;
         }
         
-        // Try to attack player if they are close enough
-        if (Vector3.Distance(animator.transform.position, _target.position) <= _brain.attackRadius && !_combat.IsCoolingDown)
+        // Try to attack player
+        if (!_combat.IsCoolingDown)
         {
             _combat.ChooseAttack();
         }

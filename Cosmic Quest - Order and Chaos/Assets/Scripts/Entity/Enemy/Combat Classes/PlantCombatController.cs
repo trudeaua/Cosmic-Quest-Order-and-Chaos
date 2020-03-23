@@ -41,6 +41,8 @@ public class PlantCombatController : EnemyCombatController
         StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, rangedAttackSFX));
         
         // Launch projectile to target player
+        float damage = Random.Range(Stats.damage.BaseValue, Stats.damage.GetValue());
+        LaunchDamageProjectile(rangedAttackProjectile, transform.forward, 500f, 20f, damage, "Player");
     }
 
     /// <summary>

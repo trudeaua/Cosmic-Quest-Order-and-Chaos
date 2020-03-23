@@ -5,7 +5,8 @@ using UnityEngine;
 public class DamageProjectile : Projectile
 {
     private float _damage = 0f;
-    
+    private string _targetTag = "Enemy";
+
     /// <summary>
     /// Launch the damage projectile
     /// </summary>
@@ -14,10 +15,12 @@ public class DamageProjectile : Projectile
     /// <param name="launchForce">Force to apply to the projectile upon launch</param>
     /// <param name="range">Maximum range that the projectile can fly</param>
     /// <param name="damage">Damage of the projectile</param>
-    public void Launch(EntityStatsController launcherStats, Vector3 direction, float launchForce, float range, float damage)
+    /// <param name="targetTag">The tag of the target type</param>
+    public void Launch(EntityStatsController launcherStats, Vector3 direction, float launchForce, float range, float damage, string targetTag = "Enemy")
     {
         // Store the damage amount and call the base launch function
         _damage = damage;
+        _targetTag = targetTag;
         Launch(launcherStats, direction, launchForce, range);
     }
 
@@ -25,10 +28,10 @@ public class DamageProjectile : Projectile
     {
         GameObject col = other.gameObject;
         // if other object is an enemy, deal damage
-        if (col.CompareTag("Enemy"))
+        if (col.CompareTag(_targetTag))
         {
             EnemyStatsController enemy = col.GetComponent<EnemyStatsController>();
-            enemy.TakeDamage(LauncherStats, _damage); // TODO may need to calculate damage differently?
+            enemy.TakeDamage(LauncherStats, _damage);
         }
         
         gameObject.SetActive(false);
