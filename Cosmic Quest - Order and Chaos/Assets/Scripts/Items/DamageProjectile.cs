@@ -27,13 +27,16 @@ public class DamageProjectile : Projectile
     protected override void OnTriggerEnter(Collider other)
     {
         GameObject col = other.gameObject;
+        
         // if other object is an enemy, deal damage
         if (col.CompareTag(_targetTag))
         {
-            EnemyStatsController enemy = col.GetComponent<EnemyStatsController>();
-            enemy.TakeDamage(LauncherStats, _damage);
+            EntityStatsController target = col.GetComponent<EntityStatsController>();
+            target.TakeDamage(LauncherStats, _damage);
         }
         
-        gameObject.SetActive(false);
+        // Don't worry about collisions with the launcher
+        if (col != LauncherStats.gameObject)
+            gameObject.SetActive(false);
     }
 }

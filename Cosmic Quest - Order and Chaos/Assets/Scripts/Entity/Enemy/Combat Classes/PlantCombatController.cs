@@ -42,7 +42,7 @@ public class PlantCombatController : EnemyCombatController
         
         // Launch projectile to target player
         float damage = Random.Range(Stats.damage.BaseValue, Stats.damage.GetValue());
-        LaunchDamageProjectile(rangedAttackProjectile, transform.forward, 500f, 20f, damage, "Player");
+        LaunchDamageProjectile(rangedAttackProjectile, (Brain.GetCurrentTarget().position - transform.position).normalized, 500f, 20f, damage, "Player");
     }
 
     /// <summary>

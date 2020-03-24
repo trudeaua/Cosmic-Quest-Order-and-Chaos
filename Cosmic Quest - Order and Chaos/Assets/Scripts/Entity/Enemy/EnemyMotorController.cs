@@ -15,6 +15,9 @@ public class EnemyMotorController : MonoBehaviour
 
     public float rotationSpeed = 1.0f;
 
+    public bool IsFollowing { get; private set; }
+    public bool IsRotating { get; private set; }
+    
     private void Awake()
     {
         _stats = GetComponent<EnemyStatsController>();
@@ -28,21 +31,25 @@ public class EnemyMotorController : MonoBehaviour
     public void StartFollow()
     {
         _agent.isStopped = false;
+        IsFollowing = true;
         StartCoroutine(FollowTarget());
     }
 
     public void StopFollow()
     {
+        IsFollowing = false;
         StopCoroutine(FollowTarget());
     }
 
     public void StartRotate()
     {
+        IsRotating = true;
         StartCoroutine(RotateToTarget());
     }
 
     public void StopRotate()
     {
+        IsRotating = false;
         StopCoroutine(RotateToTarget());
     }
 
@@ -52,7 +59,7 @@ public class EnemyMotorController : MonoBehaviour
         {
             _target = _brain.GetCurrentTarget();
 
-            if (_target && _agent.enabled)
+            if (_target && _agent.enabled && !_stats.isDead)
             {
                 _agent.SetDestination(_target.position);
             }
@@ -68,7 +75,7 @@ public class EnemyMotorController : MonoBehaviour
         {
             _target = _brain.GetCurrentTarget();
 
-            if (_target)
+            if (_target && !_stats.isDead)
             {
                 // Rotate enemy to face target
                 Vector3 direction = (_target.position - transform.position).normalized;

@@ -6,12 +6,14 @@ public class PlantAggroBehaviour : StateMachineBehaviour
 {
     private EnemyBrainController _brain;
     private PlantCombatController _combat;
+    private EnemyMotorController _motor;
     private Transform _target;
     
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _brain = animator.GetComponent<EnemyBrainController>();
         _combat = animator.GetComponent<PlantCombatController>();
+        _motor = animator.GetComponent<EnemyMotorController>();
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -28,11 +30,14 @@ public class PlantAggroBehaviour : StateMachineBehaviour
             return;
         }
         
-        // Face player if they are not in the field of attack
-        if (Vector3.Angle(_target.position - animator.transform.position, animator.transform.forward) > 15f)
+        // Always face player if they are not in the field of attack
+        if (Vector3.Angle(_target.position - animator.transform.position, animator.transform.forward) > 10f && !_motor.IsRotating)
         {
-            animator.SetTrigger("Rotate");
-            return;
+            _motor.StartRotate();
+        }
+        else if (_motor.IsRotating)
+        {
+            _motor.StopRotate();
         }
         
         // Try to attack player
