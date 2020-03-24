@@ -61,4 +61,14 @@ public class StatBar : MonoBehaviour
     {
         manaBar.fillAmount = value / _manaStat.maxValue;
     }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
 }

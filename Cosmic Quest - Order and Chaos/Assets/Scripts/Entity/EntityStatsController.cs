@@ -80,7 +80,7 @@ public class EntityStatsController : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (!isDead)
+        if (isDead)
             health.PauseRegen();
     }
 
