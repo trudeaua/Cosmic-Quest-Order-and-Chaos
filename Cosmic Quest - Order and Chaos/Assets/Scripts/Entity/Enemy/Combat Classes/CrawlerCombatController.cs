@@ -18,7 +18,7 @@ public class CrawlerCombatController : EnemyCombatController
         StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackSFX));
 
         // Attack any enemies within the attack sweep and range
-        foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, primaryAttackRadius, primaryAttackAngle)))
+        foreach (GameObject player in Players.Where(player => CanDamageTarget(player, primaryAttackRadius, primaryAttackAngle)))
         {
             // Calculate and perform damage
             StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer()));

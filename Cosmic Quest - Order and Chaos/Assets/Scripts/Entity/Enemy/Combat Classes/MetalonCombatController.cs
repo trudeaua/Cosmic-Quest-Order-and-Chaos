@@ -25,7 +25,7 @@ public class MetalonCombatController : EnemyCombatController
         StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackSFX));
 
         // Attack any enemies within the attack sweep and range
-        foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, primaryAttackRadius, primaryAttackAngle)))
+        foreach (GameObject player in Players.Where(player => CanDamageTarget(player, primaryAttackRadius, primaryAttackAngle)))
         {
             // Calculate and perform damage
             StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer()));
@@ -41,7 +41,7 @@ public class MetalonCombatController : EnemyCombatController
         StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, secondaryAttackSFX));
 
         // Attack any enemies within the attack range (AOE-type effect)
-        foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, secondaryAttackRadius, secondaryAttackAngle)))
+        foreach (GameObject player in Players.Where(player => CanDamageTarget(player, secondaryAttackRadius, secondaryAttackAngle)))
         {
             // Calculate and perform damage
             StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer()));

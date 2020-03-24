@@ -25,7 +25,7 @@ public class PlantCombatController : EnemyCombatController
         StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, meleeAttackSFX));
 
         // Attack any enemies within the attack sweep and range
-        foreach (GameObject player in Players.Where(player => CanDamageTarget(player.transform.position, meleeAttackRadius, meleeAttackAngle)))
+        foreach (GameObject player in Players.Where(player => CanDamageTarget(player, meleeAttackRadius, meleeAttackAngle)))
         {
             // Calculate and perform damage
             StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer()));

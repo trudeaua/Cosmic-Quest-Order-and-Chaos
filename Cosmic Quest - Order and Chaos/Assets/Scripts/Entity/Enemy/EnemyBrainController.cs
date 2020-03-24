@@ -26,7 +26,6 @@ public class EnemyBrainController : MonoBehaviour
     private TargetPlayer _currentTarget;
     
     private EnemyStatsController _stats;
-    private EnemyCombatController _combat;
     private List<TargetPlayer> _targets;
 
     public bool IsStunned { get; private set; }
@@ -35,7 +34,6 @@ public class EnemyBrainController : MonoBehaviour
     private void Awake()
     {
         _stats = GetComponent<EnemyStatsController>();
-        _combat = GetComponent<EnemyCombatController>();
     }
 
     private void Start()
