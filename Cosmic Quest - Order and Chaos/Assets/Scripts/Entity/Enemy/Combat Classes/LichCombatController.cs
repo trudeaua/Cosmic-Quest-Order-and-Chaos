@@ -71,29 +71,49 @@ public class LichCombatController : EnemyCombatController
     public override void SecondaryAttack()
     {
         // Calculate direction to attack in relative to staff position
-        Vector3 direction = secondaryAttackVFXRoot.rotation * transform.forward;
+        Vector3 direction = secondaryAttackVFXRoot.up;
+        direction.y = 0f;
         Vector3 position = secondaryAttackVFXRoot.position;
         position.y = 1f;
-        
-        Debug.DrawRay(position, secondaryAttackRadius * direction, Color.red);
 
-        /*Vector3 vfxPos = transform.position + transform.forward * 1.6f + new Vector3(0, 2f);
-        StartCoroutine(VfxHelper.CreateVFX(secondaryAttackVFX, vfxPos, transform.rotation));
+        // Spawn VFX from staff and in the direction its pointing
+        Vector3 vfxPos = position + direction * 0.5f + new Vector3(0, 2f);
+        StartCoroutine(VfxHelper.CreateVFX(secondaryAttackVFX, vfxPos, Quaternion.LookRotation(direction)));
 
-        int numHits = Physics.RaycastNonAlloc(position, direction, _hitBuffer, secondaryAttackRadius);
+        // Calculate the hit raycast from closer to the enemy, in the direction of the staff
+        Vector3 raycastPos = position - direction * 2.5f;
+        int numHits = Physics.RaycastNonAlloc(raycastPos, direction, _hitBuffer, secondaryAttackRadius);
 
         // Damage any players hit by the raycast
         for (int i = 0; i < numHits; i++)
         {
             if (_hitBuffer[i].transform.tag.Equals("Player"))
                 _hitBuffer[i].transform.GetComponent<EntityStatsController>().TakeDamage(Stats, Stats.ComputeDamageModifer(), Time.deltaTime);
-        }*/
+        }
     }
 
     public override void ChooseAttack()
     {
-        //Anim.SetTrigger("PrimaryAttack");
-        Anim.SetTrigger("SecondaryAttack");
-        AttackCooldown = primaryAttackCooldown;
+        // Use primary attack, unless surrounded by more than one player
+        if (Players.Count(player => CanDamageTarget(player, secondaryAttackRadius, 180f)) > 1)
+        {
+            float randNum = Random.Range(0f, 1f);
+
+            if (randNum < primaryAttackProbability)
+            {
+                Anim.SetTrigger("PrimaryAttack");
+                AttackCooldown = primaryAttackCooldown;
+            }
+            else
+            {
+                Anim.SetTrigger("SecondaryAttack");
+                AttackCooldown = secondaryAttackCooldown;
+            }
+        }
+        else
+        {
+            Anim.SetTrigger("PrimaryAttack");
+            AttackCooldown = primaryAttackCooldown;
+        }
     }
 }
