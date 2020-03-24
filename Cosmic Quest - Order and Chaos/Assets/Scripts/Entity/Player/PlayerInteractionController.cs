@@ -10,6 +10,7 @@ public class PlayerInteractionController : MonoBehaviour
     public float interactionRadius = 4f;
 
     private PlayerCombatController _combat;
+    private PlayerStatsController _stats;
     private Interactable _currentObject = null;
     private Animator _anim;
 
@@ -17,6 +18,8 @@ public class PlayerInteractionController : MonoBehaviour
     {
         _combat = GetComponent<PlayerCombatController>();
         _anim = gameObject.GetComponentInChildren<Animator>();
+        _stats = GetComponent<PlayerStatsController>();
+        _stats.playerDeathEvent.AddListener(StopInteract);
     }
 
     /// <summary>

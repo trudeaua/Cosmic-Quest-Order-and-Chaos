@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerStatsController : EntityStatsController
@@ -25,6 +26,8 @@ public class PlayerStatsController : EntityStatsController
 
     // Player stat bars
     public StatBar statBars;
+
+    public UnityEvent playerDeathEvent = new UnityEvent();
 
     protected override void Awake()
     {
@@ -81,6 +84,7 @@ public class PlayerStatsController : EntityStatsController
         isDead = true;
         Anim.enabled = false;
         EnableRagdoll(true);
+        playerDeathEvent.Invoke();
         StartCoroutine(PlayerDeath());
         StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, entityDeathVocalSFX));
     }

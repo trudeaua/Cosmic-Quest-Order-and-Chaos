@@ -38,7 +38,7 @@ public class Draggable : Interactable
     public override void StopInteract(Transform target)
     {
         // Drop the object
-        if (CanInteract(target))
+        if (isHeld)
         {
             Dropped(target);
         }
@@ -51,11 +51,10 @@ public class Draggable : Interactable
     {
         Debug.Log("Dropped");
         transform.parent = null; // unparent so it doesn't follow anymore
-        m_Object.useGravity = true; //allow it to drop
         m_Object.isKinematic = false;
         m_Object.constraints = RigidbodyConstraints.FreezeRotation;
         transform.position.Set(target.position.x, target.position.y, target.position.z + 20);
-        m_Collider.enabled = true;
+        isHeld = false;
     }
 
     /// <summary>
@@ -65,16 +64,12 @@ public class Draggable : Interactable
     public virtual void PickedUp(Transform target)
     {
         Debug.Log("Picked up by " + target.name);
-
-        m_Object.useGravity = false; //stops it from falling
-        m_Object.isKinematic = true; //stops it from falling
         m_Object.freezeRotation = true; //stops rotation while held
         m_Object.constraints = RigidbodyConstraints.FreezeAll;
-        //this.transform.position = target.position; // optional, if we want it to SNAP to destination
         transform.parent = target.transform; //making the target the PARENT of this object means it will move with it.
-        transform.localPosition = new Vector3(0, 2.2f, m_Collider.bounds.extents.z);
-        // must come after previous line bc it will set the z-position to 0 if collider is not enabled
-        m_Collider.enabled = false;
-         
+        m_Object.isKinematic = true; //stops it from falling
+        transform.localPosition = new Vector3(0, 2.2f, m_Collider.bounds.extents.z + 0.65f);
+        isHeld = true;
+
     }
 }
