@@ -7,29 +7,16 @@ public class PlayerUIControlSpawn : MonoBehaviour
     public float timeout = 10;
     private void Start()
     {
-        StartCoroutine(Spawn());
+        LevelManager.Instance.loadingDoneEvent.AddListener(Spawn);
     }
-    private IEnumerator Spawn()
+    private void Spawn()
     {
-        float elapsed = 0;
-        while (elapsed < timeout)
-        {
-            if (GameManager.Instance.CurrentState == GameManager.GameState.Loading)
-            {
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-            else
-            {
-                int numPlayers = PlayerManager.Instance.NumPlayers;
+        int numPlayers = PlayerManager.Instance.NumPlayers;
 
-                // Instantiate and place player characters evenly around spawn point
-                for (int i = 0; i < numPlayers; i++)
-                {
-                    GameObject playerUIControl = PlayerManager.Instance.InstantiatePlayerUIControl(i);
-                }
-                break;
-            }
+        // Instantiate and place player characters evenly around spawn point
+        for (int i = 0; i < numPlayers; i++)
+        {
+            GameObject playerUIControl = PlayerManager.Instance.InstantiatePlayerUIControl(i);
         }
     }
 }
