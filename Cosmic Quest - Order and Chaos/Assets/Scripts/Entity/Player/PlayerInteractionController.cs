@@ -19,7 +19,7 @@ public class PlayerInteractionController : MonoBehaviour
         _combat = GetComponent<PlayerCombatController>();
         _anim = gameObject.GetComponentInChildren<Animator>();
         _stats = GetComponent<PlayerStatsController>();
-        _stats.playerDeathEvent.AddListener(StopInteract);
+        _stats.onDeath.AddListener(StopInteract);
     }
 
     /// <summary>

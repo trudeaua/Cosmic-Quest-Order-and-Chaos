@@ -23,7 +23,6 @@ public class Draggable : Interactable
     /// <returns></returns>
     public override void StartInteract(Transform target)
     {
-        Debug.Log(CanInteract(target));
         // Overriding the interact method from base class
         if (CanInteract(target))
         {
