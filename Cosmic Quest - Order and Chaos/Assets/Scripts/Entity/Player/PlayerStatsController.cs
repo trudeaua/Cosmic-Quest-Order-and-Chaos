@@ -26,6 +26,7 @@ public class PlayerStatsController : EntityStatsController
     // Player stat bars
     public StatBar statBars;
 
+
     protected override void Awake()
     {
         base.Awake();
@@ -81,6 +82,7 @@ public class PlayerStatsController : EntityStatsController
         isDead = true;
         Anim.enabled = false;
         EnableRagdoll(true);
+        onDeath.Invoke();
         StartCoroutine(PlayerDeath());
         StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, entityDeathVocalSFX));
     }
