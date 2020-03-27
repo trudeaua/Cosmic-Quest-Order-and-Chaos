@@ -9,12 +9,16 @@ public class LichCombatController : EnemyCombatController
     public float primaryAttackCooldown = 1f;
     public float primaryAttackRadius = 4f;
     public float primaryAttackAngle = 45f;
+    public float primaryAttackMinDamage = 3f;
+    public float primaryAttackMaxDamage = 8f;
     [Range(0f, 1f)] public float primaryAttackProbability = 0.7f;
     [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackSFX;
     
     [Header("Secondary Attack - Spell Cast")]
     public float secondaryAttackCooldown = 2f;
     public float secondaryAttackRadius = 5f;
+    public float secondaryAttackMinDamage = 3f;
+    public float secondaryAttackMaxDamage = 7f;
     public GameObject secondaryAttackVFX;
     public Transform secondaryAttackVFXRoot;
     [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackSFX;
@@ -44,7 +48,8 @@ public class LichCombatController : EnemyCombatController
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player, primaryAttackRadius, primaryAttackAngle)))
         {
             // Calculate and perform damage
-            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer()));
+            float damageValue = Random.Range(primaryAttackMinDamage, primaryAttackMaxDamage) + Stats.damage.GetValue();
+            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), damageValue));
         }
     }
 
@@ -83,12 +88,13 @@ public class LichCombatController : EnemyCombatController
         // Calculate the hit raycast from closer to the enemy, in the direction of the staff
         Vector3 raycastPos = position - direction * 2.5f;
         int numHits = Physics.RaycastNonAlloc(raycastPos, direction, _hitBuffer, secondaryAttackRadius);
+        float damageValue = Random.Range(secondaryAttackMinDamage, secondaryAttackMaxDamage) + Stats.damage.GetValue();
 
         // Damage any players hit by the raycast
         for (int i = 0; i < numHits; i++)
         {
             if (_hitBuffer[i].transform.tag.Equals("Player"))
-                _hitBuffer[i].transform.GetComponent<EntityStatsController>().TakeDamage(Stats, Stats.ComputeDamageModifer(), Time.deltaTime);
+                _hitBuffer[i].transform.GetComponent<EntityStatsController>().TakeDamage(Stats, damageValue, Time.deltaTime);
         }
     }
 

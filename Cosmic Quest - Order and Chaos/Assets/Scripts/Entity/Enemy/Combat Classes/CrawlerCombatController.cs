@@ -7,6 +7,8 @@ public class CrawlerCombatController : EnemyCombatController
     public float primaryAttackCooldown = 1f;
     public float primaryAttackRadius = 4f;
     public float primaryAttackAngle = 45f;
+    public float primaryAttackMinDamage = 1f;
+    public float primaryAttackMaxDamage = 4f;
     [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackSFX;
     
     /// <summary>
@@ -21,7 +23,8 @@ public class CrawlerCombatController : EnemyCombatController
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player, primaryAttackRadius, primaryAttackAngle)))
         {
             // Calculate and perform damage
-            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer()));
+            float damageValue = Random.Range(primaryAttackMinDamage, primaryAttackMaxDamage) + Stats.damage.GetValue();
+            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), damageValue));
         }
     }
 

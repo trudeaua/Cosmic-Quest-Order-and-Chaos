@@ -8,11 +8,15 @@ public class PlantCombatController : EnemyCombatController
     public float meleeAttackCooldown = 1f;
     public float meleeAttackRadius = 4f;
     public float meleeAttackAngle = 45f;
+    public float meleeAttackMinDamage = 1f;
+    public float meleeAttackMaxDamage = 4f;
     [SerializeField] protected AudioHelper.EntityAudioClip meleeAttackSFX;
 
     [Header("Ranged Attack")]
     public bool hasRangedAttack = false;
     public float rangedAttackCooldown = 1f;
+    public float rangedAttackMinDamage = 1f;
+    public float rangedAttackMaxDamage = 4f;
     public GameObject rangedAttackProjectile;
     [SerializeField] protected AudioHelper.EntityAudioClip rangedAttackSFX;
     
@@ -28,7 +32,8 @@ public class PlantCombatController : EnemyCombatController
         foreach (GameObject player in Players.Where(player => CanDamageTarget(player, meleeAttackRadius, meleeAttackAngle)))
         {
             // Calculate and perform damage
-            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), Stats.ComputeDamageModifer()));
+            float damageValue = Random.Range(meleeAttackMinDamage, meleeAttackMaxDamage) + Stats.damage.GetValue();
+            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), damageValue));
         }
     }
 
@@ -41,8 +46,8 @@ public class PlantCombatController : EnemyCombatController
         StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, rangedAttackSFX));
         
         // Launch projectile to target player
-        float damage = Random.Range(Stats.damage.BaseValue, Stats.damage.GetValue());
-        LaunchDamageProjectile(rangedAttackProjectile, (Brain.GetCurrentTarget().position - transform.position).normalized, 500f, 20f, damage, "Player");
+        float damageValue = Random.Range(rangedAttackMinDamage, rangedAttackMaxDamage) + Stats.damage.GetValue();
+        LaunchDamageProjectile(rangedAttackProjectile, (Brain.GetCurrentTarget().position - transform.position).normalized, 500f, 20f, damageValue, "Player");
     }
 
     /// <summary>
