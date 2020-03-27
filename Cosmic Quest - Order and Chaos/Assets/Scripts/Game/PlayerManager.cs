@@ -37,6 +37,9 @@ public class Player
 
     // Which colour is the player
     public CharacterColour characterColour;
+
+    // name of the class
+    public string classChoice;
     
     // Which ui control is assigned to the player
     public GameObject playerUIControl;
@@ -278,6 +281,7 @@ public class PlayerManager : MonoBehaviour
         if (_playerSlots[player] != null)
         {
             _playerSlots[player].playerObject = classOptions[classChoice].prefab;
+            _playerSlots[player].classChoice = classOptions[classChoice].name;
         }
     }
 
@@ -406,6 +410,23 @@ public class PlayerManager : MonoBehaviour
         return -1;
     }
 
+    // Find a players GameObject in the scene
+    public GameObject FindPlayer(int playerNumber)
+    {
+        PlayerStatsController[] players = FindObjectsOfType<PlayerStatsController>();
+        for (int i = 0; i < players.Length; i++)
+        {
+            PlayerInput playerInput = players[i].GetComponent<PlayerInput>();
+            int deviceId = playerInput.user.pairedDevices.First().deviceId;
+            int playerNum = GetPlayerNumber(deviceId);
+            if (playerNum == playerNumber)
+            {
+                return players[i].gameObject;
+            }
+        }
+        return null;
+    }
+
     /// <summary>
     /// Remove a player
     /// </summary>
@@ -434,5 +455,19 @@ public class PlayerManager : MonoBehaviour
         newPlayer.characterColour = PlayerColours[playerNumber];
         _playerSlots[playerNumber] = newPlayer;
         return playerNumber;
+    }
+
+    /// <summary>
+    /// Get the class name of a player
+    /// </summary>
+    /// <param name="playerNumber">Number of the player</param>
+    /// <returns>The player's class name, null if not found</returns>
+    public string GetPlayerClassName(int playerNumber)
+    {
+        if (playerNumber >= 0 && playerNumber < NumPlayers)
+        {
+            return _playerSlots[playerNumber].classChoice;
+        }
+        return null;
     }
 }
