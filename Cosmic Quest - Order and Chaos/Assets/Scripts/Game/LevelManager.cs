@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
@@ -35,11 +36,13 @@ public class LevelManager : MonoBehaviour
 
     // Loading screen to use for scene transitions
     public GameObject loadingScene;
+    public UnityEvent loadingDoneEvent = new UnityEvent();
     
     // List of all chaos voids
     public ChaosVoid[] chaosVoids;
 
     private Animator _anim;
+
 
     private void Start()
     {
@@ -153,6 +156,7 @@ public class LevelManager : MonoBehaviour
             GameManager.Instance.SetMenuState();
         else if (sceneType == SceneType.Map)
             GameManager.Instance.SetSelectingLevelState();
+        loadingDoneEvent.Invoke();
         yield return new WaitForSeconds(0.5f);
     }
 }
