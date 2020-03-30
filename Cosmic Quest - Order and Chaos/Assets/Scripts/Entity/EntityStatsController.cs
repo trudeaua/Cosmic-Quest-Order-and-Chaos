@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum CharacterColour
 {
@@ -18,6 +19,8 @@ public class EntityStatsController : MonoBehaviour
     public RegenerableStat health;
 
     public bool isDead { get; protected set; }
+
+    public UnityEvent onDeath = new UnityEvent();
 
     // Common base stats
     public Stat damage;
@@ -80,7 +83,7 @@ public class EntityStatsController : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (!isDead)
+        if (isDead)
             health.PauseRegen();
     }
 
