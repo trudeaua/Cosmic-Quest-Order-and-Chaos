@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerSpawn : MonoBehaviour
 {
     public float radius;
-    
+    public UnityEvent onPlayersSpawned = new UnityEvent();
     private void Start()
     {
         Vector3 spawnPos = transform.position;
@@ -19,5 +20,6 @@ public class PlayerSpawn : MonoBehaviour
             player.transform.position = new Vector3(spawnPos.x, 0f, spawnPos.z) + radius * offset;
             PlayerManager.Instance.RegisterPlayer(player);
         }
+        onPlayersSpawned.Invoke();
     }
 }

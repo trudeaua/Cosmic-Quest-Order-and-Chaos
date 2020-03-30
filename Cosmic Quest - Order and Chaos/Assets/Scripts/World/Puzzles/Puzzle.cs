@@ -6,7 +6,8 @@ using UnityEngine.Events;
 public class Puzzle : MonoBehaviour, ISerializable
 {
     public UnityEvent onCompletion;
-    
+    public UnityEvent onReset;
+
     public bool isComplete { get; private set; }
 
     protected void SetComplete()
@@ -15,6 +16,12 @@ public class Puzzle : MonoBehaviour, ISerializable
         
         // Invoke any event functions
         onCompletion?.Invoke();
+    }
+
+    protected virtual void Reset()
+    {
+        isComplete = false;
+        onReset?.Invoke();
     }
 
     public string Serialize()
