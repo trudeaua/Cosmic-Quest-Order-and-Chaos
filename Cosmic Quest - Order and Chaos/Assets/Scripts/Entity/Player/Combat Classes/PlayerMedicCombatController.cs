@@ -116,7 +116,6 @@ public class PlayerMedicCombatController : PlayerCombatController
 
     private IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float damage, float heal, float launchDelay = 0f)
     {
-        ResetTakeDamageAnim();
         if (launchDelay > 0f)
             yield return new WaitForSeconds(launchDelay);
 
