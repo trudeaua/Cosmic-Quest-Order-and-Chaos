@@ -22,7 +22,9 @@ public class EnemyBrainController : MonoBehaviour
     public float attackRadius = 4f;
     [Tooltip("The time in seconds between decisions on which player to aggro")]
     public float decisionDelay = 0.5f;
-
+    [Tooltip("Should the enemy always have a target")]
+    public bool alwaysHaveTarget;
+    
     private TargetPlayer _currentTarget;
     
     private EnemyStatsController _stats;
@@ -56,8 +58,9 @@ public class EnemyBrainController : MonoBehaviour
         // Update list of targets
         UpdateTargetList();
 
+        // Make target decision when the timer runs out or if the current target is dead
         _decisionTimer -= Time.deltaTime;
-        if (_decisionTimer > 0f)
+        if (_decisionTimer > 0f || (_currentTarget != null && !_currentTarget.Stats.isDead))
             return;
 
         _decisionTimer = decisionDelay;
@@ -118,7 +121,14 @@ public class EnemyBrainController : MonoBehaviour
             return;
         }
 
-        // 3. No target
+        // 3. If we should always have a target, select a player randomly (if there are any)
+        if (alwaysHaveTarget && _targets.Count(p => !p.Stats.isDead) > 0)
+        {
+            _currentTarget = _targets[Random.Range(0, _targets.Count - 1)];
+            return;
+        }
+        
+        // 4. No target
         _currentTarget = null;
     }
 
