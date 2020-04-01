@@ -1,29 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class EnemyPuzzle : Puzzle
 {
-    public GameObject[] enemies;
+    [Serializable]
+    public struct Enemy {
+        public GameObject enemyPrefab;
+        public CharacterColour enemyColour;
+    }
+    public Enemy[] enemies;
     private int numEnemies;
     private int numEnemiesDead;
-    // Start is called before the first frame update
-    private void Start()
+
+    private void Setup()
     {
         numEnemiesDead = 0;
         numEnemies = enemies.Length;
-        foreach(GameObject enemy in enemies)
+        foreach(Enemy enemy in enemies)
         {
-            GameObject enemyObj = Instantiate(enemy, transform);
+            GameObject enemyObj = Instantiate(enemy.enemyPrefab, transform);
             EnemyStatsController enemyStats = enemyObj.GetComponent<EnemyStatsController>();
+            if (enemy.enemyColour == CharacterColour.All)
+            {
+                enemyStats.characterColour = puzzleColour;
+            }
+            else
+            {
+                enemyStats.characterColour = enemy.enemyColour;
+            }
             enemyStats.onDeath.AddListener(EnemyDied);
         }
     }
 
-    protected override void Reset()
+    public override void ResetPuzzle()
     {
-        base.Reset();
-        Start();
+        base.ResetPuzzle();
+        Setup();
     }
 
     private void EnemyDied()

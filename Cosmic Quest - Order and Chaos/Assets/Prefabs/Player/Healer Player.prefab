@@ -673,6 +673,8 @@ MonoBehaviour:
   maxVelocity: 5.5
   maxAcceleration: 20
   rotationSpeed: 10
+  paralyzePrefab: {fileID: 1823173409967616, guid: c2b318905b842b34fbcd30056dc06ee0,
+    type: 3}
 --- !u!114 &5664751899185293677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,6 +704,9 @@ MonoBehaviour:
     maxValue: 100
     minValue: 0
     regenAmount: 1
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
   damage:
     baseValue: 1
   defense:

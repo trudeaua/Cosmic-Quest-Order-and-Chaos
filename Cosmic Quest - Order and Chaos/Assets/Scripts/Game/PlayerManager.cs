@@ -168,6 +168,12 @@ public class PlayerManager : MonoBehaviour
         {
             // Simply instantiate the player and let it choose a device randomly
             playerInstance = Instantiate(_playerSlots[playerNumber].playerObject);
+            PlayerInput playerInput = playerInstance.GetComponent<PlayerInput>();
+            InputDevice device = playerInput.devices.First();
+            if (device != null)
+            {
+                _playerSlots[playerNumber].deviceId = device.deviceId;
+            }
         }
         else
         {

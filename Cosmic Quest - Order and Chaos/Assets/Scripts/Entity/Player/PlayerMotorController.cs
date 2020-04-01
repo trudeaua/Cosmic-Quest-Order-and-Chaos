@@ -18,6 +18,10 @@ public class PlayerMotorController : MonoBehaviour
 
     private CameraController _cameraController;
 
+    public GameObject paralyzePrefab;
+    private GameObject paralyzeObj;
+    private bool paralyzed;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -35,6 +39,14 @@ public class PlayerMotorController : MonoBehaviour
     {
         // Set kinematic when disabled so the player stops moving
         _rb.isKinematic = true;
+    }
+
+    private void Update()
+    {
+        if (paralyzed)
+        {
+            Paralyze();
+        }
     }
 
     private void FixedUpdate()
@@ -133,6 +145,26 @@ public class PlayerMotorController : MonoBehaviour
     public void ResetMovementModifier()
     {
         _speedModifier = 1f;
+    }
+
+    public void StartParalyze()
+    {
+        paralyzed = true;
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+        playerInput.PassivateInput();
+    }
+
+    public void StopParalyze()
+    {
+        paralyzed = false;
+        Destroy(paralyzeObj);
+        PlayerInput playerInput = GetComponent<PlayerInput>();
+        playerInput.ActivateInput();
+    }
+
+    private void Paralyze()
+    {
+        StartCoroutine(VfxHelper.CreateVFX(paralyzePrefab, transform.position, transform.rotation));
     }
 
     public IEnumerator ApplyTimedMovementModifier(float modifier, float time)

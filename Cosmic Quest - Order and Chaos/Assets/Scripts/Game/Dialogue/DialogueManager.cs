@@ -9,6 +9,7 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueText;
     public Animator anim;
     public float TYPE_SPEED = 0.05f;
+    public float AutoPlayTimeFactor = 2.5f;
 
     private Queue<string> sentences;
     private Dialogue CurrentDialogue;
@@ -80,7 +81,7 @@ public class DialogueManager : MonoBehaviour
     /// <returns>An IEnumerator</returns>
     IEnumerator AutoPlay(string sentence)
     {
-        yield return new WaitForSeconds(sentence.Split(' ').Length / 2.5f);
+        yield return new WaitForSeconds(sentence.Split(' ').Length / AutoPlayTimeFactor);
         DisplayNextSentence(false);
     }
 
