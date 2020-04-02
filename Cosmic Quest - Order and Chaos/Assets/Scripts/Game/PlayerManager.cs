@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
+using UnityEngine.InputSystem.Utilities;
 
 [Serializable]
 public class PlayerColours
@@ -23,6 +24,12 @@ public class PlayerColours
             case CharacterColour.Yellow: return yellow;
             default: return Color.gray;
         }
+    }
+
+    public string GetColorHex(CharacterColour colour)
+    {
+        Color c = GetColour(colour);
+        return string.Format("#{0:X2}{1:X2}{2:X2}", (int)(c.r * 255), (int)(c.g * 255), (int)(c.b * 255));
     }
 }
 
@@ -47,6 +54,9 @@ public class Player
     public int deviceId;
 
     internal string classChoice;
+
+    public int primaryAttackActionId;
+    public int secondaryAttackActionId;
 
     public Player(PlayerInput _playerInput, CharacterColour _characterColour, CharacterOption _characterChoice, int _deviceId)
     {
@@ -396,6 +406,25 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Player " + playerInput.user.id + " Left");
         playerInput.user.UnpairDevicesAndRemoveUser();
+    }
+
+    /// <summary>
+    /// Retrieves an action map from a Player's Input
+    /// </summary>
+    /// <param name="playerInput">Player's Input component</param>
+    /// <param name="actionMapName">Name of the action map</param>
+    /// <returns>The action map</returns>
+    public InputActionMap GetActionMap(PlayerInput playerInput, string actionMapName)
+    {
+        ReadOnlyArray<InputActionMap> actionMaps = playerInput.actions.actionMaps;
+        foreach (InputActionMap actionMap in actionMaps)
+        {
+            if (actionMap.name == actionMapName)
+            {
+                return actionMap;
+            }
+        }
+        return null;
     }
 
     /// <summary>

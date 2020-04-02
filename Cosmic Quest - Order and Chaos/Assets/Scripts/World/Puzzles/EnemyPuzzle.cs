@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyPuzzle : Puzzle
 {
@@ -20,6 +21,8 @@ public class EnemyPuzzle : Puzzle
         {
             GameObject enemyObj = Instantiate(enemy.enemyPrefab, transform);
             EnemyStatsController enemyStats = enemyObj.GetComponent<EnemyStatsController>();
+            NavMeshAgent navMesh = enemyObj.GetComponent<NavMeshAgent>();
+            navMesh.enabled = false;
             if (enemy.enemyColour == CharacterColour.All)
             {
                 enemyStats.characterColour = puzzleColour;

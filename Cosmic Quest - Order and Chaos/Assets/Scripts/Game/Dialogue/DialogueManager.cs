@@ -92,10 +92,13 @@ public class DialogueManager : MonoBehaviour
     /// <returns>An IEnumerator</returns>
     IEnumerator TypeSentence(string sentence)
     {
-        dialogueText.text = "";
-        foreach (char letter in sentence.ToCharArray())
+        // render the text behind the scenes, allows rich text effects to be applied nicely
+        dialogueText.text = sentence;
+        dialogueText.maxVisibleCharacters = 0;
+        for (int i = 0; i < sentence.Length; i++)
         {
-            dialogueText.text += letter;
+            int visibleCount = i % (sentence.Length + 1);
+            dialogueText.maxVisibleCharacters = visibleCount;
             yield return new WaitForSeconds(TYPE_SPEED);
         }
     }
