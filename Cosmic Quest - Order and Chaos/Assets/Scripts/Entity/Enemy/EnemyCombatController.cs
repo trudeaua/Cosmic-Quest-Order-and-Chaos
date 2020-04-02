@@ -60,7 +60,7 @@ public class EnemyCombatController : EntityCombatController
     /// <param name="sweepAngle">The angular distance in degrees of the attacks FOV.
     /// If set to 360 or left unset then the enemy can attack in any direction.</param>
     /// <returns>Whether the enemy can damage the player</returns>
-    protected bool CanDamageTarget(GameObject target, float radius, float sweepAngle = 360f)
+    public bool CanDamageTarget(GameObject target, float radius, float sweepAngle = 360f)
     {
         // TODO need to rethink hitboxes or standardize projecting from y = 1
         Vector3 pos = transform.position;

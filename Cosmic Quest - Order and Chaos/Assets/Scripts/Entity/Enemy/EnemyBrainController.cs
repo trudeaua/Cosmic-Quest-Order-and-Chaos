@@ -22,7 +22,7 @@ public class EnemyBrainController : MonoBehaviour
     public float attackRadius = 4f;
     [Tooltip("The time in seconds between decisions on which player to aggro")]
     public float decisionDelay = 0.5f;
-    [Tooltip("Should the enemy always have a target")]
+    [Tooltip("Should the enemy always have a target (ignores aggroRadius)")]
     public bool alwaysHaveTarget;
     
     private TargetPlayer _currentTarget;

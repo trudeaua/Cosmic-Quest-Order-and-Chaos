@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FacePlayerBehaviour : StateMachineBehaviour
 {
+    public float tolerance = 15f;
+    
     private EnemyBrainController _brain;
     private EnemyMotorController _motor;
     private Transform _target;
@@ -33,7 +35,7 @@ public class FacePlayerBehaviour : StateMachineBehaviour
         // If there is no target within reach, or within 30 degree view of target, exit state
         if (_target is null
             || Vector3.Distance(_target.position, animator.transform.position) > _brain.attackRadius
-            || Mathf.Abs(_angle) < 15f)
+            || Mathf.Abs(_angle) < tolerance)
         {
             animator.SetTrigger("Idle");
         }

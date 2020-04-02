@@ -22,6 +22,16 @@ public class SerpentBossCombatController : EnemyCombatController
     public float secondaryAttackMaxDamage = 10f;
     [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackSFX;
 
+    [Header("Special Attack")]
+    public float minDistance = 8f;
+    public float chargedAttackCooldown = 1f;
+    public float chargeAttackRadius = 5f;
+    public float chargeAttackMinDamage = 10f;
+    public float chargeAttackMaxDamage = 30f;
+    public float rockAttackMinDamage = 10f;
+    public float rockAttackMaxDamage = 20f;
+    [SerializeField] protected AudioHelper.EntityAudioClip chargeAttackSFX;
+    
     /// <summary>
     /// Claw attack.
     /// </summary>
@@ -54,6 +64,31 @@ public class SerpentBossCombatController : EnemyCombatController
             float damageValue = Random.Range(secondaryAttackMinDamage, secondaryAttackMaxDamage) + Stats.damage.GetValue();
             StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), damageValue));
         }
+    }
+
+    /// <summary>
+    /// Attack event for the special charge attack
+    /// </summary>
+    public void ChargeAttack()
+    {
+        // Play attack audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, chargeAttackSFX));
+
+        // Attack any players within the attack range
+        foreach (GameObject player in Players.Where(player => CanDamageTarget(player, chargeAttackRadius)))
+        {
+            // Calculate and perform damage
+            float damageValue = Random.Range(chargeAttackMinDamage, chargeAttackMaxDamage) + Stats.damage.GetValue();
+            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), damageValue));
+        }
+        
+        // Set the attack cooldown here, even though it is slightly delayed
+        AttackCooldown = chargedAttackCooldown;
+    }
+    
+    private void StartSpecialAttack()
+    {
+        
     }
 
     /// <summary>
