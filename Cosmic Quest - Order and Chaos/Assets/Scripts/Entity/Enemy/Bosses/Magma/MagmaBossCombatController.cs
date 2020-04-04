@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MagmaBossCombatController : EnemyCombatController
 {
@@ -32,12 +34,35 @@ public class MagmaBossCombatController : EnemyCombatController
     [SerializeField] protected AudioHelper.EntityAudioClip explosionAttackSFX;
 
     [Header("Special Attack - Fire Storm")]
+    [Tooltip("How often the boss will perform its special attack")]
+    public float specialAttackPeriod = 20f;
     public float firestormCooldown = 1f;
     public float firestormRadius = 5f;
     public float firestormMinDamage = 10f;
     public float firestormMaxDamage = 30f;
     [SerializeField] protected AudioHelper.EntityAudioClip firestormSFX;
-    
+    public Torch[] arenaTorches;
+
+    private float _specialAttackTimer;
+
+    public bool CanUseSpecialAttack
+    {
+        get { return _specialAttackTimer <= 0f; }
+    }
+
+    private void Start()
+    {
+        _specialAttackTimer = specialAttackPeriod;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        if (_specialAttackTimer > 0)
+            _specialAttackTimer -= Time.deltaTime;
+    }
+
     /// <summary>
     /// Punch attack.
     /// </summary>
@@ -87,6 +112,36 @@ public class MagmaBossCombatController : EnemyCombatController
             float damageValue = Random.Range(explosionAttackMinDamage, explosionAttackMaxDamage) + Stats.damage.GetValue();
             StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), damageValue));
         }
+    }
+
+    /// <summary>
+    /// Damage event for the boss' special firestorm attack.
+    /// This attack launches an AOE firestorm effect, as well as
+    /// lights some of the torches surrounding the boss arena, causing
+    /// fireballs to fall down from the sky.
+    /// </summary>
+    public void FirestormAttack()
+    {
+        // Play attack audio
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, firestormSFX));
+
+        // Damage any players within the AOE
+        foreach (GameObject player in Players.Where(player => CanDamageTarget(player, firestormRadius)))
+        {
+            // Calculate and perform damage
+            float damageValue = Random.Range(firestormMinDamage, firestormMaxDamage) + Stats.damage.GetValue();
+            StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), damageValue));
+        }
+        
+        // Light a random amount of torches surrounding the boss arena
+        foreach (Torch torch in arenaTorches)
+        {
+            if (Random.Range(0f, 1f) > 0.3f)
+                torch.SetLit(true);
+        }
+
+        // Set the cooldown for a followup attack
+        AttackCooldown = firestormCooldown;
     }
 
     /// <summary>

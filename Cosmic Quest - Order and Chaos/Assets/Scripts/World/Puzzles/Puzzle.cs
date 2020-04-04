@@ -2,19 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Puzzle : MonoBehaviour, ISerializable
 {
     public UnityEvent onCompletion;
+    public UnityEvent onReset;
     
-    public bool isComplete { get; private set; }
+    public bool IsComplete { get; private set; }
 
     protected void SetComplete()
     {
-        isComplete = true;
+        IsComplete = true;
         
         // Invoke any event functions
         onCompletion?.Invoke();
+    }
+
+    protected void ResetPuzzle()
+    {
+        IsComplete = false;
+
+        onReset?.Invoke();
     }
 
     public string Serialize()

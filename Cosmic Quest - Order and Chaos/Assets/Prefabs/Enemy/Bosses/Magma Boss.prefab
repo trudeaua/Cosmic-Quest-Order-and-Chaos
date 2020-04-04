@@ -5397,7 +5397,7 @@ Transform:
   m_GameObject: {fileID: 5643945036199975090}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
   m_Children:
   - {fileID: 5645978516658918162}
   - {fileID: 5646011584469282532}
@@ -15221,8 +15221,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.5, y: 2, z: 2}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 4, y: 4, z: 3}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!54 &15419355527920697
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15253,7 +15253,7 @@ NavMeshAgent:
   m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 270
-  m_StoppingDistance: 3.5
+  m_StoppingDistance: 4
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -15402,7 +15402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aggroRadius: 30
-  attackRadius: 4.5
+  attackRadius: 5
   decisionDelay: 2
   alwaysHaveTarget: 1
 --- !u!114 &3841690853369415765
