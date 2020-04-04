@@ -1,8 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class TeamTask : Task
+public class TurnBasedTask : Task
 {
     struct TaskPart
     {
@@ -69,8 +70,7 @@ public class TeamTask : Task
             PlayerInput playerInput = taskParts[i].playerObject.GetComponent<PlayerInput>();
             if (taskParts[i].playerNumber == currentTask)
             {
-                playerInput.ActivateInput();
-                MoveToActiveArea(playerInput.gameObject);
+                MoveToActiveArea(playerInput.gameObject, i);
                 CharacterColour colour = playerStats.characterColour;
                 foreach (Puzzle puzzle in _Puzzles)
                 {
@@ -94,8 +94,7 @@ public class TeamTask : Task
             }
             else
             {
-                playerInput.PassivateInput();
-                MoveToWaitingArea(playerInput.gameObject);
+                MoveToWaitingArea(playerInput.gameObject, i);
             }
         }
         started = true;
@@ -103,16 +102,70 @@ public class TeamTask : Task
         taskParts[currentTask].dialogueTrigger.TriggerDialogue();
     }
 
-    private void MoveToWaitingArea(GameObject playerObj)
+    private void MoveToWaitingArea(GameObject playerObj, int playerNumber)
     {
-        playerObj.transform.position = WaitingArea.transform.position;
+        Vector3 from = playerObj.transform.position;
+        Vector3 to = WaitingArea.transform.position;
+        PlayerInput playerInput = playerObj.GetComponent<PlayerInput>();
+        StartCoroutine(MovePlayer(playerInput, to, playerNumber, false));
     }
 
-    private void MoveToActiveArea(GameObject playerObj)
+    private void MoveToActiveArea(GameObject playerObj, int playerNumber)
     {
-        playerObj.transform.position = ActiveArea.transform.position;
+        Vector3 from = playerObj.transform.position;
+        Vector3 to = ActiveArea.transform.position;
+        PlayerInput playerInput = playerObj.GetComponent<PlayerInput>();
+        StartCoroutine(MovePlayer(playerInput, to, playerNumber));
     }
 
+    /// <summary>
+    /// Mocks `playerInput` and moves the player from their position to `to`
+    /// </summary>
+    /// <param name="to">Position to move the player to</param>
+    /// <param name="playerInput">PlayerInput component attached to a player object</param>
+    /// <param name="playerNumber">Number of the player</param>
+    /// <param name="enabledUponRelease">Whether to enable the players original input upon being released from the mocked player input</param>
+    /// <returns>An IEnumerator</returns>
+    private IEnumerator MovePlayer(PlayerInput playerInput, Vector3 to, int playerNumber, bool enabledUponRelease = true)
+    {
+        Vector3 direction = to - playerInput.transform.position;
+        float oldDist = Mathf.Infinity;
+        float currDist = Vector3.Distance(playerInput.transform.position, to);
+
+        // Setup the mock gamepad
+        InputDevice inputDevice = playerInput.devices.First();
+        PlayerInputMock playerInputMock = new PlayerInputMock(playerNumber, inputDevice.deviceId, playerInput.currentControlScheme);
+        playerInputMock.SetInputToMockGamepad(playerInput);
+
+        // Start moving them towards the target position
+        playerInputMock.Press(playerInputMock.Gamepad.leftStick, new Vector2(direction.x, direction.z));
+        playerInputMock.Press(playerInputMock.Gamepad.rightStick, new Vector2(direction.x, direction.z));
+        while (oldDist > currDist)
+        {
+            yield return new WaitForSeconds(0.1f);
+            oldDist = currDist;
+            currDist = Vector3.Distance(playerInput.transform.position, to);
+        }
+        playerInputMock.Release(playerInputMock.Gamepad.leftStick, Vector2.zero);
+        playerInputMock.Press(playerInputMock.Gamepad.rightStick, Vector2.up);
+        yield return new WaitForSeconds(0.3f);
+        playerInputMock.Release(playerInputMock.Gamepad.rightStick, Vector2.zero);
+
+        // Restore their input device to what it was originally
+        playerInputMock.ResetPlayerInput(playerInput);
+        if (enabledUponRelease)
+        {
+            playerInput.ActivateInput();
+        }
+        else
+        {
+            playerInput.PassivateInput();
+        }
+    }
+
+    /// <summary>
+    /// Enable the player input component of all players in the task
+    /// </summary>
     private void EnableAllPlayerInput()
     {
         for (int i = 0; i < taskParts.Length; i++)
@@ -122,7 +175,7 @@ public class TeamTask : Task
         }
     }
     /// <summary>
-    /// Complete the task
+    /// Completes the task if all parts are completed. Starts the next task otherwise.
     /// </summary>
     public override void Complete()
     {

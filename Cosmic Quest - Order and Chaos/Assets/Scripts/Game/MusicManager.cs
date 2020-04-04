@@ -35,7 +35,6 @@ public class MusicManager : MonoBehaviour
         {
             if (audioSource.timeSamples > CurrentAudioLoop.loopThreshold * CurrentAudioLoop.clip.frequency)
             {
-                Debug.Log(audioSource.timeSamples);
                 audioSource.timeSamples -= Mathf.RoundToInt(CurrentAudioLoop.loopLength * CurrentAudioLoop.clip.frequency);
             }
         }

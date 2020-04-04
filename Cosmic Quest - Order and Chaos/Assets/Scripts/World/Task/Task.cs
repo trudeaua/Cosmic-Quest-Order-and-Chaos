@@ -6,7 +6,7 @@ public class Task : MonoBehaviour
 {
     public DialogueTrigger introDialogueTrigger;
     public DialogueTrigger exitDialogueTrigger;
-    private Door[] doors;
+    protected Door[] doors;
     protected bool completed;
     protected bool started;
     protected int PlayersInTaskArea = 0;

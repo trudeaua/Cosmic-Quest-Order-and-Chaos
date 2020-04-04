@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -406,6 +407,18 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Player " + playerInput.user.id + " Left");
         playerInput.user.UnpairDevicesAndRemoveUser();
+    }
+
+    public IEnumerator RumbleGamepad(PlayerInput playerInput, float lowFrequency, float highFrequency, float duration)
+    {
+        InputDevice inputDevice = playerInput.devices.First();
+        if (inputDevice is Gamepad)
+        {
+            Gamepad gamepad = inputDevice as Gamepad;
+            gamepad.SetMotorSpeeds(lowFrequency, highFrequency);
+            yield return new WaitForSeconds(duration);
+            gamepad.SetMotorSpeeds(0, 0);
+        }
     }
 
     /// <summary>
