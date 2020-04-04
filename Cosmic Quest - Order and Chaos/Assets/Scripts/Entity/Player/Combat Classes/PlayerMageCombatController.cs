@@ -77,7 +77,6 @@ public class PlayerMageCombatController : PlayerCombatController
 
         (Stats as PlayerStatsController).mana.Subtract(primaryAttackManaDepletion * Time.deltaTime);
 
-        ResetTakeDamageAnim();
         Vector3 vfxPos = transform.position + transform.forward * 1.6f + new Vector3(0, 2f);
         StartCoroutine(VfxHelper.CreateVFX(primaryVFX, vfxPos, transform.rotation));
 

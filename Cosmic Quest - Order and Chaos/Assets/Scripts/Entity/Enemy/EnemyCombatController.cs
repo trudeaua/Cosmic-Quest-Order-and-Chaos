@@ -8,19 +8,18 @@ using UnityEngine.AI;
 [RequireComponent(typeof(EnemyBrainController))]
 public class EnemyCombatController : EntityCombatController
 {
-    public float primaryAttackCooldown = 1f;
-    public float primaryAttackDelay = 0.6f;
-    [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackSFX;
+    public bool IsCoolingDown => AttackCooldown > 0f;
 
-    public float attackRadius = 3f;
-    public float attackAngle = 45f;
+    protected EnemyBrainController Brain;
+    protected IEnumerable<GameObject> Players => PlayerManager.Instance.Players;
 
-    protected List<GameObject> Players;
-
-    private void Start()
+    protected override void Awake()
     {
-        Players = PlayerManager.Instance.Players;
+        base.Awake();
+
+        Brain = GetComponent<EnemyBrainController>();
     }
+
     /// <summary>
     /// Placeholder for enemy primary attack
     /// </summary>
@@ -28,6 +27,7 @@ public class EnemyCombatController : EntityCombatController
     {
         Debug.Log(gameObject.name + "'s primary attack triggered");
     }
+    
     /// <summary>
     /// Placeholder for enemy secondary attack
     /// </summary>
@@ -35,6 +35,7 @@ public class EnemyCombatController : EntityCombatController
     {
         Debug.Log(gameObject.name + "'s secondary attack triggered");
     }
+    
     /// <summary>
     /// Placeholder for enemy tertiary attack
     /// </summary>
@@ -44,27 +45,40 @@ public class EnemyCombatController : EntityCombatController
     }
 
     /// <summary>
+    /// Selects an attack to perform based on enemy's attack strategy
+    /// </summary>
+    public virtual void ChooseAttack()
+    {
+        Debug.Log("Default ChooseAttack() implementation triggered");
+    }
+
+    /// <summary>
     /// Determines if the enemy can deal damage to a player
     /// </summary>
-    /// <param name="target">The position of the target player</param>
+    /// <param name="target">The GameObject of the target player</param>
     /// <param name="radius">The range of the attack</param>
     /// <param name="sweepAngle">The angular distance in degrees of the attacks FOV.
     /// If set to 360 or left unset then the enemy can attack in any direction.</param>
     /// <returns>Whether the enemy can damage the player</returns>
-    protected bool CanDamageTarget(Vector3 target, float radius, float sweepAngle = 360f)
+    protected bool CanDamageTarget(GameObject target, float radius, float sweepAngle = 360f)
     {
         // TODO need to rethink hitboxes or standardize projecting from y = 1
         Vector3 pos = transform.position;
+        Vector3 targetPos = target.transform.position;
         pos.y = 1f;
-        Vector3 rayDirection = target - pos;
+        Vector3 rayDirection = targetPos - pos;
         rayDirection.y = 0;
+
+        // Player should be within the radius
+        if (Vector3.Distance(pos, targetPos) > radius)
+            return false;
 
         if (Mathf.Approximately(sweepAngle, 360f) || Vector3.Angle(rayDirection, transform.forward) <= sweepAngle * 0.5f)
         {
             // Check if enemy is within player's sight
             if (Physics.Raycast(pos, rayDirection, out RaycastHit hit, radius))
             {
-                return hit.transform.CompareTag("Player");
+                return hit.transform.gameObject.Equals(target);
             }
         }
 
