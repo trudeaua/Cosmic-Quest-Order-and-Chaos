@@ -34,34 +34,12 @@ public class MagmaBossCombatController : EnemyCombatController
     [SerializeField] protected AudioHelper.EntityAudioClip explosionAttackSFX;
 
     [Header("Special Attack - Fire Storm")]
-    [Tooltip("How often the boss will perform its special attack")]
-    public float specialAttackPeriod = 20f;
     public float firestormCooldown = 1f;
     public float firestormRadius = 5f;
     public float firestormMinDamage = 10f;
     public float firestormMaxDamage = 30f;
     [SerializeField] protected AudioHelper.EntityAudioClip firestormSFX;
     public Torch[] arenaTorches;
-
-    private float _specialAttackTimer;
-
-    public bool CanUseSpecialAttack
-    {
-        get { return _specialAttackTimer <= 0f; }
-    }
-
-    private void Start()
-    {
-        _specialAttackTimer = specialAttackPeriod;
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-
-        if (_specialAttackTimer > 0)
-            _specialAttackTimer -= Time.deltaTime;
-    }
 
     /// <summary>
     /// Punch attack.
@@ -112,6 +90,15 @@ public class MagmaBossCombatController : EnemyCombatController
             float damageValue = Random.Range(explosionAttackMinDamage, explosionAttackMaxDamage) + Stats.damage.GetValue();
             StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), damageValue));
         }
+    }
+    
+    /// <summary>
+    /// Will trigger the sequence for the Magma boss' special attack
+    /// </summary>
+    public override void SpecialAttack()
+    {
+        Anim.SetTrigger("FirestormAttack");
+        SpecialAttackTimer = specialAttackPeriod;
     }
 
     /// <summary>

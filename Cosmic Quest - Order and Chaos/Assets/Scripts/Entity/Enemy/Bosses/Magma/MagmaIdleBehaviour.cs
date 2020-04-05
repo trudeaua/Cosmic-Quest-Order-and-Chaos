@@ -5,13 +5,13 @@ using UnityEngine;
 public class MagmaIdleBehaviour : StateMachineBehaviour
 {
     private EnemyBrainController _brain;
-    private MagmaBossCombatController _combat;
-    private Transform _target;
+    private EnemyCombatController _combat;
+    private Transform _target; 
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _brain = animator.GetComponent<EnemyBrainController>();
-        _combat = animator.GetComponent<MagmaBossCombatController>();
+        _combat = animator.GetComponent<EnemyCombatController>();
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -27,7 +27,8 @@ public class MagmaIdleBehaviour : StateMachineBehaviour
         // See if we can use our special attack
         if (_combat.CanUseSpecialAttack)
         {
-            animator.SetTrigger("Firestorm");
+            _combat.SpecialAttack();
+            return;
         }
         
         // Try to attack player if they are close enough

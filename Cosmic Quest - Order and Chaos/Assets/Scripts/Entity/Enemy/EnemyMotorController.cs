@@ -37,6 +37,7 @@ public class EnemyMotorController : MonoBehaviour
 
     public void StopFollow()
     {
+        _agent.isStopped = true;
         IsFollowing = false;
         StopCoroutine(FollowTarget());
     }

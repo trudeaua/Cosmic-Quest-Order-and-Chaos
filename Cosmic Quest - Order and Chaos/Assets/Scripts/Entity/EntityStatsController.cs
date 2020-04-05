@@ -95,20 +95,22 @@ public class EntityStatsController : MonoBehaviour
     /// <summary>
     /// Take damage from an attacker
     /// </summary>
-    /// <param name="attacker">Stats controller of the attacking entity</param>
     /// <param name="damageValue">Approximate damage value to apply to enemy health</param>
     /// <param name="timeDelta">Time since last damage calculation</param>
-    public virtual void TakeDamage(EntityStatsController attacker, float damageValue, float timeDelta = 1f)
+    public virtual void TakeDamage(float damageValue, float timeDelta = 1f)
     {
         // Ignore attacks if already dead
         if (isDead)
             return;
+        
         Anim.ResetTrigger("TakeDamage");
         Anim.SetTrigger("TakeDamage");
+        
         if (takeDamageVocalSFX != null)
         {
             StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, takeDamageVocalSFX));
         }
+        
         // Calculate any changes based on stats and modifiers here first
         float hitValue = (damageValue - ComputeDefenseModifier()) * timeDelta;
         health.Subtract(hitValue < 0 ? 0 : hitValue);
@@ -117,6 +119,18 @@ public class EntityStatsController : MonoBehaviour
         {
             Die();
         }
+    }
+    
+    /// <summary>
+    /// Take damage from an attacker, with reference to who the attacker is
+    /// </summary>
+    /// <param name="attacker">Stats controller of the attacking entity</param>
+    /// <param name="damageValue">Approximate damage value to apply to enemy health</param>
+    /// <param name="timeDelta">Time since last damage calculation</param>
+    public virtual void TakeDamage(EntityStatsController attacker, float damageValue, float timeDelta = 1f)
+    {
+        // By default ignore the launcher stats
+        TakeDamage(damageValue, timeDelta);
     }
 
     /// <summary>

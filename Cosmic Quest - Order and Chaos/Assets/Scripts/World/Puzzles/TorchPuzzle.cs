@@ -8,11 +8,8 @@ public class TorchPuzzle : Puzzle
     public Torch[] torches;
     
     // Count of torches that are currently lit
-    protected int NumLit
-    {
-        get { return torches.Count(t => t.isLit); }
-    }
-    
+    protected int NumLit => torches.Count(t => t.isLit);
+
     private void Start()
     {
         // Subscribe to torch interaction events
@@ -20,6 +17,12 @@ public class TorchPuzzle : Puzzle
         {
             torch.onInteract += OnInteract;
         }
+        
+        // Invoke event based on current status
+        if (NumLit == 0)
+            SetComplete();
+        else
+            ResetPuzzle();
     }
 
     protected virtual void OnInteract(bool isLit)

@@ -36,11 +36,17 @@ public class FollowBehaviour : StateMachineBehaviour
 
         if (_agent.enabled && _target)
         {
+            // See if we can use our special attack
+            if (_combat.CanUseSpecialAttack)
+            {
+                _combat.SpecialAttack();
+                return;
+            }
+            
             if (!_combat.IsCoolingDown && Vector3.Distance(_target.position, animator.transform.position) <= _brain.attackRadius)
             {
                 // Go to attack state
                 _combat.ChooseAttack();
-                _agent.isStopped = true;
             }
         }
         

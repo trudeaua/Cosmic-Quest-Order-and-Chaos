@@ -8,7 +8,14 @@ using UnityEngine.AI;
 [RequireComponent(typeof(EnemyBrainController))]
 public class EnemyCombatController : EntityCombatController
 {
+    [Header("General Settings")]
+    public bool hasSpecialAttack;
+    [Tooltip("How often the enemy will perform its special attack if it has one")]
+    public float specialAttackPeriod;
+
     public bool IsCoolingDown => AttackCooldown > 0f;
+    protected float SpecialAttackTimer;
+    public bool CanUseSpecialAttack => hasSpecialAttack && SpecialAttackTimer <= 0f;
 
     protected EnemyBrainController Brain;
     protected IEnumerable<GameObject> Players => PlayerManager.Instance.Players;
@@ -18,6 +25,21 @@ public class EnemyCombatController : EntityCombatController
         base.Awake();
 
         Brain = GetComponent<EnemyBrainController>();
+    }
+    
+    private void Start()
+    {
+        // Initialize special attack timer
+        if (hasSpecialAttack)
+            SpecialAttackTimer = specialAttackPeriod;
+    }
+    
+    protected override void Update()
+    {
+        base.Update();
+
+        if (hasSpecialAttack && SpecialAttackTimer > 0)
+            SpecialAttackTimer -= Time.deltaTime;
     }
 
     /// <summary>
@@ -42,6 +64,14 @@ public class EnemyCombatController : EntityCombatController
     public virtual void TertiaryAttack()
     {
         Debug.Log(gameObject.name + "'s tertiary attack triggered");
+    }
+
+    /// <summary>
+    /// Placeholder for enemy special attack starter
+    /// </summary>
+    public virtual void SpecialAttack()
+    {
+        Debug.Log(gameObject.name + "'s special attack triggered");
     }
 
     /// <summary>

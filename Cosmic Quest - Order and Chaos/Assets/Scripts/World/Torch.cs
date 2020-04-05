@@ -25,12 +25,12 @@ public class Torch : Interactable
     private void Reset()
     {
         // Set default value for interactable fields
-        isTrigger = false;
+        isTrigger = true;
         isHeld = false;
     }
     
     /// <summary>
-    /// Interact with the torch, flipping its current state 
+    /// Interact with the torch, flipping its current state
     /// </summary>
     /// <param name="target">Target that is trying to interact with the torch</param>
     public override void StartInteract(Transform target)

@@ -1823,6 +1823,98 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &656046601
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 656046603}
+  - component: {fileID: 656046604}
+  - component: {fileID: 656046602}
+  m_Layer: 0
+  m_Name: Magma Rain
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &656046602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656046601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5000171a837ae8141b9aa7831f4d17ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 20
+  magmaBall: {fileID: 9126719830882956560, guid: 8f082040f601d94469521bf80d5892ad,
+    type: 3}
+  launchPeriod: 0.5
+--- !u!4 &656046603
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656046601}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &656046604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656046601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56768ee5b15f46a4c8d860207bc2dd02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onCompletion:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 656046602}
+        m_MethodName: StopMagmaRain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onReset:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 656046602}
+        m_MethodName: StartMagmaRain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  torches:
+  - {fileID: 1915066986}
+  - {fileID: 1753869406}
+  - {fileID: 1479270579}
 --- !u!1001 &988289507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2244,6 +2336,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1266128583}
   m_CullTransparentMesh: 0
+--- !u!114 &1479270579 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 686926698494026310, guid: 6810cbc72a4336c46a58c158d64943c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1233992201}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bef3e67faa7f70479cc39e90f18874c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1617431832
 GameObject:
   m_ObjectHideFlags: 0
@@ -2344,6 +2448,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1753869406 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 686926698494026310, guid: 6810cbc72a4336c46a58c158d64943c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 988289507}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bef3e67faa7f70479cc39e90f18874c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1842859075
 GameObject:
   m_ObjectHideFlags: 0
@@ -2418,6 +2534,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1842859075}
   m_CullTransparentMesh: 0
+--- !u!114 &1915066986 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 686926698494026310, guid: 6810cbc72a4336c46a58c158d64943c2,
+    type: 3}
+  m_PrefabInstance: {fileID: 686926697697774266}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bef3e67faa7f70479cc39e90f18874c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1951962464
 GameObject:
   m_ObjectHideFlags: 0
@@ -2611,7 +2739,7 @@ PrefabInstance:
     - target: {fileID: 6191347782550681471, guid: 769244af832bdd44cbd0fe4ac286d06b,
         type: 3}
       propertyPath: pooledItems.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6191347782550681471, guid: 769244af832bdd44cbd0fe4ac286d06b,
         type: 3}
@@ -2624,6 +2752,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3220180553990204031, guid: 60bb997f542d06e41bc9a26870a4c550,
         type: 3}
+    - target: {fileID: 6191347782550681471, guid: 769244af832bdd44cbd0fe4ac286d06b,
+        type: 3}
+      propertyPath: pooledItems.Array.data[4].pooledAmount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191347782550681471, guid: 769244af832bdd44cbd0fe4ac286d06b,
+        type: 3}
+      propertyPath: pooledItems.Array.data[4].pooledObject
+      value: 
+      objectReference: {fileID: 9126719830882956560, guid: 8f082040f601d94469521bf80d5892ad,
+        type: 3}
+    - target: {fileID: 6191347782550681471, guid: 769244af832bdd44cbd0fe4ac286d06b,
+        type: 3}
+      propertyPath: pooledItems.Array.data[4].expandable
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 769244af832bdd44cbd0fe4ac286d06b, type: 3}
 --- !u!1001 &686926697697774266
@@ -2781,6 +2925,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Magma Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 7770021610953661345, guid: 82c9c26894cedee40a467a631c172cb9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 814962370199398732, guid: 82c9c26894cedee40a467a631c172cb9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2836,6 +2985,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1546829893308362670, guid: 82c9c26894cedee40a467a631c172cb9,
+        type: 3}
+      propertyPath: arenaTorches.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1546829893308362670, guid: 82c9c26894cedee40a467a631c172cb9,
+        type: 3}
+      propertyPath: arenaTorches.Array.data[0]
+      value: 
+      objectReference: {fileID: 1915066986}
+    - target: {fileID: 1546829893308362670, guid: 82c9c26894cedee40a467a631c172cb9,
+        type: 3}
+      propertyPath: arenaTorches.Array.data[1]
+      value: 
+      objectReference: {fileID: 1753869406}
+    - target: {fileID: 1546829893308362670, guid: 82c9c26894cedee40a467a631c172cb9,
+        type: 3}
+      propertyPath: arenaTorches.Array.data[2]
+      value: 
+      objectReference: {fileID: 1479270579}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82c9c26894cedee40a467a631c172cb9, type: 3}
 --- !u!1001 &7159535218312519254
