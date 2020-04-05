@@ -2187,6 +2187,9 @@ MonoBehaviour:
     maxValue: 100
     minValue: 0
     regenAmount: 1
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
   damage:
     baseValue: 3
   defense:
@@ -2260,6 +2263,8 @@ MonoBehaviour:
     loop: 0
   primaryAttackTimeout: 0.4
   secondaryAttackTimeout: 1
+  paralyzePrefab: {fileID: 6972539704341408920, guid: 5845f72e253a40949a6d347d515b3b3f,
+    type: 3}
   primaryAttackMinDamage: 5
   primaryAttackMaxDamage: 9
   primaryAttackRange: 22
