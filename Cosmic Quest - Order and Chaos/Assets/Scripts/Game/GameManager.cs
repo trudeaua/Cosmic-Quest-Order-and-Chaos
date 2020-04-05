@@ -111,4 +111,10 @@ public class GameManager : MonoBehaviour
         CurrentState = GameState.SelectingLevel;
         onStateChange.Invoke();
     }
+
+    public void SetGameOverState()
+    {
+        CurrentState = GameState.GameOver;
+        onStateChange.Invoke();
+    }
 }

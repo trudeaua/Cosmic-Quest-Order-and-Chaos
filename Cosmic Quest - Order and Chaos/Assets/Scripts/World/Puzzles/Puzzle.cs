@@ -15,7 +15,7 @@ public class Puzzle : MonoBehaviour, ISerializable
         playerColours = PlayerManager.Instance.CurrentPlayerColours;
     }
 
-    protected void SetComplete()
+    protected virtual void SetComplete()
     {
         isComplete = true;
         

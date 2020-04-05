@@ -45,13 +45,10 @@ public class MusicManager : MonoBehaviour
         switch (GameManager.Instance.CurrentState)
         {
             case GameManager.GameState.Menu:
-                CurrentAudioLoop = MenuMusic;
                 break;
             case GameManager.GameState.Paused:
-                CurrentAudioLoop = PausedMusic;
                 break;
             case GameManager.GameState.Loading:
-                CurrentAudioLoop = LoadingMusic;
                 break;
             case GameManager.GameState.Playing:
                 CurrentAudioLoop = PlayingMusic;
@@ -60,7 +57,6 @@ public class MusicManager : MonoBehaviour
                 CurrentAudioLoop = BossFightMusic;
                 break;
             case GameManager.GameState.GameOver:
-                CurrentAudioLoop = GameOverMusic;
                 break;
             default:
                 break;

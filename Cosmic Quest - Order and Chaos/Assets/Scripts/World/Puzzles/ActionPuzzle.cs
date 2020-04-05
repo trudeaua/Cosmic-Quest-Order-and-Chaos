@@ -123,6 +123,7 @@ public class ActionPuzzle : Puzzle
         if (currentAction > -1)
         {
             InputAction inputAction = playerActionMap.actions.First(e => e.name == requiredActions[currentAction].actionName);
+            playerInput.GetComponent<PlayerCombatController>().SendMessage("ReleaseChargedAttack");
             inputAction.Disable();
         }
     }

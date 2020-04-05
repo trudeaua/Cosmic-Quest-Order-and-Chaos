@@ -12,6 +12,7 @@ public class LeverPuzzle : Puzzle
 
     protected override void Start()
     {
+        base.Start();
         Received = new List<CharacterColour>();
         foreach (Lever lever in levers)
         {

@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 
 public class TurnBasedTask : Task
 {
@@ -39,6 +40,11 @@ public class TurnBasedTask : Task
             taskParts[i].completed = false;
             taskParts[i].started = false;
             taskParts[i].playerNumber = playerNumber;
+
+            // Restart level if player dies during task
+            PlayerStatsController playerStats = taskParts[i].playerObject.GetComponent<PlayerStatsController>();
+            playerStats.onDeath.AddListener(PlayerDied);
+
             switch (taskParts[i].className)
             {
                 case "Mage":
@@ -71,7 +77,6 @@ public class TurnBasedTask : Task
             if (taskParts[i].playerNumber == currentTask)
             {
                 MoveToActiveArea(playerInput.gameObject, i);
-                CharacterColour colour = playerStats.characterColour;
                 foreach (Puzzle puzzle in _Puzzles)
                 {
                     if (puzzle is ActionPuzzle)
@@ -79,12 +84,17 @@ public class TurnBasedTask : Task
                         ActionPuzzle actionPuzzle = puzzle as ActionPuzzle;
                         actionPuzzle.SetPlayerInput(playerInput);
                     }
+                    if (puzzle is EnemyPuzzle)
+                    {
+                        EnemyPuzzle enemyPuzzle = puzzle as EnemyPuzzle;
+                        enemyPuzzle.SetPuzzleColour(playerStats.characterColour);
+                    }
                 }
                 Dialogue currentDialogue = taskParts[currentTask].dialogueTrigger.dialogue;
                 for (int j = 0; j < currentDialogue.sentences.Length; j++)
                 {
                     string color = PlayerManager.colours.GetColorHex(playerStats.characterColour);
-                    string newText = currentDialogue.sentences[j].Replace("{PLAYER_NUMBER}", "<color=" + color + ">" + "Player " + (taskParts[i].playerNumber + 1) + "</color>");
+                    string newText = string.Copy(currentDialogue.sentences[j]).Replace("{PLAYER_NUMBER}", "<color=" + color + ">" + "Player " + (taskParts[i].playerNumber + 1) + "</color>");
                     currentDialogue.sentences[j] = newText;
                 }
             }
@@ -129,16 +139,20 @@ public class TurnBasedTask : Task
         float currDist = Vector3.Distance(playerInput.transform.position, to);
 
         // Setup the mock gamepad
-        InputDevice inputDevice = playerInput.devices.First();
-        PlayerInputMock playerInputMock = new PlayerInputMock(playerNumber, inputDevice.deviceId, playerInput.currentControlScheme);
+        ReadOnlyArray<InputDevice>? inputDevices = playerInput.currentActionMap.devices;
+        int[] deviceIds = inputDevices.Value.Select(e => e.deviceId).ToArray();
+        PlayerInputMock playerInputMock = new PlayerInputMock(playerNumber, deviceIds, playerInput.currentControlScheme);
         playerInputMock.SetInputToMockGamepad(playerInput);
 
         // Start moving them towards the target position
         playerInputMock.Press(playerInputMock.Gamepad.leftStick, new Vector2(direction.x, direction.z));
         playerInputMock.Press(playerInputMock.Gamepad.rightStick, new Vector2(direction.x, direction.z));
-        while (oldDist > currDist)
+        float timeout = 8;
+        float tolerance = 0.05f;
+        while (oldDist > currDist && timeout > 0)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(tolerance);
+            timeout -= tolerance;
             oldDist = currDist;
             currDist = Vector3.Distance(playerInput.transform.position, to);
         }
@@ -157,6 +171,12 @@ public class TurnBasedTask : Task
         {
             playerInput.PassivateInput();
         }
+    }
+
+    private void PlayerDied()
+    {
+        // TODO what should be done here?
+        Complete();
     }
 
     /// <summary>
@@ -185,6 +205,11 @@ public class TurnBasedTask : Task
         }
         else
         {
+            foreach (TaskPart taskPart in taskParts)
+            {
+                PlayerStatsController playerStats = taskPart.playerObject.GetComponent<PlayerStatsController>();
+                playerStats.onDeath.RemoveListener(PlayerDied);
+            }
             EnableAllPlayerInput();
             base.Complete();
         }

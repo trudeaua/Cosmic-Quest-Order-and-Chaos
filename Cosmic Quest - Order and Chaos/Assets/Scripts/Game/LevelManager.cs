@@ -130,13 +130,6 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 1;
         yield return new WaitForSeconds(0.5f);
 
-        // check if scene has already been loaded, if it has then set it to active
-        Scene loadedScene = SceneManager.GetSceneByName(sceneName);
-        if (loadedScene.IsValid())
-        {
-            SceneManager.SetActiveScene(loadedScene);
-            yield break;
-        }
         // Load the scene asynchronously
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
 

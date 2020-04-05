@@ -36,7 +36,7 @@ public class DamageProjectile : Projectile
         }
         
         // Don't worry about collisions with the launcher
-        if (col != LauncherStats.gameObject)
+        if (col != LauncherStats.gameObject && !col.CompareTag("TaskArea"))
             gameObject.SetActive(false);
     }
 }

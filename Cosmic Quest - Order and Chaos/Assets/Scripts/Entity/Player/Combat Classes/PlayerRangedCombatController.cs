@@ -170,12 +170,16 @@ public class PlayerRangedCombatController : PlayerCombatController
         }
         else if (_isPrimaryCharging)
         {
-            _isPrimaryCharging = false;
-            Anim.SetBool("PrimaryAttack", false);
-            AudioHelper.StopAudio(WeaponAudio);
-            StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackReleaseWeaponSFX));
-            Motor.ResetMovementModifier();
-            PrimaryAttack();
+            ReleaseChargedAttack();
         }
+    }
+    protected override void ReleaseChargedAttack()
+    {
+        _isPrimaryCharging = false;
+        Anim.SetBool("PrimaryAttack", false);
+        AudioHelper.StopAudio(WeaponAudio);
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackReleaseWeaponSFX));
+        Motor.ResetMovementModifier();
+        PrimaryAttack();
     }
 }
