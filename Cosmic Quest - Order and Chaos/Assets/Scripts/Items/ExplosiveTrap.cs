@@ -83,12 +83,18 @@ public class ExplosiveTrap : MonoBehaviour
     /// <returns>An IEnumerator</returns>
     private IEnumerator RemoveTrapFromScene()
     {
-        MeshRenderer mesh = gameObject.GetComponentInChildren<MeshRenderer>();
-        // Hide the mesh to emulate the object being destroyed
-        mesh.enabled = false;
-        yield return new WaitForSeconds(2f);
-        mesh.enabled = true;
-        gameObject.SetActive(false);
+        foreach (Transform child in transform)
+        {
+            if (child.tag == "ToBeRemoved")
+            {
+                child.gameObject.SetActive(false);
+                
+                yield return new WaitForSeconds(2f);
+                child.gameObject.SetActive(true);
+                gameObject.SetActive(false);
+                break;
+            }
+        }
     }
 
     /// <summary>

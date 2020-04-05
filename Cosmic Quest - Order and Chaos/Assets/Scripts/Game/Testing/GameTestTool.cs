@@ -9,7 +9,7 @@ public enum TestPlayerClass
     Mage,
     Melee,
     Healer,
-    Ranged
+    Ranger
 }
 
 [Serializable]

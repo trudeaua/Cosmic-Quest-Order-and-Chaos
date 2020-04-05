@@ -1727,7 +1727,7 @@ MonoBehaviour:
   health:
     maxValue: 100
     minValue: 0
-    regenAmount: 1
+    regenAmount: 2
   onDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -1758,7 +1758,7 @@ MonoBehaviour:
   mana:
     maxValue: 100
     minValue: 0
-    regenAmount: 15
+    regenAmount: 35
   respawnBeaconPrefab: {fileID: 5332417463244100679, guid: 839e76de723905d4cbf20b613b122332,
     type: 3}
   playerRespawningSFX:
@@ -1802,15 +1802,15 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
-  primaryAttackTimeout: 0.8
-  secondaryAttackTimeout: 0.8
+  primaryAttackTimeout: 0.9
+  secondaryAttackTimeout: 0.9
   primaryAttackMinDamage: 2
   primaryAttackMaxDamage: 4
   primaryAttackRadius: 5
-  primaryAttackSweepAngle: 70
+  primaryAttackSweepAngle: 100
   primaryAttackDamageDelay: 0.6
-  primaryAttackManaDepletion: 25
-  primaryAttackMovementModifier: 0.6
+  primaryAttackManaDepletion: 40
+  primaryAttackMovementModifier: 0.5
   primaryAttackWeaponSFX:
     pitch: 1.5
     volume: 0.5
@@ -1818,13 +1818,13 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
-  secondaryAttackMinDamage: 7
+  secondaryAttackMinDamage: 6
   secondaryAttackMaxDamage: 8
   secondaryAttackRadius: 8.5
   secondaryAttackSweepAngle: 80
   secondaryAttackDamageDelay: 0.6
-  secondaryAttackManaDepletion: 50
-  secondaryAttackMovementModifier: 0.15
+  secondaryAttackManaDepletion: 100
+  secondaryAttackMovementModifier: 0.2
   secondaryVFX: {fileID: 1157444645554400, guid: 8d757d7da680be745a96124bd9b9fcfe,
     type: 3}
   secondaryAttackWeaponSFX:
