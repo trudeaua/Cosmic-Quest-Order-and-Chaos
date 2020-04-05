@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerSpawn : MonoBehaviour
 {
     public float radius;
-    
     private void Start()
     {
         Vector3 spawnPos = transform.position;

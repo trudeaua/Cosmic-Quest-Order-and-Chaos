@@ -164,6 +164,7 @@ public class EnemyStatsController : EntityStatsController
     {
         Debug.Log(transform.name + " died.");
         isDead = true;
+        onDeath.Invoke();
         _agent.enabled = false;
         StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, entityDeathVocalSFX));
         Anim.SetBool("Dead", true);
