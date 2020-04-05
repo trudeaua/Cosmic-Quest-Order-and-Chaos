@@ -1,6 +1,6 @@
 using System;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyPuzzle : Puzzle
 {
@@ -17,19 +17,19 @@ public class EnemyPuzzle : Puzzle
     {
         numEnemiesDead = 0;
         numEnemies = enemies.Length;
-        foreach(Enemy enemy in enemies)
+        foreach (Enemy enemy in enemies)
         {
             GameObject enemyObj = Instantiate(enemy.enemyPrefab, transform);
             EnemyStatsController enemyStats = enemyObj.GetComponent<EnemyStatsController>();
-            NavMeshAgent navMesh = enemyObj.GetComponent<NavMeshAgent>();
-            navMesh.enabled = false;
-            if (enemy.enemyColour == CharacterColour.All)
+
+            int colourIndex = UnityEngine.Random.Range(0, puzzleColours.Length);
+            if (puzzleColours.Contains(enemy.enemyColour))
             {
-                enemyStats.characterColour = puzzleColour;
+                enemyStats.characterColour = enemy.enemyColour;
             }
             else
             {
-                enemyStats.characterColour = enemy.enemyColour;
+                enemyStats.characterColour = puzzleColours[colourIndex];
             }
             enemyStats.onDeath.AddListener(EnemyDied);
         }

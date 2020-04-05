@@ -95,7 +95,7 @@ public class DialogueManager : MonoBehaviour
         // render the text behind the scenes, allows rich text effects to be applied nicely
         dialogueText.text = sentence;
         dialogueText.maxVisibleCharacters = 0;
-        for (int i = 0; i < sentence.Length; i++)
+        for (int i = 0; i <= sentence.Length; i++)
         {
             int visibleCount = i % (sentence.Length + 1);
             dialogueText.maxVisibleCharacters = visibleCount;

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 public class RockPuzzle : Puzzle
 {
@@ -7,20 +8,24 @@ public class RockPuzzle : Puzzle
     // Current number of activated platforms
     private int _numActivated;
     
-    private void Start()
+    protected override void Start()
     {
-        // Subscribe to platform activation events
+        base.Start();
         foreach (Platform platform in platforms)
         {
+            // Subscribe to platform activation events
             platform.onActivation += UpdateActivated;
         }
     }
 
     private void UpdateActivated(bool isActivated)
     {
+        if (isComplete)
+            return;
+
         _numActivated += isActivated ? 1 : -1;
 
-        if (_numActivated == platforms.Length)
+        if (_numActivated == puzzleColours.Length)
         {
             // Puzzle is complete
             SetComplete();

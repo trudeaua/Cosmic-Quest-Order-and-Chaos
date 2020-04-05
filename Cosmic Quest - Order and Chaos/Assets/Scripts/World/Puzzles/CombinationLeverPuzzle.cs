@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class CombinationLeverPuzzle : LeverPuzzle
 {
@@ -7,6 +8,9 @@ public class CombinationLeverPuzzle : LeverPuzzle
 
     protected override void AddColour(CharacterColour colour)
     {
+        if (isComplete)
+            return;
+
         Received.Add(colour);
 
         // If we have the correct number of elements in buffer then check combination

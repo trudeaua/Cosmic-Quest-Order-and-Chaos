@@ -74,11 +74,7 @@ public class TurnBasedTask : Task
                 CharacterColour colour = playerStats.characterColour;
                 foreach (Puzzle puzzle in _Puzzles)
                 {
-                    if (puzzle is EnemyPuzzle)
-                    {
-                        puzzle.SetPuzzleColour(colour);
-                    }
-                    else if (puzzle is ActionPuzzle)
+                    if (puzzle is ActionPuzzle)
                     {
                         ActionPuzzle actionPuzzle = puzzle as ActionPuzzle;
                         actionPuzzle.SetPlayerInput(playerInput);

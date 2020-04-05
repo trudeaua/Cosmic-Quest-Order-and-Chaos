@@ -15,8 +15,9 @@ GameObject:
   - component: {fileID: 892828133575137678}
   - component: {fileID: 892828133575137679}
   - component: {fileID: 892828134433256411}
+  - component: {fileID: 3574446593032707576}
   m_Layer: 0
-  m_Name: PurplePlat
+  m_Name: Platform
   m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +30,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 892828135067490437}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.081734, y: -0.43, z: -0.69}
   m_LocalScale: {x: 0.3557672, y: 0.3557672, z: 0.34865186}
   m_Children: []
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 24369dfdc0ca41b4d94b35d0f163de32, type: 2}
+  - {fileID: 2100000, guid: b9ff41e40ef08194494509ffbe8a4d8b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -91,7 +92,7 @@ SphereCollider:
   m_GameObject: {fileID: 892828135067490437}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 7.9165483
   m_Center: {x: -0.13884506, y: 0.000013403068, z: -0.000011392607}
@@ -126,8 +127,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d56e5ad1985c4ff44bb394dfcab3c868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Colour: 5
-  IsActivated: 0
+  purpleMaterial: {fileID: 2100000, guid: 24369dfdc0ca41b4d94b35d0f163de32, type: 2}
+  greenMaterial: {fileID: 2100000, guid: 85fc64bac983097448df2ffb0517a2a8, type: 2}
+  redMaterial: {fileID: 2100000, guid: 40ddc0ebb3b1b094e85c89b746eba0a6, type: 2}
+  yellowMaterial: {fileID: 2100000, guid: 8f69b006c34a48e49850715882beab56, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: b9ff41e40ef08194494509ffbe8a4d8b, type: 2}
+  colour: 5
 --- !u!82 &892828134433256411
 AudioSource:
   m_ObjectHideFlags: 0
@@ -224,3 +229,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &3574446593032707576
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892828135067490437}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 12, y: -0.7, z: 12}
+  m_Center: {x: 0, y: 0.5, z: 0}
