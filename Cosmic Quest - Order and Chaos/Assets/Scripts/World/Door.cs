@@ -21,7 +21,16 @@ public class Door : MonoBehaviour, ISerializable
         if (!isOpen)
         {
             isOpen = true;
-            StartCoroutine("OpenDoor");
+            StartCoroutine(OpenDoor());
+        }
+    }
+
+    public void Close()
+    {
+        if (isOpen)
+        {
+            isOpen = false;
+            StartCoroutine(CloseDoor());
         }
     }
 
@@ -40,6 +49,19 @@ public class Door : MonoBehaviour, ISerializable
         
         // Disable the door collider
         _col.enabled = false;
+    }
+
+    private IEnumerator CloseDoor()
+    {
+        // Play door opening animation
+        if (_anim)
+            _anim.SetBool("UnlockDoor", false);
+
+        // Wait until the animation completes
+        yield return new WaitForSeconds(1f);
+
+        // Disable the door collider
+        _col.enabled = true;
     }
 
     public string Serialize()

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
+using UnityEngine.InputSystem.Utilities;
 
 [Serializable]
 public class PlayerColours
@@ -23,6 +25,12 @@ public class PlayerColours
             case CharacterColour.Yellow: return yellow;
             default: return Color.gray;
         }
+    }
+
+    public string GetColorHex(CharacterColour colour)
+    {
+        Color c = GetColour(colour);
+        return string.Format("#{0:X2}{1:X2}{2:X2}", (int)(c.r * 255), (int)(c.g * 255), (int)(c.b * 255));
     }
 }
 
@@ -45,6 +53,11 @@ public class Player
     public GameObject playerObject;
 
     public int deviceId;
+
+    internal string classChoice;
+
+    public int primaryAttackActionId;
+    public int secondaryAttackActionId;
 
     public Player(PlayerInput _playerInput, CharacterColour _characterColour, CharacterOption _characterChoice, int _deviceId)
     {
@@ -166,6 +179,12 @@ public class PlayerManager : MonoBehaviour
         {
             // Simply instantiate the player and let it choose a device randomly
             playerInstance = Instantiate(_playerSlots[playerNumber].playerObject);
+            PlayerInput playerInput = playerInstance.GetComponent<PlayerInput>();
+            InputDevice device = playerInput.devices.First();
+            if (device != null)
+            {
+                _playerSlots[playerNumber].deviceId = device.deviceId;
+            }
         }
         else
         {
@@ -278,6 +297,7 @@ public class PlayerManager : MonoBehaviour
         if (_playerSlots[player] != null)
         {
             _playerSlots[player].playerObject = classOptions[classChoice].prefab;
+            _playerSlots[player].classChoice = classOptions[classChoice].name;
         }
     }
 
@@ -389,6 +409,37 @@ public class PlayerManager : MonoBehaviour
         playerInput.user.UnpairDevicesAndRemoveUser();
     }
 
+    public IEnumerator RumbleGamepad(PlayerInput playerInput, float lowFrequency, float highFrequency, float duration)
+    {
+        InputDevice inputDevice = playerInput.devices.First();
+        if (inputDevice is Gamepad)
+        {
+            Gamepad gamepad = inputDevice as Gamepad;
+            gamepad.SetMotorSpeeds(lowFrequency, highFrequency);
+            yield return new WaitForSeconds(duration);
+            gamepad.SetMotorSpeeds(0, 0);
+        }
+    }
+
+    /// <summary>
+    /// Retrieves an action map from a Player's Input
+    /// </summary>
+    /// <param name="playerInput">Player's Input component</param>
+    /// <param name="actionMapName">Name of the action map</param>
+    /// <returns>The action map</returns>
+    public InputActionMap GetActionMap(PlayerInput playerInput, string actionMapName)
+    {
+        ReadOnlyArray<InputActionMap> actionMaps = playerInput.actions.actionMaps;
+        foreach (InputActionMap actionMap in actionMaps)
+        {
+            if (actionMap.name == actionMapName)
+            {
+                return actionMap;
+            }
+        }
+        return null;
+    }
+
     /// <summary>
     /// Get the number of a player by their input device id
     /// </summary>
@@ -404,6 +455,23 @@ public class PlayerManager : MonoBehaviour
             }
         }
         return -1;
+    }
+
+    // Find a players GameObject in the scene
+    public GameObject FindPlayer(int playerNumber)
+    {
+        PlayerStatsController[] players = FindObjectsOfType<PlayerStatsController>();
+        for (int i = 0; i < players.Length; i++)
+        {
+            PlayerInput playerInput = players[i].GetComponent<PlayerInput>();
+            int deviceId = playerInput.user.pairedDevices.First().deviceId;
+            int playerNum = GetPlayerNumber(deviceId);
+            if (playerNum == playerNumber)
+            {
+                return players[i].gameObject;
+            }
+        }
+        return null;
     }
 
     /// <summary>
@@ -434,5 +502,19 @@ public class PlayerManager : MonoBehaviour
         newPlayer.characterColour = PlayerColours[playerNumber];
         _playerSlots[playerNumber] = newPlayer;
         return playerNumber;
+    }
+
+    /// <summary>
+    /// Get the class name of a player
+    /// </summary>
+    /// <param name="playerNumber">Number of the player</param>
+    /// <returns>The player's class name, null if not found</returns>
+    public string GetPlayerClassName(int playerNumber)
+    {
+        if (playerNumber >= 0 && playerNumber < NumPlayers)
+        {
+            return _playerSlots[playerNumber].classChoice;
+        }
+        return null;
     }
 }
