@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class Puzzle : MonoBehaviour, ISerializable
@@ -6,8 +8,14 @@ public class Puzzle : MonoBehaviour, ISerializable
     public UnityEvent onCompletion;
     public UnityEvent onReset;
     protected CharacterColour puzzleColour = CharacterColour.None;
+    protected CharacterColour[] activeColours;
 
     public bool isComplete { get; private set; }
+
+    protected virtual void Start()
+    {
+        activeColours = PlayerManager.Instance.GetActivePlayerColours();
+    }
 
     protected void SetComplete()
     {

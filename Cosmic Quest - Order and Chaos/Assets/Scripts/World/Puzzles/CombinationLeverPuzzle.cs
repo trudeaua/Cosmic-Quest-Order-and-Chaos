@@ -28,4 +28,15 @@ public class CombinationLeverPuzzle : LeverPuzzle
             SetComplete();
         }
     }
+
+    /// <summary>
+    /// Set the colour combination of the puzzle based on active player colours
+    /// </summary>
+    public void SetColourCombination()
+    {
+        for (int i = 0; i < combination.Length; i++)
+        {
+            combination[i] = activeColours[Random.Range(0, activeColours.Length)];
+        }
+    }
 }

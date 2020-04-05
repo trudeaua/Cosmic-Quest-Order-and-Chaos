@@ -126,7 +126,7 @@ public class PlayerManager : MonoBehaviour
     {
         get { return _playerSlots.Count(p => p != null); }
     }
-    
+
     public List<GameObject> AlivePlayers
     {
         get { return Players.FindAll(p => !p.GetComponent<PlayerStatsController>().isDead); }
@@ -517,4 +517,21 @@ public class PlayerManager : MonoBehaviour
         }
         return null;
     }
+
+    /// <summary>
+    /// Get the colours of all active players
+    /// </summary>
+    /// <returns>Array of active player colours</returns>
+    public CharacterColour[] GetActivePlayerColours()
+    {
+        CharacterColour[] activeColours = new CharacterColou[NumPlayers];
+        
+        for (int i = 0; i < activeColours.Length; i++)
+        {
+            activeColours[i] = _playerSlots[i].CharacterColour;
+        }
+
+        return activeColours;
+    }
+
 }

@@ -18,7 +18,7 @@ public class Interactable : MonoBehaviour
     
     [Tooltip("Required character colour to interact with")]
     public CharacterColour colour = CharacterColour.All;
-
+    
     /// <summary>
     /// Handles the start of an interaction event with a player
     /// </summary>

@@ -10,8 +10,9 @@ public class LeverPuzzle : Puzzle
     // Buffer for received colours
     protected List<CharacterColour> Received;
     
-    private void Start()
+    private override void Start()
     {
+        activeColours = PlayerManager.Instance.GetActivePlayerColours();
         Received = new List<CharacterColour>();
         
         // Subscribe to lever activation events
