@@ -1,10 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CombinationLeverPuzzle : LeverPuzzle
 {
     // The expected order of colours
     [SerializeField] private CharacterColour[] combination;
+
+    protected override void Start()
+    {
+        base.Start();
+        foreach (Lever lever in levers)
+        {
+            if (!playerColours.Contains(lever.colour))
+            {
+                gameObject.SetActive(false);
+                break;
+            }
+        }
+    }
 
     protected override void AddColour(CharacterColour colour)
     {

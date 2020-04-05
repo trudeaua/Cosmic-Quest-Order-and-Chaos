@@ -12,7 +12,6 @@ public class LeverPuzzle : Puzzle
 
     protected override void Start()
     {
-        base.Start();
         Received = new List<CharacterColour>();
         foreach (Lever lever in levers)
         {
@@ -30,7 +29,7 @@ public class LeverPuzzle : Puzzle
         if (!Received.Contains(colour))
             Received.Add(colour);
 
-        if (Received.Count == puzzleColours.Length)
+        if (Received.Count == playerColours.Length)
         {
             // All required levers have been pulled
             SetComplete();

@@ -22,14 +22,14 @@ public class EnemyPuzzle : Puzzle
             GameObject enemyObj = Instantiate(enemy.enemyPrefab, transform);
             EnemyStatsController enemyStats = enemyObj.GetComponent<EnemyStatsController>();
 
-            int colourIndex = UnityEngine.Random.Range(0, puzzleColours.Length);
-            if (puzzleColours.Contains(enemy.enemyColour))
+            int colourIndex = UnityEngine.Random.Range(0, playerColours.Length);
+            if (playerColours.Contains(enemy.enemyColour))
             {
                 enemyStats.characterColour = enemy.enemyColour;
             }
             else
             {
-                enemyStats.characterColour = puzzleColours[colourIndex];
+                enemyStats.characterColour = playerColours[colourIndex];
             }
             enemyStats.onDeath.AddListener(EnemyDied);
         }

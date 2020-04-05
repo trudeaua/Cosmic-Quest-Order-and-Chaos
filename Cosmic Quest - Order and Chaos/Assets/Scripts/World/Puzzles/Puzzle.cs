@@ -6,13 +6,13 @@ public class Puzzle : MonoBehaviour, ISerializable
 {
     public UnityEvent onCompletion;
     public UnityEvent onReset;
-    protected CharacterColour[] puzzleColours;
+    protected CharacterColour[] playerColours;
 
     public bool isComplete { get; private set; }
 
     protected virtual void Start()
     {
-        puzzleColours = PlayerManager.Instance.CurrentPlayerColours;
+        playerColours = PlayerManager.Instance.CurrentPlayerColours;
     }
 
     protected void SetComplete()

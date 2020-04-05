@@ -7,14 +7,19 @@ public class RockPuzzle : Puzzle
     public Platform[] platforms;
     // Current number of activated platforms
     private int _numActivated;
-    
+    protected int requiredNumActivations;
     protected override void Start()
     {
         base.Start();
+        requiredNumActivations = platforms.Length;
         foreach (Platform platform in platforms)
         {
             // Subscribe to platform activation events
             platform.onActivation += UpdateActivated;
+            if (!platform.gameObject.activeInHierarchy)
+            {
+                requiredNumActivations -= 1;
+            }
         }
     }
 
@@ -25,7 +30,7 @@ public class RockPuzzle : Puzzle
 
         _numActivated += isActivated ? 1 : -1;
 
-        if (_numActivated == puzzleColours.Length)
+        if (_numActivated == requiredNumActivations)
         {
             // Puzzle is complete
             SetComplete();
