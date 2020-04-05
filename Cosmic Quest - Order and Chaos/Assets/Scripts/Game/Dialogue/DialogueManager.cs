@@ -8,9 +8,11 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueName;
     public TextMeshProUGUI dialogueText;
     public Animator anim;
-
     public float TYPE_SPEED = 0.05f;
+    public float AutoPlayTimeFactor = 2.5f;
+
     private Queue<string> sentences;
+    private Dialogue CurrentDialogue;
 
     #region Singleton
     public static DialogueManager Instance = null;
@@ -44,7 +46,7 @@ public class DialogueManager : MonoBehaviour
         anim.SetBool("IsShown", true);
         dialogueName.text = dialogue.name;
         sentences.Clear();
-
+        CurrentDialogue = dialogue;
         foreach (string sentence in dialogue.sentences)
         {
             sentences.Enqueue(sentence);
@@ -62,7 +64,8 @@ public class DialogueManager : MonoBehaviour
         if (sentences.Count == 0)
         {
             EndDialogue();
-            return;
+            CurrentDialogue.onComplete.Invoke();
+            return; 
         }
 
         string sentence = sentences.Dequeue();
@@ -78,7 +81,7 @@ public class DialogueManager : MonoBehaviour
     /// <returns>An IEnumerator</returns>
     IEnumerator AutoPlay(string sentence)
     {
-        yield return new WaitForSeconds(sentence.Split(' ').Length / 2.5f);
+        yield return new WaitForSeconds(sentence.Split(' ').Length / AutoPlayTimeFactor);
         DisplayNextSentence(false);
     }
 
@@ -89,10 +92,13 @@ public class DialogueManager : MonoBehaviour
     /// <returns>An IEnumerator</returns>
     IEnumerator TypeSentence(string sentence)
     {
-        dialogueText.text = "";
-        foreach (char letter in sentence.ToCharArray())
+        // render the text behind the scenes, allows rich text effects to be applied nicely
+        dialogueText.text = sentence;
+        dialogueText.maxVisibleCharacters = 0;
+        for (int i = 0; i < sentence.Length; i++)
         {
-            dialogueText.text += letter;
+            int visibleCount = i % (sentence.Length + 1);
+            dialogueText.maxVisibleCharacters = visibleCount;
             yield return new WaitForSeconds(TYPE_SPEED);
         }
     }
