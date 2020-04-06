@@ -1,24 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    [Serializable]
-    public struct AudioLoop 
-    {
-        public AudioClip clip;
-        public float loopLength;
-        public float loopThreshold;
-    }
-    public AudioLoop PlayingMusic;
-    public AudioLoop BossFightMusic;
-    public AudioLoop GameOverMusic;
-    public AudioLoop MenuMusic;
-    public AudioLoop PausedMusic;
-    public AudioLoop LoadingMusic;
-    private AudioLoop CurrentAudioLoop;
+    public AudioHelper.EntityAudioClip PlayingMusic;
+    public AudioHelper.EntityAudioClip BossFightMusic;
+    public AudioHelper.EntityAudioClip GameOverMusic;
+    public AudioHelper.EntityAudioClip MenuMusic;
+    public AudioHelper.EntityAudioClip PausedMusic;
+    public AudioHelper.EntityAudioClip LoadingMusic;
+    private AudioHelper.EntityAudioClip CurrentAudioLoop;
     private AudioSource audioSource;
 
     private void Start()
@@ -38,6 +28,11 @@ public class MusicManager : MonoBehaviour
                 audioSource.timeSamples -= Mathf.RoundToInt(CurrentAudioLoop.loopLength * CurrentAudioLoop.clip.frequency);
             }
         }
+    }
+
+    public void StopMusic()
+    {
+        audioSource.Stop();
     }
 
     private void UpdateMusic()
@@ -61,7 +56,10 @@ public class MusicManager : MonoBehaviour
             default:
                 break;
         }
+
         audioSource.clip = CurrentAudioLoop.clip;
+        audioSource.pitch = CurrentAudioLoop.pitch;
+        audioSource.volume = CurrentAudioLoop.volume;
         audioSource.timeSamples = Mathf.RoundToInt(CurrentAudioLoop.loopThreshold * CurrentAudioLoop.clip.frequency);
         audioSource.Play();
     }

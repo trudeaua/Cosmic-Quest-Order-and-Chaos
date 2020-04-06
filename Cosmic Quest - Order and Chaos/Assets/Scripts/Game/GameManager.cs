@@ -117,4 +117,10 @@ public class GameManager : MonoBehaviour
         CurrentState = GameState.GameOver;
         onStateChange.Invoke();
     }
+
+    public void SetBossState()
+    {
+        CurrentState = GameState.BossFight;
+        onStateChange.Invoke();
+    }
 }

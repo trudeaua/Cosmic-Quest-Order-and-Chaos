@@ -10,19 +10,31 @@ public class EnemyPuzzle : Puzzle
         public GameObject enemyPrefab;
         public CharacterColour enemyColour;
     }
+    [Tooltip("Which enemies should be spawned")]
     public Enemy[] enemies;
     [Tooltip("Indicates whether the enemies should attack or not")]
     public bool isAggro = true;
-    private List<GameObject> loadedEnemies = new List<GameObject>();
+    [Tooltip("Indicates whether the puzzle represents a boss fight or not")]
+    public bool isBoss = false;
+    [Tooltip("Indicates whether the number of enemies spawned should be auto calculated")]
+    public bool autoDetermineNumEnemies = false;
     private int numEnemies;
     private int numEnemiesDead;
     private CharacterColour puzzleColour = CharacterColour.None;
+    private List<GameObject> loadedEnemies = new List<GameObject>();
 
     private void Setup()
     {
         loadedEnemies.Clear();
         numEnemiesDead = 0;
-        numEnemies = enemies.Length;
+        if (autoDetermineNumEnemies)
+        {
+            numEnemies = playerColours.Length + UnityEngine.Random.Range(0, playerColours.Length);
+        }
+        else
+        {
+            numEnemies = enemies.Length;
+        }
         for (int i = 0; i < enemies.Length; i++)
         {
             GameObject enemyObj = Instantiate(enemies[i].enemyPrefab, transform);
@@ -52,6 +64,10 @@ public class EnemyPuzzle : Puzzle
             }
             enemyStats.onDeath.AddListener(EnemyDied);
         }
+        if (isBoss)
+        {
+            GameManager.Instance.SetBossState();
+        }
     }
 
     public void SetPuzzleColour(CharacterColour colour)
@@ -72,9 +88,10 @@ public class EnemyPuzzle : Puzzle
     private void EnemyDied()
     {
         numEnemiesDead += 1;
+        // all dead
         if (numEnemiesDead == numEnemies)
         {
-            // all dead
+            GameManager.Instance.SetPlayState();
             SetComplete();
         }
     }

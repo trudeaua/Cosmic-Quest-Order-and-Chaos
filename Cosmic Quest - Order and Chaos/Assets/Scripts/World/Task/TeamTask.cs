@@ -4,25 +4,18 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public class TurnBasedTask : Task
+public class TeamTask : Task
 {
-    struct TaskPart
+    struct TaskParticipant
     {
         public GameObject playerObject;
-        public string className;
-        public bool completed;
-        public bool started;
         public DialogueTrigger dialogueTrigger;
         public int playerNumber;
     }
 
-    public DialogueTrigger mageDialogue;
-    public DialogueTrigger meleeDialogue;
-    public DialogueTrigger healerDialogue;
-    public DialogueTrigger rangedDialogue;
     public Collider WaitingArea;
     public Collider ActiveArea;
-    private TaskPart[] taskParts;
+    private TaskParticipant[] taskParticipants;
     private int currentTask;
 
     /// <summary>
@@ -30,38 +23,17 @@ public class TurnBasedTask : Task
     /// </summary>
     protected override void SetupTask()
     {
-        taskParts = new TaskPart[numPlayers];
+        taskParticipants = new TaskParticipant[numPlayers];
         currentTask = 0;
-        for (int i = 0; i < taskParts.Length; i++)
+        for (int i = 0; i < taskParticipants.Length; i++)
         {
             int playerNumber = i;
-            taskParts[i].playerObject = PlayerManager.Instance.FindPlayer(playerNumber);
-            taskParts[i].className = PlayerManager.Instance.GetPlayerClassName(playerNumber);
-            taskParts[i].completed = false;
-            taskParts[i].started = false;
-            taskParts[i].playerNumber = playerNumber;
+            taskParticipants[i].playerObject = PlayerManager.Instance.FindPlayer(playerNumber);
+            taskParticipants[i].playerNumber = playerNumber;
 
             // Restart level if player dies during task
-            PlayerStatsController playerStats = taskParts[i].playerObject.GetComponent<PlayerStatsController>();
+            PlayerStatsController playerStats = taskParticipants[i].playerObject.GetComponent<PlayerStatsController>();
             playerStats.onDeath.AddListener(PlayerDied);
-
-            switch (taskParts[i].className)
-            {
-                case "Mage":
-                    taskParts[i].dialogueTrigger = mageDialogue;
-                    break;
-                case "Melee":
-                    taskParts[i].dialogueTrigger = meleeDialogue;
-                    break;
-                case "Healer":
-                    taskParts[i].dialogueTrigger = healerDialogue;
-                    break;
-                case "Ranged":
-                    taskParts[i].dialogueTrigger = rangedDialogue;
-                    break;
-                default:
-                    continue;
-            }
         }
     }
 
@@ -70,42 +42,47 @@ public class TurnBasedTask : Task
     /// </summary>
     public override void StartTask()
     {
-        for (int i = 0; i < taskParts.Length; i++)
+        for (int i = 0; i < taskParticipants.Length; i++)
         {
-            PlayerStatsController playerStats = taskParts[i].playerObject.GetComponent<PlayerStatsController>();
-            PlayerInput playerInput = taskParts[i].playerObject.GetComponent<PlayerInput>();
-            if (taskParts[i].playerNumber == currentTask)
+            //PlayerStatsController playerStats = taskParticipants[i].playerObject.GetComponent<PlayerStatsController>();
+            PlayerInput playerInput = taskParticipants[i].playerObject.GetComponent<PlayerInput>();
+            //if (taskParticipants[i].playerNumber == currentTask)
+            //{
+                //MoveToActiveArea(playerInput.gameObject, i);
+            // Behaviour for different puzzle
+            foreach (Puzzle puzzle in _Puzzles)
             {
-                MoveToActiveArea(playerInput.gameObject, i);
-                foreach (Puzzle puzzle in _Puzzles)
+                ActionPuzzle actionPuzzle = null;
+                if (puzzle is ActionPuzzle && !puzzle.isComplete)
                 {
-                    if (puzzle is ActionPuzzle)
-                    {
-                        ActionPuzzle actionPuzzle = puzzle as ActionPuzzle;
-                        actionPuzzle.SetPlayerInput(playerInput);
-                    }
-                    if (puzzle is EnemyPuzzle)
-                    {
-                        EnemyPuzzle enemyPuzzle = puzzle as EnemyPuzzle;
-                        enemyPuzzle.SetPuzzleColour(playerStats.characterColour);
-                    }
+                    actionPuzzle = puzzle as ActionPuzzle;
+                    actionPuzzle.AddPlayerInput(playerInput);
                 }
-                Dialogue currentDialogue = taskParts[currentTask].dialogueTrigger.dialogue;
-                for (int j = 0; j < currentDialogue.sentences.Length; j++)
-                {
-                    string color = PlayerManager.colours.GetColorHex(playerStats.characterColour);
-                    string newText = string.Copy(currentDialogue.sentences[j]).Replace("{PLAYER_NUMBER}", "<color=" + color + ">" + "Player " + (taskParts[i].playerNumber + 1) + "</color>");
-                    currentDialogue.sentences[j] = newText;
-                }
+                //if (puzzle is EnemyPuzzle && actionPuzzle != null)
+                //{
+                //    if (actionPuzzle.isComplete)
+                //    {
+                //        EnemyPuzzle enemyPuzzle = puzzle as EnemyPuzzle;
+                //        enemyPuzzle.SetPuzzleColour(playerStats.characterColour);
+                //        enemyPuzzle.ResetPuzzle();
+                //    }
+                //}
             }
-            else
-            {
-                MoveToWaitingArea(playerInput.gameObject, i);
-            }
+            //Dialogue currentDialogue = taskParticipants[currentTask].dialogueTrigger.dialogue;
+            //for (int j = 0; j < currentDialogue.sentences.Length; j++)
+            //{
+            //    string color = PlayerManager.colours.GetColorHex(playerStats.characterColour);
+            //    string newText = string.Copy(currentDialogue.sentences[j]).Replace("{PLAYER_NUMBER}", "<color=" + color + ">" + "Player " + (taskParticipants[i].playerNumber + 1) + "</color>");
+            //    currentDialogue.sentences[j] = newText;
+            //}
+            //}
+            //else
+            //{
+                //MoveToWaitingArea(playerInput.gameObject, i);
+            //}
         }
         started = true;
-        taskParts[currentTask].started = true;
-        taskParts[currentTask].dialogueTrigger.TriggerDialogue();
+        //taskParticipants[currentTask].dialogueTrigger.TriggerDialogue();
     }
 
     private void MoveToWaitingArea(GameObject playerObj, int playerNumber)
@@ -184,9 +161,9 @@ public class TurnBasedTask : Task
     /// </summary>
     private void EnableAllPlayerInput()
     {
-        for (int i = 0; i < taskParts.Length; i++)
+        for (int i = 0; i < taskParticipants.Length; i++)
         {
-            PlayerInput playerInput = taskParts[i].playerObject.GetComponent<PlayerInput>();
+            PlayerInput playerInput = taskParticipants[i].playerObject.GetComponent<PlayerInput>();
             playerInput.ActivateInput();
         }
     }
@@ -195,19 +172,18 @@ public class TurnBasedTask : Task
     /// </summary>
     public override void Complete()
     {
-        taskParts[currentTask].completed = true;
         currentTask += 1;
 
         // keep going if all tasks aren't completed
-        if (taskParts.Count(e => e.completed == false) > 0)
+        if (_Puzzles.Count(e => e.isComplete == false) > 0)
         {
             StartTask();
         }
         else
         {
-            foreach (TaskPart taskPart in taskParts)
+            foreach (TaskParticipant taskParticipant in taskParticipants)
             {
-                PlayerStatsController playerStats = taskPart.playerObject.GetComponent<PlayerStatsController>();
+                PlayerStatsController playerStats = taskParticipant.playerObject.GetComponent<PlayerStatsController>();
                 playerStats.onDeath.RemoveListener(PlayerDied);
             }
             EnableAllPlayerInput();

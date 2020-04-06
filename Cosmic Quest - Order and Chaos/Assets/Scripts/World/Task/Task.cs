@@ -54,7 +54,6 @@ public class Task : MonoBehaviour
     {
         if (introDialogueTrigger != null)
         {
-            introDialogueTrigger.dialogue.onComplete.AddListener(StartTask);
             introDialogueTrigger.TriggerDialogue();
         }
     }

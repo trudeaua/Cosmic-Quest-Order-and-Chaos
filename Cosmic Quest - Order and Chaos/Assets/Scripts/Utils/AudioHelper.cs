@@ -25,6 +25,10 @@ public class AudioHelper : MonoBehaviour
         public float delay;
         [Tooltip("Should the audio loop?")]
         public bool loop;
+        [Tooltip("If clip has an intro, how long is the loop in the clip?")]
+        public float loopLength;
+        [Tooltip("If clip has an intro, when does the loop end?")]
+        public float loopThreshold;
     }
 
     public static float MasterVolume { get; internal set; } = 0.5f;
