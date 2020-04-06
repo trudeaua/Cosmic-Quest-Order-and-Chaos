@@ -6,13 +6,14 @@ public class LeverPuzzle : Puzzle
     // List of levers involved with this puzzle
     public Lever[] levers;
     // List of colours required
-    [SerializeField] private CharacterColour[] requiredColours;
+    [SerializeField] protected CharacterColour[] requiredColours;
     // Buffer for received colours
     protected List<CharacterColour> Received;
     
-    private override void Start()
+    protected virtual void Start()
     {
-        activeColours = PlayerManager.Instance.GetActivePlayerColours();
+        levers = GetComponentsInChildren<Lever>();
+
         Received = new List<CharacterColour>();
         
         // Subscribe to lever activation events

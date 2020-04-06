@@ -7,6 +7,11 @@ public class RockPuzzle : Puzzle
     // Current number of activated platforms
     private int _numActivated;
     
+    private void Awake()
+    {
+        platforms = GetComponentsInChildren<Platform>();
+    }
+
     private void Start()
     {
         // Subscribe to platform activation events

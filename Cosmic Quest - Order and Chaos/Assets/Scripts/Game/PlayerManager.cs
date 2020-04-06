@@ -524,11 +524,11 @@ public class PlayerManager : MonoBehaviour
     /// <returns>Array of active player colours</returns>
     public CharacterColour[] GetActivePlayerColours()
     {
-        CharacterColour[] activeColours = new CharacterColou[NumPlayers];
+        CharacterColour[] activeColours = new CharacterColour[NumPlayers];
         
         for (int i = 0; i < activeColours.Length; i++)
         {
-            activeColours[i] = _playerSlots[i].CharacterColour;
+            activeColours[i] = _playerSlots[i].characterColour;
         }
 
         return activeColours;
