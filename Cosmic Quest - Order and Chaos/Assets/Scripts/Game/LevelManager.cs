@@ -91,6 +91,15 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Starts a given chaos void
+    /// </summary>
+    /// <param name="chaosVoid">Reference to the chaos void level to load</param>
+    public void ClearChaosVoid(ChaosVoid chaosVoid)
+    {
+        chaosVoid.cleared = true;
+    }
+
+    /// <summary>
     /// Restarts the current level
     /// </summary>
     public void RestartCurrentLevel()

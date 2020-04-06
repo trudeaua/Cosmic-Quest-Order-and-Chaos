@@ -29,15 +29,17 @@ public class EnemyPuzzle : Puzzle
         numEnemiesDead = 0;
         if (autoDetermineNumEnemies)
         {
-            numEnemies = playerColours.Length + UnityEngine.Random.Range(0, playerColours.Length);
+            // Base # enemies off number of players + a random number of additional enemies
+            numEnemies = playerColours.Length + Mathf.Max(UnityEngine.Random.Range(0, playerColours.Length), UnityEngine.Random.Range(0, enemies.Length));
         }
         else
         {
             numEnemies = enemies.Length;
         }
-        for (int i = 0; i < enemies.Length; i++)
+        for (int i = 0; i < numEnemies; i++)
         {
-            GameObject enemyObj = Instantiate(enemies[i].enemyPrefab, transform);
+            int enemyIndex = UnityEngine.Random.Range(0, enemies.Length);
+            GameObject enemyObj = Instantiate(enemies[enemyIndex].enemyPrefab, transform);
             loadedEnemies.Add(enemyObj);
             EnemyStatsController enemyStats = enemyObj.GetComponent<EnemyStatsController>();
             EnemyBrainController enemyBrain = enemyObj.GetComponent<EnemyBrainController>();
@@ -49,11 +51,11 @@ public class EnemyPuzzle : Puzzle
             {
                 enemyStats.characterColour = puzzleColour;
             }
-            else if (playerColours.Contains(enemies[i].enemyColour))
+            else if (playerColours.Contains(enemies[enemyIndex].enemyColour))
             {
-                enemyStats.characterColour = enemies[i].enemyColour;
+                enemyStats.characterColour = enemies[enemyIndex].enemyColour;
             }
-            else if (enemies[i].enemyColour == CharacterColour.All)
+            else if (enemies[enemyIndex].enemyColour == CharacterColour.All)
             {
                 int colourIndex = UnityEngine.Random.Range(0, playerColours.Length);
                 enemyStats.characterColour = playerColours[colourIndex];
