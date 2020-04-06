@@ -4,31 +4,7 @@ using UnityEngine;
 public class CombinationLeverPuzzle : LeverPuzzle
 {
     // The expected order of colours
-    public CharacterColour[] combination;
-
-    protected override void Start()
-    {
-        activeColours = PlayerManager.Instance.GetActivePlayerColours();
-
-        int numPlayers = PlayerManager.Instance.NumPlayers;
-        levers = new Lever[numPlayers];
-        Lever[] childLevers = GetComponentsInChildren<Lever>();
-
-        for (int i = 0; i < numPlayers; i++)
-        {
-            levers[i] = childLevers[i];
-        }
-
-        Received = new List<CharacterColour>();
-        
-        // Subscribe to lever activation events
-        foreach (Lever lever in levers)
-        {
-            lever.onActivation += AddColour;
-        }
-
-        SetColourCombination();
-    }
+    [SerializeField] public CharacterColour[] combination;
 
     protected override void AddColour(CharacterColour colour)
     {
@@ -57,12 +33,16 @@ public class CombinationLeverPuzzle : LeverPuzzle
     /// <summary>
     /// Set the colour combination of the puzzle based on active player colours
     /// </summary>
-    public void SetColourCombination()
+    /// <returns>The combination array</returns>
+    public virtual CharacterColour[] SetColourCombination()
     {
-        Debug.Log("This is being called");
+        CharacterColour[] activeColours = PlayerManager.Instance.GetActivePlayerColours();
+
         for (int i = 0; i < combination.Length; i++)
         {
             combination[i] = activeColours[Random.Range(0, activeColours.Length)];
         }
+
+        return combination;
     }
 }

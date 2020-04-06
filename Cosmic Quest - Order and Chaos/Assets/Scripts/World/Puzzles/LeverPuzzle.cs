@@ -10,9 +10,13 @@ public class LeverPuzzle : Puzzle
     // Buffer for received colours
     protected List<CharacterColour> Received;
     
-    protected virtual void Start()
-    {
+    protected void Start()
+    {      
         levers = GetComponentsInChildren<Lever>();
+
+        // Remove inactive coloured levers 
+        int numPlayers = PlayerManager.Instance.NumPlayers;
+        System.Array.Resize(ref levers, levers.Length - (4 - numPlayers));
 
         Received = new List<CharacterColour>();
         

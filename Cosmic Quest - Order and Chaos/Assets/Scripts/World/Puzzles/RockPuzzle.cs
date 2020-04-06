@@ -4,12 +4,15 @@ public class RockPuzzle : Puzzle
 {
     // Platforms required to complete the puzzle
     public Platform[] platforms;
+    // Rocks required to complete the puzzle
+    public Draggable[] rocks;
     // Current number of activated platforms
     private int _numActivated;
     
     private void Awake()
     {
         platforms = GetComponentsInChildren<Platform>();
+        rocks = GetComponentsInChildren<Draggable>();
     }
 
     private void Start()

@@ -4,23 +4,37 @@ using UnityEngine;
 
 public class LeverRockTask : Task
 {
-    public Draggable[] rocks;
-    protected CharacterColour[] activeColours;
-    
     private void Awake()
     {
-        _Puzzles = GetComponents<Puzzle>();
+        doors = GetComponentsInChildren<Door>();
+        _Puzzles = GetComponents<Puzzle>();    
     }
 
     protected override void Start()
-    {
-        activeColours = PlayerManager.Instance.GetActivePlayerColours();
-        rocks = GetComponentsInChildren<Draggable>();
-        doors = GetComponentsInChildren<Door>();
+    {   
+        CharacterColour[] combination = new CharacterColour[numPlayers];
 
-        foreach (Draggable rock in rocks)
+        foreach (Puzzle puzzle in _Puzzles)
         {
-            
+            if (puzzle is CombinationLeverPuzzle)
+            {
+                CombinationLeverPuzzle comboLeverPuzzle = puzzle as CombinationLeverPuzzle;
+                combination = comboLeverPuzzle.SetColourCombination();
+            }
+        }
+
+        // Set colours of other interactables in the task based on combination
+        foreach (Puzzle puzzle in _Puzzles)
+        {
+            if (puzzle is RockPuzzle)
+            {
+                RockPuzzle rockPuzzle = puzzle as RockPuzzle;
+                for (int i = 0; i < combination.Length; i++)
+                {
+                    rockPuzzle.rocks[i].colour = combination[i];
+                    rockPuzzle.platforms[i].colour = combination[i];
+                }
+            } 
         }
     }
 }

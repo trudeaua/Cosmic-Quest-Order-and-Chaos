@@ -8,10 +8,9 @@ public class Puzzle : MonoBehaviour, ISerializable
     public UnityEvent onCompletion;
     public UnityEvent onReset;
     protected CharacterColour puzzleColour = CharacterColour.None;
-    protected CharacterColour[] activeColours;
 
     public bool isComplete { get; private set; }
-
+    
     protected void SetComplete()
     {
         isComplete = true;

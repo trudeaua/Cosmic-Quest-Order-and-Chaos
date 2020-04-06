@@ -11,7 +11,7 @@ public class Task : MonoBehaviour
     protected bool started;
     protected int PlayersInTaskArea = 0;
     protected int numPlayers;
-    protected Puzzle[] _Puzzles;
+    public Puzzle[] _Puzzles;
 
     protected virtual void Start()
     {
