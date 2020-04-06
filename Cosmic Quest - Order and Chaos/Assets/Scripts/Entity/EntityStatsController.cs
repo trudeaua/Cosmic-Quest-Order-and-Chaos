@@ -108,7 +108,8 @@ public class EntityStatsController : MonoBehaviour
         
         if (takeDamageVocalSFX != null)
         {
-            StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, takeDamageVocalSFX));
+            if (Mathf.Approximately(timeDelta, 1f) || !VocalAudio.isPlaying)
+                StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, takeDamageVocalSFX));
         }
         
         // Calculate any changes based on stats and modifiers here first
