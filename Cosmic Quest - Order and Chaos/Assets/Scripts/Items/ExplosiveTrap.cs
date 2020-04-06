@@ -21,6 +21,8 @@ public class ExplosiveTrap : MonoBehaviour
     // explosion sfx to play
     [SerializeField] private AudioHelper.EntityAudioClip audioClip;
 
+    public GameObject trapModel;
+
     private void Awake()
     {
         _hits = new Collider[32];
@@ -83,18 +85,10 @@ public class ExplosiveTrap : MonoBehaviour
     /// <returns>An IEnumerator</returns>
     private IEnumerator RemoveTrapFromScene()
     {
-        foreach (Transform child in transform)
-        {
-            if (child.tag == "ToBeRemoved")
-            {
-                child.gameObject.SetActive(false);
-                
-                yield return new WaitForSeconds(2f);
-                child.gameObject.SetActive(true);
-                gameObject.SetActive(false);
-                break;
-            }
-        }
+        trapModel.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        trapModel.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     /// <summary>
