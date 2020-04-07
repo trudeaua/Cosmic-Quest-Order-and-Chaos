@@ -10,10 +10,10 @@ public class EnemyPuzzle : Puzzle
         public CharacterColour enemyColour;
     }
     public Enemy[] enemies;
-    private int numEnemies;
-    private int numEnemiesDead;
+    protected int numEnemies;
+    protected int numEnemiesDead;
 
-    private void Setup()
+    protected virtual void Setup()
     {
         numEnemiesDead = 0;
         numEnemies = enemies.Length;
@@ -41,7 +41,7 @@ public class EnemyPuzzle : Puzzle
         Setup();
     }
 
-    private void EnemyDied()
+    protected void EnemyDied()
     {
         numEnemiesDead += 1;
         if (numEnemiesDead == numEnemies)
