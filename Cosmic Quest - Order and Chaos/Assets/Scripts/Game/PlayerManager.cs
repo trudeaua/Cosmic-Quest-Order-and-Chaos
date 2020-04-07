@@ -525,7 +525,6 @@ public class PlayerManager : MonoBehaviour
     public CharacterColour[] GetActivePlayerColours()
     {
         CharacterColour[] activeColours = new CharacterColour[NumPlayers];
-        
         for (int i = 0; i < activeColours.Length; i++)
         {
             activeColours[i] = _playerSlots[i].characterColour;

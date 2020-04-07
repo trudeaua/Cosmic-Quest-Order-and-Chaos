@@ -41,4 +41,14 @@ public class Platform : MonoBehaviour
             onActivation?.Invoke(false);
         }
     }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void Unhide()
+    {
+        gameObject.SetActive(true);
+    }
 }

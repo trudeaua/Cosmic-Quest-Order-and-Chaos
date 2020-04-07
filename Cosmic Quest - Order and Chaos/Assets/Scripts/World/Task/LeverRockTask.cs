@@ -4,37 +4,20 @@ using UnityEngine;
 
 public class LeverRockTask : Task
 {
-    private void Awake()
-    {
-        doors = GetComponentsInChildren<Door>();
-        _Puzzles = GetComponents<Puzzle>();    
-    }
-
     protected override void Start()
     {   
-        CharacterColour[] combination = new CharacterColour[numPlayers];
+        CombinationLeverPuzzle comboLeverPuzzle = GetComponent<CombinationLeverPuzzle>();
+        RockPuzzle rockPuzzle = GetComponent<RockPuzzle>();
 
-        foreach (Puzzle puzzle in _Puzzles)
-        {
-            if (puzzle is CombinationLeverPuzzle)
-            {
-                CombinationLeverPuzzle comboLeverPuzzle = puzzle as CombinationLeverPuzzle;
-                combination = comboLeverPuzzle.SetColourCombination();
-            }
-        }
+        // Set a colour combination for levers
+        comboLeverPuzzle.SetColourCombination();
 
-        // Set colours of other interactables in the task based on combination
-        foreach (Puzzle puzzle in _Puzzles)
+        // Set colours of all interactables in the task based on combination
+        for (int i = 0; i < comboLeverPuzzle.combination.Length; i++)
         {
-            if (puzzle is RockPuzzle)
-            {
-                RockPuzzle rockPuzzle = puzzle as RockPuzzle;
-                for (int i = 0; i < combination.Length; i++)
-                {
-                    rockPuzzle.rocks[i].colour = combination[i];
-                    rockPuzzle.platforms[i].colour = combination[i];
-                }
-            } 
+            rockPuzzle.rocks[i].colour = comboLeverPuzzle.combination[i];
+            rockPuzzle.platforms[i].colour = comboLeverPuzzle.combination[i];
         }
+        PlayIntroDialogue();
     }
 }

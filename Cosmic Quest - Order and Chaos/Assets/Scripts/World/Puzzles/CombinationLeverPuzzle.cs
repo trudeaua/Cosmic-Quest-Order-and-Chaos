@@ -31,18 +31,16 @@ public class CombinationLeverPuzzle : LeverPuzzle
     }
 
     /// <summary>
-    /// Set the colour combination of the puzzle based on active player colours
+    /// Set the combination of the puzzle based on active player colours
     /// </summary>
     /// <returns>The combination array</returns>
-    public virtual CharacterColour[] SetColourCombination()
+    public CharacterColour[] SetColourCombination()
     {
         CharacterColour[] activeColours = PlayerManager.Instance.GetActivePlayerColours();
-
         for (int i = 0; i < combination.Length; i++)
         {
             combination[i] = activeColours[Random.Range(0, activeColours.Length)];
         }
-
         return combination;
     }
 }
