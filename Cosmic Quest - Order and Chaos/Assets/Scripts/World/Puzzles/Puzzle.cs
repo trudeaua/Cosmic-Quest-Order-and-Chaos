@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 public class Puzzle : MonoBehaviour, ISerializable
 {
     public UnityEvent onCompletion;
-    public UnityEvent onReset;
     protected CharacterColour[] playerColours;
 
     public bool isComplete { get; private set; }
@@ -15,6 +13,9 @@ public class Puzzle : MonoBehaviour, ISerializable
         playerColours = PlayerManager.Instance.CurrentPlayerColours;
     }
 
+    /// <summary>
+    /// Mark the puzzle as completed
+    /// </summary>
     protected virtual void SetComplete()
     {
         isComplete = true;
@@ -23,10 +24,12 @@ public class Puzzle : MonoBehaviour, ISerializable
         onCompletion?.Invoke();
     }
 
+    /// <summary>
+    /// Reset the state of the puzzle
+    /// </summary>
     public virtual void ResetPuzzle()
     {
         isComplete = false;
-        onReset?.Invoke();
     }
 
     public string Serialize()

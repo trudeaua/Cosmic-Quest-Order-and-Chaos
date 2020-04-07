@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class LeverPuzzle : Puzzle
 {
-    // List of levers involved with this puzzle
+    [Tooltip("List of levers involved with this puzzle")]
     public Lever[] levers;
 
-    // Buffer for received colours
+    /// <summary>
+    /// Buffer for received colours
+    /// </summary>
     protected List<CharacterColour> Received;
 
     protected override void Start()
@@ -21,6 +23,10 @@ public class LeverPuzzle : Puzzle
         }
     }
 
+    /// <summary>
+    /// Add a colour to the received colours buffer
+    /// </summary>
+    /// <param name="colour">Colour to add to the buffer</param>
     protected virtual void AddColour(CharacterColour colour)
     {
         if (isComplete)

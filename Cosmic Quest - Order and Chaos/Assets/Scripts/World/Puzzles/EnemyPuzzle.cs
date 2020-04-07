@@ -3,26 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Puzzle variant that spawns enemies and completes when the enemies are killed
+/// </summary>
 public class EnemyPuzzle : Puzzle
 {
-    [Serializable]
-    public struct Enemy {
-        public GameObject enemyPrefab;
-        public CharacterColour enemyColour;
-    }
-    [Tooltip("Which enemies should be spawned")]
-    public Enemy[] enemies;
-    [Tooltip("Indicates whether the enemies should attack or not")]
-    public bool isAggro = true;
     [Tooltip("Indicates whether the puzzle represents a boss fight or not")]
     public bool isBoss = false;
     [Tooltip("Indicates whether the number of enemies spawned should be auto calculated")]
     public bool autoDetermineNumEnemies = false;
+    [Tooltip("Damage modifier value on the spawned enemies")]
+    [Range(0, 10)]
+    public int damageModifier = 0;
+    [Tooltip("Defense modifier value on the spawned enemies")]
+    [Range(0, 10)]
+    public int defenseModifier = 0;
+    [Tooltip("Prefab objects of an enemies to instantiate in the puzzle")]
+    public GameObject[] enemyPrefabs;
+
     private int numEnemies;
     private int numEnemiesDead;
     private CharacterColour puzzleColour = CharacterColour.None;
     private List<GameObject> loadedEnemies = new List<GameObject>();
 
+    /// <summary>
+    /// Set up the puzzle
+    /// </summary>
     private void Setup()
     {
         loadedEnemies.Clear();
@@ -30,40 +36,25 @@ public class EnemyPuzzle : Puzzle
         if (autoDetermineNumEnemies)
         {
             // Base # enemies off number of players + a random number of additional enemies
-            numEnemies = playerColours.Length + Mathf.Max(UnityEngine.Random.Range(0, playerColours.Length), UnityEngine.Random.Range(0, enemies.Length));
+            numEnemies = playerColours.Length + Mathf.Max(UnityEngine.Random.Range(0, playerColours.Length), UnityEngine.Random.Range(0, enemyPrefabs.Length));
         }
         else
         {
-            numEnemies = enemies.Length;
+            numEnemies = enemyPrefabs.Length;
         }
+        // spawn enemies
         for (int i = 0; i < numEnemies; i++)
         {
-            int enemyIndex = UnityEngine.Random.Range(0, enemies.Length);
-            GameObject enemyObj = Instantiate(enemies[enemyIndex].enemyPrefab, transform);
+            int enemyIndex = UnityEngine.Random.Range(0, enemyPrefabs.Length);
+            GameObject enemyObj = Instantiate(enemyPrefabs[enemyIndex].enemyPrefab, transform);
             loadedEnemies.Add(enemyObj);
+
+            // add any modifieres to the enemy
             EnemyStatsController enemyStats = enemyObj.GetComponent<EnemyStatsController>();
-            EnemyBrainController enemyBrain = enemyObj.GetComponent<EnemyBrainController>();
-            if (!isAggro)
-            {
-                enemyBrain.aggroRadius = 0;
-            }
-            if (puzzleColour != CharacterColour.None && puzzleColour != CharacterColour.All)
-            {
-                enemyStats.characterColour = puzzleColour;
-            }
-            else if (playerColours.Contains(enemies[enemyIndex].enemyColour))
-            {
-                enemyStats.characterColour = enemies[enemyIndex].enemyColour;
-            }
-            else if (enemies[enemyIndex].enemyColour == CharacterColour.All)
-            {
-                int colourIndex = UnityEngine.Random.Range(0, playerColours.Length);
-                enemyStats.characterColour = playerColours[colourIndex];
-            }
-            else
-            {
-                enemyStats.characterColour = CharacterColour.None;
-            }
+            enemyStats.damage.AddModifier(damageModifier);
+            enemyStats.damage.AddModifier(defenseModifier);
+
+            enemyStats.characterColour = CharacterColour.None;
             enemyStats.onDeath.AddListener(EnemyDied);
         }
         if (isBoss)
@@ -72,11 +63,9 @@ public class EnemyPuzzle : Puzzle
         }
     }
 
-    public void SetPuzzleColour(CharacterColour colour)
-    {
-        puzzleColour = colour;
-    }
-
+    /// <summary>
+    /// Reset the puzzle
+    /// </summary>
     public override void ResetPuzzle()
     {
         base.ResetPuzzle();
@@ -87,6 +76,9 @@ public class EnemyPuzzle : Puzzle
         Setup();
     }
 
+    /// <summary>
+    /// Callback for when an enemy dies
+    /// </summary>
     private void EnemyDied()
     {
         numEnemiesDead += 1;

@@ -1,13 +1,20 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RockPuzzle : Puzzle
 {
-    // Platforms required to complete the puzzle
+    [Tooltip("Platforms in the puzzle")]
     public Platform[] platforms;
-    // Current number of activated platforms
-    private int _numActivated;
-    protected int requiredNumActivations;
+
+    /// <summary>
+    /// Current number of activated platforms
+    /// </summary>
+    private int numActivated;
+    
+    /// <summary>
+    /// Number of platforms required to be activated
+    /// </summary>
+    private int requiredNumActivations;
+
     protected override void Start()
     {
         base.Start();
@@ -16,6 +23,8 @@ public class RockPuzzle : Puzzle
         {
             // Subscribe to platform activation events
             platform.onActivation += UpdateActivated;
+
+            // If the platform is inactive it's not required
             if (!platform.gameObject.activeInHierarchy)
             {
                 requiredNumActivations -= 1;
@@ -23,14 +32,18 @@ public class RockPuzzle : Puzzle
         }
     }
 
+    /// <summary>
+    /// Updates the number of activated platforms
+    /// </summary>
+    /// <param name="isActivated"></param>
     private void UpdateActivated(bool isActivated)
     {
         if (isComplete)
             return;
 
-        _numActivated += isActivated ? 1 : -1;
+        numActivated += isActivated ? 1 : -1;
 
-        if (_numActivated == requiredNumActivations)
+        if (numActivated == requiredNumActivations)
         {
             // Puzzle is complete
             SetComplete();

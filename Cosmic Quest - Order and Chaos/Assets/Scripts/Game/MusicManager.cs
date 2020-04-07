@@ -15,14 +15,21 @@ public class MusicManager : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         CurrentAudioLoop = PlayingMusic;
+        // Listen for changes in game state
         GameManager.Instance.onStateChange.AddListener(UpdateMusic);
         UpdateMusic();
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.onStateChange.RemoveListener(UpdateMusic);
     }
 
     private void Update()
     {
         if (CurrentAudioLoop.loopLength > 0 && CurrentAudioLoop.loopThreshold > 0)
         {
+            // This allows a section of music to be looped - it essentially trims the currently playing audio
             if (audioSource.timeSamples > CurrentAudioLoop.loopThreshold * CurrentAudioLoop.clip.frequency)
             {
                 audioSource.timeSamples -= Mathf.RoundToInt(CurrentAudioLoop.loopLength * CurrentAudioLoop.clip.frequency);
@@ -30,11 +37,19 @@ public class MusicManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Description: Stops the playing music
+    /// Rationale: Sometimes there should not be music playing
+    /// </summary>
     public void StopMusic()
     {
         audioSource.Stop();
     }
 
+    /// <summary>
+    /// Description: Updates the music according to the game state
+    /// Rationale: Different game states should have different music
+    /// </summary>
     private void UpdateMusic()
     {
         switch (GameManager.Instance.CurrentState)

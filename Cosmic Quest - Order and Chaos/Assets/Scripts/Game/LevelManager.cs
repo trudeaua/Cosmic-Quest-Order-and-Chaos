@@ -86,7 +86,9 @@ public class LevelManager : MonoBehaviour
     /// <param name="chaosVoid">Reference to the chaos void level to load</param>
     public void StartChaosVoid(ChaosVoid chaosVoid)
     {
-        StartCoroutine(LoadYourAsyncScene(chaosVoid.scene.name, SceneType.Level));
+        Debug.Log("hi");
+        Debug.Log(chaosVoid.name);
+        StartCoroutine(LoadYourAsyncScene(chaosVoid.scene.SceneName, SceneType.Level));
         chaosVoid.Initialize();
     }
 
@@ -117,6 +119,9 @@ public class LevelManager : MonoBehaviour
         Application.Quit();
     }
 
+    /// <summary>
+    /// Go to the main menu
+    /// </summary>
     public void BackToMenu()
     {
         StartCoroutine(LoadYourAsyncScene("MenuStaging", SceneType.Menu));

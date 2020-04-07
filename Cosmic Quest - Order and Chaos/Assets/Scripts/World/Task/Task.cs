@@ -1,22 +1,51 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Class that encapsulates dialogue and puzzles
+/// </summary>
 public class Task : MonoBehaviour
 {
+    [Tooltip("Dialogue to play after entering the task area")]
     public DialogueTrigger introDialogueTrigger;
+    [Tooltip("Dialogue to play after leaving the task area")]
     public DialogueTrigger exitDialogueTrigger;
+
+    /// <summary>
+    /// Doors in the task area
+    /// </summary>
     protected Door[] doors;
+
+    /// <summary>
+    /// Indicates whether the task completed or not
+    /// </summary>
     protected bool completed;
+
+    /// <summary>
+    /// Indicates whether the task has been started or not
+    /// </summary>
     protected bool started;
-    protected int PlayersInTaskArea = 0;
+
+    /// <summary>
+    /// Number of players in the task area
+    /// </summary>
+    protected int playersInTaskArea = 0;
+
+    /// <summary>
+    /// Number of players playing the game
+    /// </summary>
     protected int numPlayers;
+
+    /// <summary>
+    /// Puzzles in the task area
+    /// </summary>
     protected Puzzle[] _Puzzles;
 
     protected virtual void Start()
     {
         numPlayers = PlayerManager.Instance.NumPlayers;
         doors = GetComponentsInChildren<Door>();
+        // Open doors by default
         OpenDoors();
     }
 
@@ -24,8 +53,9 @@ public class Task : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayersInTaskArea += 1;
-            if (PlayersInTaskArea == numPlayers && !started)
+            playersInTaskArea += 1;
+            // once all players are in the task area, the task begins
+            if (playersInTaskArea == numPlayers && started == false)
             {
                 CloseDoors();
                 Puzzle[] puzzles = GetComponents<Puzzle>();
@@ -43,7 +73,7 @@ public class Task : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PlayersInTaskArea -= 1;
+            playersInTaskArea -= 1;
         }
     }
 
@@ -114,8 +144,11 @@ public class Task : MonoBehaviour
     /// </summary>
     public virtual void Complete()
     {
-        completed = true;
-        PlayExitDialogue();
-        OpenDoors();
+        if (_Puzzles.Count(e => e.isComplete) > 0)
+        {
+            completed = true;
+            PlayExitDialogue();
+            OpenDoors();
+        }
     }
 }
