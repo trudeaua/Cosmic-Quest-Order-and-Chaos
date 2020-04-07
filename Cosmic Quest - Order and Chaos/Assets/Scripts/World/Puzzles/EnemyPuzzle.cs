@@ -35,8 +35,8 @@ public class EnemyPuzzle : Puzzle
         numEnemiesDead = 0;
         if (autoDetermineNumEnemies)
         {
-            // Base # enemies off number of players + a random number of additional enemies
-            numEnemies = playerColours.Length + Mathf.Max(UnityEngine.Random.Range(0, playerColours.Length), UnityEngine.Random.Range(0, enemyPrefabs.Length));
+            // Base # enemies off number of players
+            numEnemies = playerColours.Length * 2;
         }
         else
         {
