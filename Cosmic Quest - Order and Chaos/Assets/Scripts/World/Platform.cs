@@ -6,19 +6,19 @@ public class Platform : MonoBehaviour
     public delegate void OnActivation(bool isActivated);
     public OnActivation onActivation;
     
-    private Animator _anim;
-    private AudioSource _audio;
+    protected Animator _anim;
+    protected AudioSource _audio;
     
     public CharacterColour colour;
-    private bool _isActivated;
+    protected bool _isActivated;
     
-    private void Awake()
+    protected void Awake()
     {
         _anim = GetComponent<Animator>();
         _audio = GetComponent<AudioSource>();
     }
 
-    private void OnTriggerEnter (Collider other) 
+    protected virtual void OnTriggerEnter (Collider other) 
     {
         if (!_isActivated && other.CompareTag("Rock") && other.GetComponent<Interactable>().colour == colour)
         {
@@ -31,7 +31,7 @@ public class Platform : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         if (_isActivated && other.CompareTag("Rock") && other.GetComponent<Interactable>().colour == colour)
         {

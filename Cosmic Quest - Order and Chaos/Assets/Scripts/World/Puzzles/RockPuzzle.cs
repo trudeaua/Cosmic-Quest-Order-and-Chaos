@@ -7,15 +7,15 @@ public class RockPuzzle : Puzzle
     // Rocks required to complete the puzzle
     public Draggable[] rocks;
     // Current number of activated platforms
-    private int _numActivated;
+    protected int _numActivated;
     
-    private void Awake()
+    protected virtual void Awake()
     {
         platforms = GetComponentsInChildren<Platform>();
         rocks = GetComponentsInChildren<Draggable>();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         // Subscribe to platform activation events
         foreach (Platform platform in platforms)
@@ -41,7 +41,7 @@ public class RockPuzzle : Puzzle
         }
     }
 
-    private void UpdateActivated(bool isActivated)
+    protected void UpdateActivated(bool isActivated)
     {
         _numActivated += isActivated ? 1 : -1;
 
