@@ -24,6 +24,7 @@ public class TreantBossCombatController : EnemyCombatController
     public float projectileAttackCooldown = 1f;
     public float projectileAttackForce = 200f;
     public float projectileAttackAngle = 120f;
+    public int projectileAttackNumSeeds = 3;
     public float projectileAttackMinDamage = 5f;
     public float projectileAttackMaxDamage = 10f;
     public GameObject seedPrefab;
@@ -31,18 +32,28 @@ public class TreantBossCombatController : EnemyCombatController
     
     [Header("Special Attack - Roots")]
     public float rootAttackCooldown = 1f;
-    public TreantRootContainer rootContainer;
+    public GameObject rootContainerPrefab;
     [SerializeField] protected AudioHelper.EntityAudioClip rootAttackSFX;
+    private TreantRootContainer _roots;
     
     [Header("Special Attack - Launch Seeds")]
     public float seedAttackCooldown = 1f;
     public float seedAttackForce = 200f;
+    public float seedAttackAngle = 160f;
     public float seedAttackMinDamage = 5f;
     public float seedAttackMaxDamage = 10f;
     public float seedLaunchPeriod = 0.2f;
     [SerializeField] protected AudioHelper.EntityAudioClip seedAttackSFX;
     private bool _isLaunchingSeeds;
-    
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        GameObject roots = Instantiate(rootContainerPrefab);
+        _roots = roots.GetComponent<TreantRootContainer>();
+    }
+
     /// <summary>
     /// Bite attack
     /// </summary>
@@ -77,9 +88,21 @@ public class TreantBossCombatController : EnemyCombatController
         }
     }
 
+    /// <summary>
+    /// Spit seeds attack
+    /// </summary>
     public void ProjectileAttack()
     {
-        
+        for (int i = 0; i < projectileAttackNumSeeds; i++)
+        {
+            // Select random direction to launch in
+            float angle = Random.Range(-projectileAttackAngle, projectileAttackAngle) / 2;
+            Vector3 launchDir = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;
+            
+            // Launch the seed projectile
+            float damageValue = Random.Range(projectileAttackMinDamage, projectileAttackMaxDamage) + Stats.damage.GetValue();
+            LaunchDamageProjectile(seedPrefab, launchDir, projectileAttackForce, 20f, damageValue, "Player");
+        }
     }
     
     /// <summary>
@@ -88,10 +111,9 @@ public class TreantBossCombatController : EnemyCombatController
     public void RootAttack()
     {
         // Move root container to boss
-        rootContainer.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-        rootContainer.transform.Rotate(Vector3.up, transform.eulerAngles.y, Space.World);
+        _roots.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 
-        StartCoroutine(rootContainer.StartAttack());
+        _roots.StartAttack();
         AttackCooldown = rootAttackCooldown;
     }
 
@@ -110,6 +132,14 @@ public class TreantBossCombatController : EnemyCombatController
     {
         while (_isLaunchingSeeds)
         {
+            // Select random direction to launch in
+            float breadth = Random.Range(-seedAttackAngle, seedAttackAngle) / 2;
+            float altitude = Random.Range(0f, 80f);
+            Vector3 launchDir = Quaternion.AngleAxis(breadth, Vector3.up) * Quaternion.AngleAxis(altitude, transform.right) * transform.forward;
+            
+            // Launch the seed projectile
+            float damageValue = Random.Range(seedAttackMinDamage, seedAttackMaxDamage) + Stats.damage.GetValue();
+            LaunchDamageProjectile(seedPrefab, launchDir, projectileAttackForce, 20f, damageValue, "Player");
             
             yield return new WaitForSeconds(seedLaunchPeriod);
         }

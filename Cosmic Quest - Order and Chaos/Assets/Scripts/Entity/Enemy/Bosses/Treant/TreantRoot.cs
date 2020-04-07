@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class TreantRoot : MonoBehaviour
 {
@@ -7,43 +8,51 @@ public class TreantRoot : MonoBehaviour
     public float maxDamage;
     
     private Animator _anim;
-    private RaycastHit[] _hits = new RaycastHit[32];
+    private Collider _col;
 
     private void Awake()
     {
         _anim = GetComponent<Animator>();
+        _col = GetComponent<Collider>();
+        _col.enabled = false;
         
         // Set idle animation randomly to one of three
         _anim.SetInteger("IdleAnim", Random.Range(0, 2));
         
         // Rotate around the Y-axis randomly to give variation
-        transform.Rotate(Vector3.up, Random.Range(0, 360), Space.World);
+        transform.Rotate(Vector3.up, Random.Range(0, 360), Space.Self);
     }
 
     /// <summary>
-    /// Event function to start the attack sequence for this root
+    /// Event function to start the attack sequence for this root with a random delay
     /// </summary>
-    public void StartAttack()
+    public IEnumerator StartAttack()
     {
-        if (Random.Range(0f, 1f) > 0.4f)
-            _anim.SetTrigger("Spawn");
+        yield return new WaitForSeconds(Random.Range(0f, 0.5f));
+        _col.enabled = true;
+        _anim.SetTrigger("Spawn");
     }
 
     /// <summary>
-    /// Event function for root attack
+    /// Event function that handles end of attack tasks for the treant root
     /// </summary>
-    public void PerformDamage()
+    public void StopAttack()
     {
-        int numHits = Physics.RaycastNonAlloc(transform.position, Vector3.up, _hits, 20f);
+        _col.enabled = false;
+    }
 
-        // Apply damage to any unlucky players above the root
-        for (int i = 0; i < numHits; i++)
-        {
-            if (!_hits[i].transform.CompareTag("Player"))
-                continue;
-            
-            float damage = Random.Range(minDamage, maxDamage);
-            _hits[i].transform.GetComponent<PlayerStatsController>().TakeDamage(damage);
-        }
+    /// <summary>
+    /// Event function for dealing damage to players on collision enter
+    /// </summary>
+    /// <param name="other">The object that collided with the root</param>
+    private void OnTriggerEnter(Collider other)
+    {
+        // Ignore collisions unless with player
+        if (!other.transform.CompareTag("Player"))
+            return;
+        
+        // Deal damage to the player
+        float damage = Random.Range(minDamage, maxDamage);
+        other.transform.GetComponent<PlayerStatsController>().TakeDamage(damage);
     }
 }

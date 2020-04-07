@@ -596,8 +596,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5856349497122564322}
-  - component: {fileID: 6520142887270246573}
   - component: {fileID: 5409636645948524183}
+  - component: {fileID: 6520142887270246573}
   - component: {fileID: 1075828370203787331}
   - component: {fileID: 4114252832280898733}
   - component: {fileID: 2101586245506534417}
@@ -629,19 +629,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6520142887270246573
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5856349497122564323}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 4.2, z: 2}
-  m_Center: {x: 0, y: 2.1, z: 0}
 --- !u!54 &5409636645948524183
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -658,6 +645,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!65 &6520142887270246573
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5856349497122564323}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 4.2, z: 2}
+  m_Center: {x: 0, y: 2.1, z: 0}
 --- !u!114 &1075828370203787331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -674,6 +674,9 @@ MonoBehaviour:
     maxValue: 20
     minValue: 0
     regenAmount: 0
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
   damage:
     baseValue: 5
   defense:
@@ -721,9 +724,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f6391806b46cd48a45f9a75bfb360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStrategy: 0
   aggroRadius: 8
   attackRadius: 4
   decisionDelay: 0.5
+  alwaysHaveTarget: 0
 --- !u!114 &2101586245506534417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -750,10 +755,14 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+  hasSpecialAttack: 0
+  specialAttackPeriod: 0
   hasMeleeAttack: 1
   meleeAttackCooldown: 1
   meleeAttackRadius: 4
   meleeAttackAngle: 45
+  meleeAttackMinDamage: 1
+  meleeAttackMaxDamage: 4
   meleeAttackSFX:
     pitch: 0
     volume: 0
@@ -763,6 +772,8 @@ MonoBehaviour:
     loop: 0
   hasRangedAttack: 0
   rangedAttackCooldown: 1
+  rangedAttackMinDamage: 1
+  rangedAttackMaxDamage: 4
   rangedAttackProjectile: {fileID: 0}
   rangedAttackSFX:
     pitch: 0

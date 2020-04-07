@@ -2006,8 +2006,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2685798253169061784}
-  - component: {fileID: 1012034089}
   - component: {fileID: 1012034090}
+  - component: {fileID: 1012034089}
   - component: {fileID: 1012034098}
   - component: {fileID: 1012034097}
   - component: {fileID: 1012034094}
@@ -2039,19 +2039,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1012034089
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2685798253169061785}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.5, y: 3, z: 1.5}
-  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!54 &1012034090
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2068,6 +2055,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!65 &1012034089
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685798253169061785}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 3, z: 1.5}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!114 &1012034098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2084,6 +2084,9 @@ MonoBehaviour:
     maxValue: 20
     minValue: 0
     regenAmount: 0
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
   damage:
     baseValue: 4
   defense:
@@ -2131,9 +2134,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f6391806b46cd48a45f9a75bfb360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStrategy: 0
   aggroRadius: 10
   attackRadius: 3
   decisionDelay: 0.5
+  alwaysHaveTarget: 0
 --- !u!114 &1012034094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2160,9 +2165,13 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+  hasSpecialAttack: 0
+  specialAttackPeriod: 0
   primaryAttackCooldown: 1
   primaryAttackRadius: 4
   primaryAttackAngle: 45
+  primaryAttackMinDamage: 1
+  primaryAttackMaxDamage: 4
   primaryAttackProbability: 0.7
   primaryAttackSFX:
     pitch: 0
@@ -2174,6 +2183,8 @@ MonoBehaviour:
   secondaryAttackCooldown: 1
   secondaryAttackRadius: 5
   secondaryAttackAngle: 45
+  secondaryAttackMinDamage: 2
+  secondaryAttackMaxDamage: 6
   secondaryAttackSFX:
     pitch: 0
     volume: 0

@@ -542,8 +542,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 749148863823978225}
-  - component: {fileID: 749148863823978126}
   - component: {fileID: 749148863823978127}
+  - component: {fileID: 749148863823978126}
   - component: {fileID: 749148863823978124}
   - component: {fileID: 749148863823978125}
   - component: {fileID: 5664751899185293677}
@@ -576,20 +576,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &749148863823978126
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 749148863823978120}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 3.8
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.9, z: 0}
 --- !u!54 &749148863823978127
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -606,6 +592,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!136 &749148863823978126
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749148863823978120}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 3.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.9, z: 0}
 --- !u!114 &749148863823978124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -686,6 +686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionRadius: 4
+  interactionAngle: 60
 --- !u!114 &749148863823978122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,6 +703,9 @@ MonoBehaviour:
     maxValue: 100
     minValue: 0
     regenAmount: 1
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
   damage:
     baseValue: 1
   defense:

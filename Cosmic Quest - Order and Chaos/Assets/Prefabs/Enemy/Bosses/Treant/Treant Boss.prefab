@@ -5887,8 +5887,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6155603238355360611}
-  - component: {fileID: 6155603238355360613}
   - component: {fileID: 6155603238355360614}
+  - component: {fileID: 6155603238355360613}
   - component: {fileID: 6155603238355360615}
   - component: {fileID: 6155603238355360618}
   - component: {fileID: 6155603238355360617}
@@ -5919,19 +5919,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6155603238355360613
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6155603238355360636}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 6, y: 6, z: 6}
-  m_Center: {x: 0, y: 3, z: 0}
 --- !u!54 &6155603238355360614
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5948,6 +5935,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!65 &6155603238355360613
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6155603238355360636}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6, y: 6, z: 6}
+  m_Center: {x: 0, y: 3, z: 0}
 --- !u!195 &6155603238355360615
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6079,9 +6079,11 @@ MonoBehaviour:
   projectileAttackCooldown: 1
   projectileAttackForce: 200
   projectileAttackAngle: 120
+  projectileAttackNumSeeds: 3
   projectileAttackMinDamage: 5
   projectileAttackMaxDamage: 10
-  seedPrefab: {fileID: 1788599830301982, guid: c12e4c24b60872c41b0989004e191efd, type: 3}
+  seedPrefab: {fileID: 640558104519320016, guid: feb48f7855885f9478e6eb8d250d9bd0,
+    type: 3}
   projectileAttackSFX:
     pitch: 0
     volume: 0
@@ -6090,7 +6092,7 @@ MonoBehaviour:
     delay: 0
     loop: 0
   rootAttackCooldown: 1
-  rootContainer: {fileID: 3562997362620777850, guid: 33b8f54fd93523049adaa40f48b1213c,
+  rootContainerPrefab: {fileID: 3562997362620777850, guid: 33b8f54fd93523049adaa40f48b1213c,
     type: 3}
   rootAttackSFX:
     pitch: 0

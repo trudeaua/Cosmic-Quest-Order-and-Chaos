@@ -5,12 +5,16 @@ using UnityEngine;
 public class WaitIdleBehaviour : StateMachineBehaviour
 {
     public float waitTime = 1f;
+    public bool randomTime;
+    public float minRandomTime;
+    public float maxRandomTime;
     public string exitTrigger;
+    
     private float _timer;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _timer = waitTime;
+        _timer = randomTime ? Random.Range(minRandomTime, maxRandomTime) : waitTime;
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

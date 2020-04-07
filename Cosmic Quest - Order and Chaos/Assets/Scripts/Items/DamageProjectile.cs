@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DamageProjectile : Projectile
 {
-    private float _damage = 0f;
-    private string _targetTag = "Enemy";
+    protected float Damage = 0f;
+    protected string TargetTag = "Enemy";
 
     /// <summary>
     /// Launch the damage projectile
@@ -19,8 +19,8 @@ public class DamageProjectile : Projectile
     public void Launch(EntityStatsController launcherStats, Vector3 direction, float launchForce, float range, float damage, string targetTag = "Enemy")
     {
         // Store the damage amount and call the base launch function
-        _damage = damage;
-        _targetTag = targetTag;
+        Damage = damage;
+        TargetTag = targetTag;
         Launch(launcherStats, direction, launchForce, range);
     }
 
@@ -29,10 +29,10 @@ public class DamageProjectile : Projectile
         GameObject col = other.gameObject;
         
         // if other object is an enemy, deal damage
-        if (col.CompareTag(_targetTag))
+        if (col.CompareTag(TargetTag))
         {
             EntityStatsController target = col.GetComponent<EntityStatsController>();
-            target.TakeDamage(LauncherStats, _damage);
+            target.TakeDamage(LauncherStats, Damage);
         }
         
         // Don't worry about collisions with the launcher

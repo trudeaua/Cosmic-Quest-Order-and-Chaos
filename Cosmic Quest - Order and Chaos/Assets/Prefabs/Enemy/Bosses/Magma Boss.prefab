@@ -15178,8 +15178,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 814962370199398732}
-  - component: {fileID: 3886485955375363378}
   - component: {fileID: 15419355527920697}
+  - component: {fileID: 3886485955375363378}
   - component: {fileID: 5150403099244511134}
   - component: {fileID: 6023961966929729764}
   - component: {fileID: 1546829893308362670}
@@ -15210,19 +15210,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3886485955375363378
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7770021610953661345}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4, y: 4, z: 3}
-  m_Center: {x: 0, y: 2, z: 0}
 --- !u!54 &15419355527920697
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15239,6 +15226,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!65 &3886485955375363378
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7770021610953661345}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4, y: 4, z: 3}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!195 &5150403099244511134
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -15404,6 +15404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f6391806b46cd48a45f9a75bfb360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStrategy: 0
   aggroRadius: 30
   attackRadius: 5
   decisionDelay: 2

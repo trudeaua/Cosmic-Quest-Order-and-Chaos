@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waitTime: 1
+  randomTime: 1
+  minRandomTime: 1
+  maxRandomTime: 1.5
   exitTrigger: Retract
 --- !u!1101 &-7990062871941770515
 AnimatorStateTransition:
@@ -78,19 +81,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Retract
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: IdleAnim
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -418,6 +421,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waitTime: 1
+  randomTime: 1
+  minRandomTime: 1
+  maxRandomTime: 1.5
   exitTrigger: Retract
 --- !u!1101 &3505595222131968032
 AnimatorStateTransition:
@@ -482,4 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waitTime: 1
+  randomTime: 1
+  minRandomTime: 1
+  maxRandomTime: 1.5
   exitTrigger: Retract
