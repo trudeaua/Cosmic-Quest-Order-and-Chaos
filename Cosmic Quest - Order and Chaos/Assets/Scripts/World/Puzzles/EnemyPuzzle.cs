@@ -46,7 +46,7 @@ public class EnemyPuzzle : Puzzle
         for (int i = 0; i < numEnemies; i++)
         {
             int enemyIndex = UnityEngine.Random.Range(0, enemyPrefabs.Length);
-            GameObject enemyObj = Instantiate(enemyPrefabs[enemyIndex].enemyPrefab, transform);
+            GameObject enemyObj = Instantiate(enemyPrefabs[enemyIndex], transform);
             loadedEnemies.Add(enemyObj);
 
             // add any modifieres to the enemy
