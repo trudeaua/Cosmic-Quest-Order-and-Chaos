@@ -31,7 +31,7 @@ public class SceneReference : ISerializationCallbackReceiver
 #endif
 
     [Tooltip("The name of the referenced scene. This may be used at runtime to load the scene.")]
-    public string SceneName;
+    public string name;
 
     [SerializeField]
     private int sceneIndex = -1;
@@ -41,20 +41,20 @@ public class SceneReference : ISerializationCallbackReceiver
 
     private void ValidateScene()
     {
-        if (string.IsNullOrEmpty(SceneName))
+        if (string.IsNullOrEmpty(name))
             throw new SceneLoadException("No scene specified.");
 
         if (sceneIndex < 0)
-            throw new SceneLoadException("Scene " + SceneName + " is not in the build settings");
+            throw new SceneLoadException("Scene " + name + " is not in the build settings");
 
         if (!sceneEnabled)
-            throw new SceneLoadException("Scene " + SceneName + " is not enabled in the build settings");
+            throw new SceneLoadException("Scene " + name + " is not enabled in the build settings");
     }
 
     public void LoadScene(LoadSceneMode mode = LoadSceneMode.Single)
     {
         ValidateScene();
-        SceneManager.LoadScene(SceneName, mode);
+        SceneManager.LoadScene(name, mode);
     }
 
     public void OnBeforeSerialize()
@@ -76,14 +76,14 @@ public class SceneReference : ISerializationCallbackReceiver
                     sceneIndex = i;
                     sceneEnabled = scenes[i].enabled;
                     if (scenes[i].enabled)
-                        SceneName = Scene.name;
+                        name = Scene.name;
                     break;
                 }
             }
         }
         else
         {
-            SceneName = "";
+            name = "";
         }
 #endif
     }

@@ -73,7 +73,7 @@ public class SceneReferenceEditor : PropertyDrawer
     private void CacheProperties(SerializedProperty property)
     {
         scene = property.FindPropertyRelative("Scene");
-        sceneName = property.FindPropertyRelative("SceneName");
+        sceneName = property.FindPropertyRelative("name");
         sceneIndex = property.FindPropertyRelative("sceneIndex");
         sceneEnabled = property.FindPropertyRelative("sceneEnabled");
         sceneAsset = scene.objectReferenceValue as SceneAsset;

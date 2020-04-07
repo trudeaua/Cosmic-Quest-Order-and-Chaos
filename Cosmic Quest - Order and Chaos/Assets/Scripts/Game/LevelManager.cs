@@ -86,19 +86,8 @@ public class LevelManager : MonoBehaviour
     /// <param name="chaosVoid">Reference to the chaos void level to load</param>
     public void StartChaosVoid(ChaosVoid chaosVoid)
     {
-        Debug.Log("hi");
-        Debug.Log(chaosVoid.name);
-        StartCoroutine(LoadYourAsyncScene(chaosVoid.scene.SceneName, SceneType.Level));
+        StartCoroutine(LoadYourAsyncScene(chaosVoid.scene.name, SceneType.Level));
         chaosVoid.Initialize();
-    }
-
-    /// <summary>
-    /// Starts a given chaos void
-    /// </summary>
-    /// <param name="chaosVoid">Reference to the chaos void level to load</param>
-    public void ClearChaosVoid(ChaosVoid chaosVoid)
-    {
-        chaosVoid.cleared = true;
     }
 
     /// <summary>
@@ -119,9 +108,6 @@ public class LevelManager : MonoBehaviour
         Application.Quit();
     }
 
-    /// <summary>
-    /// Go to the main menu
-    /// </summary>
     public void BackToMenu()
     {
         StartCoroutine(LoadYourAsyncScene("MenuStaging", SceneType.Menu));
@@ -144,6 +130,13 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 1;
         yield return new WaitForSeconds(0.5f);
 
+        // check if scene has already been loaded, if it has then set it to active
+        Scene loadedScene = SceneManager.GetSceneByName(sceneName);
+        if (loadedScene.IsValid())
+        {
+            SceneManager.SetActiveScene(loadedScene);
+            yield break;
+        }
         // Load the scene asynchronously
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
 

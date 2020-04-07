@@ -35,7 +35,8 @@ public class HealerProjectile : Projectile
         }
         else
         {
-            gameObject.SetActive(false);
+            if (!other.isTrigger)
+                gameObject.SetActive(false);
         }
     }
 

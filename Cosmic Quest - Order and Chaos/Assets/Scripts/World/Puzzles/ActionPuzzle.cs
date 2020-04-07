@@ -25,8 +25,19 @@ public class ActionPuzzle : Puzzle
         [Tooltip("Action icon image (e.g. PS4 square button icon)")]
         public Image actionImage;
 
-        [Tooltip("Dialogue to trigger when prompting players to perform an action")]
-        public DialogueTrigger dialogueTrigger;
+        [Tooltip("Dialogue to play before performing class specific dialogue")]
+        public DialogueTrigger introDialogueTrigger;
+        [Tooltip("Dialogue to play after performing class specific dialogue")]
+        public DialogueTrigger exitDialogueTrigger;
+
+        [Tooltip("Specific dialogue to play for mage's action")]
+        public DialogueTrigger mageDialogueTrigger;
+        [Tooltip("Specific dialogue to play for mage's action")]
+        public DialogueTrigger meleeDialogueTrigger;
+        [Tooltip("Specific dialogue to play for mage's action")]
+        public DialogueTrigger healerDialogueTrigger;
+        [Tooltip("Specific dialogue to play for mage's action")]
+        public DialogueTrigger rangedDialogueTrigger;
 
         /// <summary>
         /// Whether the action has been completed or not
@@ -125,6 +136,12 @@ public class ActionPuzzle : Puzzle
     private List<PlayerInput> playerInputs;
 
     /// <summary>
+    /// List of player classes
+    /// Rationale: For displaying class specific dialogue
+    /// </summary>
+    private List<string> playerClasses;
+
+    /// <summary>
     /// Maintains which action is currently being listened for
     /// </summary>
     private int currentAction;
@@ -135,6 +152,7 @@ public class ActionPuzzle : Puzzle
         StartCoroutine(DisableOverlay(0));
         completedActionIds = new List<int>();
         playerInputs = new List<PlayerInput>();
+        playerClasses = new List<string>();
         currentAction = -1;
 
         // hide all action icons
@@ -159,6 +177,59 @@ public class ActionPuzzle : Puzzle
                 return;
         }
         playerInputs.Add(_playerInput);
+        int playerNumber = PlayerManager.Instance.GetPlayerNumber(_deviceId);
+        string className = PlayerManager.Instance.GetPlayerClassName(playerNumber);
+        if (!playerClasses.Contains(className))
+            playerClasses.Add(className);
+    }
+
+    public void PlayClassSpecificDialogue()
+    {
+        if (playerClasses.Count > 1)
+        {
+            DialogueTrigger curr = GetClassSpecificDialogue(playerClasses[0]);
+            DialogueTrigger next = null;
+            curr.TriggerDialogue();
+            for (int i = 1; i < playerClasses.Count; i++)
+            {
+                next = GetClassSpecificDialogue(playerClasses[i]);
+                curr.dialogue.onComplete.AddListener(next.TriggerDialogue);
+                curr = next;
+            }
+            next.dialogue.onComplete.AddListener(requiredActions[currentAction+1].exitDialogueTrigger.TriggerDialogue);
+        }
+        else if (playerClasses.Count == 1)
+        {
+            DialogueTrigger curr = GetClassSpecificDialogue(playerClasses[0]);
+            curr.dialogue.onComplete.AddListener(requiredActions[currentAction + 1].exitDialogueTrigger.TriggerDialogue);
+            curr.TriggerDialogue();
+        }
+        else
+        {
+            requiredActions[currentAction+1].exitDialogueTrigger.TriggerDialogue();
+        }
+    }
+
+    /// <summary>
+    /// Get the dialogue trigger associated with a class name
+    /// </summary>
+    /// <param name="className">Name of a player class</param>
+    /// <returns>The dialogue trigger for a specific player class, null if not found</returns>
+    private DialogueTrigger GetClassSpecificDialogue(string className)
+    {
+        switch (className)
+        {
+            case "Mage":
+                return requiredActions[currentAction+1].mageDialogueTrigger;
+            case "Melee":
+                return requiredActions[currentAction+1].meleeDialogueTrigger;
+            case "Healer":
+                return requiredActions[currentAction+1].healerDialogueTrigger;
+            case "Ranged":
+                return requiredActions[currentAction+1].rangedDialogueTrigger;
+            default:
+                return null;
+        }
     }
 
     /// <summary>
@@ -178,8 +249,8 @@ public class ActionPuzzle : Puzzle
                 action.Disable();
             }
         }
-        // trigger dialogue that prompts the user to press a button
-        requiredActions[currentAction + 1].dialogueTrigger.TriggerDialogue();
+        // trigger the introductory dialogue
+        requiredActions[currentAction + 1].introDialogueTrigger.TriggerDialogue();
     }
 
     /// <summary>
@@ -322,8 +393,9 @@ public class ActionPuzzle : Puzzle
     /// </summary>
     protected override void SetComplete()
     {
+
         if (currentAction + 1 < requiredActions.Length)
-            requiredActions[currentAction + 1].dialogueTrigger.TriggerDialogue();
+            requiredActions[currentAction + 1].introDialogueTrigger.TriggerDialogue();
         StartCoroutine(ReleaseChargedAttacks(2));
         // Only complete if all required actions are completed, else set up the puzzle again
         if (requiredActions.Count(e => e.IsCompleted()) == requiredActions.Length)
