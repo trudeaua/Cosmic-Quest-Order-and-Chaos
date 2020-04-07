@@ -183,6 +183,9 @@ public class ActionPuzzle : Puzzle
             playerClasses.Add(className);
     }
 
+    /// <summary>
+    /// Play any class-specific dialogue for the required action before playing the exit dialogue
+    /// </summary>
     public void PlayClassSpecificDialogue()
     {
         if (playerClasses.Count > 1)
@@ -190,9 +193,11 @@ public class ActionPuzzle : Puzzle
             DialogueTrigger curr = GetClassSpecificDialogue(playerClasses[0]);
             DialogueTrigger next = null;
             curr.TriggerDialogue();
+            // adds event listeners that link together all class specific dialogue
             for (int i = 1; i < playerClasses.Count; i++)
             {
                 next = GetClassSpecificDialogue(playerClasses[i]);
+                // When the current dialogue completes, the next dialogue will play
                 curr.dialogue.onComplete.AddListener(next.TriggerDialogue);
                 curr = next;
             }
@@ -200,12 +205,14 @@ public class ActionPuzzle : Puzzle
         }
         else if (playerClasses.Count == 1)
         {
+            // if there's only one player then trigger the exit dialogue (will only ever happen in testing)
             DialogueTrigger curr = GetClassSpecificDialogue(playerClasses[0]);
             curr.dialogue.onComplete.AddListener(requiredActions[currentAction + 1].exitDialogueTrigger.TriggerDialogue);
             curr.TriggerDialogue();
         }
         else
         {
+            // if there's no class-specific dialogue then just play the exit dialogue
             requiredActions[currentAction+1].exitDialogueTrigger.TriggerDialogue();
         }
     }
