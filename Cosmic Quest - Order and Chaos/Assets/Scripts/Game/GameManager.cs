@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour
         Playing,
         BossFight,
         GameOver,
-        SelectingLevel
+        SelectingLevel,
+        Victory
     }
     
     #region Singleton
@@ -74,8 +75,7 @@ public class GameManager : MonoBehaviour
             case GameState.GameOver:
                 // Trigger game over screen
                 // Restart to the last checkpoint?
-
-                LevelManager.Instance.RestartCurrentLevel();
+                TransitionMenu.Instance.ShowGameOverMenu();
                 break;
             default:
                 break;
@@ -122,5 +122,19 @@ public class GameManager : MonoBehaviour
     {
         CurrentState = GameState.BossFight;
         onStateChange.Invoke();
+    }
+
+    public void SetVictoryState()
+    {
+        CurrentState = GameState.Victory;
+        onStateChange.Invoke();
+        StartCoroutine("CompleteLevel");
+    }
+
+    public IEnumerator CompleteLevel()
+    {
+        LevelManager.Instance.ClearChaosVoid();
+        yield return new WaitForSeconds(2.5f);
+        TransitionMenu.Instance.ShowVictoryMenu();
     }
 }
