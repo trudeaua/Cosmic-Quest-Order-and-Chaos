@@ -15,7 +15,16 @@ public class EnemyBrainController : MonoBehaviour
         public float Aggro;
         public bool IsKnown;
     }
-    
+
+    public enum TargetStrategy
+    {
+        AggroTable,
+        ClosestEasiest,
+        Random
+    }
+
+    [Tooltip("The target selection strategy that the enemy uses")]
+    public TargetStrategy targetStrategy = TargetStrategy.AggroTable;
     [Tooltip("The radius around the enemy where a player can trigger aggro")]
     public float aggroRadius = 10f;
     [Tooltip("The distance from a player when the enemy will attempt to attack")]
@@ -29,6 +38,7 @@ public class EnemyBrainController : MonoBehaviour
     
     private EnemyStatsController _stats;
     private List<TargetPlayer> _targets;
+    private List<TargetPlayer> AliveTargets => _targets.FindAll(t => !t.Stats.isDead);
 
     public bool IsStunned { get; private set; }
     private float _decisionTimer;
@@ -105,31 +115,71 @@ public class EnemyBrainController : MonoBehaviour
     /// </summary>
     private void MakeTargetDecision()
     {
-        // 1. Prioritize top aggro value
-        TargetPlayer newTarget = GetTopAggroTarget();
-        if (newTarget != null)
+        TargetPlayer newTarget;
+        
+        // If no players are alive, no target possible
+        if (AliveTargets.Count == 0)
         {
-            _currentTarget = newTarget;
+            _currentTarget = null;
             return;
         }
         
-        // 2. Choose closest player
-        newTarget = GetClosestTarget();
-        if (newTarget != null)
+        switch (targetStrategy)
         {
-            _currentTarget = newTarget;
-            return;
-        }
+            case TargetStrategy.AggroTable:
+                // 1. Prioritize top aggro value
+                newTarget = GetTopAggroTarget();
+                if (newTarget != null)
+                {
+                    _currentTarget = newTarget;
+                    return;
+                }
+        
+                // 2. Choose closest player
+                newTarget = GetClosestViewableTarget();
+                if (newTarget != null)
+                {
+                    _currentTarget = newTarget;
+                    return;
+                }
 
-        // 3. If we should always have a target, select a player randomly (if there are any)
-        if (alwaysHaveTarget && _targets.Count(p => !p.Stats.isDead) > 0)
-        {
-            _currentTarget = _targets[Random.Range(0, _targets.Count - 1)];
-            return;
-        }
+                // 3. If we should always have a target, select a player randomly (if there are any)
+                if (alwaysHaveTarget)
+                {
+                    _currentTarget = AliveTargets[Random.Range(0, AliveTargets.Count - 1)];
+                    return;
+                }
         
-        // 4. No target
-        _currentTarget = null;
+                // 4. No target
+                _currentTarget = null;
+                break;
+            
+            case TargetStrategy.ClosestEasiest:
+                // 1. Player within view and attack range
+                newTarget = GetClosestInFrontAndInRange();
+                if (newTarget != null)
+                {
+                    _currentTarget = newTarget;
+                    return;
+                }
+                
+                // 2. Choose closest player
+                newTarget = GetClosestTarget();
+                if (newTarget != null)
+                {
+                    _currentTarget = newTarget;
+                    return;
+                }
+                
+                // 3. No target
+                _currentTarget = null;
+                break;
+            
+            case TargetStrategy.Random:
+                // Select living target randomly
+                _currentTarget = AliveTargets.Count > 0 ? AliveTargets[Random.Range(0, AliveTargets.Count - 1)] : null;
+                break;
+        }
     }
 
     /// <summary>
@@ -141,7 +191,7 @@ public class EnemyBrainController : MonoBehaviour
         TargetPlayer targetPlayer = null;
         float maxAggro = 0f;
         
-        foreach (TargetPlayer target in _targets)
+        foreach (TargetPlayer target in AliveTargets)
         {
             // Ensure the target is known, and has an aggro value over zero
             if (target.IsKnown && target.Aggro > maxAggro && CanSee(target))
@@ -153,7 +203,7 @@ public class EnemyBrainController : MonoBehaviour
 
         return targetPlayer;
     }
-    
+
     /// <summary>
     /// Find the nearest player to the enemy
     /// </summary>
@@ -163,10 +213,53 @@ public class EnemyBrainController : MonoBehaviour
         TargetPlayer targetPlayer = null;
         float minDist = Mathf.Infinity;
 
-        foreach (TargetPlayer target in _targets)
+        foreach (TargetPlayer target in AliveTargets)
+        {
+            float distance = (target.Player.transform.position - transform.position).sqrMagnitude;
+            if (distance < minDist)
+            {
+                minDist = distance;
+                targetPlayer = target;
+            }
+        }
+
+        return targetPlayer;
+    }
+    
+    /// <summary>
+    /// Find the nearest player to the enemy that the enemy can see
+    /// </summary>
+    /// <returns>A target player object instance</returns>
+    private TargetPlayer GetClosestViewableTarget()
+    {
+        TargetPlayer targetPlayer = null;
+        float minDist = Mathf.Infinity;
+
+        foreach (TargetPlayer target in AliveTargets)
         {
             float distance = (target.Player.transform.position - transform.position).sqrMagnitude;
             if (target.IsKnown && distance < minDist && CanSee(target))
+            {
+                minDist = distance;
+                targetPlayer = target;
+            }
+        }
+
+        return targetPlayer;
+    }
+
+    private TargetPlayer GetClosestInFrontAndInRange()
+    {
+        TargetPlayer targetPlayer = null;
+        float minDist = Mathf.Infinity;
+
+        foreach (TargetPlayer target in AliveTargets)
+        {
+            float distance = (target.Player.transform.position - transform.position).sqrMagnitude;
+            float angle = Vector3.SignedAngle(transform.forward, target.Player.transform.position - transform.position, Vector3.up);
+            if (distance <= attackRadius * attackRadius &&
+                Mathf.Abs(angle) < 60f &&
+                distance < minDist)
             {
                 minDist = distance;
                 targetPlayer = target;

@@ -56,7 +56,7 @@ public class EnemyMotorController : MonoBehaviour
 
     private IEnumerator FollowTarget()
     {
-        while (true)
+        while (IsFollowing)
         {
             _target = _brain.GetCurrentTarget();
 
@@ -72,7 +72,7 @@ public class EnemyMotorController : MonoBehaviour
 
     private IEnumerator RotateToTarget()
     {
-        while (true)
+        while (IsRotating)
         {
             _target = _brain.GetCurrentTarget();
 
