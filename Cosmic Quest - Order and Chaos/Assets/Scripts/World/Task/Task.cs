@@ -6,12 +6,12 @@ public class Task : MonoBehaviour
 {
     public DialogueTrigger introDialogueTrigger;
     public DialogueTrigger exitDialogueTrigger;
-    public Door[] doors;
+    protected Door[] doors;
     protected bool completed;
     protected bool started;
     protected int PlayersInTaskArea = 0;
     protected int numPlayers;
-    public Puzzle[] _Puzzles;
+    protected Puzzle[] _Puzzles;
 
     protected virtual void Start()
     {
