@@ -2,25 +2,48 @@
 
 public class RockPuzzle : Puzzle
 {
-    // Platforms required to complete the puzzle
+    [Tooltip("Platforms in the puzzle")]
     public Platform[] platforms;
-    // Current number of activated platforms
-    private int _numActivated;
+
+    /// <summary>
+    /// Current number of activated platforms
+    /// </summary>
+    private int numActivated;
     
-    private void Start()
+    /// <summary>
+    /// Number of platforms required to be activated
+    /// </summary>
+    private int requiredNumActivations;
+
+    protected override void Start()
     {
-        // Subscribe to platform activation events
+        base.Start();
+        requiredNumActivations = platforms.Length;
         foreach (Platform platform in platforms)
         {
+            // Subscribe to platform activation events
             platform.onActivation += UpdateActivated;
+
+            // If the platform is inactive it's not required
+            if (!platform.gameObject.activeInHierarchy)
+            {
+                requiredNumActivations -= 1;
+            }
         }
     }
 
+    /// <summary>
+    /// Updates the number of activated platforms
+    /// </summary>
+    /// <param name="isActivated"></param>
     private void UpdateActivated(bool isActivated)
     {
-        _numActivated += isActivated ? 1 : -1;
+        if (isComplete)
+            return;
 
-        if (_numActivated == platforms.Length)
+        numActivated += isActivated ? 1 : -1;
+
+        if (numActivated == requiredNumActivations)
         {
             // Puzzle is complete
             SetComplete();

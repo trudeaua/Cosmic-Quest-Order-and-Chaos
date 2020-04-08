@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
@@ -7,8 +7,10 @@ using UnityEngine.InputSystem.Utilities;
 public class PlayerInputMock
 {
     public readonly Gamepad Gamepad = null;
+    private int mockDeviceId;
+
     public int PlayerNumber { get; }
-    private int DeviceId { get; }
+    private int[] DeviceIds { get; }
     private string ControlScheme { get; }
 
     /// <summary>
@@ -18,10 +20,10 @@ public class PlayerInputMock
     /// <param name="playerNumber">Players number</param>
     /// <param name="deviceId">Id of the players device</param>
     /// <param name="controlScheme">Control scheme of the players device</param>
-    public PlayerInputMock(int playerNumber, int deviceId, string controlScheme)
+    public PlayerInputMock(int playerNumber, int[] deviceIds, string controlScheme)
     {
         PlayerNumber = playerNumber;
-        DeviceId = deviceId;
+        DeviceIds = deviceIds;
         ControlScheme = controlScheme;
         ReadOnlyArray<Gamepad> devices = Gamepad.all;
 
@@ -40,6 +42,7 @@ public class PlayerInputMock
         {
             Gamepad = InputSystem.AddDevice<Gamepad>("MockGamepad" + PlayerNumber);
         }
+        mockDeviceId = Gamepad.deviceId;
     }
 
     /// <summary>
@@ -67,6 +70,7 @@ public class PlayerInputMock
         {
             Gamepad = InputSystem.AddDevice<Gamepad>("MockGamepad" + PlayerNumber);
         }
+        mockDeviceId = Gamepad.deviceId;
     }
 
     private void SetUpAndQueueEvent(InputEventPtr eventPtr, InputControl control, Vector2 val)
@@ -136,17 +140,13 @@ public class PlayerInputMock
         InputDevice deviceToRemove = null;
         foreach (InputDevice d in devices)
         {
-            if (d.deviceId == DeviceId)
-            {
-                InputDevice[] dev = new InputDevice[1];
-                dev[0] = d;
-                input.SwitchCurrentControlScheme(ControlScheme, dev);
-            }
-            else if (d.name == "MockGamepad" + PlayerNumber)
+            if (d.deviceId == mockDeviceId)
             {
                 deviceToRemove = d;
             }
         }
+        InputDevice[] originalDevices = InputSystem.devices.Where(e => DeviceIds.Contains(e.deviceId)).ToArray();
+        input.SwitchCurrentControlScheme(ControlScheme, originalDevices);
         // Remove the mock input device from the input system
         InputSystem.RemoveDevice(deviceToRemove);
     }
