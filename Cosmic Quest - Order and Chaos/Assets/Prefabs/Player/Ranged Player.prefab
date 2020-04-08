@@ -2155,8 +2155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 116f94a827a74833caa507f307ad8489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVelocity: 6.5
-  maxAcceleration: 25
+  maxVelocity: 5.5
+  maxAcceleration: 20
   rotationSpeed: 15
 --- !u!114 &5900325691706687465
 MonoBehaviour:
@@ -2186,9 +2186,12 @@ MonoBehaviour:
   health:
     maxValue: 100
     minValue: 0
-    regenAmount: 1
+    regenAmount: 2
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
   damage:
-    baseValue: 3
+    baseValue: 2
   defense:
     baseValue: 1
   characterColour: 0
@@ -2214,7 +2217,7 @@ MonoBehaviour:
   mana:
     maxValue: 100
     minValue: 0
-    regenAmount: 10
+    regenAmount: 27
   respawnBeaconPrefab: {fileID: 5332417463244100679, guid: 839e76de723905d4cbf20b613b122332,
     type: 3}
   playerRespawningSFX:
@@ -2260,12 +2263,12 @@ MonoBehaviour:
     loop: 0
   primaryAttackTimeout: 0.4
   secondaryAttackTimeout: 1
-  primaryAttackMinDamage: 5
-  primaryAttackMaxDamage: 9
-  primaryAttackRange: 22
-  primaryAttackChargeTime: 1.1
-  primaryAttackMinLaunchForce: 350
-  primaryAttackMaxLaunchForce: 800
+  primaryAttackMinDamage: 4
+  primaryAttackMaxDamage: 6
+  primaryAttackRange: 15
+  primaryAttackChargeTime: 0.9
+  primaryAttackMinLaunchForce: 100
+  primaryAttackMaxLaunchForce: 400
   primaryAttackLaunchDelay: 0.2
   primaryAttackEffectCurve:
     serializedVersion: 2
@@ -2291,13 +2294,13 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  primaryAttackManaDepletion: 30
-  primaryAttackMovementModifier: 0.35
+  primaryAttackManaDepletion: 60
+  primaryAttackMovementModifier: 0.3
   primaryProjectilePrefab: {fileID: 8766964442698227007, guid: daefe39a199a2674bb5d421ea52854e9,
     type: 3}
   primaryAttackChargeWeaponSFX:
     pitch: 1
-    volume: 0.5
+    volume: 0.6
     clip: {fileID: 8300000, guid: b2dbb21421afa13498013b7c0e627ca2, type: 3}
     type: 0
     delay: 0
@@ -2312,8 +2315,8 @@ MonoBehaviour:
   secondaryAttackTrapPrefab: {fileID: 9157185116791405800, guid: 8b20befda0c4d8e4995dac019d5c7be0,
     type: 3}
   secondaryAttackSpawnDelay: 0.5
-  secondaryAttackManaDepletion: 50
-  secondaryAttackMovementModifier: 0.1
+  secondaryAttackManaDepletion: 100
+  secondaryAttackMovementModifier: 0.05
   secondaryAttackWeaponSFX:
     pitch: 1
     volume: 0.5
