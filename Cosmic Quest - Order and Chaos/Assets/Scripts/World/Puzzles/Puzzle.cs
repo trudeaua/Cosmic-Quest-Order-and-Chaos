@@ -4,12 +4,19 @@ using UnityEngine.Events;
 public class Puzzle : MonoBehaviour, ISerializable
 {
     public UnityEvent onCompletion;
-    public UnityEvent onReset;
-    protected CharacterColour puzzleColour = CharacterColour.None;
+    protected CharacterColour[] playerColours;
 
     public bool isComplete { get; private set; }
 
-    protected void SetComplete()
+    protected virtual void Start()
+    {
+        playerColours = PlayerManager.Instance.CurrentPlayerColours;
+    }
+
+    /// <summary>
+    /// Mark the puzzle as completed
+    /// </summary>
+    protected virtual void SetComplete()
     {
         isComplete = true;
         
@@ -18,18 +25,11 @@ public class Puzzle : MonoBehaviour, ISerializable
     }
 
     /// <summary>
-    /// Set the colour of the puzzle
+    /// Reset the state of the puzzle
     /// </summary>
-    /// <param name="colour">Colour that the puzzle's elements should be</param>
-    public void SetPuzzleColour(CharacterColour colour)
-    {
-        puzzleColour = colour;
-    }
-
     public virtual void ResetPuzzle()
     {
         isComplete = false;
-        onReset?.Invoke();
     }
 
     public string Serialize()

@@ -67,11 +67,7 @@ public class PlayerMageCombatController : PlayerCombatController
         if ((Stats as PlayerStatsController).mana.CurrentValue < 1f)
         {
             // Stop attack if not enough mana
-            _isPrimaryActive = false;
-            Anim.SetBool("PrimaryAttack", false);
-            AudioHelper.StopAudio(WeaponAudio);
-            (Stats as PlayerStatsController).mana.StartRegen();
-            Motor.ResetMovementModifier();
+            ReleaseChargedAttack();
             return;
         }
 
@@ -175,5 +171,14 @@ public class PlayerMageCombatController : PlayerCombatController
             Interaction.StopInteract();
             SecondaryAttack();
         }
+    }
+
+    protected override void ReleaseChargedAttack()
+    {
+        _isPrimaryActive = false;
+        Anim.SetBool("PrimaryAttack", false);
+        AudioHelper.StopAudio(WeaponAudio);
+        (Stats as PlayerStatsController).mana.StartRegen();
+        Motor.ResetMovementModifier();
     }
 }

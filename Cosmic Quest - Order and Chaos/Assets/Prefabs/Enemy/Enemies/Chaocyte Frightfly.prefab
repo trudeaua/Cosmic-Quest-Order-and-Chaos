@@ -2030,7 +2030,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2685798253169061785}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2038,7 +2038,7 @@ Transform:
   - {fileID: 1724143976497665285}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &1012034089
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2084,6 +2084,9 @@ MonoBehaviour:
     maxValue: 20
     minValue: 0
     regenAmount: 0
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
   damage:
     baseValue: 4
   defense:
@@ -2163,6 +2166,8 @@ MonoBehaviour:
   primaryAttackCooldown: 1
   primaryAttackRadius: 4
   primaryAttackAngle: 45
+  primaryAttackMinDamage: 1
+  primaryAttackMaxDamage: 4
   primaryAttackProbability: 0.7
   primaryAttackSFX:
     pitch: 0
@@ -2174,6 +2179,8 @@ MonoBehaviour:
   secondaryAttackCooldown: 1
   secondaryAttackRadius: 5
   secondaryAttackAngle: 45
+  secondaryAttackMinDamage: 2
+  secondaryAttackMaxDamage: 6
   secondaryAttackSFX:
     pitch: 0
     volume: 0

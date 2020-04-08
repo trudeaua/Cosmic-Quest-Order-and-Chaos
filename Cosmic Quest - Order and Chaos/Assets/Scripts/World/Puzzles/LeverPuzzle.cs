@@ -1,33 +1,42 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LeverPuzzle : Puzzle
 {
-    // List of levers involved with this puzzle
+    [Tooltip("List of levers involved with this puzzle")]
     public Lever[] levers;
-    // List of colours required
-    [SerializeField] private CharacterColour[] requiredColours;
-    // Buffer for received colours
+
+    /// <summary>
+    /// Buffer for received colours
+    /// </summary>
     protected List<CharacterColour> Received;
-    
-    private void Start()
+
+    protected override void Start()
     {
+        base.Start();
         Received = new List<CharacterColour>();
-        
-        // Subscribe to lever activation events
         foreach (Lever lever in levers)
         {
+            // Subscribe to lever activation events
             lever.onActivation += AddColour;
         }
     }
 
+    /// <summary>
+    /// Add a colour to the received colours buffer
+    /// </summary>
+    /// <param name="colour">Colour to add to the buffer</param>
     protected virtual void AddColour(CharacterColour colour)
     {
+        if (isComplete)
+            return;
+
         // Don't store duplicates of the same colour entry
         if (!Received.Contains(colour))
             Received.Add(colour);
 
-        if (Received.Count == requiredColours.Length)
+        if (Received.Count == playerColours.Length)
         {
             // All required levers have been pulled
             SetComplete();

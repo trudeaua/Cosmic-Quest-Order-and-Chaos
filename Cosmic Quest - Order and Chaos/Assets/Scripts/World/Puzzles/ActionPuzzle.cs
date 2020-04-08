@@ -1,65 +1,263 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
+using UnityEngine.UI;
 
+/// <summary>
+/// Variant of a puzzle that prompts players to perform actions on their controllers
+/// </summary>
 public class ActionPuzzle : Puzzle
 {
+    /// <summary>
+    /// Action required for the action puzzle
+    /// </summary>
     [Serializable]
-    public class Action
+    protected class RequiredAction
     {
+        [Tooltip("Name of the action")]
         public string actionName;
+
+        [Tooltip("Action icon image (e.g. PS4 square button icon)")]
+        public Image actionImage;
+
+        [Tooltip("Dialogue to play before performing class specific dialogue")]
+        public DialogueTrigger introDialogueTrigger;
+        [Tooltip("Dialogue to play after performing class specific dialogue")]
+        public DialogueTrigger exitDialogueTrigger;
+
+        [Tooltip("Specific dialogue to play for mage's action")]
+        public DialogueTrigger mageDialogueTrigger;
+        [Tooltip("Specific dialogue to play for mage's action")]
+        public DialogueTrigger meleeDialogueTrigger;
+        [Tooltip("Specific dialogue to play for mage's action")]
+        public DialogueTrigger healerDialogueTrigger;
+        [Tooltip("Specific dialogue to play for mage's action")]
+        public DialogueTrigger rangedDialogueTrigger;
+
+        /// <summary>
+        /// Whether the action has been completed or not
+        /// </summary>
         private bool completed;
 
+        /// <summary>
+        /// Marks the action as completed
+        /// </summary>
         public void SetComplete()
         {
             completed = true;
         }
 
+        /// <summary>
+        /// Marks the action as incomplete
+        /// </summary>
         public void SetIncomplete()
         {
             completed = false;
         }
 
+        /// <summary>
+        /// Checks if the action is completd
+        /// </summary>
+        /// <returns>True if the action is completed</returns>
         public bool IsCompleted()
         {
             return completed;
         }
     }
-    public Action[] requiredActions;
-    private PlayerInput playerInput;
-    private InputActionMap playerActionMap;
-    private int currentAction;
-    private DialogueTrigger dialogueTrigger;
 
     /// <summary>
-    /// Set the player input for this puzzle
+    /// Variant of a Unity Event that emits the id of the device that triggered an action
+    /// Rationale: System.Action class doesn't allow you to pass parameters which was needed for this functionality
     /// </summary>
-    /// <param name="_playerInput">Player's input</param>
-    public virtual void SetPlayerInput(PlayerInput _playerInput)
+    protected class ActionTriggeredEvent : UnityEvent<int>
     {
-        playerInput = _playerInput;
+        /// <summary>
+        /// Action map that will be listened to for events
+        /// </summary>
+        private InputActionMap actionMap;
+
+        /// <summary>
+        /// Id of the device we're listening to
+        /// </summary>
+        private int deviceId;
+
+        /// <summary>
+        /// Name of the action to listen for
+        /// </summary>
+        private string actionName;
+
+        /// <summary>
+        /// Constructor for ActionTriggeredEvent
+        /// </summary>
+        /// <param name="_DeviceId">Id of a device being listening to</param>
+        /// <param name="_ActionName">Name of the action to listen for</param>
+        /// <param name="_ActionMap">Action map that will be listened to for events</param>
+        public ActionTriggeredEvent(int _deviceId, string _actionName, InputActionMap _actionMap)
+        {
+            actionMap = _actionMap;
+            deviceId = _deviceId;
+            actionName = _actionName;
+            actionMap.actionTriggered += HandleAction;
+        }
+
+        /// <summary>
+        /// Callback method for handling input actions
+        /// </summary>
+        /// <param name="actionContext"></param>
+        private void HandleAction(InputAction.CallbackContext actionContext)
+        {
+            if (actionContext.action.name == actionName && actionContext.performed)
+            {
+                Invoke(deviceId);
+            }
+        }
+    }
+
+    [Tooltip("UI overlay for displaying an action to complete")]
+    [SerializeField] private RectTransform actionOverlay;
+    [Tooltip("Animator controllers for each player's action-completed checkmark")]
+    [SerializeField] private Animator[] playerCheckmarkAnims;
+    [Tooltip("Actions required to be performed in order for the puzzle to complete")]
+    [SerializeField] private RequiredAction[] requiredActions;
+
+    /// <summary>
+    /// List of device ids that have completed the current action
+    /// </summary>
+    private List<int> completedActionIds;
+
+    /// <summary>
+    /// List of player inputs to listen to
+    /// </summary>
+    private List<PlayerInput> playerInputs;
+
+    /// <summary>
+    /// List of player classes
+    /// Rationale: For displaying class specific dialogue
+    /// </summary>
+    private List<string> playerClasses;
+
+    /// <summary>
+    /// Maintains which action is currently being listened for
+    /// </summary>
+    private int currentAction;
+
+    protected override void Start()
+    {
+        base.Start();
+        StartCoroutine(DisableOverlay(0));
+        completedActionIds = new List<int>();
+        playerInputs = new List<PlayerInput>();
+        playerClasses = new List<string>();
+        currentAction = -1;
+
+        // hide all action icons
+        for (int i = 0; i < requiredActions.Length; i++)
+        {
+            requiredActions[i].actionImage.enabled = false;
+        }
     }
 
     /// <summary>
-    /// Setup the task
+    /// Add a player input to this puzzle
     /// </summary>
-    protected virtual void Setup()
+    /// <param name="_playerInput">Player's input</param>
+    public virtual void AddPlayerInput(PlayerInput _playerInput)
     {
-        currentAction = -1;
-        playerActionMap = PlayerManager.Instance.GetActionMap(playerInput, "Player");
-        ReadOnlyArray<InputAction> inputActions = playerActionMap.actions;
-
-        dialogueTrigger.TriggerDialogue();
-        
-        // Disable all required actions
-        for (int i = 0; i < requiredActions.Length; i++)
+        int _deviceId = _playerInput.devices.FirstOrDefault().deviceId;
+        // check if the player input has been added already
+        foreach (PlayerInput playerInput in playerInputs)
         {
-            InputAction action = playerActionMap.actions.First(e => e.name == requiredActions[i].actionName);
-            action.Disable();
+            int deviceId = playerInput.devices.FirstOrDefault().deviceId;
+            if (_deviceId == deviceId)
+                return;
         }
+        playerInputs.Add(_playerInput);
+        int playerNumber = PlayerManager.Instance.GetPlayerNumber(_deviceId);
+        string className = PlayerManager.Instance.GetPlayerClassName(playerNumber);
+        if (!playerClasses.Contains(className))
+            playerClasses.Add(className);
+    }
 
-        ListenForActions();
+    /// <summary>
+    /// Play any class-specific dialogue for the required action before playing the exit dialogue
+    /// </summary>
+    public void PlayClassSpecificDialogue()
+    {
+        if (playerClasses.Count > 1)
+        {
+            DialogueTrigger curr = GetClassSpecificDialogue(playerClasses[0]);
+            DialogueTrigger next = null;
+            curr.TriggerDialogue();
+            // adds event listeners that link together all class specific dialogue
+            for (int i = 1; i < playerClasses.Count; i++)
+            {
+                next = GetClassSpecificDialogue(playerClasses[i]);
+                // When the current dialogue completes, the next dialogue will play
+                curr.dialogue.onComplete.AddListener(next.TriggerDialogue);
+                curr = next;
+            }
+            next.dialogue.onComplete.AddListener(requiredActions[currentAction+1].exitDialogueTrigger.TriggerDialogue);
+        }
+        else if (playerClasses.Count == 1)
+        {
+            // if there's only one player then trigger the exit dialogue (will only ever happen in testing)
+            DialogueTrigger curr = GetClassSpecificDialogue(playerClasses[0]);
+            curr.dialogue.onComplete.AddListener(requiredActions[currentAction + 1].exitDialogueTrigger.TriggerDialogue);
+            curr.TriggerDialogue();
+        }
+        else
+        {
+            // if there's no class-specific dialogue then just play the exit dialogue
+            requiredActions[currentAction+1].exitDialogueTrigger.TriggerDialogue();
+        }
+    }
+
+    /// <summary>
+    /// Get the dialogue trigger associated with a class name
+    /// </summary>
+    /// <param name="className">Name of a player class</param>
+    /// <returns>The dialogue trigger for a specific player class, null if not found</returns>
+    private DialogueTrigger GetClassSpecificDialogue(string className)
+    {
+        switch (className)
+        {
+            case "Mage":
+                return requiredActions[currentAction+1].mageDialogueTrigger;
+            case "Melee":
+                return requiredActions[currentAction+1].meleeDialogueTrigger;
+            case "Healer":
+                return requiredActions[currentAction+1].healerDialogueTrigger;
+            case "Ranged":
+                return requiredActions[currentAction+1].rangedDialogueTrigger;
+            default:
+                return null;
+        }
+    }
+
+    /// <summary>
+    /// Set up the puzzle
+    /// </summary>
+    protected void Setup()
+    {
+        // empty the list of device ids that have completed the actions
+        completedActionIds.Clear();
+        for (int i = 0; i < playerInputs.Count; i++)
+        {
+            ReadOnlyArray<InputAction> inputActions = playerInputs[i].currentActionMap.actions;
+            // Disable all required actions
+            for (int j = 0; j < requiredActions.Length; j++)
+            {
+                InputAction action = playerInputs[i].currentActionMap.actions.First(e => e.name == requiredActions[j].actionName);
+                action.Disable();
+            }
+        }
+        // trigger the introductory dialogue
+        requiredActions[currentAction + 1].introDialogueTrigger.TriggerDialogue();
     }
 
     /// <summary>
@@ -67,7 +265,21 @@ public class ActionPuzzle : Puzzle
     /// </summary>
     public void ListenForActions()
     {
-        playerActionMap.actionTriggered += PlayerActionMap_actionTriggered;
+        // hide player checkmarks
+        foreach (Animator animator in playerCheckmarkAnims)
+        {
+            animator.SetBool("isChecked", false);
+            animator.gameObject.SetActive(false);
+        }
+        EnableOverlay();
+        requiredActions[currentAction].actionImage.enabled = true;
+        // Listen for the currently required action being triggered on each player's input
+        for (int i = 0; i < playerInputs.Count; i++)
+        {
+            int deviceId = playerInputs[i].devices.FirstOrDefault().deviceId;
+            ActionTriggeredEvent actionListenerEvent = new ActionTriggeredEvent(deviceId, requiredActions[currentAction].actionName, playerInputs[i].currentActionMap);
+            actionListenerEvent.AddListener(CompleteAction);
+        }
     }
 
     /// <summary>
@@ -75,66 +287,68 @@ public class ActionPuzzle : Puzzle
     /// </summary>
     public void StopListeningForActions()
     {
-        playerActionMap.actionTriggered -= PlayerActionMap_actionTriggered;
-    }
-
-    /// <summary>
-    /// Handle events from the player action map
-    /// </summary>
-    /// <param name="context"></param>
-    private void PlayerActionMap_actionTriggered(InputAction.CallbackContext context)
-    {
-        for (int i = 0; i < requiredActions.Length; i++)
+        // Remove the listener for the currently required action
+        for (int i = 0; i < playerInputs.Count; i++)
         {
-            if (context.action.name == requiredActions[i].actionName)
-            {
-                if (context.performed && requiredActions[i].IsCompleted() == false)
-                {
-                    requiredActions[i].SetComplete();
-                    if (requiredActions.Count(e => e.IsCompleted()) == requiredActions.Length)
-                    {
-                        StopListeningForActions();
-                        EnableAllActions();
-                        SetComplete();
-                    }
-                    else
-                    {
-                        dialogueTrigger.TriggerDialogue();
-                    }
-                }
-            }
+            int deviceId = playerInputs[i].devices.FirstOrDefault().deviceId;
+            ActionTriggeredEvent actionListenerEvent = new ActionTriggeredEvent(deviceId, requiredActions[currentAction].actionName, playerInputs[i].currentActionMap);
+            actionListenerEvent.RemoveListener(CompleteAction);
         }
     }
 
     /// <summary>
-    /// Set the dialogue trigger that is played upon completing an action
+    /// Registers that a device with `deviceId` has completed the currently required action
     /// </summary>
-    /// <param name="_dialogueTrigger"></param>
-    public void SetDialogueTrigger(DialogueTrigger _dialogueTrigger)
+    /// <param name="deviceId">Id of the device that completed the action</param>
+    private void CompleteAction(int deviceId)
     {
-        dialogueTrigger = _dialogueTrigger;
-    }
+        if (completedActionIds.Contains(deviceId))
+            return;
+
+        int playerNumber = PlayerManager.Instance.GetPlayerNumber(deviceId);
+        if (playerNumber > -1)
+        {
+            playerCheckmarkAnims[playerNumber].gameObject.SetActive(true);
+            playerCheckmarkAnims[playerNumber].SetBool("isChecked", true);
+            requiredActions[currentAction].SetComplete();
+        }
+        
+        completedActionIds.Add(deviceId);
+
+        // Complete if all players have performed the currently required action
+        if (completedActionIds.Count == playerInputs.Count)
+        {
+            StopListeningForActions();
+            SetComplete();
+        }
+    } 
 
     /// <summary>
-    /// Disable the current target action
+    /// Disable the currently required action for all players
     /// </summary>
     private void DisableCurrentAction()
-    {
-        if (currentAction > -1)
+    {   
+        if (currentAction == -1)
+            return;
+        
+        for (int i = 0; i < playerInputs.Count; i++)
         {
-            InputAction inputAction = playerActionMap.actions.First(e => e.name == requiredActions[currentAction].actionName);
+            InputAction inputAction = playerInputs[i].currentActionMap.actions.First(e => e.name == requiredActions[currentAction].actionName);
             inputAction.Disable();
         }
     }
 
     /// <summary>
-    /// Enable all actions on the player action map
+    /// Enable all actions on each player's action map
     /// </summary>
     public void EnableAllActions()
     {
-        foreach (InputAction inputAction in playerActionMap.actions)
+        foreach (PlayerInput playerInput in playerInputs)
         {
-            inputAction.Enable();
+            foreach (InputAction inputAction in playerInput.currentActionMap.actions)
+            {
+                inputAction.Enable();
+            }
         }
     }
 
@@ -143,10 +357,14 @@ public class ActionPuzzle : Puzzle
     /// </summary>
     public void EnableNextAction()
     {
-        DisableCurrentAction();
-        InputAction nextAction = playerActionMap.actions.First(e => e.name == requiredActions[currentAction + 1].actionName);
-        nextAction.Enable();
+        foreach (PlayerInput playerInput in playerInputs)
+        {
+            DisableCurrentAction();
+            InputAction nextAction = playerInput.currentActionMap.actions.First(e => e.name == requiredActions[currentAction+1].actionName);
+            nextAction.Enable();
+        }
         currentAction += 1;
+        completedActionIds.Clear();
     }
 
     /// <summary>
@@ -155,11 +373,67 @@ public class ActionPuzzle : Puzzle
     public override void ResetPuzzle()
     {
         base.ResetPuzzle();
-        currentAction = -1;
-        foreach (Action requiredAction in requiredActions)
+        foreach (RequiredAction requiredAction in requiredActions)
         {
             requiredAction.SetIncomplete();
         }
         Setup();
+    }
+
+    /// <summary>
+    /// Cancels any charged attacks on the players' combat controllers
+    /// Rationale: When the puzzle disables an action and the player is performing a charged attack, they will be stuck. This fixes that.
+    /// </summary>
+    /// <param name="delay">Amount of time to wait before cancelling the charged attacks</param>
+    /// <returns></returns>
+    protected IEnumerator ReleaseChargedAttacks(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        foreach (PlayerInput playerInput in playerInputs)
+        {
+            playerInput.GetComponent<PlayerCombatController>().SendMessage("ReleaseChargedAttack");
+        }
+    }
+
+    /// <summary>
+    /// Attempt to complete the puzzle
+    /// </summary>
+    protected override void SetComplete()
+    {
+
+        if (currentAction + 1 < requiredActions.Length)
+            requiredActions[currentAction + 1].introDialogueTrigger.TriggerDialogue();
+        StartCoroutine(ReleaseChargedAttacks(2));
+        // Only complete if all required actions are completed, else set up the puzzle again
+        if (requiredActions.Count(e => e.IsCompleted()) == requiredActions.Length)
+        {
+            base.SetComplete(); 
+            EnableAllActions();
+        }
+        else
+        {
+            Setup();
+        }
+        StartCoroutine(DisableOverlay(2));
+    }
+
+    /// <summary>
+    /// Set the UI overlay to Active
+    /// </summary>
+    public void EnableOverlay()
+    {
+        actionOverlay.gameObject.SetActive(true);
+        requiredActions[currentAction].actionImage.enabled = true;
+    }
+
+    /// <summary>
+    /// Set the UI overlay to Inactive
+    /// </summary>
+    public IEnumerator DisableOverlay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        actionOverlay.gameObject.SetActive(false);
+        if (currentAction > -1)
+            requiredActions[currentAction].actionImage.enabled = false;
     }
 }

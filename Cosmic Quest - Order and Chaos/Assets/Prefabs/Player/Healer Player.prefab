@@ -701,14 +701,11 @@ MonoBehaviour:
   health:
     maxValue: 100
     minValue: 0
-    regenAmount: 2
-  onDeath:
-    m_PersistentCalls:
-      m_Calls: []
+    regenAmount: 1
   damage:
     baseValue: 1
   defense:
-    baseValue: 2
+    baseValue: 3
   characterColour: 0
   shouldSpawn: 1
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
@@ -730,9 +727,9 @@ MonoBehaviour:
     delay: 0
     loop: 0
   mana:
-    maxValue: 110
+    maxValue: 100
     minValue: 0
-    regenAmount: 25
+    regenAmount: 15
   respawnBeaconPrefab: {fileID: 5332417463244100679, guid: 839e76de723905d4cbf20b613b122332,
     type: 3}
   playerRespawningSFX:
@@ -776,14 +773,14 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
-  primaryAttackTimeout: 1.1
+  primaryAttackTimeout: 1.2
   secondaryAttackTimeout: 0.3
-  primaryAttackMinDamage: 4
-  primaryAttackMaxDamage: 7
+  primaryAttackMinDamage: 3
+  primaryAttackMaxDamage: 6
   primaryAttackRadius: 6
   primaryAttackSweepAngle: 100
   primaryAttackDamageDelay: 0.6
-  primaryAttackManaDepletion: 50
+  primaryAttackManaDepletion: 32
   primaryAttackMovementModifier: 0.4
   primaryAttackWeaponSFX:
     pitch: 1
@@ -792,14 +789,14 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
-  secondaryAttackMinDamage: 4
-  secondaryAttackMaxDamage: 6
+  secondaryAttackMinDamage: 5
+  secondaryAttackMaxDamage: 8
   secondaryAttackMinHealing: 8
   secondaryAttackMaxHealing: 12
-  secondaryAttackLaunchForce: 400
+  secondaryAttackLaunchForce: 450
   secondaryAttackRange: 14
   secondaryAttackLaunchDelay: 0.2
-  secondaryAttackManaDepletion: 110
+  secondaryAttackManaDepletion: 60
   secondaryAttackMovementModifier: 0.6
   projectilePrefab: {fileID: 9070515875191536467, guid: 89cf1e6c9119eae40a90576421de14d2,
     type: 3}
