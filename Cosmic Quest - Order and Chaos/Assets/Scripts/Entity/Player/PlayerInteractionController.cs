@@ -62,7 +62,6 @@ public class PlayerInteractionController : MonoBehaviour
             if (_currentObject)
             {
                 StopInteract();
-                //return;
             }
             
             // Ensure the player isn't currently attacking before attempting interaction

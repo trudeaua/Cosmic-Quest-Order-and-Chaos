@@ -17,6 +17,12 @@ public class TeamTask : Task
     /// </summary>
     protected override void SetupTask()
     {
+        // if there's no dialogue then we just start the task
+        if (introDialogueTrigger == null)
+            foreach (Puzzle puzzle in puzzles)
+            {
+                puzzle.ResetPuzzle();
+            }
         taskParticipants = new GameObject[numPlayers];
         for (int i = 0; i < taskParticipants.Length; i++)
         {
@@ -36,7 +42,7 @@ public class TeamTask : Task
         for (int i = 0; i < taskParticipants.Length; i++)
         {
             PlayerInput playerInput = taskParticipants[i].GetComponent<PlayerInput>();
-            foreach (Puzzle puzzle in _Puzzles)
+            foreach (Puzzle puzzle in puzzles)
             {
                 // Behaviour for different puzzles goes here
                 ActionPuzzle actionPuzzle = null;
@@ -56,7 +62,7 @@ public class TeamTask : Task
     public override void Complete()
     {
         // keep going if all puzzles in the task aren't completed
-        if (_Puzzles.Count(e => e.isComplete == false) > 0)
+        if (puzzles.Count(e => e.isComplete == false) > 0)
         {
             StartTask();
         }

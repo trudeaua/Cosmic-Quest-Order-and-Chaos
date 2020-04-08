@@ -39,12 +39,13 @@ public class Task : MonoBehaviour
     /// <summary>
     /// Puzzles in the task area
     /// </summary>
-    protected Puzzle[] _Puzzles;
+    protected Puzzle[] puzzles;
 
     protected virtual void Start()
     {
         numPlayers = PlayerManager.Instance.NumPlayers;
         doors = GetComponentsInChildren<Door>();
+        puzzles = GetComponents<Puzzle>();
         // Open doors by default
         OpenDoors();
     }
@@ -58,11 +59,6 @@ public class Task : MonoBehaviour
             if (playersInTaskArea == numPlayers && started == false)
             {
                 CloseDoors();
-                Puzzle[] puzzles = GetComponents<Puzzle>();
-                if (puzzles != null)
-                {
-                    _Puzzles = puzzles;
-                }
                 SetupTask();
                 PlayIntroDialogue();
             }
@@ -128,6 +124,12 @@ public class Task : MonoBehaviour
     {
         started = false;
         completed = false;
+        // if there's no dialogue then we just start the task
+        if (introDialogueTrigger == null)
+            foreach (Puzzle puzzle in puzzles)
+            {
+                puzzle.ResetPuzzle();
+            }
         StartTask();
     }
 
@@ -144,7 +146,7 @@ public class Task : MonoBehaviour
     /// </summary>
     public virtual void Complete()
     {
-        if (_Puzzles.Count(e => e.isComplete) > 0)
+        if (puzzles.Count(e => e.isComplete) > 0)
         {
             completed = true;
             PlayExitDialogue();
