@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -11,7 +9,17 @@ public class Puzzle : MonoBehaviour, ISerializable
     
     public bool IsComplete { get; private set; }
 
-    protected void SetComplete()
+    protected CharacterColour[] playerColours;
+
+    protected virtual void Start()
+    {
+        playerColours = PlayerManager.Instance.CurrentPlayerColours;
+    }
+
+    /// <summary>
+    /// Mark the puzzle as completed
+    /// </summary>
+    protected virtual void SetComplete()
     {
         IsComplete = true;
         
@@ -19,10 +27,13 @@ public class Puzzle : MonoBehaviour, ISerializable
         onCompletion?.Invoke();
     }
 
-    protected void ResetPuzzle()
+    /// <summary>
+    /// Reset the state of the puzzle
+    /// </summary>
+    public virtual void ResetPuzzle()
     {
         IsComplete = false;
-
+    
         onReset?.Invoke();
     }
 

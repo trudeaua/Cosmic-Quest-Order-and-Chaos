@@ -36,7 +36,6 @@ public class EnemyStatsController : EntityStatsController
     protected float colourChangeTimeCounter = 0;
     public float colourResistanceModifier = 0.35f;
 
-
     protected override void Awake()
     {
         base.Awake();
@@ -164,6 +163,7 @@ public class EnemyStatsController : EntityStatsController
     {
         Debug.Log(transform.name + " died.");
         isDead = true;
+        onDeath.Invoke();
         _agent.enabled = false;
         StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, entityDeathVocalSFX));
         Anim.SetBool("Dead", true);

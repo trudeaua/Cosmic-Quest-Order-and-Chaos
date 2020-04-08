@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -18,6 +19,21 @@ public class Interactable : MonoBehaviour
     
     [Tooltip("Required character colour to interact with")]
     public CharacterColour colour = CharacterColour.All;
+
+    protected virtual void Start()
+    {
+        CharacterColour[] playerColours = PlayerManager.Instance.CurrentPlayerColours;
+        if (playerColours.Contains(colour))
+        {
+            // Set the material colour of the interactable
+            SetMaterialColour(colour);
+        }
+        else
+        {
+            // Turn off if object's colour isn't one of the players' colours
+            gameObject.SetActive(false);
+        }
+    }
 
     /// <summary>
     /// Handles the start of an interaction event with a player
@@ -52,11 +68,43 @@ public class Interactable : MonoBehaviour
         return Vector3.Distance(transform.position, target.position) <= radius &&
                (colour == CharacterColour.All || target.GetComponent<EntityStatsController>().characterColour == colour);
     }
+
+    public virtual void SetMaterialColour(CharacterColour characterColour)
+    {
+        Color color = PlayerManager.colours.GetColour(characterColour);
+        Transform[] interactableComponents = GetComponentsInChildren<Transform>();
+        float intensity = 0.1f;
+        Material[] materials = new Material[1];
+        materials[0] = new Material(Shader.Find("Standard"));
+        materials[0].EnableKeyword("_EMISSION");
+        materials[0].SetColor("_Color", color);
+        materials[0].SetColor("_EmissionColor", color * intensity);
+        foreach (Transform interactableComponent in interactableComponents)
+        {
+            Renderer[] interactableRenderers = interactableComponent.GetComponentsInChildren<Renderer>();
+            foreach (Renderer r in interactableRenderers)
+            {
+                r.materials = materials;
+            }
+        }
+    }
     
     // Displays the interaction radius in the editor
     private void OnDrawGizmosSelected ()
     {
-        Gizmos.color = Color.yellow;
+        Gizmos.color = PlayerManager.colours.GetColour(colour);
         Gizmos.DrawWireSphere(transform.position, radius);
+    }
+
+    private void OnDrawGizmos ()
+    {
+        Gizmos.color = PlayerManager.colours.GetColour(colour);
+        MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
+        foreach(MeshFilter meshFilter in meshFilters)
+        {
+            Mesh mesh = meshFilter.sharedMesh;
+            mesh.RecalculateNormals();
+            Gizmos.DrawWireMesh(mesh, meshFilter.transform.position, meshFilter.transform.rotation, meshFilter.transform.lossyScale);
+        }
     }
 }

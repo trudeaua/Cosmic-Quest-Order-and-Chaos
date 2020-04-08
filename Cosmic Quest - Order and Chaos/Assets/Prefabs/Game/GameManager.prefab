@@ -822,6 +822,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerDeathZone: -30
+  onStateChange:
+    m_PersistentCalls:
+      m_Calls: []
   isTestInstance: 0
 --- !u!114 &9062949075337675950
 MonoBehaviour:
@@ -844,7 +847,7 @@ MonoBehaviour:
       type: 3}
   - name: Healer
     prefab: {fileID: 749148863823978120, guid: 3beb1b77335ed6645a24666d0d67c2d0, type: 3}
-  - name: Ranger
+  - name: Ranged
     prefab: {fileID: 7264181408041424334, guid: 4ab2e03e0ed13f043b17f2648f295d87,
       type: 3}
   characterOptions:
@@ -871,7 +874,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingScene: {fileID: 2046070310}
+  loadingDoneEvent:
+    m_PersistentCalls:
+      m_Calls: []
   chaosVoids:
-  - {fileID: 11400000, guid: 78d85496fd500334288f7edb52c34cca, type: 2}
+  - {fileID: 11400000, guid: 45e90714cccc8d4478510a899f0f6ba4, type: 2}
   - {fileID: 11400000, guid: f430f0b2f3279674b9c667912337c408, type: 2}
   - {fileID: 11400000, guid: d0c7c46a848ef8b46a5f835ef0e86d40, type: 2}
