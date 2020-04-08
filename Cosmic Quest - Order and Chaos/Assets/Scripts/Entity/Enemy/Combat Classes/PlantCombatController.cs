@@ -53,7 +53,8 @@ public class PlantCombatController : EnemyCombatController
     /// <summary>
     /// Plant attack strategy
     /// </summary>
-    public override void ChooseAttack()
+    /// <returns>Whether an attack was chosen or not</returns>
+    public override bool ChooseAttack()
     {
         float targetDistance = Vector3.Distance(transform.position, Brain.GetCurrentTarget().position);
         
@@ -69,5 +70,7 @@ public class PlantCombatController : EnemyCombatController
             AttackCooldown = rangedAttackCooldown;
             Anim.SetTrigger("SecondaryAttack");
         }
+
+        return true;
     }
 }

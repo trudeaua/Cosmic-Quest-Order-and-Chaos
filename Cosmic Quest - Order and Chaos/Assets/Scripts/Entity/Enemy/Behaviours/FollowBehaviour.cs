@@ -46,7 +46,10 @@ public class FollowBehaviour : StateMachineBehaviour
             if (!_combat.IsCoolingDown && Vector3.Distance(_target.position, animator.transform.position) <= _brain.attackRadius)
             {
                 // Go to attack state
-                _combat.ChooseAttack();
+                bool choseAttack = _combat.ChooseAttack();
+                
+                if (choseAttack)
+                    return;
             }
         }
         

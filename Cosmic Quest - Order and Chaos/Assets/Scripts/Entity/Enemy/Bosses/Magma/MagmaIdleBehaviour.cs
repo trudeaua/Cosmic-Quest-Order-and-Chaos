@@ -1,17 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class MagmaIdleBehaviour : StateMachineBehaviour
 {
     private EnemyBrainController _brain;
     private EnemyCombatController _combat;
+    private NavMeshAgent _agent;
     private Transform _target; 
+    
+    [Tooltip("The max angle between the look direction of the enemy and its target before rotating")]
+    public float angleFromTargetTolerance = 30f;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _brain = animator.GetComponent<EnemyBrainController>();
         _combat = animator.GetComponent<EnemyCombatController>();
+        _agent = animator.GetComponent<NavMeshAgent>();
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -31,10 +35,12 @@ public class MagmaIdleBehaviour : StateMachineBehaviour
             return;
         }
         
+        float distance = Vector3.Distance(animator.transform.position, _target.position);
+        
         // Try to attack player if they are close enough
-        if (Vector3.Distance(animator.transform.position, _target.position) <= _brain.attackRadius)
+        if (distance <= _brain.attackRadius)
         {
-            if (Vector3.Angle(_target.position - animator.transform.position, animator.transform.forward) > 15f)
+            if (Vector3.Angle(_target.position - animator.transform.position, animator.transform.forward) > angleFromTargetTolerance)
             {
                 animator.SetTrigger("Rotate");
                 return;
@@ -48,8 +54,9 @@ public class MagmaIdleBehaviour : StateMachineBehaviour
             }
         }
         
-        // Follow player if possible
-        animator.SetTrigger("Follow");
+        // Move to target player if necessary
+        if (distance > _agent.stoppingDistance)
+            animator.SetTrigger("Follow");
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

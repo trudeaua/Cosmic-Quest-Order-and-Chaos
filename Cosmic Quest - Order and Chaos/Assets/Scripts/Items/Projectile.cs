@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
@@ -9,7 +7,7 @@ public class Projectile : MonoBehaviour
     private Vector3 _initialPosition;
     private Rigidbody _rb;
 
-    private const float ProjectileHeight = 1.1f;
+    public float launchHeight = 1.1f;
 
     protected EntityStatsController LauncherStats;
 
@@ -21,11 +19,20 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
-        // Check if projectile has reached its maximum range
-        if ((transform.position - _initialPosition).sqrMagnitude >= _range * _range)
+        // Check if projectile has reached its maximum range or fell too low
+        if ((transform.position - _initialPosition).sqrMagnitude >= _range * _range || transform.position.y < -10f)
         {
             EndLaunch();
         }
+    }
+
+    /// <summary>
+    /// Reset movement of rigidbody on enable
+    /// </summary>
+    private void OnEnable()
+    {
+        _rb.velocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
     }
 
     /// <summary>
@@ -42,7 +49,7 @@ public class Projectile : MonoBehaviour
         
         // Set position just in front of launcher
         _initialPosition = launcherStats.transform.position + launcherStats.transform.forward;
-        _initialPosition.y = ProjectileHeight;
+        _initialPosition.y = launchHeight;
         transform.position = _initialPosition;
         
         // Set rotation to launch direction
@@ -51,9 +58,7 @@ public class Projectile : MonoBehaviour
         // Set self active and begin launch
         gameObject.SetActive(true);
         
-        // Reset forces and apply launch force to the rigidbody
-        _rb.velocity = Vector3.zero;
-        _rb.angularVelocity = Vector3.zero;
+        // Apply launch force to the rigidbody
         _rb.AddForce(launchForce * transform.forward);
     }
 

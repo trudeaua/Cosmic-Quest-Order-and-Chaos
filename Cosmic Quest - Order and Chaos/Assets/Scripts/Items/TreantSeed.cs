@@ -4,31 +4,9 @@ using UnityEngine;
 
 public class TreantSeed : DamageProjectile
 {
-    [Range(0, 1)] public float spawnPlantProbability = 0.3f;
+    [Range(0, 1)] public float spawnPlantProbability = 0.1f;
     public List<GameObject> plantPrefabs;
-    
-    private Rigidbody _rb;
 
-    private void Awake()
-    {
-        _rb = GetComponent<Rigidbody>();
-    }
-
-    private void OnEnable()
-    {
-        _rb.velocity = Vector3.zero;
-        _rb.angularVelocity = Vector3.zero;
-    }
-
-    private void Update()
-    {
-        // Despawn if below the map
-        if (transform.position.y < -10)
-        {
-            gameObject.SetActive(false);
-        }
-    }
-    
     protected override void OnTriggerEnter(Collider other)
     {
         GameObject col = other.gameObject;
@@ -43,7 +21,7 @@ public class TreantSeed : DamageProjectile
         else if (col.CompareTag("Ground"))
         {
             // Possibly spawn a random plant
-            if (Random.Range(0f, 1f) > spawnPlantProbability)
+            if (Random.Range(0f, 1f) < spawnPlantProbability)
             {
                 GameObject plantPrefab = plantPrefabs[Random.Range(0, plantPrefabs.Count - 1)];
                 Instantiate(plantPrefab, new Vector3(transform.position.x, 0, transform.position.z), Quaternion.identity);

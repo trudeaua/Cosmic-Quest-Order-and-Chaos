@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class SerpentIdleBehaviour : StateMachineBehaviour
 {
     private EnemyBrainController _brain;
     private SerpentBossCombatController _combat;
     private EnemyMotorController _motor;
+    private NavMeshAgent _agent;
     private Transform _target;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -14,6 +14,7 @@ public class SerpentIdleBehaviour : StateMachineBehaviour
         _brain = animator.GetComponent<EnemyBrainController>();
         _combat = animator.GetComponent<SerpentBossCombatController>();
         _motor = animator.GetComponent<EnemyMotorController>();
+        _agent = animator.GetComponent<NavMeshAgent>();
         
         // Always face the target
         _motor.StartRotate();
@@ -28,9 +29,11 @@ public class SerpentIdleBehaviour : StateMachineBehaviour
 
         if (_target is null)
             return;
+
+        float distance = Vector3.Distance(animator.transform.position, _target.position);
         
         // Try to attack player if they are close enough
-        if (Vector3.Distance(animator.transform.position, _target.position) <= _brain.attackRadius)
+        if (distance <= _brain.attackRadius)
         {
             if (!_combat.IsCoolingDown)
             {
@@ -40,8 +43,9 @@ public class SerpentIdleBehaviour : StateMachineBehaviour
             }
         }
         
-        // Move to target player
-        animator.SetTrigger("Follow");
+        // Move to target player if necessary
+        if (distance > _agent.stoppingDistance)
+            animator.SetTrigger("Follow");
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

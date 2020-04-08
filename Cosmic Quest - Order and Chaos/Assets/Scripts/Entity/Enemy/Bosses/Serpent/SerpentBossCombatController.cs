@@ -94,7 +94,8 @@ public class SerpentBossCombatController : EnemyCombatController
     /// <summary>
     /// Serpent boss attack choice strategy function
     /// </summary>
-    public override void ChooseAttack()
+    /// <returns>Whether an attack was chosen or not</returns>
+    public override bool ChooseAttack()
     {
         float randNum = Random.Range(0f, 1f);
         if (randNum <= primaryAttackProbability)
@@ -107,5 +108,7 @@ public class SerpentBossCombatController : EnemyCombatController
             AttackCooldown = secondaryAttackCooldown;
             Anim.SetTrigger("BiteAttack");
         }
+
+        return true;
     }
 }

@@ -98,7 +98,11 @@ public class LichCombatController : EnemyCombatController
         }
     }
 
-    public override void ChooseAttack()
+    /// <summary>
+    /// Lick combat strategy function
+    /// </summary>
+    /// <returns>Whether an attack was chosen or not</returns>
+    public override bool ChooseAttack()
     {
         // Use primary attack, unless surrounded by more than one player
         if (Players.Count(player => CanDamageTarget(player, secondaryAttackRadius, 180f)) > 1)
@@ -121,5 +125,7 @@ public class LichCombatController : EnemyCombatController
             Anim.SetTrigger("PrimaryAttack");
             AttackCooldown = primaryAttackCooldown;
         }
+
+        return true;
     }
 }

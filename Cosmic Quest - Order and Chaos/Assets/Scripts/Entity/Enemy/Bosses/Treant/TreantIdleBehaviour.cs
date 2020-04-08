@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class TreantIdleBehaviour : StateMachineBehaviour
 {
     private EnemyBrainController _brain;
-    private EnemyCombatController _combat;
+    private TreantBossCombatController _combat;
+    private NavMeshAgent _agent;
     private Transform _target;
 
     [Tooltip("The max angle between the look direction of the enemy and its target before rotating")]
@@ -14,7 +14,8 @@ public class TreantIdleBehaviour : StateMachineBehaviour
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _brain = animator.GetComponent<EnemyBrainController>();
-        _combat = animator.GetComponent<EnemyCombatController>();
+        _combat = animator.GetComponent<TreantBossCombatController>();
+        _agent = animator.GetComponent<NavMeshAgent>();
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -33,12 +34,13 @@ public class TreantIdleBehaviour : StateMachineBehaviour
             _combat.SpecialAttack();
             return;
         }
-        
-        // Try to attack player if they are close enough
-        if (Vector3.Distance(animator.transform.position, _target.position) <= _brain.attackRadius)
+
+        float distance = Vector3.Distance(animator.transform.position, _target.position);
+        if (distance <= _brain.attackRadius)
         {
+            // See if we need to rotate towards the player
             float angle = Vector3.SignedAngle(_target.position - animator.transform.position, animator.transform.forward, Vector3.up);
-            if (Mathf.Abs(angle) > angleFromTargetTolerance)
+            if (Mathf.Abs(angle) > angleFromTargetTolerance && distance <= _combat.meleeDistance)
             {
                 animator.SetTrigger(angle < 0 ? "RotateLeft" : "RotateRight");
                 return;
@@ -47,19 +49,15 @@ public class TreantIdleBehaviour : StateMachineBehaviour
             if (!_combat.IsCoolingDown)
             {
                 // Go to attack state
-                _combat.ChooseAttack();
-                return;
+                bool choseAttack = _combat.ChooseAttack();
+                
+                if (choseAttack)
+                    return;
             }
         }
-        else
-        {
-            // Follow player if possible
-            animator.SetTrigger("Follow");
-        }
-    }
-
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
         
+        // Follow player if necessary
+        if (distance > _agent.stoppingDistance)
+            animator.SetTrigger("Follow");
     }
 }

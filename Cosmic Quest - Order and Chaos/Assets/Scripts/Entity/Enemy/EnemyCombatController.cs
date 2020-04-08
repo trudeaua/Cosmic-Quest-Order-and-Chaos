@@ -77,9 +77,11 @@ public class EnemyCombatController : EntityCombatController
     /// <summary>
     /// Selects an attack to perform based on enemy's attack strategy
     /// </summary>
-    public virtual void ChooseAttack()
+    /// <returns>Whether an attack was chosen or not</returns>
+    public virtual bool ChooseAttack()
     {
         Debug.Log("Default ChooseAttack() implementation triggered");
+        return false;
     }
 
     /// <summary>

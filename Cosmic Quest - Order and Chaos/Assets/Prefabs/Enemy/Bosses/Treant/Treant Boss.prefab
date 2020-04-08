@@ -6064,7 +6064,7 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
-  secondaryAttackCooldown: 3
+  secondaryAttackCooldown: 4
   secondaryAttackRadius: 7
   secondaryAttackAngle: 200
   secondaryAttackMinDamage: 10
@@ -6076,8 +6076,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
-  projectileAttackCooldown: 1
-  projectileAttackForce: 200
+  projectileAttackCooldown: 5
+  projectileAttackForce: 1000
   projectileAttackAngle: 120
   projectileAttackNumSeeds: 3
   projectileAttackMinDamage: 5
@@ -6102,10 +6102,11 @@ MonoBehaviour:
     delay: 0
     loop: 0
   seedAttackCooldown: 1
-  seedAttackForce: 200
+  seedAttackForce: 1200
+  seedAttackAngle: 160
   seedAttackMinDamage: 5
   seedAttackMaxDamage: 10
-  seedLaunchPeriod: 0.2
+  seedLaunchPeriod: 0.1
   seedAttackSFX:
     pitch: 0
     volume: 0
@@ -6113,6 +6114,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+  meleeDistance: 7
+  rangedDistance: 12
 --- !u!114 &6155603238355360619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6127,7 +6130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetStrategy: 1
   aggroRadius: 30
-  attackRadius: 6.5
+  attackRadius: 12
   decisionDelay: 2
   alwaysHaveTarget: 1
 --- !u!114 &6155603238355360612

@@ -22,7 +22,7 @@ public class TreantBossCombatController : EnemyCombatController
 
     [Header("Projectile Attack")]
     public float projectileAttackCooldown = 1f;
-    public float projectileAttackForce = 200f;
+    public float projectileAttackForce = 1000f;
     public float projectileAttackAngle = 120f;
     public int projectileAttackNumSeeds = 3;
     public float projectileAttackMinDamage = 5f;
@@ -38,7 +38,7 @@ public class TreantBossCombatController : EnemyCombatController
     
     [Header("Special Attack - Launch Seeds")]
     public float seedAttackCooldown = 1f;
-    public float seedAttackForce = 200f;
+    public float seedAttackForce = 1000f;
     public float seedAttackAngle = 160f;
     public float seedAttackMinDamage = 5f;
     public float seedAttackMaxDamage = 10f;
@@ -46,6 +46,12 @@ public class TreantBossCombatController : EnemyCombatController
     [SerializeField] protected AudioHelper.EntityAudioClip seedAttackSFX;
     private bool _isLaunchingSeeds;
 
+    [Header("Strategy Settings")]
+    [Tooltip("Max Distance from the target for the Treant to attempt melee attacks")]
+    public float meleeDistance = 7f;
+    [Tooltip("Distance from the target for the Treant to attempt ranged attacks")]
+    public float rangedDistance = 10f;
+    
     protected override void Awake()
     {
         base.Awake();
@@ -126,6 +132,7 @@ public class TreantBossCombatController : EnemyCombatController
     public void StopSeedAttack()
     {
         _isLaunchingSeeds = false;
+        AttackCooldown = seedAttackCooldown;
     }
 
     private IEnumerator SeedLaunchAttack()
@@ -134,12 +141,11 @@ public class TreantBossCombatController : EnemyCombatController
         {
             // Select random direction to launch in
             float breadth = Random.Range(-seedAttackAngle, seedAttackAngle) / 2;
-            float altitude = Random.Range(0f, 80f);
-            Vector3 launchDir = Quaternion.AngleAxis(breadth, Vector3.up) * Quaternion.AngleAxis(altitude, transform.right) * transform.forward;
+            Vector3 launchDir = Quaternion.AngleAxis(breadth, Vector3.up) * transform.forward;
             
             // Launch the seed projectile
             float damageValue = Random.Range(seedAttackMinDamage, seedAttackMaxDamage) + Stats.damage.GetValue();
-            LaunchDamageProjectile(seedPrefab, launchDir, projectileAttackForce, 20f, damageValue, "Player");
+            LaunchDamageProjectile(seedPrefab, launchDir, seedAttackForce, 20f, damageValue, "Player");
             
             yield return new WaitForSeconds(seedLaunchPeriod);
         }
@@ -150,24 +156,42 @@ public class TreantBossCombatController : EnemyCombatController
     /// </summary>
     public override void SpecialAttack()
     {
-        Anim.SetTrigger("RootAttack");
+        Anim.SetTrigger(Random.Range(0f, 1f) < 0.5f ? "SeedAttack" : "RootAttack");
         SpecialAttackTimer = specialAttackPeriod;
     }
 
     /// <summary>
     /// Treant boss attack choice strategy function
     /// </summary>
-    public override void ChooseAttack()
+    /// <returns>Whether an attack was chosen or not</returns>
+    public override bool ChooseAttack()
     {
-        if (Random.Range(0f, 1f) < 0.5f)
+        Transform target = Brain.GetCurrentTarget();
+        float distance = Vector3.Distance(transform.position, target.position);
+
+        if (distance < meleeDistance)
         {
-            AttackCooldown = primaryAttackCooldown;
-            Anim.SetTrigger("BiteAttack");
+            if (Random.Range(0f, 1f) < 0.5f)
+            {
+                AttackCooldown = primaryAttackCooldown;
+                Anim.SetTrigger("BiteAttack");
+            }
+            else
+            {
+                AttackCooldown = secondaryAttackCooldown;
+                Anim.SetTrigger("StompAttack");
+            }
+        }
+        else if (distance < rangedDistance && Random.Range(0f, 1f) < 0.4f)
+        {
+            AttackCooldown = projectileAttackCooldown;
+            Anim.SetTrigger("ProjectileAttack");
         }
         else
         {
-            AttackCooldown = secondaryAttackCooldown;
-            Anim.SetTrigger("StompAttack");
+            return false;
         }
+
+        return true;
     }
 }

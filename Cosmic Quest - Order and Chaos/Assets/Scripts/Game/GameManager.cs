@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
         Playing,
         BossFight,
         GameOver,
-        SelectingLevel
+        SelectingLevel,
+        LevelComplete
     }
     
     #region Singleton
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Menu:
             case GameState.Paused:
+            case GameState.SelectingLevel:
                 break;
             case GameState.Loading:
                 break;
@@ -73,6 +75,8 @@ public class GameManager : MonoBehaviour
                 // Restart to the last checkpoint?
 
                 LevelManager.Instance.RestartCurrentLevel();
+                break;
+            case GameState.LevelComplete:
                 break;
             default:
                 break;

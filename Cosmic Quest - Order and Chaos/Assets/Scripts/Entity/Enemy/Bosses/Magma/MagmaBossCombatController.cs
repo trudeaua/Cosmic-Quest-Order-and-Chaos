@@ -134,7 +134,8 @@ public class MagmaBossCombatController : EnemyCombatController
     /// <summary>
     /// Magma boss attack choice strategy function
     /// </summary>
-    public override void ChooseAttack()
+    /// <returns>Whether an attack was chosen or not</returns>
+    public override bool ChooseAttack()
     {
         if (Players.Count(player => CanDamageTarget(player, explosionAttackRadius)) > 1 && Random.Range(0f, 1f) <= explosionAttackProbability)
         {
@@ -153,5 +154,7 @@ public class MagmaBossCombatController : EnemyCombatController
             AttackCooldown = secondaryAttackCooldown;
             Anim.SetTrigger("SwingAttack");
         }
+
+        return true;
     }
 }
