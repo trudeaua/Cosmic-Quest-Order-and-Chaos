@@ -5,16 +5,16 @@ using UnityEngine.AI;
 
 public class SerpentChargeBehaviour : StateMachineBehaviour
 {
-    public float chargeSpeed;
     public string exitTrigger;
     
-    private float _originalSpeed;
     private EnemyBrainController _brain;
     private SerpentBossCombatController _combat;
     private EnemyMotorController _motor;
     private NavMeshAgent _agent;
-    
     private Transform _target;
+    
+    private float _originalSpeed;
+    private float _originalStoppingDistance;
     
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -24,36 +24,39 @@ public class SerpentChargeBehaviour : StateMachineBehaviour
         _agent = animator.GetComponent<NavMeshAgent>();
 
         _originalSpeed = _agent.speed;
-        _agent.speed = chargeSpeed;
+        _originalStoppingDistance = _agent.stoppingDistance;
+        _agent.speed = _combat.chargeSpeed;
+        _agent.stoppingDistance = _combat.chargedAttackTriggerDistance;
         
-        _target = _brain.GetCurrentTarget();
-        _motor.StartFollow();
+        // Select a random target to charge
+        _target = _brain.GetRandomTarget();
+        _motor.StartFollow(_target);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (animator.IsInTransition(layerIndex))
             return;
-
-        // Check if we run into the rock we threw
+        
+        // Ensure that the target is alive
+        if (PlayerManager.Instance.NumPlayersAlive() == 0 ||
+            !PlayerManager.Instance.AlivePlayers.Contains(_target.gameObject))
+            animator.SetTrigger("CancelAction");
         
         // Check if we run into any other players along the way
         foreach (GameObject player in PlayerManager.Instance.AlivePlayers)
         {
-            if (_combat.CanDamageTarget(player, _brain.attackRadius, 180f))
+            if (_combat.CanDamageTarget(player, _combat.chargedAttackTriggerDistance, 120f))
             {
                 animator.SetTrigger(exitTrigger);
             }
         }
-        
-        // Ensure that players are alive
-        if (PlayerManager.Instance.NumPlayersAlive() == 0)
-            animator.SetTrigger("CancelAction");
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _motor.StartFollow();
+        _motor.StopFollow();
         _agent.speed = _originalSpeed;
+        _agent.stoppingDistance = _originalStoppingDistance;
     }
 }

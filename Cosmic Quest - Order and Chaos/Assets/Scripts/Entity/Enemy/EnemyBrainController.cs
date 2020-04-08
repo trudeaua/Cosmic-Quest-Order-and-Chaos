@@ -290,6 +290,15 @@ public class EnemyBrainController : MonoBehaviour
     {
         return _currentTarget?.Player.transform;
     }
+
+    /// <summary>
+    /// Gets the transform of a random target
+    /// </summary>
+    /// <returns>The transform of the random target</returns>
+    public Transform GetRandomTarget()
+    {
+        return AliveTargets.Count > 0 ? AliveTargets[Random.Range(0, AliveTargets.Count - 1)].Player.transform : null;
+    }
     
     /// <summary>
     /// Update the aggro value of a certain target

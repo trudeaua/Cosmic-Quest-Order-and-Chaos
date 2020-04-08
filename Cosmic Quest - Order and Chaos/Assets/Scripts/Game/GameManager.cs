@@ -48,7 +48,23 @@ public class GameManager : MonoBehaviour
     // Keeps track if the game is in a testing state (i.e. not started from the menu)
     [HideInInspector] public bool isTestInstance = false;
     
-    public GameState CurrentState { get; private set; } = GameState.Menu;
+    // Tracking and delegate events for state changes
+    private GameState _currentState = GameState.Menu;
+    public delegate void OnGameStateChanged(GameState newState);
+    public OnGameStateChanged onGameStateChanged;
+    
+    public GameState CurrentState
+    {
+        get => _currentState;
+        private set
+        {
+            if (_currentState == value)
+                return;
+            
+            _currentState = value;
+            onGameStateChanged?.Invoke(value);
+        }
+    }
 
     private void Update()
     {

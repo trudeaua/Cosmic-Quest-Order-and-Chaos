@@ -22,14 +22,14 @@ public class SerpentBossCombatController : EnemyCombatController
     public float secondaryAttackMaxDamage = 10f;
     [SerializeField] protected AudioHelper.EntityAudioClip secondaryAttackSFX;
 
-    [Header("Special Attack")]
-    public float minDistance = 8f;
+    [Header("Special Attack - Charge Attack")]
     public float chargedAttackCooldown = 1f;
-    public float chargeAttackRadius = 5f;
+    public float chargeSpeed = 10f;
+    public float chargedAttackTriggerDistance = 5f;
+    public float chargedAttackRadius = 7f;
     public float chargeAttackMinDamage = 10f;
     public float chargeAttackMaxDamage = 30f;
-    public float rockAttackMinDamage = 10f;
-    public float rockAttackMaxDamage = 20f;
+    [SerializeField] protected AudioHelper.EntityAudioClip roarSFX;
     [SerializeField] protected AudioHelper.EntityAudioClip chargeAttackSFX;
     
     /// <summary>
@@ -67,6 +67,14 @@ public class SerpentBossCombatController : EnemyCombatController
     }
 
     /// <summary>
+    /// Event function for playing the roar SFX
+    /// </summary>
+    public void Roar()
+    {
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, roarSFX));
+    }
+    
+    /// <summary>
     /// Attack event for the special charge attack
     /// </summary>
     public void ChargeAttack()
@@ -75,20 +83,24 @@ public class SerpentBossCombatController : EnemyCombatController
         StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, chargeAttackSFX));
 
         // Attack any players within the attack range
-        foreach (GameObject player in Players.Where(player => CanDamageTarget(player, chargeAttackRadius)))
+        foreach (GameObject player in Players.Where(player => CanDamageTarget(player, chargedAttackRadius)))
         {
             // Calculate and perform damage
             float damageValue = Random.Range(chargeAttackMinDamage, chargeAttackMaxDamage) + Stats.damage.GetValue();
             StartCoroutine(PerformDamage(player.GetComponent<EntityStatsController>(), damageValue));
         }
         
-        // Set the attack cooldown here, even though it is slightly delayed
+        // Set the attack cooldown
         AttackCooldown = chargedAttackCooldown;
     }
-    
-    private void StartSpecialAttack()
+
+    /// <summary>
+    /// Triggers the special attack for the Serpent Boss
+    /// </summary>
+    public override void SpecialAttack()
     {
-        
+        Anim.SetTrigger("ChargeAttack");
+        SpecialAttackTimer = specialAttackPeriod;
     }
 
     /// <summary>

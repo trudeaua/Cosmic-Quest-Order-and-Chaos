@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public enum BarType {
     Player,
-    Enemy
+    Enemy,
+    Boss
 }
 
 public class StatBar : MonoBehaviour
@@ -23,28 +24,52 @@ public class StatBar : MonoBehaviour
 
     private void Awake()
     {
-        if (barType == BarType.Player)
+        switch (barType)
         {
-            PlayerStatsController stats = transform.parent.GetComponent<PlayerStatsController>();
-            _healthStat = stats.health;
-            _manaStat = stats.mana;
-        }
-        else if (barType == BarType.Enemy)
-        {
-            EnemyStatsController stats = transform.parent.GetComponent<EnemyStatsController>();
-            _healthStat = stats.health;
-            
-            // apply enemy name as label
-            string label = gameObject.GetComponentInParent<EntityStatsController>().gameObject.name;
-            Text labelText = gameObject.GetComponentInChildren<Text>();
-            labelText.text = label;
+            case BarType.Player:
+            {
+                PlayerStatsController stats = transform.parent.GetComponent<PlayerStatsController>();
+                _healthStat = stats.health;
+                _manaStat = stats.mana;
+                break;
+            }
+            case BarType.Enemy:
+            case BarType.Boss:
+            {
+                EnemyStatsController stats = transform.parent.GetComponent<EnemyStatsController>();
+                _healthStat = stats.health;
+
+                // Handle boss specific setup
+                if (barType == BarType.Boss)
+                {
+                    // Use the boss' gameObject name for the label
+                    string label = stats.gameObject.name;
+                    Text labelText = gameObject.GetComponentInChildren<Text>();
+                    labelText.text = label;
+                    
+                    // Only show the bar if in a boss fight state
+                    /*GameManager.Instance.onGameStateChanged += state =>
+                    {
+                        if (state == GameManager.GameState.BossFight)
+                            Show();
+                        else
+                            Hide();
+                    };
+                    
+                    // Hide the bar if we're not starting in a boss fight state
+                    if (GameManager.Instance.CurrentState != GameManager.GameState.BossFight)
+                        Hide();*/
+                }
+                
+                break;
+            }
         }
 
         _canvas = GetComponent<Canvas>();
         
         // Start the bars hidden if not set to always show them
         if (!alwaysShow)
-            _canvas.enabled = false;
+            Hide();
     }
 
     private void Start()
@@ -67,7 +92,7 @@ public class StatBar : MonoBehaviour
         if (_timer <= 0f)
         {
             _timer = 0;
-            _canvas.enabled = false;
+            Hide();
         }
     }
 
@@ -84,8 +109,7 @@ public class StatBar : MonoBehaviour
         if (!alwaysShow && healthBar.fillAmount < prevAmount)
         {
             _timer = timeout;
-            if (!_canvas.enabled)
-                _canvas.enabled = true;
+            Show();
         }
     }
     
@@ -100,11 +124,13 @@ public class StatBar : MonoBehaviour
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        if (_canvas.enabled)
+            _canvas.enabled = false;
     }
 
     public void Show()
     {
-        gameObject.SetActive(true);
+        if (!_canvas.enabled)
+            _canvas.enabled = true;
     }
 }
