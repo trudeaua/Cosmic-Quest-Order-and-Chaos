@@ -20,7 +20,13 @@ public class LeverPuzzle : Puzzle
         // Remove inactive coloured levers 
         int numActivePlayers = PlayerManager.Instance.NumPlayers;
         int numTotalPlayers = PlayerManager.Instance.PlayerColours.Length;
-        System.Array.Resize(ref levers, levers.Length - (numTotalPlayers - numActivePlayers));
+        for (int i = 0; i < (numTotalPlayers); i++)
+        {
+            if (i >= numActivePlayers)
+            {
+                levers[i].gameObject.SetActive(false);
+            }
+        }
 
         Received = new List<CharacterColour>();
         

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyPlatformPuzzle : RockPuzzle
 {
-    // enemeis required to complete the puzzle
-    public EnemyStatsController[] enemies;
+    // enemies required to complete the puzzle
+    private EnemyStatsController[] enemies;
 
     protected override void Awake()
     {
@@ -23,7 +23,6 @@ public class EnemyPlatformPuzzle : RockPuzzle
 
         // Randomize colours of enemies and platforms
         CharacterColour[] activeColours = PlayerManager.Instance.GetActivePlayerColours();
-
         if (platforms.Length == enemies.Length)
         {
             for (int i = 0; i < platforms.Length; i++)
@@ -32,10 +31,6 @@ public class EnemyPlatformPuzzle : RockPuzzle
                 platforms[i].colour = colour;
                 enemies[i].characterColour = colour;
             }
-        }
-        else
-        {
-            Debug.Log("RockPuzzle: Number of platforms must be equal to number of rocks.");
         }
     }
 }

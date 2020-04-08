@@ -4,16 +4,11 @@ using UnityEngine;
 public class CombinationLeverPuzzle : LeverPuzzle
 {
     // The expected order of colours
-    [SerializeField] public CharacterColour[] combination;
+    [SerializeField] private CharacterColour[] combination;
 
     protected override void AddColour(CharacterColour colour)
     {
-        Debug.Log("Adding colour from interact");
         Received.Add(colour);
-        for (int i = 0; i < Received.Count; i++)
-        {
-            Debug.Log(Received[i]);
-        }
 
         // If we have the correct number of elements in buffer then check combination
         if (Received.Count == combination.Length)
