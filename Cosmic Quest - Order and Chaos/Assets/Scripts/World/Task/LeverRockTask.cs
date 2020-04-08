@@ -8,6 +8,7 @@ public class LeverRockTask : Task
     {   
         CombinationLeverPuzzle comboLeverPuzzle = GetComponent<CombinationLeverPuzzle>();
         RockPuzzle rockPuzzle = GetComponent<RockPuzzle>();
+        doors = GetComponentsInChildren<Door>();
 
         // Set a colour combination for levers
         comboLeverPuzzle.SetColourCombination();
@@ -18,6 +19,6 @@ public class LeverRockTask : Task
             rockPuzzle.rocks[i].colour = comboLeverPuzzle.combination[i];
             rockPuzzle.platforms[i].colour = comboLeverPuzzle.combination[i];
         }
-        PlayIntroDialogue();
+        introDialogueTrigger.TriggerDialogue();
     }
 }

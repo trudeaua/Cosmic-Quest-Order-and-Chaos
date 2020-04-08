@@ -44,6 +44,8 @@ public class EnemyPuzzle : Puzzle
     protected void EnemyDied()
     {
         numEnemiesDead += 1;
+        Debug.Log(numEnemiesDead);   
+        Debug.Log(numEnemies); 
         if (numEnemiesDead == numEnemies)
         {
             // all dead
