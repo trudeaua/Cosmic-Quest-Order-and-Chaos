@@ -35,10 +35,6 @@ public class RockPuzzle : Puzzle
                 rocks[i].colour = colour;
             }
         }
-        else
-        {
-            Debug.Log("RockPuzzle: Number of platforms must be equal to number of rocks.");
-        }
     }
 
     protected void UpdateActivated(bool isActivated)
