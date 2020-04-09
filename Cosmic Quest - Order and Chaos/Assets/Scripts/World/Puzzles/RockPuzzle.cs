@@ -48,6 +48,8 @@ public class RockPuzzle : Puzzle
                 CharacterColour colour = playerColours[Random.Range(0, playerColours.Length)];
                 platforms[i].colour = colour;
                 rocks[i].colour = colour;
+                platforms[i].SetMaterial(colour);
+                rocks[i].SetMaterialColour(colour);
             }
         }
     }

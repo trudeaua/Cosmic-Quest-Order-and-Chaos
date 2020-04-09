@@ -18,6 +18,8 @@ public class LeverRockTask : Task
         {
             rockPuzzle.rocks[i].colour = combination[i];
             rockPuzzle.platforms[i].colour = combination[i];
+            rockPuzzle.rocks[i].SetMaterialColour(combination[i]);
+            rockPuzzle.platforms[i].SetMaterial(combination[i]);
         }
         introDialogueTrigger.TriggerDialogue();
     }

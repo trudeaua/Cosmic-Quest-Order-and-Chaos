@@ -85,7 +85,7 @@ public class Platform : MonoBehaviour
     /// <summary>
     /// Set the material of the platform to reflect the assigned character colour
     /// </summary>
-    private void SetMaterial(CharacterColour colour)
+    public void SetMaterial(CharacterColour colour)
     {
         Renderer renderer = GetComponent<Renderer>();
         Material[] materials = new Material[1];

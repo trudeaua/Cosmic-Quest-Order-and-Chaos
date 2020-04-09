@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyPlatformPuzzle : RockPuzzle
 {
-    // enemies required to complete the puzzle
-    private EnemyStatsController[] enemies;
+    [Tooltip("Required enemies to complete the puzzle")]
+    public EnemyStatsController[] enemies;
 
     protected override void Awake()
     {
@@ -16,7 +16,7 @@ public class EnemyPlatformPuzzle : RockPuzzle
     protected virtual void Start()
     {
         playerColours = PlayerManager.Instance.CurrentPlayerColours;
-        
+
         // Subscribe to platform activation events
         foreach (Platform platform in platforms)
         {
@@ -30,7 +30,8 @@ public class EnemyPlatformPuzzle : RockPuzzle
             {
                 CharacterColour colour = playerColours[Random.Range(0, playerColours.Length)];
                 platforms[i].colour = colour;
-                enemies[i].characterColour = colour;
+                platforms[i].SetMaterial(colour);
+                enemies[i].AssignEnemyColour(colour);
             }
         }
     }
