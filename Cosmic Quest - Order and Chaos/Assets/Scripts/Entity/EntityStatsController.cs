@@ -10,7 +10,7 @@ public enum CharacterColour
     Red,
     Yellow,
     Green,
-    Purple
+    Blue
 }
 
 public class EntityStatsController : MonoBehaviour

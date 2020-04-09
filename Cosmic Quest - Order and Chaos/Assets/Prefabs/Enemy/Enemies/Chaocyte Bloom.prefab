@@ -671,9 +671,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health:
-    maxValue: 20
+    maxValue: 25
     minValue: 0
-    regenAmount: 0
+    regenAmount: 1
   onDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -694,6 +694,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 0.7
     volume: 0.5
@@ -701,11 +703,13 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
   EnemyColouring:
     Green: {fileID: 2100000, guid: fe4f21b3bcd4f624491bfa788869c1cf, type: 2}
-    Purple: {fileID: 2100000, guid: 53bdfda287fc8ff4d918f19a2b906b73, type: 2}
+    Blue: {fileID: 2100000, guid: 53bdfda287fc8ff4d918f19a2b906b73, type: 2}
     Red: {fileID: 2100000, guid: 6b5064af89b1ffe47bfcc258d87ad388, type: 2}
     Yellow: {fileID: 2100000, guid: a44e96d9b478e9a428d3a8df35610725, type: 2}
     Default: {fileID: 2100000, guid: 7880df4d0822f644fa15df160bc7c7fb, type: 2}
@@ -724,8 +728,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f6391806b46cd48a45f9a75bfb360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroRadius: 8
-  attackRadius: 4
+  aggroRadius: 16
+  attackRadius: 4.5
   decisionDelay: 0.5
 --- !u!114 &2101586245506534417
 MonoBehaviour:
@@ -746,6 +750,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 0
     volume: 0
@@ -753,12 +759,14 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   hasMeleeAttack: 1
   meleeAttackCooldown: 1
-  meleeAttackRadius: 4
+  meleeAttackRadius: 4.5
   meleeAttackAngle: 45
-  meleeAttackMinDamage: 1
-  meleeAttackMaxDamage: 4
+  meleeAttackMinDamage: 4
+  meleeAttackMaxDamage: 5
   meleeAttackSFX:
     pitch: 0
     volume: 0
@@ -766,11 +774,17 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   hasRangedAttack: 0
+  rangedMultiAttack: 0
   rangedAttackCooldown: 1
-  rangedAttackMinDamage: 1
-  rangedAttackMaxDamage: 4
-  rangedAttackProjectile: {fileID: 0}
+  rangedAttackMinDamage: 10
+  rangedAttackMaxDamage: 12
+  rangedAttackRange: 500
+  rangedMultiAttackCount: 4
+  rangedAttackProjectile: {fileID: 3220180553990204031, guid: 60bb997f542d06e41bc9a26870a4c550,
+    type: 3}
   rangedAttackSFX:
     pitch: 0
     volume: 0
@@ -778,6 +792,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
 --- !u!114 &729633795
 MonoBehaviour:
   m_ObjectHideFlags: 0

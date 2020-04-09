@@ -14,9 +14,12 @@ public class PlantCombatController : EnemyCombatController
 
     [Header("Ranged Attack")]
     public bool hasRangedAttack = false;
+    public bool rangedMultiAttack = false;
     public float rangedAttackCooldown = 1f;
     public float rangedAttackMinDamage = 1f;
     public float rangedAttackMaxDamage = 4f;
+    public float rangedAttackRange = 500f;
+    public int rangedMultiAttackCount = 4;
     public GameObject rangedAttackProjectile;
     [SerializeField] protected AudioHelper.EntityAudioClip rangedAttackSFX;
     
@@ -42,12 +45,27 @@ public class PlantCombatController : EnemyCombatController
     /// </summary>
     public override void SecondaryAttack()
     {
+        Transform target = Brain.GetCurrentTarget();
+
+        if (target is null)
+            return;
+
         // Play attack audio
         StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, rangedAttackSFX));
-        
+
         // Launch projectile to target player
         float damageValue = Random.Range(rangedAttackMinDamage, rangedAttackMaxDamage) + Stats.damage.GetValue();
-        LaunchDamageProjectile(rangedAttackProjectile, (Brain.GetCurrentTarget().position - transform.position).normalized, 500f, 20f, damageValue, "Player");
+        Vector3 targetDirection = target.position - transform.position;
+        LaunchDamageProjectile(rangedAttackProjectile, targetDirection, rangedAttackRange, 20f, damageValue, "Player");
+        if (rangedMultiAttack)
+        {
+            float angleIncrement = 360f / rangedMultiAttackCount;
+            for (int i = 0; i < rangedMultiAttackCount; i++)
+            {
+                LaunchDamageProjectile(rangedAttackProjectile, Quaternion.AngleAxis(angleIncrement * i, Vector3.up) * targetDirection, rangedAttackRange, 20f, damageValue, "Player");
+            }
+        }
+        
     }
 
     /// <summary>

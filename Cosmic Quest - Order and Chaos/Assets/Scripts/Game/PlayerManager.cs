@@ -12,7 +12,7 @@ public class PlayerColours
 {
     public Color red = Color.red;
     public Color green = Color.green;
-    public Color purple = Color.magenta;
+    public Color blue = Color.blue;
     public Color yellow = Color.yellow;
 
     public Color GetColour(CharacterColour colour)
@@ -21,7 +21,7 @@ public class PlayerColours
         {
             case CharacterColour.Red: return red;
             case CharacterColour.Green: return green;
-            case CharacterColour.Purple: return purple;
+            case CharacterColour.Blue: return blue;
             case CharacterColour.Yellow: return yellow;
             default: return Color.gray;
         }
@@ -120,7 +120,7 @@ public class PlayerManager : MonoBehaviour
 
     // Maintains the players that have joined the game
     private readonly Player[] _playerSlots = { null, null ,null, null };
-    public readonly CharacterColour[] PlayerColours = { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
+    public readonly CharacterColour[] PlayerColours = { CharacterColour.Blue, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
 
     public int NumPlayers
     {

@@ -722,6 +722,8 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 1.2
     volume: 0.5
@@ -729,6 +731,8 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   mana:
     maxValue: 110
     minValue: 0
@@ -742,6 +746,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   playerRespawnedSFX:
     pitch: 1.3
     volume: 1
@@ -749,6 +755,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   statBars: {fileID: 1669494066074108555}
 --- !u!114 &749148863823978123
 MonoBehaviour:
@@ -769,6 +777,8 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 1.2
     volume: 0.5
@@ -776,15 +786,17 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   primaryAttackTimeout: 1.1
   secondaryAttackTimeout: 0.3
-  primaryAttackMinDamage: 4
+  primaryAttackMinDamage: 5
   primaryAttackMaxDamage: 7
   primaryAttackRadius: 6
   primaryAttackSweepAngle: 100
   primaryAttackDamageDelay: 0.6
   primaryAttackManaDepletion: 50
-  primaryAttackMovementModifier: 0.4
+  primaryAttackMovementModifier: 0.5
   primaryAttackWeaponSFX:
     pitch: 1
     volume: 0.5
@@ -792,6 +804,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   secondaryAttackMinDamage: 4
   secondaryAttackMaxDamage: 6
   secondaryAttackMinHealing: 8
@@ -810,6 +824,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
 --- !u!82 &432121220
 AudioSource:
   m_ObjectHideFlags: 0

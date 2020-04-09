@@ -6,7 +6,7 @@ public class Platform : MonoBehaviour
 {
     public delegate void OnActivation(bool isActivated);
     public OnActivation onActivation;
-    [SerializeField] private Material purpleMaterial;
+    [SerializeField] private Material blueMaterial;
     [SerializeField] private Material greenMaterial;
     [SerializeField] private Material redMaterial;
     [SerializeField] private Material yellowMaterial;
@@ -78,9 +78,9 @@ public class Platform : MonoBehaviour
         Texture texture;
         Color tintColor;
 ;       switch (colour) { 
-            case CharacterColour.Purple:
-                texture = purpleMaterial.GetTexture("_MainTex");
-                tintColor = purpleMaterial.GetColor("_TintColor");
+            case CharacterColour.Blue:
+                texture = blueMaterial.GetTexture("_MainTex");
+                tintColor = blueMaterial.GetColor("_TintColor");
                 break;
             case CharacterColour.Green:
                 texture = greenMaterial.GetTexture("_MainTex");

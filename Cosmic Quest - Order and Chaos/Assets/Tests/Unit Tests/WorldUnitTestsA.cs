@@ -39,8 +39,8 @@ namespace WorldTests //list of tests i should do
             playerControl.characterColour = CharacterColour.Yellow;
             Assert.True(interactable.CanInteract(playerPos));
 
-            interactable.colour = CharacterColour.Purple;
-            playerControl.characterColour = CharacterColour.Purple;
+            interactable.colour = CharacterColour.Blue;
+            playerControl.characterColour = CharacterColour.Blue;
             Assert.True(interactable.CanInteract(playerPos));
 
             //assert for COLOURLESS object, with each player colour
@@ -89,8 +89,8 @@ namespace WorldTests //list of tests i should do
             //Red object, Green Player
             Assert.False(interactable.CanInteract(playerPos));
 
-            //Purple object, Green Player
-            interactable.colour = CharacterColour.Purple; 
+            //Blue object, Green Player
+            interactable.colour = CharacterColour.Blue; 
             Assert.False(interactable.CanInteract(playerPos));
 
             //Yellow object, Green Player
@@ -102,8 +102,8 @@ namespace WorldTests //list of tests i should do
             //Yellow object, Red player
             Assert.False(interactable.CanInteract(playerPos));
 
-            //Purple object, Red Player
-            interactable.colour = CharacterColour.Purple; 
+            //Blue object, Red Player
+            interactable.colour = CharacterColour.Blue; 
             Assert.False(interactable.CanInteract(playerPos));
 
             //Green object, Red Player
@@ -111,16 +111,16 @@ namespace WorldTests //list of tests i should do
             Assert.False(interactable.CanInteract(playerPos));
 
 
-            playerControl.characterColour = CharacterColour.Purple;//set player colour to Purple now
+            playerControl.characterColour = CharacterColour.Blue;//set player colour to Blue now
             
-            //Green object, Purple Player
+            //Green object, Blue Player
             Assert.False(interactable.CanInteract(playerPos));
 
-            //Yellow object, Purple Player
+            //Yellow object, Blue Player
             interactable.colour = CharacterColour.Yellow; 
             Assert.False(interactable.CanInteract(playerPos));
 
-            //Red object, Purple Player
+            //Red object, Blue Player
             interactable.colour = CharacterColour.Red; 
             Assert.False(interactable.CanInteract(playerPos));
 
@@ -130,8 +130,8 @@ namespace WorldTests //list of tests i should do
             //Red object, Yellow Player
             Assert.False(interactable.CanInteract(playerPos));
 
-            //Purple object, Yellow Player
-            interactable.colour = CharacterColour.Purple; 
+            //Blue object, Yellow Player
+            interactable.colour = CharacterColour.Blue; 
             Assert.False(interactable.CanInteract(playerPos));
 
             //Green object, Yellow Player

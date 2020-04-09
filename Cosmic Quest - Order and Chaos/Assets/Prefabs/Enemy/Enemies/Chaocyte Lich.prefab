@@ -114,9 +114,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health:
-    maxValue: 20
+    maxValue: 40
     minValue: 0
-    regenAmount: 0
+    regenAmount: 1
   onDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -137,6 +137,8 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 1.5
     volume: 0.5
@@ -144,11 +146,13 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
   EnemyColouring:
     Green: {fileID: 2100000, guid: 07a534c2bc17f964698edd2de3c9b9be, type: 2}
-    Purple: {fileID: 2100000, guid: 588210eb47aefc94c8a82437adae8981, type: 2}
+    Blue: {fileID: 2100000, guid: e5dc2b1eb975eed49867c96d7fcd2ca5, type: 2}
     Red: {fileID: 2100000, guid: 7247f9076cb9afe4b8c2151844e7c86e, type: 2}
     Yellow: {fileID: 2100000, guid: 733a8b52528c8ec438dddb26b68b54f6, type: 2}
     Default: {fileID: 2100000, guid: 9e74f3a47760b624b80f1539c0953273, type: 2}
@@ -167,8 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f6391806b46cd48a45f9a75bfb360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroRadius: 10
-  attackRadius: 4
+  aggroRadius: 15
+  attackRadius: 5
   decisionDelay: 0.5
 --- !u!114 &6198854596554874472
 MonoBehaviour:
@@ -189,6 +193,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 0
     volume: 0
@@ -196,12 +202,14 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   primaryAttackCooldown: 1
-  primaryAttackRadius: 4
+  primaryAttackRadius: 5
   primaryAttackAngle: 45
-  primaryAttackMinDamage: 3
+  primaryAttackMinDamage: 4
   primaryAttackMaxDamage: 8
-  primaryAttackProbability: 0.7
+  primaryAttackProbability: 0.4
   primaryAttackSFX:
     pitch: 0
     volume: 0
@@ -209,10 +217,12 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   secondaryAttackCooldown: 1
-  secondaryAttackRadius: 5
-  secondaryAttackMinDamage: 3
-  secondaryAttackMaxDamage: 7
+  secondaryAttackRadius: 8
+  secondaryAttackMinDamage: 100
+  secondaryAttackMaxDamage: 120
   secondaryAttackVFX: {fileID: 1634767862067424, guid: 73f960c3d84f6194c9437a721da34230,
     type: 3}
   secondaryAttackVFXRoot: {fileID: 7592555171831880627}
@@ -223,6 +233,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
 --- !u!114 &4361279385857877039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbf61d82ceec0f41ae64dc94dab4842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 1
+  rotationSpeed: 3
 --- !u!195 &4023664564633695051
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -246,8 +258,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 0.5
-  m_Speed: 4
-  m_Acceleration: 20
+  m_Speed: 5
+  m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 270
   m_StoppingDistance: 3.5

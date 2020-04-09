@@ -1748,6 +1748,8 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 1.2
     volume: 0.5
@@ -1755,10 +1757,12 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   mana:
     maxValue: 100
     minValue: 0
-    regenAmount: 35
+    regenAmount: 30
   respawnBeaconPrefab: {fileID: 5332417463244100679, guid: 839e76de723905d4cbf20b613b122332,
     type: 3}
   playerRespawningSFX:
@@ -1768,6 +1772,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   playerRespawnedSFX:
     pitch: 1.3
     volume: 1
@@ -1775,6 +1781,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   statBars: {fileID: 8410303440912599415}
 --- !u!114 &6060052625781106135
 MonoBehaviour:
@@ -1795,6 +1803,8 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 1.2
     volume: 0.5
@@ -1802,6 +1812,8 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   primaryAttackTimeout: 0.9
   secondaryAttackTimeout: 0.9
   primaryAttackMinDamage: 2
@@ -1818,6 +1830,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   secondaryAttackMinDamage: 6
   secondaryAttackMaxDamage: 8
   secondaryAttackRadius: 8.5
@@ -1834,6 +1848,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
 --- !u!82 &487553420
 AudioSource:
   m_ObjectHideFlags: 0

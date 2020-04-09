@@ -2081,14 +2081,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health:
-    maxValue: 20
+    maxValue: 25
     minValue: 0
     regenAmount: 0
   onDeath:
     m_PersistentCalls:
       m_Calls: []
   damage:
-    baseValue: 4
+    baseValue: 5
   defense:
     baseValue: 1
   characterColour: 0
@@ -2104,6 +2104,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 0
     volume: 0
@@ -2111,11 +2113,13 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
   EnemyColouring:
     Green: {fileID: 2100000, guid: af5bb31e945e60548aa341e9323956c9, type: 2}
-    Purple: {fileID: 2100000, guid: f6a2d841d371f28449838d70c41db47f, type: 2}
+    Blue: {fileID: 2100000, guid: f6a2d841d371f28449838d70c41db47f, type: 2}
     Red: {fileID: 2100000, guid: 8f6cd705dc6cefa43bfa244cdf7cf028, type: 2}
     Yellow: {fileID: 2100000, guid: d6156e1d54c7c994fb75214711b000c1, type: 2}
     Default: {fileID: 2100000, guid: 038bb926cc2feb54ab44c8cb11e309b4, type: 2}
@@ -2134,7 +2138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f6391806b46cd48a45f9a75bfb360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroRadius: 10
+  aggroRadius: 15
   attackRadius: 3
   decisionDelay: 0.5
 --- !u!114 &1012034094
@@ -2156,6 +2160,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 0
     volume: 0
@@ -2163,11 +2169,13 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   primaryAttackCooldown: 1
   primaryAttackRadius: 4
   primaryAttackAngle: 45
-  primaryAttackMinDamage: 1
-  primaryAttackMaxDamage: 4
+  primaryAttackMinDamage: 3
+  primaryAttackMaxDamage: 5
   primaryAttackProbability: 0.7
   primaryAttackSFX:
     pitch: 0
@@ -2176,6 +2184,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   secondaryAttackCooldown: 1
   secondaryAttackRadius: 5
   secondaryAttackAngle: 45
@@ -2188,6 +2198,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
 --- !u!114 &1012034096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2211,7 +2223,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -334000983
   m_Radius: 0.75
-  m_Speed: 5
+  m_Speed: 7
   m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 300
