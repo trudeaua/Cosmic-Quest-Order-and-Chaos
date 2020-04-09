@@ -16,8 +16,8 @@ public class EnemyColouring {
 [RequireComponent(typeof(EnemyBrainController))]
 public class EnemyStatsController : EntityStatsController
 {
-    private EnemyBrainController _brain;
-    private NavMeshAgent _agent;
+    protected EnemyBrainController Brain;
+    protected NavMeshAgent Agent;
 
     private float _minTimeBetweenDamageText = 0.3f;
     private float _damageTextValue = 0f;
@@ -40,8 +40,8 @@ public class EnemyStatsController : EntityStatsController
     {
         base.Awake();
 
-        _brain = GetComponent<EnemyBrainController>();
-        _agent = GetComponent<NavMeshAgent>();
+        Brain = GetComponent<EnemyBrainController>();
+        Agent = GetComponent<NavMeshAgent>();
         _collider = gameObject.GetComponent<Collider>();
     }
 
@@ -87,8 +87,8 @@ public class EnemyStatsController : EntityStatsController
     /// <param name="timeDelta">Time since last damage calculation</param>
     public override void TakeDamage(EntityStatsController attacker, float damageValue, float timeDelta = 1f)
     {
-        // Ignore attacks if already dead
-        if (isDead)
+        // Ignore attacks if already dead or invincible
+        if (isDead || invincible)
             return;
 
         float colourDamagePercentage  = characterColour == CharacterColour.All || attacker.characterColour == characterColour ? 1 : colourResistanceModifier;
@@ -100,7 +100,7 @@ public class EnemyStatsController : EntityStatsController
         Anim.SetTrigger("TakeDamage");
 
         // Pass damage information to brain
-        _brain.OnDamageTaken(attacker.gameObject, hitValue);
+        Brain.OnDamageTaken(attacker.gameObject, hitValue);
 
         if (Mathf.Approximately(health.CurrentValue, 0f))
         {
@@ -113,7 +113,7 @@ public class EnemyStatsController : EntityStatsController
     /// </summary>
     /// <param name="value">Value to display</param>
     /// <param name="duration">How long to show the damage value for</param>
-    private void ShowDamage(float value, float duration = 0.5f)
+    protected void ShowDamage(float value, float duration = 0.5f)
     {
         _damageTextValue += value;
         if (_damageTextCounter > 0f || _damageTextValue < 0.5f)
@@ -147,7 +147,6 @@ public class EnemyStatsController : EntityStatsController
         SetStunned(true);
         rb.isKinematic = false;
 
-        // TODO change this to AddForce(<force vector>, ForceMode.Impulse);
         rb.AddExplosionForce(explosionForce, explosionPoint, explosionRadius);
 
         // Wait for a moment before re-enabling the navMeshAgent
@@ -161,10 +160,9 @@ public class EnemyStatsController : EntityStatsController
     /// </summary>
     protected override void Die()
     {
-        Debug.Log(transform.name + " died.");
         isDead = true;
         onDeath.Invoke();
-        _agent.enabled = false;
+        if (Agent) Agent.enabled = false;
         StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, entityDeathVocalSFX));
         Anim.SetBool("Dead", true);
     }
@@ -175,8 +173,8 @@ public class EnemyStatsController : EntityStatsController
     private void SetStunned(bool isStunned)
     {
         // Disable the nav and stun the brain
-        _agent.enabled = !isStunned;
-        _brain.SetStunned(isStunned);
+        if (Agent) Agent.enabled = !isStunned;
+        Brain.SetStunned(isStunned);
     }
 
     /// <summary>
@@ -189,10 +187,9 @@ public class EnemyStatsController : EntityStatsController
     protected override IEnumerator Spawn(GameObject obj, float speed = 0.05F, float delay = 0, float cooldown = 0)
     {
         // weird stuff happens when the nav mesh is enabled during the spawn
-        NavMeshAgent navMesh = obj.GetComponent<NavMeshAgent>();
-        navMesh.enabled = false;
+        if (Agent) Agent.enabled = false;
         yield return base.Spawn(obj, speed, delay, cooldown);
-        navMesh.enabled = true;
+        if (Agent) Agent.enabled = true;
     }
 
     /// <summary>

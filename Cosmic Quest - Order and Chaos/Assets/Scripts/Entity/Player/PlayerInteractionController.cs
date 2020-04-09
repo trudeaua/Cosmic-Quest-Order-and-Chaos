@@ -10,34 +10,27 @@ public class PlayerInteractionController : MonoBehaviour
     
     private PlayerCombatController _combat;
     private PlayerStatsController _stats;
-    private Interactable _currentObject;
     private Animator _anim;
+    private Collider _col;
+    private Interactable _currentObject;
     private Collider[] _hits = new Collider[32];
 
+    public bool IsInteracting => _currentObject;
+    
     private void Start()
     {
         _combat = GetComponent<PlayerCombatController>();
-        _anim = gameObject.GetComponentInChildren<Animator>();
+        _anim = GetComponentInChildren<Animator>();
         _stats = GetComponent<PlayerStatsController>();
         _stats.onDeath.AddListener(StopInteract);
-    }
-
-    /// <summary>
-    /// Used to check if the player is currently interacting with something. This is mostly meant to be used for
-    /// player state checking within the other Controller classes.
-    /// </summary>
-    /// <returns>Whether the player is interacting.</returns>
-    public bool IsInteracting()
-    {
-        return (_currentObject);
+        _col = GetComponent<Collider>();
     }
 
     public void StopInteract()
     {
         if (!_currentObject)
-        {
             return;
-        }
+        
         // Decide which animation to do
         if (_currentObject is Draggable)
         {
@@ -47,8 +40,7 @@ public class PlayerInteractionController : MonoBehaviour
         _currentObject.StopInteract(transform);
         _currentObject = null;
     }
-
-
+    
     /// <summary>
     /// Toggle the interaction sequence
     /// </summary>
@@ -113,6 +105,9 @@ public class PlayerInteractionController : MonoBehaviour
     {
         float minDistance = Mathf.Infinity;
         Interactable interactable = null;
+        // Disable the player's collider briefly for the interactable proximity checks
+        _col.enabled = false;
+        
         int numHits = Physics.OverlapSphereNonAlloc(transform.position, interactionRadius, _hits);
 
         for (int i = 0; i < numHits; i++)
@@ -136,6 +131,9 @@ public class PlayerInteractionController : MonoBehaviour
                 interactable = interactableObject;
             }
         }
+
+        // Reenable collider when done
+        _col.enabled = true;
 
         return interactable;
     }

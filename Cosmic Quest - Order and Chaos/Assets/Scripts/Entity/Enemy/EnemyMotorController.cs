@@ -26,7 +26,8 @@ public class EnemyMotorController : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         
         // Set avoidance priority to random number (0-99) to prevent enemy clustering
-        _agent.avoidancePriority = Random.Range(0, 100);
+        if (_agent)
+            _agent.avoidancePriority = Random.Range(0, 100);
     }
 
     public void StartFollow(Transform staticTarget = null)

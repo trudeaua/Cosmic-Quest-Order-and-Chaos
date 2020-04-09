@@ -10,8 +10,10 @@ public class TorchPuzzle : Puzzle
     // Count of torches that are currently lit
     protected int NumLit => torches.Count(t => t.isLit);
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         // Subscribe to torch interaction events
         foreach (Torch torch in torches)
         {

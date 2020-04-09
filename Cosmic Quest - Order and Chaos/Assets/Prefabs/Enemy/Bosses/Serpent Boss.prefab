@@ -85,7 +85,7 @@ NavMeshAgent:
   m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 270
-  m_StoppingDistance: 3.5
+  m_StoppingDistance: 6
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -200,11 +200,19 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
-  minDistance: 8
   chargedAttackCooldown: 1
-  chargeAttackRadius: 5
+  chargeSpeed: 10
+  chargedAttackTriggerDistance: 5
+  chargedAttackRadius: 7
   chargeAttackMinDamage: 10
   chargeAttackMaxDamage: 30
+  roarSFX:
+    pitch: 0
+    volume: 0
+    clip: {fileID: 0}
+    type: 0
+    delay: 0
+    loop: 0
   chargeAttackSFX:
     pitch: 0
     volume: 0
@@ -1601,7 +1609,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ccb232b342f060a4b8d30204cf6736e8, type: 2}
+  - {fileID: 2100000, guid: dd852db7fa1216445b0b1a72c6de5ec6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour
 
     protected EntityStatsController LauncherStats;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _initialPosition = transform.position;
         _rb = GetComponent<Rigidbody>();
@@ -24,15 +24,6 @@ public class Projectile : MonoBehaviour
         {
             EndLaunch();
         }
-    }
-
-    /// <summary>
-    /// Reset movement of rigidbody on enable
-    /// </summary>
-    private void OnEnable()
-    {
-        _rb.velocity = Vector3.zero;
-        _rb.angularVelocity = Vector3.zero;
     }
 
     /// <summary>
@@ -59,6 +50,8 @@ public class Projectile : MonoBehaviour
         gameObject.SetActive(true);
         
         // Apply launch force to the rigidbody
+        _rb.velocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
         _rb.AddForce(launchForce * transform.forward);
     }
 

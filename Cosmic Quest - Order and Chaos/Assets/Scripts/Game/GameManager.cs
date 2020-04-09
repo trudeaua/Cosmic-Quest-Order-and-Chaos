@@ -43,19 +43,9 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    [Tooltip("Y coordinate where players instantly die if they fall below")]
-    public float playerDeathZone = -30f;
-
-    public UnityEvent onStateChange = new UnityEvent();
-
-    // Keeps track if the game is in a testing state (i.e. not started from the menu)
-    [HideInInspector] public bool isTestInstance = false;
-    
     // Tracking and delegate events for state changes
     private GameState _currentState = GameState.Menu;
-    public delegate void OnGameStateChanged(GameState newState);
-    public OnGameStateChanged onGameStateChanged;
-    
+    public UnityEvent onStateChange = new UnityEvent();
     public GameState CurrentState
     {
         get => _currentState;
@@ -65,9 +55,15 @@ public class GameManager : MonoBehaviour
                 return;
             
             _currentState = value;
-            onGameStateChanged?.Invoke(value);
+            onStateChange.Invoke();
         }
     }
+    
+    [Tooltip("Y coordinate where players instantly die if they fall below")]
+    public float playerDeathZone = -30f;
+    
+    // Keeps track if the game is in a testing state (i.e. not started from the menu)
+    [HideInInspector] public bool isTestInstance = false;
 
     private void Update()
     {

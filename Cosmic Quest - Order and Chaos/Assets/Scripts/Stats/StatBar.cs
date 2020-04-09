@@ -1,15 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-
-public enum BarType {
-    Player,
-    Enemy,
-    Boss
-}
 
 public class StatBar : MonoBehaviour
 {
+    public enum BarType {
+        Player,
+        Enemy,
+        Boss
+    }
+    
     public bool alwaysShow;
     [Tooltip("The amount of time after receiving damage to hide the bars (ignored if \"alwaysShow\" is set true)")]
     public float timeout = 3f;
@@ -46,19 +45,6 @@ public class StatBar : MonoBehaviour
                     string label = stats.gameObject.name;
                     Text labelText = gameObject.GetComponentInChildren<Text>();
                     labelText.text = label;
-                    
-                    // Only show the bar if in a boss fight state
-                    /*GameManager.Instance.onGameStateChanged += state =>
-                    {
-                        if (state == GameManager.GameState.BossFight)
-                            Show();
-                        else
-                            Hide();
-                    };
-                    
-                    // Hide the bar if we're not starting in a boss fight state
-                    if (GameManager.Instance.CurrentState != GameManager.GameState.BossFight)
-                        Hide();*/
                 }
                 
                 break;
@@ -78,6 +64,14 @@ public class StatBar : MonoBehaviour
         if (barType == BarType.Player)
         {
             _manaStat.onCurrentValueChanged += UpdateManaValue;
+        }
+        else if (barType == BarType.Boss)
+        {
+            // Only show the bar if in a boss fight state
+            GameManager.Instance.onStateChange.AddListener(ShowOnBossFight);
+                    
+            // Hide the bar if we're not starting in a boss fight state
+            ShowOnBossFight();
         }
     }
 
@@ -120,6 +114,17 @@ public class StatBar : MonoBehaviour
     private void UpdateManaValue(float value)
     {
         manaBar.fillAmount = value / _manaStat.maxValue;
+    }
+    
+    /// <summary>
+    /// Unity event callback to show the boss bars if currently in the boss fight
+    /// </summary>
+    private void ShowOnBossFight()
+    {
+        if (GameManager.Instance.CurrentState == GameManager.GameState.BossFight)
+            Show();
+        else
+            Hide();
     }
 
     public void Hide()

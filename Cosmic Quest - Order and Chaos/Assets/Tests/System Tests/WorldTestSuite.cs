@@ -16,7 +16,6 @@ namespace Tests
             Transform objPos = gameObject.GetComponent<Transform>();
             objPos.position = Vector3.zero; //position (0,0,0)
             Collectable collectable = gameObject.AddComponent<Collectable>();
-            collectable.radius = 0f; //will not test as many for this
             collectable.colour = CharacterColour.Red; //set target and 'player' colour to same colour
 
             //variables for 'player'

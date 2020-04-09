@@ -20,11 +20,6 @@ public class MusicManager : MonoBehaviour
         UpdateMusic();
     }
 
-    private void OnDestroy()
-    {
-        GameManager.Instance.onStateChange.RemoveListener(UpdateMusic);
-    }
-
     private void Update()
     {
         if (CurrentAudioLoop.loopLength > 0 && CurrentAudioLoop.loopThreshold > 0)
