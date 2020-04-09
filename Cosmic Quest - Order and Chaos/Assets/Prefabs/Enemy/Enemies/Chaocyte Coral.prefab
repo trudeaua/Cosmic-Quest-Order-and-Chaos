@@ -107,6 +107,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 0.7
     volume: 0.5
@@ -114,6 +116,8 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
   EnemyColouring:
@@ -159,6 +163,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 0
     volume: 0
@@ -166,6 +172,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   hasMeleeAttack: 1
   meleeAttackCooldown: 1
   meleeAttackRadius: 4
@@ -179,6 +187,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   hasRangedAttack: 0
   rangedAttackCooldown: 1
   rangedAttackMinDamage: 1
@@ -191,6 +201,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
 --- !u!114 &1144262603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,7 +443,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 7ea393a494fb4f549a471ba2ee41652f, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -970,11 +982,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3528824016199519652}
     m_Modifications:
-    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyBars
-      objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1079,6 +1086,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyBars
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ede0b1d774556b14c96fc9892ebd7909, type: 3}
