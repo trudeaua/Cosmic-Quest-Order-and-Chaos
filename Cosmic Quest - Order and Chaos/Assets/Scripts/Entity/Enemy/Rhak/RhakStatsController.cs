@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RhakStatsController : EnemyStatsController
 {
+    // List of orbs required to be hit by for phase 1
     public List<CharacterColour> OrbsRequired { get; private set; }
 
     private void Start()
