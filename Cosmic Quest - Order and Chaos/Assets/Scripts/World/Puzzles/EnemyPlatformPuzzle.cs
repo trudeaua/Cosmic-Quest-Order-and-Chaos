@@ -15,6 +15,8 @@ public class EnemyPlatformPuzzle : RockPuzzle
 
     protected virtual void Start()
     {
+        playerColours = PlayerManager.Instance.CurrentPlayerColours;
+        
         // Subscribe to platform activation events
         foreach (Platform platform in platforms)
         {
@@ -22,12 +24,11 @@ public class EnemyPlatformPuzzle : RockPuzzle
         }
 
         // Randomize colours of enemies and platforms
-        CharacterColour[] activeColours = PlayerManager.Instance.GetActivePlayerColours();
         if (platforms.Length == enemies.Length)
         {
             for (int i = 0; i < platforms.Length; i++)
             {
-                CharacterColour colour = activeColours[Random.Range(0, activeColours.Length)];
+                CharacterColour colour = playerColours[Random.Range(0, playerColours.Length)];
                 platforms[i].colour = colour;
                 enemies[i].characterColour = colour;
             }

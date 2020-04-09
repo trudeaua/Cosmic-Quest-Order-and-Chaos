@@ -141,4 +141,9 @@ public class PlayerCombatController : EntityCombatController
             UltimateAbility();
         }
     }
+
+    protected virtual void ReleaseChargedAttack()
+    {
+        Debug.Log("Cancelled charge attack");
+    }
 }

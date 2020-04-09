@@ -5,7 +5,7 @@ public class Door : MonoBehaviour, ISerializable
 {
     private AudioSource _audio;
     private Animator _anim;
-    private BoxCollider _col;
+    private Collider _col;
 
     public bool isOpen { get; private set; }
 
@@ -13,7 +13,7 @@ public class Door : MonoBehaviour, ISerializable
     {
         _audio = GetComponent<AudioSource>();
         _anim = GetComponent<Animator>();
-        _col = GetComponent<BoxCollider>();
+        _col = GetComponent<Collider>();
     }
 
     public void Open()

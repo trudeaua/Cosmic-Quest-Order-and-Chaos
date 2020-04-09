@@ -132,6 +132,12 @@ public class PlayerManager : MonoBehaviour
         get { return Players.FindAll(p => !p.GetComponent<PlayerStatsController>().isDead); }
     }
 
+    public CharacterColour[] CurrentPlayerColours 
+    {
+        get { return Instance.PlayerColours.Take(Instance.NumPlayers).ToArray(); }
+    }
+
+
     // GameObject containing all selectables and submenus for the main menu
     private GameObject MenuCanvas;
 
@@ -180,7 +186,7 @@ public class PlayerManager : MonoBehaviour
             // Simply instantiate the player and let it choose a device randomly
             playerInstance = Instantiate(_playerSlots[playerNumber].playerObject);
             PlayerInput playerInput = playerInstance.GetComponent<PlayerInput>();
-            InputDevice device = playerInput.devices.First();
+            InputDevice device = playerInput.devices.FirstOrDefault();
             if (device != null)
             {
                 _playerSlots[playerNumber].deviceId = device.deviceId;
@@ -517,20 +523,4 @@ public class PlayerManager : MonoBehaviour
         }
         return null;
     }
-
-    /// <summary>
-    /// Get the colours of all active players
-    /// </summary>
-    /// <returns>Array of active player colours</returns>
-    public CharacterColour[] GetActivePlayerColours()
-    {
-        CharacterColour[] activeColours = new CharacterColour[NumPlayers];
-        for (int i = 0; i < activeColours.Length; i++)
-        {
-            activeColours[i] = _playerSlots[i].characterColour;
-        }
-
-        return activeColours;
-    }
-
 }

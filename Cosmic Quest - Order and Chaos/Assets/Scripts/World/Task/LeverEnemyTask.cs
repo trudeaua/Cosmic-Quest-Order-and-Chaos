@@ -13,9 +13,8 @@ public class LeverEnemyTask : Task
         CharacterColour[] combination = combinationPuzzle.SetColourCombination();
         for (int i = 0; i < combination.Length; i++)
         {
-            EnemyStatsController enemy = enemyPuzzle.enemies[i].enemyPrefab.GetComponent<EnemyStatsController>();
+            EnemyStatsController enemy = enemyPuzzle.enemyPrefabs[i].GetComponent<EnemyStatsController>();
             enemy.AssignEnemyColour(combination[i]);
-            enemyPuzzle.enemies[i].enemyColour = combination[i];
         }
 
         // Hide all platforms

@@ -2,12 +2,21 @@
 
 public class RockPuzzle : Puzzle
 {
-    // Platforms required to complete the puzzle
+    [Tooltip("Platforms in the puzzle")]
     public Platform[] platforms;
-    // Rocks required to complete the puzzle
+
+    [Tooltip("Rocks in the puzzle")]
     public Draggable[] rocks;
-    // Current number of activated platforms
-    protected int _numActivated;
+
+    /// <summary>
+    /// Current number of activated platforms
+    /// </summary>
+    private int numActivated;
+    
+    /// <summary>
+    /// Number of platforms required to be activated
+    /// </summary>
+    private int requiredNumActivations;
     
     protected virtual void Awake()
     {
@@ -15,33 +24,46 @@ public class RockPuzzle : Puzzle
         rocks = GetComponentsInChildren<Draggable>();
     }
 
-    protected virtual void Start()
+    protected override void Start()
     {
-        // Subscribe to platform activation events
+        base.Start();
+        requiredNumActivations = platforms.Length;
         foreach (Platform platform in platforms)
         {
+            // Subscribe to platform activation events
             platform.onActivation += UpdateActivated;
+
+            // If the platform is inactive it's not required
+            if (!platform.gameObject.activeInHierarchy)
+            {
+                requiredNumActivations -= 1;
+            }
         }
 
         // Randomize colours of interactables
-        CharacterColour[] activeColours = PlayerManager.Instance.GetActivePlayerColours();
-
         if (platforms.Length == rocks.Length)
         {
             for (int i = 0; i < platforms.Length; i++)
             {
-                CharacterColour colour = activeColours[Random.Range(0, activeColours.Length)];
+                CharacterColour colour = playerColours[Random.Range(0, playerColours.Length)];
                 platforms[i].colour = colour;
                 rocks[i].colour = colour;
             }
         }
     }
 
+    /// <summary>
+    /// Updates the number of activated platforms
+    /// </summary>
+    /// <param name="isActivated"></param>
     protected void UpdateActivated(bool isActivated)
     {
-        _numActivated += isActivated ? 1 : -1;
+        if (isComplete)
+            return;
 
-        if (_numActivated == platforms.Length)
+        numActivated += isActivated ? 1 : -1;
+
+        if (numActivated == requiredNumActivations)
         {
             // Puzzle is complete
             SetComplete();

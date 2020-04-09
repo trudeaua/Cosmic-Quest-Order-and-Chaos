@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CombinationLeverPuzzle : LeverPuzzle
@@ -8,6 +9,9 @@ public class CombinationLeverPuzzle : LeverPuzzle
 
     protected override void AddColour(CharacterColour colour)
     {
+        if (isComplete)
+            return;
+
         Received.Add(colour);
 
         // If we have the correct number of elements in buffer then check combination
@@ -36,10 +40,9 @@ public class CombinationLeverPuzzle : LeverPuzzle
     /// <returns>The combination array</returns>
     public CharacterColour[] SetColourCombination()
     {
-        CharacterColour[] activeColours = PlayerManager.Instance.GetActivePlayerColours();
         for (int i = 0; i < combination.Length; i++)
         {
-            combination[i] = activeColours[Random.Range(0, activeColours.Length)];
+            combination[i] = playerColours[Random.Range(0, playerColours.Length)];
         }
         return combination;
     }

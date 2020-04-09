@@ -10,10 +10,10 @@ public class InvincibleEnemyPuzzle : EnemyPuzzle
     private void Start()
     {
         numEnemiesDead = 0;
-        numEnemies = enemies.Length;
-        foreach(Enemy enemy in enemies)
+        numEnemies = enemyPrefabs.Length;
+        foreach(GameObject enemy in enemyPrefabs)
         {
-            EnemyStatsController enemyStats = enemy.enemyPrefab.GetComponent<EnemyStatsController>();
+            EnemyStatsController enemyStats = enemy.GetComponent<EnemyStatsController>();
             enemyStats.defense.BaseValue = invincibleDefense;
             enemyStats.onDeath.AddListener(EnemyDied);
         }
@@ -21,9 +21,9 @@ public class InvincibleEnemyPuzzle : EnemyPuzzle
 
     public void RemoveEnemyInvincibility()
     {
-        foreach(Enemy enemy in enemies)
+        foreach(GameObject enemy in enemyPrefabs)
         {
-            EnemyStatsController enemyStats = enemy.enemyPrefab.GetComponent<EnemyStatsController>();
+            EnemyStatsController enemyStats = enemy.GetComponent<EnemyStatsController>();
             enemyStats.defense.BaseValue = defaultDefense;
         }
     }

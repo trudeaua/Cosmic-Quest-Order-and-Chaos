@@ -1,49 +1,49 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LeverPuzzle : Puzzle
 {
-    // List of levers involved with this puzzle
+    [Tooltip("List of levers involved with this puzzle")]
     public Lever[] levers;
-    // List of colours required
-    [SerializeField] protected CharacterColour[] requiredColours;
-    // Buffer for received colours
-    protected List<CharacterColour> Received;
     
-    private void Awake()
-    {
-        levers = GetComponentsInChildren<Lever>();
-    }
+    /// <summary>
+    /// List of colours required
+    /// </summary>
+    [SerializeField] protected CharacterColour[] requiredColours;
 
-    protected void Start()
+    /// <summary>
+    /// Buffer for received colours
+    /// </summary>
+    protected List<CharacterColour> Received;
+
+    protected override void Start()
     {      
-        // Remove inactive coloured levers 
-        int numActivePlayers = PlayerManager.Instance.NumPlayers;
-        int numTotalPlayers = PlayerManager.Instance.PlayerColours.Length;
-        for (int i = 0; i < (numTotalPlayers); i++)
-        {
-            if (i >= numActivePlayers)
-            {
-                levers[i].gameObject.SetActive(false);
-            }
-        }
+        base.Start();
 
         Received = new List<CharacterColour>();
-        
-        // Subscribe to lever activation events
+
         foreach (Lever lever in levers)
         {
+            // Subscribe to lever activation events
             lever.onActivation += AddColour;
         }
     }
 
+    /// <summary>
+    /// Add a colour to the received colours buffer
+    /// </summary>
+    /// <param name="colour">Colour to add to the buffer</param>
     protected virtual void AddColour(CharacterColour colour)
     {
+        if (isComplete)
+            return;
+
         // Don't store duplicates of the same colour entry
         if (!Received.Contains(colour))
             Received.Add(colour);
 
-        if (Received.Count == requiredColours.Length)
+        if (Received.Count == playerColours.Length)
         {
             // All required levers have been pulled
             SetComplete();

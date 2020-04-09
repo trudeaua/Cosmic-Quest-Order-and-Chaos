@@ -35,8 +35,8 @@ public class DamageProjectile : Projectile
             target.TakeDamage(LauncherStats, _damage);
         }
         
-        // Don't worry about collisions with the launcher
-        if (col != LauncherStats.gameObject)
+        // Don't worry about collisions with the launcher or colliders that are triggers
+        if (col != LauncherStats.gameObject && !other.isTrigger)
             gameObject.SetActive(false);
     }
 }
