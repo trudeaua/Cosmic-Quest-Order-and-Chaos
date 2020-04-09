@@ -5903,7 +5903,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6155603238355360611
 Transform:
   m_ObjectHideFlags: 0
@@ -5983,13 +5983,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68daf0c9d7019af4c959f81b9db70916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invincible: 0
   health:
     maxValue: 100
     minValue: 0
     regenAmount: 0
   onDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6155603238355360617}
+        m_MethodName: KillAllSpawnedPlants
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   damage:
     baseValue: 0
   defense:
@@ -6007,6 +6019,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 0
     volume: 0
@@ -6014,6 +6028,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
   EnemyColouring:
@@ -6044,6 +6060,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 0
     volume: 0
@@ -6051,6 +6069,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   hasSpecialAttack: 1
   specialAttackPeriod: 20
   primaryAttackCooldown: 2
@@ -6065,6 +6085,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   secondaryAttackCooldown: 4
   secondaryAttackRadius: 7
   secondaryAttackAngle: 200
@@ -6077,12 +6099,15 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   projectileAttackCooldown: 5
   projectileAttackForce: 1000
   projectileAttackAngle: 120
   projectileAttackNumSeeds: 3
   projectileAttackMinDamage: 5
   projectileAttackMaxDamage: 10
+  maxPlantsSpawned: 10
   seedPrefab: {fileID: 640558104519320016, guid: feb48f7855885f9478e6eb8d250d9bd0,
     type: 3}
   projectileAttackSFX:
@@ -6092,6 +6117,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   rootAttackCooldown: 1
   rootContainerPrefab: {fileID: 3562997362620777850, guid: 33b8f54fd93523049adaa40f48b1213c,
     type: 3}
@@ -6102,6 +6129,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   seedAttackCooldown: 1
   seedAttackForce: 1200
   seedAttackAngle: 160
@@ -6115,6 +6144,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   meleeDistance: 7
   rangedDistance: 12
 --- !u!114 &6155603238355360619
@@ -6146,7 +6177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbf61d82ceec0f41ae64dc94dab4842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 0.25
+  rotationSpeed: 0.5
 --- !u!82 &6155603238355360608
 AudioSource:
   m_ObjectHideFlags: 0

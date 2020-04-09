@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -27,8 +28,10 @@ public class TreantBossCombatController : EnemyCombatController
     public int projectileAttackNumSeeds = 3;
     public float projectileAttackMinDamage = 5f;
     public float projectileAttackMaxDamage = 10f;
+    public int maxPlantsSpawned = 10;
     public GameObject seedPrefab;
     [SerializeField] protected AudioHelper.EntityAudioClip projectileAttackSFX;
+    private List<EnemyStatsController> _spawnedPlants;
     
     [Header("Special Attack - Roots")]
     public float rootAttackCooldown = 1f;
@@ -58,6 +61,7 @@ public class TreantBossCombatController : EnemyCombatController
 
         GameObject roots = Instantiate(rootContainerPrefab);
         _roots = roots.GetComponent<TreantRootContainer>();
+        _spawnedPlants = new List<EnemyStatsController>();
     }
 
     /// <summary>
@@ -149,6 +153,43 @@ public class TreantBossCombatController : EnemyCombatController
             
             yield return new WaitForSeconds(seedLaunchPeriod);
         }
+    }
+
+    /// <summary>
+    /// Checks if any new plants can be spawned
+    /// </summary>
+    /// <returns>Whether a new plant can be spawned or not</returns>
+    public bool CanSpawnNewPlant()
+    {
+        // Remove any dead plants from the list
+        _spawnedPlants.RemoveAll(p => p.isDead);
+
+        return _spawnedPlants.Count < maxPlantsSpawned;
+    }
+    
+    /// <summary>
+    /// Registers a newly spawned plant to be known by the boss
+    /// </summary>
+    /// <param name="plant">The newly spawned plant</param>
+    public void AddPlantToSpawnList(GameObject plant)
+    {
+        EnemyStatsController plantStats = plant.GetComponent<EnemyStatsController>();
+        
+        if (plantStats)
+            _spawnedPlants.Add(plantStats);
+    }
+
+    /// <summary>
+    /// Kills all of the plants spawned by the Treant Boss
+    /// </summary>
+    public void KillAllSpawnedPlants()
+    {
+        foreach (EnemyStatsController plant in _spawnedPlants.Where(p => !p.isDead))
+        {
+            plant.Kill();
+        }
+        
+        _spawnedPlants.Clear();
     }
 
     /// <summary>

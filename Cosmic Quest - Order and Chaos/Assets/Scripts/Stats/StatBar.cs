@@ -94,16 +94,19 @@ public class StatBar : MonoBehaviour
     /// Update the fill amount of the health bar
     /// </summary>
     /// <param name="value">Current health value</param>
-    private void UpdateHealthValue(float value)
+    /// <param name="regenerated">Whether the changed was due to regeneration or not</param>
+    private void UpdateHealthValue(float value, bool regenerated = false)
     {
-        float prevAmount = healthBar.fillAmount;
-        healthBar.fillAmount = value / _healthStat.maxValue;
-        
         // If damage taken, make sure the health bar is shown
-        if (!alwaysShow && healthBar.fillAmount < prevAmount)
+        if (!alwaysShow && !regenerated)
         {
             _timer = timeout;
             Show();
+            healthBar.fillAmount = value / _healthStat.maxValue;
+        }
+        else if (alwaysShow)
+        {
+            healthBar.fillAmount = value / _healthStat.maxValue;
         }
     }
     
@@ -111,7 +114,8 @@ public class StatBar : MonoBehaviour
     /// Update the fill amount of the mana bar
     /// </summary>
     /// <param name="value">Current mana value</param>
-    private void UpdateManaValue(float value)
+    /// <param name="regenerated">Whether the changed was due to regeneration or not</param>
+    private void UpdateManaValue(float value, bool regenerated = false)
     {
         manaBar.fillAmount = value / _manaStat.maxValue;
     }

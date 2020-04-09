@@ -156,6 +156,15 @@ public class EnemyStatsController : EntityStatsController
     }
 
     /// <summary>
+    /// Instantly kills the enemy
+    /// </summary>
+    public void Kill()
+    {
+        // Handle any death activities
+        Die();
+    }
+
+    /// <summary>
     /// Kill the enemy
     /// </summary>
     protected override void Die()

@@ -23,8 +23,13 @@ public class TreantSeed : DamageProjectile
             // Possibly spawn a random plant
             if (Random.Range(0f, 1f) < spawnPlantProbability)
             {
-                GameObject plantPrefab = plantPrefabs[Random.Range(0, plantPrefabs.Count - 1)];
-                Instantiate(plantPrefab, new Vector3(transform.position.x, 0, transform.position.z), Quaternion.identity);
+                TreantBossCombatController treatCombat = LauncherStats.GetComponent<TreantBossCombatController>();
+                if (treatCombat && treatCombat.CanSpawnNewPlant())
+                {
+                    GameObject plantPrefab = plantPrefabs[Random.Range(0, plantPrefabs.Count - 1)];
+                    GameObject plant = Instantiate(plantPrefab, new Vector3(transform.position.x, 0, transform.position.z), Quaternion.identity);
+                    treatCombat.AddPlantToSpawnList(plant);
+                }
             }
             
             gameObject.SetActive(false);
