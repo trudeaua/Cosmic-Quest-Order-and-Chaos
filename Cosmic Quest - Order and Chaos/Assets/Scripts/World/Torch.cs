@@ -65,41 +65,28 @@ public class Torch : Interactable
 
      public override void SetMaterialColour(CharacterColour colour)
     {
-        Renderer renderer = GetComponent<Renderer>();
-        Material[] materials = new Material[1];
-        Material material = new Material(Shader.Find("Legacy Shaders/Particles/Additive"));
-        Texture texture;
-        Color tintColor;
-;       switch (colour) { 
+        Renderer renderer = GetComponentInChildren<Renderer>();
+        Material material;
+        switch (colour) { 
             case CharacterColour.Purple:
-                texture = purpleMaterial.GetTexture("_MainTex");
-                tintColor = purpleMaterial.GetColor("_TintColor");
+             		material = purpleMaterial;
                 break;
             case CharacterColour.Green:
-                texture = greenMaterial.GetTexture("_MainTex");
-                tintColor = greenMaterial.GetColor("_TintColor");
+            		material = greenMaterial;
                 break;
             case CharacterColour.Red:
-                texture = redMaterial.GetTexture("_MainTex");
-                tintColor = redMaterial.GetColor("_TintColor");
+            		material = redMaterial;
                 break;
             case CharacterColour.Yellow:
-                texture = yellowMaterial.GetTexture("_MainTex");
-                tintColor = yellowMaterial.GetColor("_TintColor");
+            		material = yellowMaterial;
                 break;
             default:
-                texture = defaultMaterial.GetTexture("_MainTex");
-                tintColor = defaultMaterial.GetColor("_TintColor");
+            		material = defaultMaterial;
                 break;
         }
-        material.SetTexture("_MainTex", texture);
-        material.SetColor("_TintColor", tintColor);
-        materials[0] = material;
-        renderer.materials = materials;
+        
+        renderer.material = material;
 
-        // Tint color turns to white if this isn't here
-        gameObject.SetActive(false);
-        gameObject.SetActive(true);
     }
 
 }
