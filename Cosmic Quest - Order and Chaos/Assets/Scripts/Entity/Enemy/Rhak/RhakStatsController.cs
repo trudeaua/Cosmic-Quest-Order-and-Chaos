@@ -58,4 +58,22 @@ public class RhakStatsController : EnemyStatsController
         // Remove the orb colour from the list of colours still required
         OrbsRequired.Remove(orbColour);
     }
+    
+    /// <summary>
+    /// Handles death activities for Rhak
+    /// </summary>
+    protected override void Die()
+    {
+        isDead = true;
+        Anim.SetTrigger("Die");
+    }
+
+    /// <summary>
+    /// Event function for Rhak's death
+    /// </summary>
+    public void RhakDeath()
+    {
+        onDeath.Invoke();
+        StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, entityDeathVocalSFX));
+    }
 }
