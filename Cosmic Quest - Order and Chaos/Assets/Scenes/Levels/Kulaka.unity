@@ -120,6 +120,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &6438814 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9092795395475728631, guid: b2682d4b201ae36408c0a465b0bdd4db,
+    type: 3}
+  m_PrefabInstance: {fileID: 1391741777}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &52313857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1475,6 +1481,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 277447458}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &473747804 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2685798253169061785, guid: 3881f7d424387634ebb750b9d860169a,
+    type: 3}
+  m_PrefabInstance: {fileID: 231650591}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &499446551
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1894,6 +1906,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1253266281}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &729136829 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9092795395475728631, guid: b2682d4b201ae36408c0a465b0bdd4db,
+    type: 3}
+  m_PrefabInstance: {fileID: 1598233398}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &745579567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2075,6 +2093,57 @@ PrefabInstance:
       propertyPath: m_Name
       value: LavaDialogueTask
       objectReference: {fileID: 0}
+    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
+        type: 3}
+      propertyPath: dialogue.onComplete.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
+        type: 3}
+      propertyPath: dialogue.sentences.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
+        type: 3}
+      propertyPath: dialogue.name
+      value: Leol
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
+        type: 3}
+      propertyPath: dialogue.onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
+        type: 3}
+      propertyPath: dialogue.onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
+        type: 3}
+      propertyPath: dialogue.onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1441294525}
+    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
+        type: 3}
+      propertyPath: dialogue.onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
+        type: 3}
+      propertyPath: dialogue.onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
+        type: 3}
+      propertyPath: dialogue.onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
+        type: 3}
+      propertyPath: dialogue.sentences.Array.data[0]
+      value: Be Wary! The lava rivers in this chaos void are still as hot as they
+        were before Kulaka's light was stolen...
+      objectReference: {fileID: 0}
     - target: {fileID: 4437435306902391311, guid: ec716927e312c244da3c82c4a7e39ab9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2140,57 +2209,6 @@ PrefabInstance:
       propertyPath: introDialogueTrigger
       value: 
       objectReference: {fileID: 2113168190}
-    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
-        type: 3}
-      propertyPath: dialogue.onComplete.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
-        type: 3}
-      propertyPath: dialogue.sentences.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
-        type: 3}
-      propertyPath: dialogue.name
-      value: Leol
-      objectReference: {fileID: 0}
-    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
-        type: 3}
-      propertyPath: dialogue.onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
-        type: 3}
-      propertyPath: dialogue.onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
-        type: 3}
-      propertyPath: dialogue.onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1441294525}
-    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
-        type: 3}
-      propertyPath: dialogue.onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
-        type: 3}
-      propertyPath: dialogue.onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
-        type: 3}
-      propertyPath: dialogue.onComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3887601642594761274, guid: ec716927e312c244da3c82c4a7e39ab9,
-        type: 3}
-      propertyPath: dialogue.sentences.Array.data[0]
-      value: Be Wary! The lava rivers in this chaos void are still as hot as they
-        were before Kulaka's light was stolen...
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec716927e312c244da3c82c4a7e39ab9, type: 3}
 --- !u!1001 &945143532
@@ -2467,6 +2485,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2685798253169061784, guid: 3881f7d424387634ebb750b9d860169a,
     type: 3}
   m_PrefabInstance: {fileID: 1883392801}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1096914507 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2685798253169061785, guid: 3881f7d424387634ebb750b9d860169a,
+    type: 3}
+  m_PrefabInstance: {fileID: 104976457}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1115055913
 PrefabInstance:
@@ -7371,6 +7395,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1808310797}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1247796831 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9092795395475728631, guid: b2682d4b201ae36408c0a465b0bdd4db,
+    type: 3}
+  m_PrefabInstance: {fileID: 1115245491}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1251015188 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1321211865, guid: 5ad3eebb0ee808646bf41ceb3338d388,
@@ -7957,6 +7987,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 119139064}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1418409089 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9092795395475728631, guid: b2682d4b201ae36408c0a465b0bdd4db,
+    type: 3}
+  m_PrefabInstance: {fileID: 1209269231}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1419896596 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9167914555847376949, guid: 1e27f2b4e9f3add4b8d743f3a6a19d0f,
@@ -8384,6 +8420,13 @@ MonoBehaviour:
   enemyPrefabs: []
   enemies:
   - {fileID: 1852844820}
+  - {fileID: 1736844801}
+  - {fileID: 1096914507}
+  - {fileID: 1418409089}
+  - {fileID: 1247796831}
+  - {fileID: 473747804}
+  - {fileID: 729136829}
+  - {fileID: 6438814}
 --- !u!4 &1612686048
 Transform:
   m_ObjectHideFlags: 0
@@ -8559,6 +8602,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3881f7d424387634ebb750b9d860169a, type: 3}
+--- !u!1 &1736844801 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2685798253169061785, guid: 3881f7d424387634ebb750b9d860169a,
+    type: 3}
+  m_PrefabInstance: {fileID: 394164725}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1763633213 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6319188133260411676, guid: 300926e8fb993a944894f2af08df80b7,
@@ -9232,7 +9281,7 @@ PrefabInstance:
     - target: {fileID: 3452966858472943330, guid: 5ada5cb459c910a49a019ebe4fc41835,
         type: 3}
       propertyPath: testPlayers.Array.size
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3452966858472943330, guid: 5ada5cb459c910a49a019ebe4fc41835,
         type: 3}
@@ -9242,7 +9291,7 @@ PrefabInstance:
     - target: {fileID: 3452966858472943330, guid: 5ada5cb459c910a49a019ebe4fc41835,
         type: 3}
       propertyPath: testPlayers.Array.data[0].combatClass
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3452966858472943330, guid: 5ada5cb459c910a49a019ebe4fc41835,
         type: 3}
