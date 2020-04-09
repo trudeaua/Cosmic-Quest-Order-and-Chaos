@@ -15,10 +15,6 @@ public class Puzzle : MonoBehaviour, ISerializable
     protected virtual void Start()
     {
         playerColours = PlayerManager.Instance.CurrentPlayerColours;
-        for (int i = 0; i < playerColours.Length; i++)
-        {
-            Debug.Log(playerColours[i]);
-        }
     }
 
     /// <summary>
