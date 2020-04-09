@@ -60,8 +60,9 @@ public class EnemyStatsController : EntityStatsController
             StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0),
                 Quaternion.identity, PlayerManager.colours.GetColour(characterColour), 0.5f));
             // "Spawn" the enemy (they float up through the stage)
-            StartCoroutine(Spawn(gameObject, spawnSpeed, spawnDelay, spawnCooldown));
+            //StartCoroutine(Spawn(gameObject, spawnSpeed, spawnDelay, spawnCooldown));
         }
+        Anim.SetTrigger("Spawn");
     }
 
     protected override void Update()
