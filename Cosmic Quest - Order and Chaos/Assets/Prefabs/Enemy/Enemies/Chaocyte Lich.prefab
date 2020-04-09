@@ -221,8 +221,8 @@ MonoBehaviour:
     loopThreshold: 0
   secondaryAttackCooldown: 1
   secondaryAttackRadius: 8
-  secondaryAttackMinDamage: 100
-  secondaryAttackMaxDamage: 120
+  secondaryAttackMinDamage: 120
+  secondaryAttackMaxDamage: 140
   secondaryAttackVFX: {fileID: 1634767862067424, guid: 73f960c3d84f6194c9437a721da34230,
     type: 3}
   secondaryAttackVFXRoot: {fileID: 7592555171831880627}
@@ -1305,6 +1305,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4074194950858497396}
     m_Modifications:
+    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyBars
+      objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1409,11 +1414,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyBars
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ede0b1d774556b14c96fc9892ebd7909, type: 3}

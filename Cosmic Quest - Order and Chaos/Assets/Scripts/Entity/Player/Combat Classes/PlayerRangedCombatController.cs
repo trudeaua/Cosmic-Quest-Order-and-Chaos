@@ -33,6 +33,10 @@ public class PlayerRangedCombatController : PlayerCombatController
     [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackChargeWeaponSFX;
     [Tooltip("Weapon audio effect for primary attack release")]
     [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackReleaseWeaponSFX;
+    [Tooltip("Visual effect for primary attack")]
+    public GameObject sparkleVFX;
+    [Tooltip("Sound effect for primary attack")]
+    [SerializeField] protected AudioHelper.EntityAudioClip sparkleSFX;
 
     [Header("Secondary Attack")]
     [Tooltip("The trap prefab for the secondary attack")]
@@ -49,6 +53,7 @@ public class PlayerRangedCombatController : PlayerCombatController
 
     private bool _isPrimaryCharging;
     private float _primaryChargeTime;
+    private bool _sparkleShown = false;
 
     protected override void Update()
     {
@@ -58,8 +63,13 @@ public class PlayerRangedCombatController : PlayerCombatController
         if (_isPrimaryCharging)
         {
             _primaryChargeTime += Time.deltaTime;
-            if (_primaryChargeTime > primaryAttackChargeTime)
+            if (_primaryChargeTime >= primaryAttackChargeTime)
             {
+                if (!_sparkleShown) {
+                    StartCoroutine(VfxHelper.CreateVFX(sparkleVFX, transform.position + transform.forward * 1.6f + new Vector3(0, 2f, 0), transform.rotation));
+                    StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, sparkleSFX));
+                    _sparkleShown = true;
+                }
                 // Clamp to max charge time
                 _primaryChargeTime = primaryAttackChargeTime;
             }
@@ -178,7 +188,8 @@ public class PlayerRangedCombatController : PlayerCombatController
     {
         _isPrimaryCharging = false;
         Anim.SetBool("PrimaryAttack", false);
-        AudioHelper.StopAudio(WeaponAudio);
+        if (!_sparkleShown) AudioHelper.StopAudio(WeaponAudio);
+        _sparkleShown = false;
         StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackReleaseWeaponSFX));
         Motor.ResetMovementModifier();
         PrimaryAttack();

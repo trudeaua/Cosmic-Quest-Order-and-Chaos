@@ -2278,7 +2278,7 @@ MonoBehaviour:
   primaryAttackMinDamage: 4
   primaryAttackMaxDamage: 6
   primaryAttackRange: 13.5
-  primaryAttackChargeTime: 0.9
+  primaryAttackChargeTime: 2.5
   primaryAttackMinLaunchForce: 100
   primaryAttackMaxLaunchForce: 400
   primaryAttackLaunchDelay: 0.2
@@ -2287,21 +2287,39 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
+      value: 0.10293579
+      inSlope: 4.488641
+      outSlope: 4.488641
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.19993111
+      value: 1.0003548
+      inSlope: 0.00848556
+      outSlope: 0.00848556
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.38953614
+    - serializedVersion: 3
+      time: 0.99
+      value: 1
+      inSlope: 0.0062887543
+      outSlope: 0.0062887543
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
+      value: 1.6
+      inSlope: 60.00006
+      outSlope: 60.00006
       tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -2312,7 +2330,7 @@ MonoBehaviour:
     type: 3}
   primaryAttackChargeWeaponSFX:
     pitch: 1
-    volume: 0.6
+    volume: 0.5
     clip: {fileID: 8300000, guid: b2dbb21421afa13498013b7c0e627ca2, type: 3}
     type: 0
     delay: 0
@@ -2323,6 +2341,17 @@ MonoBehaviour:
     pitch: 1
     volume: 0.5
     clip: {fileID: 8300000, guid: d35d8c8e1719fdb4cb2b3d2b74445d05, type: 3}
+    type: 0
+    delay: 0
+    loop: 0
+    loopLength: 0
+    loopThreshold: 0
+  sparkleVFX: {fileID: 2140745781474391044, guid: b5cff73eda183694fa38bab2b3152506,
+    type: 3}
+  sparkleSFX:
+    pitch: 1
+    volume: 0.8
+    clip: {fileID: 8300000, guid: e6605ac622e65ba47af7a998096b8e3c, type: 3}
     type: 0
     delay: 0
     loop: 0
