@@ -91,7 +91,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   damage:
-    baseValue: 10
+    baseValue: 5
   defense:
     baseValue: 0
   characterColour: 0
@@ -178,8 +178,8 @@ MonoBehaviour:
   meleeAttackCooldown: 2.5
   meleeAttackRadius: 5
   meleeAttackAngle: 45
-  meleeAttackMinDamage: 10
-  meleeAttackMaxDamage: 12
+  meleeAttackMinDamage: 12
+  meleeAttackMaxDamage: 15
   meleeAttackSFX:
     pitch: 0
     volume: 0
@@ -192,9 +192,10 @@ MonoBehaviour:
   hasRangedAttack: 1
   rangedMultiAttack: 0
   rangedAttackCooldown: 1
-  rangedAttackMinDamage: 4
-  rangedAttackMaxDamage: 5
-  rangedAttackRange: 500
+  rangedAttackMinDamage: 8
+  rangedAttackMaxDamage: 10
+  rangedAttackRange: 20
+  rangedAttackLaunchForce: 500
   rangedMultiAttackCount: 4
   rangedAttackProjectile: {fileID: 3220180553990204031, guid: 60bb997f542d06e41bc9a26870a4c550,
     type: 3}

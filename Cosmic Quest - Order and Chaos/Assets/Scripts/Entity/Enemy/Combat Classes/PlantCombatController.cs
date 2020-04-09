@@ -18,7 +18,8 @@ public class PlantCombatController : EnemyCombatController
     public float rangedAttackCooldown = 1f;
     public float rangedAttackMinDamage = 1f;
     public float rangedAttackMaxDamage = 4f;
-    public float rangedAttackRange = 500f;
+    public float rangedAttackRange = 20f;
+    public float rangedAttackLaunchForce = 500f;
     public int rangedMultiAttackCount = 4;
     public GameObject rangedAttackProjectile;
     [SerializeField] protected AudioHelper.EntityAudioClip rangedAttackSFX;
@@ -56,14 +57,17 @@ public class PlantCombatController : EnemyCombatController
         // Launch projectile to target player
         float damageValue = Random.Range(rangedAttackMinDamage, rangedAttackMaxDamage) + Stats.damage.GetValue();
         Vector3 targetDirection = target.position - transform.position;
-        LaunchDamageProjectile(rangedAttackProjectile, targetDirection, rangedAttackRange, 20f, damageValue, "Player");
         if (rangedMultiAttack)
         {
             float angleIncrement = 360f / rangedMultiAttackCount;
             for (int i = 0; i < rangedMultiAttackCount; i++)
             {
-                LaunchDamageProjectile(rangedAttackProjectile, Quaternion.AngleAxis(angleIncrement * i, Vector3.up) * targetDirection, rangedAttackRange, 20f, damageValue, "Player");
+                LaunchDamageProjectile(rangedAttackProjectile, Quaternion.AngleAxis(angleIncrement * i, Vector3.up) * targetDirection, rangedAttackLaunchForce, rangedAttackRange, damageValue, "Player");
             }
+        }
+        else 
+        {
+            LaunchDamageProjectile(rangedAttackProjectile, targetDirection, rangedAttackLaunchForce, rangedAttackRange, damageValue, "Player");
         }
         
     }
