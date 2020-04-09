@@ -6,11 +6,6 @@ public class LeverPuzzle : Puzzle
 {
     [Tooltip("List of levers involved with this puzzle")]
     public Lever[] levers;
-    
-    /// <summary>
-    /// List of colours required
-    /// </summary>
-    [SerializeField] protected CharacterColour[] requiredColours;
 
     /// <summary>
     /// Buffer for received colours

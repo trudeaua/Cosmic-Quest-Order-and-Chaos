@@ -6,8 +6,6 @@ using UnityEngine.Events;
 public class Puzzle : MonoBehaviour, ISerializable
 {
     public UnityEvent onCompletion;
-    public UnityEvent onReset;
-    protected CharacterColour puzzleColour = CharacterColour.None;
     protected CharacterColour[] playerColours;
 
     public bool isComplete { get; private set; }
@@ -26,15 +24,6 @@ public class Puzzle : MonoBehaviour, ISerializable
         
         // Invoke any event functions
         onCompletion?.Invoke();
-    }
-
-    /// <summary>
-    /// Set the colour of the puzzle
-    /// </summary>
-    /// <param name="colour">Colour that the puzzle's elements should be</param>
-    public void SetPuzzleColour(CharacterColour colour)
-    {
-        puzzleColour = colour;
     }
 
     /// <summary>
