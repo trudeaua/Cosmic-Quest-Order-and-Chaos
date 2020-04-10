@@ -7,7 +7,7 @@ public class InvincibleEnemyPuzzle : EnemyPuzzle
     private int invincibleDefense = 100;
     private int defaultDefense = 1;
 
-    private void Start()
+    protected override void Start()
     {
         numEnemiesDead = 0;
         numEnemies = enemyPrefabs.Length;
