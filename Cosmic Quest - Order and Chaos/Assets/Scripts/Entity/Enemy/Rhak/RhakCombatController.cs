@@ -147,6 +147,7 @@ public class RhakCombatController : EnemyCombatController
             if (_currentVelocity > 0)
             {
                 transform.position += direction * _currentVelocity;
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), 6f * Time.fixedDeltaTime);
 
                 if (!havePassedTarget && (transform.position - _chargeTarget).sqrMagnitude <= _currentVelocity * _currentVelocity)
                 {
