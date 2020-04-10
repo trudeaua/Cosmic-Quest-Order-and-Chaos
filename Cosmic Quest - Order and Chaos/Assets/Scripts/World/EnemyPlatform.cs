@@ -9,7 +9,7 @@ public class EnemyPlatform : Platform
     {
         if (!_isActivated && other.CompareTag("Enemy") && other.GetComponent<EnemyStatsController>().characterColour == colour)
         {
-            _anim.SetTrigger("PlatformActivated");
+            _anim.SetBool("PlatformActivated", true);
 
             _audio.PlayDelayed(0);
             _isActivated = true;

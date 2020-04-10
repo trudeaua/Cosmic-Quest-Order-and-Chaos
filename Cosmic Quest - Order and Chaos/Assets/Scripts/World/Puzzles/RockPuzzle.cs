@@ -11,12 +11,12 @@ public class RockPuzzle : Puzzle
     /// <summary>
     /// Current number of activated platforms
     /// </summary>
-    private int numActivated;
+    protected int numActivated;
     
     /// <summary>
     /// Number of platforms required to be activated
     /// </summary>
-    private int requiredNumActivations;
+    protected int requiredNumActivations;
     
     protected virtual void Awake()
     {

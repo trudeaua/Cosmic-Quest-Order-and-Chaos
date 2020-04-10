@@ -47,7 +47,7 @@ public class Platform : MonoBehaviour
     {
         if (!_isActivated && other.CompareTag("Rock") && other.GetComponent<Interactable>().colour == colour)
         {
-            _anim.SetTrigger("PlatformActivated");
+            _anim.SetBool("PlatformActivated", true);
 
             _audio.PlayDelayed(0);
             _isActivated = true;
@@ -60,9 +60,11 @@ public class Platform : MonoBehaviour
     {
         if (_isActivated && other.CompareTag("Rock") && other.GetComponent<Interactable>().colour == colour)
         {
+            _anim.SetBool("PlatformActivated", false);
+
             _anim.enabled = true;
             _isActivated = false;
-            
+               
             onActivation?.Invoke(false);
         }
     }
