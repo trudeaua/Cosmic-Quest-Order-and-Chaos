@@ -628,6 +628,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!65 &7373837178361070793
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8337127725775014206}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 3.8, z: 2}
+  m_Center: {x: 0, y: 1.9, z: 0}
 --- !u!54 &5887437789540995832
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -644,19 +657,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!65 &7373837178361070793
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8337127725775014206}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 3.8, z: 2}
-  m_Center: {x: 0, y: 1.9, z: 0}
 --- !u!114 &5573741756012928118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,16 +671,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invincible: 0
   health:
-    maxValue: 20
+    maxValue: 35
     minValue: 0
-    regenAmount: 0
+    regenAmount: 1
   onDeath:
     m_PersistentCalls:
       m_Calls: []
   damage:
     baseValue: 5
   defense:
-    baseValue: 0
+    baseValue: 1
   characterColour: 0
   shouldSpawn: 0
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
@@ -709,7 +709,7 @@ MonoBehaviour:
     type: 3}
   EnemyColouring:
     Green: {fileID: 2100000, guid: dee6f4b1d1c123647a33b6cf4c2e081b, type: 2}
-    Purple: {fileID: 2100000, guid: 4412705d166c69148b80a8c9b988eb6c, type: 2}
+    Blue: {fileID: 2100000, guid: 4412705d166c69148b80a8c9b988eb6c, type: 2}
     Red: {fileID: 2100000, guid: a55a63008b5637044891554f951836a5, type: 2}
     Yellow: {fileID: 2100000, guid: 7c6e1cf4f55bac645a9d18a29bb20b6b, type: 2}
     Default: {fileID: 2100000, guid: 1b1e20124bba0c64687e7611aa6cdfb7, type: 2}
@@ -729,8 +729,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetStrategy: 0
-  aggroRadius: 10
-  attackRadius: 4
+  aggroRadius: 16
+  attackRadius: 5
   decisionDelay: 0.5
   alwaysHaveTarget: 0
 --- !u!114 &1791537986465276909
@@ -767,10 +767,10 @@ MonoBehaviour:
   specialAttackPeriod: 0
   hasMeleeAttack: 1
   meleeAttackCooldown: 1
-  meleeAttackRadius: 4
+  meleeAttackRadius: 5
   meleeAttackAngle: 45
-  meleeAttackMinDamage: 1
-  meleeAttackMaxDamage: 4
+  meleeAttackMinDamage: 8
+  meleeAttackMaxDamage: 10
   meleeAttackSFX:
     pitch: 0
     volume: 0
@@ -780,11 +780,16 @@ MonoBehaviour:
     loop: 0
     loopLength: 0
     loopThreshold: 0
-  hasRangedAttack: 0
-  rangedAttackCooldown: 1
-  rangedAttackMinDamage: 1
-  rangedAttackMaxDamage: 4
-  rangedAttackProjectile: {fileID: 0}
+  hasRangedAttack: 1
+  rangedMultiAttack: 1
+  rangedAttackCooldown: 2
+  rangedAttackMinDamage: 5
+  rangedAttackMaxDamage: 7
+  rangedAttackRange: 20
+  rangedAttackLaunchForce: 500
+  rangedMultiAttackCount: 8
+  rangedAttackProjectile: {fileID: 3220180553990204031, guid: 60bb997f542d06e41bc9a26870a4c550,
+    type: 3}
   rangedAttackSFX:
     pitch: 0
     volume: 0
@@ -1034,7 +1039,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 66ac5269d02065f4e91abd27abcccab0, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1

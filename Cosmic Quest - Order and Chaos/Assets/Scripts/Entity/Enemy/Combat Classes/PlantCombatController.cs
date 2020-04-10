@@ -14,9 +14,13 @@ public class PlantCombatController : EnemyCombatController
 
     [Header("Ranged Attack")]
     public bool hasRangedAttack = false;
+    public bool rangedMultiAttack = false;
     public float rangedAttackCooldown = 1f;
     public float rangedAttackMinDamage = 1f;
     public float rangedAttackMaxDamage = 4f;
+    public float rangedAttackRange = 20f;
+    public float rangedAttackLaunchForce = 500f;
+    public int rangedMultiAttackCount = 4;
     public GameObject rangedAttackProjectile;
     [SerializeField] protected AudioHelper.EntityAudioClip rangedAttackSFX;
     
@@ -46,13 +50,26 @@ public class PlantCombatController : EnemyCombatController
 
         if (target is null)
             return;
-        
+
         // Play attack audio
         StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, rangedAttackSFX));
-        
+
         // Launch projectile to target player
         float damageValue = Random.Range(rangedAttackMinDamage, rangedAttackMaxDamage) + Stats.damage.GetValue();
-        LaunchDamageProjectile(rangedAttackProjectile, target.position - transform.position, 500f, 20f, damageValue, "Player");
+
+        Vector3 targetDirection = target.position - transform.position;
+        if (rangedMultiAttack)
+        {
+            float angleIncrement = 360f / rangedMultiAttackCount;
+            for (int i = 0; i < rangedMultiAttackCount; i++)
+            {
+                LaunchDamageProjectile(rangedAttackProjectile, Quaternion.AngleAxis(angleIncrement * i, Vector3.up) * targetDirection, rangedAttackLaunchForce, rangedAttackRange, damageValue, "Player");
+            }
+        }
+        else 
+        {
+            LaunchDamageProjectile(rangedAttackProjectile, targetDirection, rangedAttackLaunchForce, rangedAttackRange, damageValue, "Player");
+        }
     }
 
     /// <summary>

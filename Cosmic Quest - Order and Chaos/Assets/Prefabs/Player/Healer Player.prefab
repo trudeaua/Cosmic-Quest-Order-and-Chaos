@@ -576,6 +576,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &749148863823978126
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749148863823978120}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 3.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.9, z: 0}
 --- !u!54 &749148863823978127
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -592,20 +606,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!136 &749148863823978126
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 749148863823978120}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 3.8
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.9, z: 0}
 --- !u!114 &749148863823978124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,14 +702,14 @@ MonoBehaviour:
   health:
     maxValue: 100
     minValue: 0
-    regenAmount: 1
+    regenAmount: 2
   onDeath:
     m_PersistentCalls:
       m_Calls: []
   damage:
     baseValue: 1
   defense:
-    baseValue: 3
+    baseValue: 2
   characterColour: 0
   shouldSpawn: 1
   spawnVFX: {fileID: 1364001699829724, guid: 195f241c7199494489230d1da1025994, type: 3}
@@ -723,6 +723,8 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 1.2
     volume: 0.5
@@ -730,10 +732,12 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   mana:
-    maxValue: 100
+    maxValue: 110
     minValue: 0
-    regenAmount: 15
+    regenAmount: 25
   respawnBeaconPrefab: {fileID: 5332417463244100679, guid: 839e76de723905d4cbf20b613b122332,
     type: 3}
   playerRespawningSFX:
@@ -743,6 +747,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   playerRespawnedSFX:
     pitch: 1.3
     volume: 1
@@ -750,6 +756,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   statBars: {fileID: 1669494066074108555}
 --- !u!114 &749148863823978123
 MonoBehaviour:
@@ -770,6 +778,8 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 1.2
     volume: 0.5
@@ -777,15 +787,17 @@ MonoBehaviour:
     type: 1
     delay: 0
     loop: 0
-  primaryAttackTimeout: 1.2
+    loopLength: 0
+    loopThreshold: 0
+  primaryAttackTimeout: 1.1
   secondaryAttackTimeout: 0.3
-  primaryAttackMinDamage: 3
-  primaryAttackMaxDamage: 6
+  primaryAttackMinDamage: 5
+  primaryAttackMaxDamage: 7
   primaryAttackRadius: 6
   primaryAttackSweepAngle: 100
   primaryAttackDamageDelay: 0.6
-  primaryAttackManaDepletion: 32
-  primaryAttackMovementModifier: 0.4
+  primaryAttackManaDepletion: 55
+  primaryAttackMovementModifier: 0.5
   primaryAttackWeaponSFX:
     pitch: 1
     volume: 0.5
@@ -793,14 +805,16 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
-  secondaryAttackMinDamage: 5
+    loopLength: 0
+    loopThreshold: 0
+  secondaryAttackMinDamage: 6
   secondaryAttackMaxDamage: 8
-  secondaryAttackMinHealing: 8
-  secondaryAttackMaxHealing: 12
-  secondaryAttackLaunchForce: 450
+  secondaryAttackMinHealing: 6
+  secondaryAttackMaxHealing: 8
+  secondaryAttackLaunchForce: 400
   secondaryAttackRange: 14
   secondaryAttackLaunchDelay: 0.2
-  secondaryAttackManaDepletion: 60
+  secondaryAttackManaDepletion: 110
   secondaryAttackMovementModifier: 0.6
   projectilePrefab: {fileID: 9070515875191536467, guid: 89cf1e6c9119eae40a90576421de14d2,
     type: 3}
@@ -811,6 +825,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
 --- !u!82 &432121220
 AudioSource:
   m_ObjectHideFlags: 0

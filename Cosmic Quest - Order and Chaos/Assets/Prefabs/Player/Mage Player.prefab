@@ -2364,7 +2364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 116f94a827a74833caa507f307ad8489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxVelocity: 6
+  maxVelocity: 5.5
   maxAcceleration: 20
   rotationSpeed: 10
 --- !u!114 &6975488913218141092
@@ -2396,7 +2396,7 @@ MonoBehaviour:
   health:
     maxValue: 100
     minValue: 0
-    regenAmount: 1
+    regenAmount: 2
   onDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -2431,7 +2431,7 @@ MonoBehaviour:
   mana:
     maxValue: 100
     minValue: 0
-    regenAmount: 18
+    regenAmount: 25
   respawnBeaconPrefab: {fileID: 5332417463244100679, guid: 839e76de723905d4cbf20b613b122332,
     type: 3}
   playerRespawningSFX:
@@ -2486,11 +2486,11 @@ MonoBehaviour:
   primaryAttackTimeout: 0.5
   secondaryAttackTimeout: 0.8
   primaryAttackMinDamage: 3
-  primaryAttackMaxDamage: 7
-  primaryAttackRadius: 7
-  primaryAttackSweepAngle: 60
-  primaryAttackManaDepletion: 20
-  primaryAttackMovementModifier: 0.45
+  primaryAttackMaxDamage: 6
+  primaryAttackRadius: 7.5
+  primaryAttackSweepAngle: 75
+  primaryAttackManaDepletion: 18
+  primaryAttackMovementModifier: 0.4
   primaryVFX: {fileID: 1634767862067424, guid: 73f960c3d84f6194c9437a721da34230, type: 3}
   primaryAttackWeaponSFX:
     pitch: 1
@@ -2501,13 +2501,13 @@ MonoBehaviour:
     loop: 1
     loopLength: 0
     loopThreshold: 0
-  secondaryAttackMaxDamage: 10
-  secondaryAttackStunTime: 2.2
+  secondaryAttackMaxDamage: 8
+  secondaryAttackStunTime: 1.2
   secondaryAttackRadius: 7
-  secondaryAttackExplosionForce: 500
+  secondaryAttackExplosionForce: 300
   secondaryAttackDamageDelay: 0.6
-  secondaryAttackManaDepletion: 65
-  secondaryAttackMovementModifier: 0.5
+  secondaryAttackManaDepletion: 100
+  secondaryAttackMovementModifier: 0.05
   secondaryVFX: {fileID: 1426469549788950, guid: b97b870115dcffa43910a02a013598ad,
     type: 3}
   secondaryAttackWeaponSFX:

@@ -1691,10 +1691,10 @@ MonoBehaviour:
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
   EnemyColouring:
-    Green: {fileID: 0}
-    Purple: {fileID: 0}
-    Red: {fileID: 0}
-    Yellow: {fileID: 0}
+    Green: {fileID: 2100000, guid: b283af2c1588cc34286bbb520e736c64, type: 2}
+    Blue: {fileID: 2100000, guid: fbdd7053de2b09540bd45f791b62f92c, type: 2}
+    Red: {fileID: 2100000, guid: a417e836338fdfa4488d2bd8e9684ce7, type: 2}
+    Yellow: {fileID: 2100000, guid: 9639ad617de0a11498887b4cabe5714e, type: 2}
     Default: {fileID: 0}
   rotateColouring: 0
   minTimeBetweenColourChanges: 7
@@ -1995,11 +1995,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9167914555847376945}
     m_Modifications:
-    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyBars
-      objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2104,6 +2099,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyBars
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ede0b1d774556b14c96fc9892ebd7909, type: 3}

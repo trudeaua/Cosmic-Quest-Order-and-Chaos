@@ -13,9 +13,11 @@ public class LeverPuzzle : Puzzle
     protected List<CharacterColour> Received;
 
     protected override void Start()
-    {
+    {      
         base.Start();
+
         Received = new List<CharacterColour>();
+
         foreach (Lever lever in levers)
         {
             // Subscribe to lever activation events

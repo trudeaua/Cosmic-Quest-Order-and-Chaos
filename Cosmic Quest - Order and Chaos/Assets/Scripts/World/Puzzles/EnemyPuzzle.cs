@@ -21,15 +21,14 @@ public class EnemyPuzzle : Puzzle
     [Tooltip("Prefab objects of an enemies to instantiate in the puzzle")]
     public GameObject[] enemyPrefabs;
 
-    private int numEnemies;
-    private int numEnemiesDead;
-    private CharacterColour puzzleColour = CharacterColour.None;
+    protected int numEnemies;
+    protected int numEnemiesDead;
     private List<GameObject> loadedEnemies = new List<GameObject>();
 
     /// <summary>
     /// Set up the puzzle
     /// </summary>
-    private void Setup()
+    protected virtual void Setup()
     {
         loadedEnemies.Clear();
         numEnemiesDead = 0;
@@ -79,7 +78,7 @@ public class EnemyPuzzle : Puzzle
     /// <summary>
     /// Callback for when an enemy dies
     /// </summary>
-    private void EnemyDied()
+    protected void EnemyDied()
     {
         numEnemiesDead += 1;
         // all dead

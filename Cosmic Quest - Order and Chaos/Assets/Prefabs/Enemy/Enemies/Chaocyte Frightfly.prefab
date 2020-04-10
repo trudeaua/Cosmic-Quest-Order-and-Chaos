@@ -236,7 +236,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2684353044602689192}
-  m_LocalRotation: {x: -0.11134438, y: -0.55367404, z: -0.6256104, w: 0.5382}
+  m_LocalRotation: {x: -0.11134437, y: -0.55367404, z: -0.62561035, w: 0.5382}
   m_LocalPosition: {x: 0.42553347, y: 1.7183726, z: -0.12881948}
   m_LocalScale: {x: 1.0000001, y: 1.0000002, z: 0.99999976}
   m_Children: []
@@ -847,7 +847,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2684504913448043466}
-  m_LocalRotation: {x: 0.095094144, y: 0.09847217, z: -0.3970314, w: 0.90753865}
+  m_LocalRotation: {x: 0.09509415, y: 0.09847217, z: -0.39703143, w: 0.90753865}
   m_LocalPosition: {x: -0.14539497, y: -0.0000010681152, z: -0.000000076293944}
   m_LocalScale: {x: 0.9999927, y: 1.000007, z: 1.0000002}
   m_Children:
@@ -1706,7 +1706,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2685098759892580218}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2689977241120887758}
@@ -2039,6 +2039,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!65 &1012034089
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685798253169061785}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 3, z: 1.5}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!54 &1012034090
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2055,19 +2068,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
---- !u!65 &1012034089
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2685798253169061785}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.5, y: 3, z: 1.5}
-  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!114 &1012034098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2082,14 +2082,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invincible: 0
   health:
-    maxValue: 20
+    maxValue: 25
     minValue: 0
     regenAmount: 0
   onDeath:
     m_PersistentCalls:
       m_Calls: []
   damage:
-    baseValue: 4
+    baseValue: 5
   defense:
     baseValue: 1
   characterColour: 0
@@ -2120,7 +2120,7 @@ MonoBehaviour:
     type: 3}
   EnemyColouring:
     Green: {fileID: 2100000, guid: af5bb31e945e60548aa341e9323956c9, type: 2}
-    Purple: {fileID: 2100000, guid: f6a2d841d371f28449838d70c41db47f, type: 2}
+    Blue: {fileID: 2100000, guid: f6a2d841d371f28449838d70c41db47f, type: 2}
     Red: {fileID: 2100000, guid: 8f6cd705dc6cefa43bfa244cdf7cf028, type: 2}
     Yellow: {fileID: 2100000, guid: d6156e1d54c7c994fb75214711b000c1, type: 2}
     Default: {fileID: 2100000, guid: 038bb926cc2feb54ab44c8cb11e309b4, type: 2}
@@ -2140,7 +2140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetStrategy: 0
-  aggroRadius: 10
+  aggroRadius: 15
   attackRadius: 3
   decisionDelay: 0.5
   alwaysHaveTarget: 0
@@ -2179,8 +2179,8 @@ MonoBehaviour:
   primaryAttackCooldown: 1
   primaryAttackRadius: 4
   primaryAttackAngle: 45
-  primaryAttackMinDamage: 1
-  primaryAttackMaxDamage: 4
+  primaryAttackMinDamage: 3
+  primaryAttackMaxDamage: 5
   primaryAttackProbability: 0.7
   primaryAttackSFX:
     pitch: 0
@@ -2228,7 +2228,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -334000983
   m_Radius: 0.75
-  m_Speed: 5
+  m_Speed: 7
   m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 300
@@ -2445,7 +2445,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 876531f190f5aaa4cbde4f4230ab0402, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -2898,7 +2898,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2685921519320284908}
-  m_LocalRotation: {x: 0.55665755, y: 0.34860075, z: 0.7271636, w: 0.19960746}
+  m_LocalRotation: {x: 0.5566575, y: 0.34860072, z: 0.72716355, w: 0.19960743}
   m_LocalPosition: {x: -0.0017921537, y: 1.2399777, z: 0.023792436}
   m_LocalScale: {x: 0.99999994, y: 1, z: 0.99999994}
   m_Children: []

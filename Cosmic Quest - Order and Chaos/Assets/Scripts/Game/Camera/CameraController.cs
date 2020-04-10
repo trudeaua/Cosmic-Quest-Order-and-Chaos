@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
     public int deadBoundary = 50;
 
     private Camera _camera;
-    private float _playerHeight;
+    private float _playerHeight = 1.9f;
     private float _invTanOfView;
     private float _zOffset;
     private Vector3 _target;
@@ -21,11 +21,6 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        if (PlayerManager.Instance.Players.Count > 0)
-            _playerHeight = PlayerManager.Instance.Players[0].GetComponent<CapsuleCollider>().height / 2f;
-        else
-            _playerHeight = 1f;
-
         // Calculate the Z offset based on the current camera angle and height
         if (Mathf.Approximately(transform.rotation.eulerAngles.x, 90f))
         {
@@ -39,10 +34,6 @@ public class CameraController : MonoBehaviour
             _invTanOfView = 1 / Mathf.Tan(transform.rotation.eulerAngles.x * Mathf.Deg2Rad);
             _zOffset = (transform.position.y - _playerHeight) * _invTanOfView;
         }
-
-        // Set the initial camera target and move the camera to it
-        _target = FindPlayersCenter();
-        transform.position = new Vector3(_target.x, transform.position.y, _target.z - _zOffset);
     }
 
     private void FixedUpdate()

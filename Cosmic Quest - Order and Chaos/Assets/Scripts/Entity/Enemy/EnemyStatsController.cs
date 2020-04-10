@@ -7,7 +7,7 @@ using UnityEngine.AI;
 [System.Serializable]
 public class EnemyColouring {
     public Material Green;
-    public Material Purple;
+    public Material Blue;
     public Material Red;
     public Material Yellow;
     public Material Default;
@@ -59,8 +59,9 @@ public class EnemyStatsController : EntityStatsController
             StartCoroutine(VfxHelper.CreateVFX(spawnVFX, transform.position + new Vector3(0, 0.01f, 0),
                 Quaternion.identity, PlayerManager.colours.GetColour(characterColour), 0.5f));
             // "Spawn" the enemy (they float up through the stage)
-            StartCoroutine(Spawn(gameObject, spawnSpeed, spawnDelay, spawnCooldown));
+            //StartCoroutine(Spawn(gameObject, spawnSpeed, spawnDelay, spawnCooldown));
         }
+        Anim.SetTrigger("Spawn");
     }
 
     protected override void Update()
@@ -205,7 +206,7 @@ public class EnemyStatsController : EntityStatsController
     /// Set the texture and highlight materials for the enemy based on a character colour
     /// </summary>
     /// <param name="colour">Character colour to base colour assignment decision on</param>
-    private void AssignEnemyColour(CharacterColour colour)
+    public void AssignEnemyColour(CharacterColour colour)
     {
         characterColour = colour;
         SkinnedMeshRenderer skin = GetComponentInChildren<SkinnedMeshRenderer>();
@@ -221,8 +222,8 @@ public class EnemyStatsController : EntityStatsController
             case CharacterColour.Green:
                 skinMaterial = EnemyColouring.Green;
                 break;
-            case CharacterColour.Purple:
-                skinMaterial = EnemyColouring.Purple;
+            case CharacterColour.Blue:
+                skinMaterial = EnemyColouring.Blue;
                 break;
             default:
                 skinMaterial = EnemyColouring.Default;
