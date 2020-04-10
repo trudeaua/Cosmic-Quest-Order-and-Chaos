@@ -29,8 +29,9 @@ public class MagmaRain : MonoBehaviour
             GameObject ball = ObjectPooler.Instance.GetPooledObject(magmaBall);
             if (ball)
             {
-                Vector2 pos = Random.insideUnitCircle * radius;
-                ball.transform.position = new Vector3(pos.x, 30f, pos.y);
+                Vector3 pos = transform.position;
+                Vector2 offset = Random.insideUnitCircle * radius;
+                ball.transform.position = new Vector3(pos.x + offset.x, 30f, pos.z + offset.y);
                 ball.SetActive(true);
             }
             
