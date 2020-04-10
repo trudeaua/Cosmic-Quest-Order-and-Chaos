@@ -8,7 +8,7 @@ public class Torch : Interactable
     // Delegate for when the torch is activated
     public delegate void OnInteract(bool isLit);
     public OnInteract onInteract;
-    [SerializeField] private Material purpleMaterial;
+    [SerializeField] private Material blueMaterial;
     [SerializeField] private Material greenMaterial;
     [SerializeField] private Material redMaterial;
     [SerializeField] private Material yellowMaterial;
@@ -69,7 +69,7 @@ public class Torch : Interactable
         Material material;
         switch (colour) { 
             case CharacterColour.Purple:
-             		material = purpleMaterial;
+             		material = blueMaterial;
                 break;
             case CharacterColour.Green:
             		material = greenMaterial;
