@@ -25,6 +25,19 @@ public class LeverEnemyTask : Task
         }
     }
 
+    protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playersInTaskArea += 1;
+            // once all players are in the task area, the task begins
+            if (playersInTaskArea == numPlayers && started == false)
+            {
+                PlayIntroDialogue();
+            }
+        }
+    }
+
     /// <summary>
     /// Unhide all platforms
     /// </summary>

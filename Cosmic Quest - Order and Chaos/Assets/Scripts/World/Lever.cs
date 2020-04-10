@@ -44,6 +44,7 @@ public class Lever : Interactable
 
             // Add lever colour to the code input
             //puzzle.AddColour(colour);
+            Debug.Log("StartInteract Lever: " + colour);
             onActivation?.Invoke(colour);
         }
     }

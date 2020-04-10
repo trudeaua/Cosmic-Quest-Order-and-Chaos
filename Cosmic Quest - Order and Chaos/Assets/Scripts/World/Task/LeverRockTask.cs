@@ -6,9 +6,10 @@ public class LeverRockTask : Task
 {
     protected override void Start()
     {   
+        doors = GetComponentsInChildren<Door>();
+        puzzles = GetComponents<Puzzle>();
         CombinationLeverPuzzle comboLeverPuzzle = GetComponent<CombinationLeverPuzzle>();
         RockPuzzle rockPuzzle = GetComponent<RockPuzzle>();
-        doors = GetComponentsInChildren<Door>();
 
         // Set and return a colour combination for levers
         CharacterColour[] combination = comboLeverPuzzle.SetColourCombination();
