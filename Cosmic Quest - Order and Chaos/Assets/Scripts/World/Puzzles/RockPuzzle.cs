@@ -5,15 +5,24 @@ public class RockPuzzle : Puzzle
     [Tooltip("Platforms in the puzzle")]
     public Platform[] platforms;
 
+    [Tooltip("Rocks in the puzzle")]
+    public Draggable[] rocks;
+
     /// <summary>
     /// Current number of activated platforms
     /// </summary>
-    private int numActivated;
+    protected int numActivated;
     
     /// <summary>
     /// Number of platforms required to be activated
     /// </summary>
-    private int requiredNumActivations;
+    protected int requiredNumActivations;
+    
+    protected virtual void Awake()
+    {
+        platforms = GetComponentsInChildren<Platform>();
+        rocks = GetComponentsInChildren<Draggable>();
+    }
 
     protected override void Start()
     {
@@ -30,13 +39,26 @@ public class RockPuzzle : Puzzle
                 requiredNumActivations -= 1;
             }
         }
+
+        // Randomize colours of interactables
+        if (platforms.Length == rocks.Length)
+        {
+            for (int i = 0; i < platforms.Length; i++)
+            {
+                CharacterColour colour = playerColours[Random.Range(0, playerColours.Length)];
+                platforms[i].colour = colour;
+                rocks[i].colour = colour;
+                platforms[i].SetMaterial(colour);
+                rocks[i].SetMaterialColour(colour);
+            }
+        }
     }
 
     /// <summary>
     /// Updates the number of activated platforms
     /// </summary>
     /// <param name="isActivated"></param>
-    private void UpdateActivated(bool isActivated)
+    protected void UpdateActivated(bool isActivated)
     {
         if (isComplete)
             return;

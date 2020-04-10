@@ -43,6 +43,8 @@ public class LevelManager : MonoBehaviour
 
     private Animator _anim;
 
+    public ChaosVoid activeLevel;
+
 
     private void Start()
     {
@@ -88,6 +90,33 @@ public class LevelManager : MonoBehaviour
     {
         StartCoroutine(LoadYourAsyncScene(chaosVoid.scene.name, SceneType.Level));
         chaosVoid.Initialize();
+        activeLevel = chaosVoid;
+    }
+
+    /// <summary>
+    /// Marks a given chaos void as cleared
+    /// </summary>
+    /// <param name="chaosVoid">Reference to the chaos void level to load</param>
+    public void ClearChaosVoid()
+    {
+        if (activeLevel == null)
+        {
+            activeLevel = Array.Find(chaosVoids, (level) => level.scene.name == SceneManager.GetActiveScene().name);
+        }
+        activeLevel.cleared = true;
+    }
+
+    /// <summary>
+    /// Start next level
+    /// </summary>
+    /// <param name="chaosVoid">Reference to the chaos void level to load</param>
+    public void StartNextLevel()
+    {
+        int index = Array.FindIndex(chaosVoids, (level) => level.scene.name == SceneManager.GetActiveScene().name);
+        if (index >= 0)
+        {
+            StartChaosVoid(chaosVoids[index+1]);
+        }
     }
 
     /// <summary>
@@ -96,7 +125,6 @@ public class LevelManager : MonoBehaviour
     public void RestartCurrentLevel()
     {
         StartCoroutine(LoadYourAsyncScene(SceneManager.GetActiveScene().name, SceneType.Level));
-        // TODO initialize chaos void
     }
 
     /// <summary>
@@ -132,7 +160,8 @@ public class LevelManager : MonoBehaviour
 
         // check if scene has already been loaded, if it has then set it to active
         Scene loadedScene = SceneManager.GetSceneByName(sceneName);
-        if (loadedScene.IsValid())
+        
+        if (loadedScene.IsValid() && sceneName != SceneManager.GetActiveScene().name)
         {
             SceneManager.SetActiveScene(loadedScene);
             yield break;
