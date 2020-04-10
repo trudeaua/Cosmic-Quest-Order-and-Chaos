@@ -1543,9 +1543,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9167914555847376945}
+  - component: {fileID: 9167914555847376944}
   - component: {fileID: 4293189947024023172}
   - component: {fileID: 9167914555847376910}
-  - component: {fileID: 9167914555847376944}
   - component: {fileID: 9167914555847376947}
   - component: {fileID: 9167914555847376911}
   - component: {fileID: 9167914555847376946}
@@ -1567,15 +1567,31 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9167914555847376949}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3998384542858182957}
-  - {fileID: 4578055918673706632}
+  - {fileID: 730233113620006742}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &9167914555847376944
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9167914555847376949}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
 --- !u!65 &4293189947024023172
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1599,11 +1615,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 1.5
-  m_Speed: 5
-  m_Acceleration: 25
+  m_Speed: 4
+  m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 270
-  m_StoppingDistance: 5
+  m_StoppingDistance: 3.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -1611,22 +1627,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!54 &9167914555847376944
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9167914555847376949}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 80
-  m_CollisionDetection: 0
 --- !u!114 &9167914555847376947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1639,7 +1639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbf61d82ceec0f41ae64dc94dab4842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 2
+  rotationSpeed: 1
 --- !u!114 &9167914555847376911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1652,6 +1652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68daf0c9d7019af4c959f81b9db70916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invincible: 0
   health:
     maxValue: 20
     minValue: 0
@@ -1694,7 +1695,7 @@ MonoBehaviour:
     Blue: {fileID: 2100000, guid: fbdd7053de2b09540bd45f791b62f92c, type: 2}
     Red: {fileID: 2100000, guid: a417e836338fdfa4488d2bd8e9684ce7, type: 2}
     Yellow: {fileID: 2100000, guid: 9639ad617de0a11498887b4cabe5714e, type: 2}
-    Default: {fileID: 2100000, guid: b283af2c1588cc34286bbb520e736c64, type: 2}
+    Default: {fileID: 0}
   rotateColouring: 0
   minTimeBetweenColourChanges: 7
   colourResistanceModifier: 0.35
@@ -1710,9 +1711,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f6391806b46cd48a45f9a75bfb360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroRadius: 16
-  attackRadius: 5
+  targetStrategy: 0
+  aggroRadius: 20
+  attackRadius: 4
   decisionDelay: 0.5
+  alwaysHaveTarget: 0
 --- !u!114 &3338778738041866734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1743,11 +1746,13 @@ MonoBehaviour:
     loop: 0
     loopLength: 0
     loopThreshold: 0
+  hasSpecialAttack: 0
+  specialAttackPeriod: 0
   primaryAttackCooldown: 1
-  primaryAttackRadius: 5
+  primaryAttackRadius: 4
   primaryAttackAngle: 45
-  primaryAttackMinDamage: 5
-  primaryAttackMaxDamage: 7
+  primaryAttackMinDamage: 2
+  primaryAttackMaxDamage: 6
   primaryAttackProbability: 0.7
   primaryAttackSFX:
     pitch: 1.3
@@ -1758,10 +1763,10 @@ MonoBehaviour:
     loop: 0
     loopLength: 0
     loopThreshold: 0
-  secondaryAttackCooldown: 2
+  secondaryAttackCooldown: 1
   secondaryAttackRadius: 5
-  secondaryAttackAngle: 360
-  secondaryAttackMinDamage: 8
+  secondaryAttackAngle: 200
+  secondaryAttackMinDamage: 5
   secondaryAttackMaxDamage: 10
   secondaryAttackSFX:
     pitch: 1.5
@@ -1983,7 +1988,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1001 &24962541883652446
+--- !u!1001 &3887281524190314624
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2008,17 +2013,17 @@ PrefabInstance:
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
@@ -2063,7 +2068,7 @@ PrefabInstance:
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
@@ -2102,9 +2107,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ede0b1d774556b14c96fc9892ebd7909, type: 3}
---- !u!224 &4578055918673706632 stripped
+--- !u!224 &730233113620006742 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
     type: 3}
-  m_PrefabInstance: {fileID: 24962541883652446}
+  m_PrefabInstance: {fileID: 3887281524190314624}
   m_PrefabAsset: {fileID: 0}

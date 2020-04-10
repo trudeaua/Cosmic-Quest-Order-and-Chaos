@@ -51,7 +51,11 @@ public class FrightflyCombatController : EnemyCombatController
         }
     }
 
-    public override void ChooseAttack()
+    /// <summary>
+    /// Frightfly attack strategy function
+    /// </summary>
+    /// <returns>Whether an attack was chosen or not</returns>
+    public override bool ChooseAttack()
     {
         float randNum = Random.Range(0f, 1f);
         if (randNum <= primaryAttackProbability)
@@ -64,5 +68,7 @@ public class FrightflyCombatController : EnemyCombatController
             AttackCooldown = secondaryAttackCooldown;
             Anim.SetTrigger("SecondaryAttack");
         }
+
+        return true;
     }
 }

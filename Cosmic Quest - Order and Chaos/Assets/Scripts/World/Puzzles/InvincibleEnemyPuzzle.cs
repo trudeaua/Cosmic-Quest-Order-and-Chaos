@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class InvincibleEnemyPuzzle : EnemyPuzzle
 {
-    private int invincibleDefense = 100;
-    private int defaultDefense = 1;
-
     protected override void Start()
     {
         numEnemiesDead = 0;
@@ -14,7 +11,7 @@ public class InvincibleEnemyPuzzle : EnemyPuzzle
         foreach(GameObject enemy in enemyPrefabs)
         {
             EnemyStatsController enemyStats = enemy.GetComponent<EnemyStatsController>();
-            enemyStats.defense.BaseValue = invincibleDefense;
+            enemyStats.invincible = true;
             enemyStats.onDeath.AddListener(EnemyDied);
         }
     }
@@ -24,7 +21,7 @@ public class InvincibleEnemyPuzzle : EnemyPuzzle
         foreach(GameObject enemy in enemyPrefabs)
         {
             EnemyStatsController enemyStats = enemy.GetComponent<EnemyStatsController>();
-            enemyStats.defense.BaseValue = defaultDefense;
+            enemyStats.invincible = false;
         }
     }
 }

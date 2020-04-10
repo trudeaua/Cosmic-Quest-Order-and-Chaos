@@ -17,12 +17,6 @@ public class RockPuzzle : Puzzle
     /// Number of platforms required to be activated
     /// </summary>
     protected int requiredNumActivations;
-    
-    protected virtual void Awake()
-    {
-        platforms = GetComponentsInChildren<Platform>();
-        rocks = GetComponentsInChildren<Draggable>();
-    }
 
     protected override void Start()
     {
@@ -60,7 +54,7 @@ public class RockPuzzle : Puzzle
     /// <param name="isActivated"></param>
     protected void UpdateActivated(bool isActivated)
     {
-        if (isComplete)
+        if (IsComplete)
             return;
 
         numActivated += isActivated ? 1 : -1;

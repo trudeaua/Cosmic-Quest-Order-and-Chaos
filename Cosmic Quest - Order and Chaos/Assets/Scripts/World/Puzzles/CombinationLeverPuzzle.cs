@@ -9,7 +9,7 @@ public class CombinationLeverPuzzle : LeverPuzzle
 
     protected override void AddColour(CharacterColour colour)
     {
-        if (isComplete)
+        if (IsComplete)
             return;
 
         Received.Add(colour);

@@ -31,9 +31,12 @@ public class CrawlerCombatController : EnemyCombatController
     /// <summary>
     /// Crawler attack strategy.
     /// </summary>
-    public override void ChooseAttack()
+    /// <returns>Whether an attack was chosen or not</returns>
+    public override bool ChooseAttack()
     {
         AttackCooldown = primaryAttackCooldown;
         Anim.SetTrigger("PrimaryAttack");
+
+        return true;
     }
 }

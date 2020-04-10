@@ -57,7 +57,8 @@ public class MetalonCombatController : EnemyCombatController
     /// <summary>
     /// Metalon attack choice strategy function. Selects an attack by a weighted random.
     /// </summary>
-    public override void ChooseAttack()
+    /// <returns>Whether an attack was chosen or not</returns>
+    public override bool ChooseAttack()
     {
         float randNum = Random.Range(0f, 1f);
         if (randNum <= primaryAttackProbability)
@@ -70,5 +71,7 @@ public class MetalonCombatController : EnemyCombatController
             AttackCooldown = secondaryAttackCooldown;
             Anim.SetTrigger("SecondaryAttack");
         }
+
+        return true;
     }
 }

@@ -12,6 +12,7 @@ public class EnemyMotorController : MonoBehaviour
     private NavMeshAgent _agent;
 
     private Transform _target;
+    private bool _ignoreBrain;
 
     public float rotationSpeed = 1.0f;
 
@@ -25,11 +26,22 @@ public class EnemyMotorController : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         
         // Set avoidance priority to random number (0-99) to prevent enemy clustering
-        _agent.avoidancePriority = Random.Range(0, 100);
+        if (_agent)
+            _agent.avoidancePriority = Random.Range(0, 100);
     }
 
-    public void StartFollow()
+    public void StartFollow(Transform staticTarget = null)
     {
+        if (staticTarget)
+        {
+            _ignoreBrain = true;
+            _target = staticTarget;
+        }
+        else
+        {
+            _ignoreBrain = false;
+        }
+        
         _agent.isStopped = false;
         IsFollowing = true;
         StartCoroutine(FollowTarget());
@@ -37,6 +49,7 @@ public class EnemyMotorController : MonoBehaviour
 
     public void StopFollow()
     {
+        _agent.isStopped = true;
         IsFollowing = false;
         StopCoroutine(FollowTarget());
     }
@@ -55,9 +68,10 @@ public class EnemyMotorController : MonoBehaviour
 
     private IEnumerator FollowTarget()
     {
-        while (true)
+        while (IsFollowing)
         {
-            _target = _brain.GetCurrentTarget();
+            if (!_ignoreBrain)
+                _target = _brain.GetCurrentTarget();
 
             if (_target && _agent.enabled && !_stats.isDead)
             {
@@ -71,7 +85,7 @@ public class EnemyMotorController : MonoBehaviour
 
     private IEnumerator RotateToTarget()
     {
-        while (true)
+        while (IsRotating)
         {
             _target = _brain.GetCurrentTarget();
 

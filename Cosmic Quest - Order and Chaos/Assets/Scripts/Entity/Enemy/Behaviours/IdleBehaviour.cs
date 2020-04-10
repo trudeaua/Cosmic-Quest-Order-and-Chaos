@@ -1,21 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.AI;
 
 public class IdleBehaviour : StateMachineBehaviour
 {
     private EnemyBrainController _brain;
     private EnemyCombatController _combat;
+    private NavMeshAgent _agent;
     private Transform _target;
-
+    
     public bool canFollow = true;
     public bool canRotate = true;
-    public bool canPatrol;
+    [Tooltip("The max angle between the look direction of the enemy and its target before rotating")]
+    public float angleFromTargetTolerance = 15f;
     
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _brain = animator.GetComponent<EnemyBrainController>();
         _combat = animator.GetComponent<EnemyCombatController>();
+        _agent = animator.GetComponent<NavMeshAgent>();
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -27,11 +29,13 @@ public class IdleBehaviour : StateMachineBehaviour
 
         if (_target is null)
             return;
+
+        float distance = Vector3.Distance(animator.transform.position, _target.position);
         
         // Try to attack player if they are close enough
-        if (Vector3.Distance(animator.transform.position, _target.position) <= _brain.attackRadius)
+        if (distance <= _brain.attackRadius)
         {
-            if (canRotate && Vector3.Angle(_target.position - animator.transform.position, animator.transform.forward) > 15f)
+            if (canRotate && Vector3.Angle(_target.position - animator.transform.position, animator.transform.forward) > angleFromTargetTolerance)
             {
                 animator.SetTrigger("Rotate");
                 return;
@@ -40,32 +44,17 @@ public class IdleBehaviour : StateMachineBehaviour
             if (!_combat.IsCoolingDown)
             {
                 // Go to attack state
-                _combat.ChooseAttack();
-                return;
+                bool choseAttack = _combat.ChooseAttack();
+                
+                if (choseAttack)
+                    return;
             }
         }
         
-        // Follow player if possible
-        if (canFollow)
+        // Follow player if possible and necessary
+        if (canFollow && distance > _agent.stoppingDistance)
         {
             animator.SetTrigger("Follow");
         }
     }
-
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        
-    }
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
 }

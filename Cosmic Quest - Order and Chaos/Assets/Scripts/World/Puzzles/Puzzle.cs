@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Puzzle : MonoBehaviour, ISerializable
 {
     public UnityEvent onCompletion;
-    protected CharacterColour[] playerColours;
+    public UnityEvent onReset;
+    
+    public bool IsComplete { get; private set; }
 
-    public bool isComplete { get; private set; }
+    protected CharacterColour[] playerColours;
 
     protected virtual void Start()
     {
@@ -20,7 +23,7 @@ public class Puzzle : MonoBehaviour, ISerializable
     /// </summary>
     protected virtual void SetComplete()
     {
-        isComplete = true;
+        IsComplete = true;
         
         // Invoke any event functions
         onCompletion?.Invoke();
@@ -31,7 +34,9 @@ public class Puzzle : MonoBehaviour, ISerializable
     /// </summary>
     public virtual void ResetPuzzle()
     {
-        isComplete = false;
+        IsComplete = false;
+    
+        onReset?.Invoke();
     }
 
     public string Serialize()

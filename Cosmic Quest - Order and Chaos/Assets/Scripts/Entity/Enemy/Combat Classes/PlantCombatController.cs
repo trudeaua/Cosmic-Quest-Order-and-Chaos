@@ -56,6 +56,7 @@ public class PlantCombatController : EnemyCombatController
 
         // Launch projectile to target player
         float damageValue = Random.Range(rangedAttackMinDamage, rangedAttackMaxDamage) + Stats.damage.GetValue();
+
         Vector3 targetDirection = target.position - transform.position;
         if (rangedMultiAttack)
         {
@@ -69,13 +70,13 @@ public class PlantCombatController : EnemyCombatController
         {
             LaunchDamageProjectile(rangedAttackProjectile, targetDirection, rangedAttackLaunchForce, rangedAttackRange, damageValue, "Player");
         }
-        
     }
 
     /// <summary>
     /// Plant attack strategy
     /// </summary>
-    public override void ChooseAttack()
+    /// <returns>Whether an attack was chosen or not</returns>
+    public override bool ChooseAttack()
     {
         float targetDistance = Vector3.Distance(transform.position, Brain.GetCurrentTarget().position);
         
@@ -91,5 +92,7 @@ public class PlantCombatController : EnemyCombatController
             AttackCooldown = rangedAttackCooldown;
             Anim.SetTrigger("SecondaryAttack");
         }
+
+        return true;
     }
 }

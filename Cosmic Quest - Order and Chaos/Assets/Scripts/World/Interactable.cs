@@ -8,9 +8,6 @@ using UnityEngine;
 /// </summary>
 public class Interactable : MonoBehaviour
 {
-    [Tooltip("Max distance a transform can be to interact with this")]
-    public float radius = 3f;
-
     [Tooltip("Whether the player must hold down the interact button to interact with this object")]
     public bool isHeld = false;
 
@@ -20,13 +17,16 @@ public class Interactable : MonoBehaviour
     [Tooltip("Required character colour to interact with")]
     public CharacterColour colour = CharacterColour.All;
 
+    [HideInInspector] public bool isParticleSystem;
+
     protected virtual void Start()
     {
         CharacterColour[] playerColours = PlayerManager.Instance.CurrentPlayerColours;
         if (playerColours.Contains(colour))
         {
-            // Set the material colour of the interactable
-            SetMaterialColour(colour);
+            // Set the material colour of the interactable if not a particle system
+            if (!isParticleSystem)
+                SetMaterialColour(colour);
         }
         else if (colour == CharacterColour.None)
         {
@@ -70,8 +70,7 @@ public class Interactable : MonoBehaviour
     /// <returns>Whether the Transform can interact with this object</returns>
     public virtual bool CanInteract(Transform target)
     {
-        return Vector3.Distance(transform.position, target.position) <= radius &&
-               (colour == CharacterColour.All || target.GetComponent<EntityStatsController>().characterColour == colour);
+        return colour == CharacterColour.All || target.GetComponent<EntityStatsController>().characterColour == colour;
     }
 
     public virtual void SetMaterialColour(CharacterColour characterColour)
@@ -92,13 +91,6 @@ public class Interactable : MonoBehaviour
                 r.materials = materials;
             }
         }
-    }
-    
-    // Displays the interaction radius in the editor
-    private void OnDrawGizmosSelected ()
-    {
-        Gizmos.color = PlayerManager.colours.GetColour(colour);
-        Gizmos.DrawWireSphere(transform.position, radius);
     }
 
     private void OnDrawGizmos ()

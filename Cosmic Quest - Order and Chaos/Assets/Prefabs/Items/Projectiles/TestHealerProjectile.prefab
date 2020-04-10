@@ -33211,8 +33211,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9070515875191536489}
-  - component: {fileID: 9070515875191536470}
   - component: {fileID: 9070515875191536469}
+  - component: {fileID: 9070515875191536470}
   - component: {fileID: 9070515875191536468}
   m_Layer: 2
   m_Name: TestHealerProjectile
@@ -33242,19 +33242,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &9070515875191536470
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9070515875191536467}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.7
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &9070515875191536469
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -33271,6 +33258,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!135 &9070515875191536470
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9070515875191536467}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.7
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &9070515875191536468
 MonoBehaviour:
   m_ObjectHideFlags: 0

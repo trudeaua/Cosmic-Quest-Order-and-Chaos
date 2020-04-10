@@ -46,7 +46,7 @@ public class TeamTask : Task
             {
                 // Behaviour for different puzzles goes here
                 ActionPuzzle actionPuzzle = null;
-                if (puzzle is ActionPuzzle && !puzzle.isComplete)
+                if (puzzle is ActionPuzzle && !puzzle.IsComplete)
                 {
                     actionPuzzle = puzzle as ActionPuzzle;
                     actionPuzzle.AddPlayerInput(playerInput);
@@ -62,7 +62,7 @@ public class TeamTask : Task
     public override void Complete()
     {
         // keep going if all puzzles in the task aren't completed
-        if (puzzles.Count(e => e.isComplete == false) > 0)
+        if (puzzles.Count(e => e.IsComplete == false) > 0)
         {
             StartTask();
         }

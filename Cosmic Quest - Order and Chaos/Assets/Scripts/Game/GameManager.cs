@@ -43,15 +43,27 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    // Tracking and delegate events for state changes
+    private GameState _currentState = GameState.Menu;
+    public UnityEvent onStateChange = new UnityEvent();
+    public GameState CurrentState
+    {
+        get => _currentState;
+        private set
+        {
+            if (_currentState == value)
+                return;
+            
+            _currentState = value;
+            onStateChange.Invoke();
+        }
+    }
+    
     [Tooltip("Y coordinate where players instantly die if they fall below")]
     public float playerDeathZone = -30f;
-
-    public UnityEvent onStateChange = new UnityEvent();
-
+    
     // Keeps track if the game is in a testing state (i.e. not started from the menu)
     [HideInInspector] public bool isTestInstance = false;
-    
-    public GameState CurrentState { get; private set; } = GameState.Menu;
 
     private void Update()
     {
@@ -60,6 +72,7 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Menu:
             case GameState.Paused:
+            case GameState.SelectingLevel:
                 break;
             case GameState.Loading:
                 break;
@@ -76,6 +89,8 @@ public class GameManager : MonoBehaviour
                 // Trigger game over screen
                 // Restart to the last checkpoint?
                 TransitionMenu.Instance.ShowGameOverMenu();
+                break;
+            case GameState.Victory:
                 break;
             default:
                 break;
@@ -128,7 +143,7 @@ public class GameManager : MonoBehaviour
     {
         CurrentState = GameState.Victory;
         onStateChange.Invoke();
-        StartCoroutine("CompleteLevel");
+        StartCoroutine(CompleteLevel());
     }
 
     public IEnumerator CompleteLevel()

@@ -99,7 +99,7 @@ public class LevelManager : MonoBehaviour
     /// <param name="chaosVoid">Reference to the chaos void level to load</param>
     public void ClearChaosVoid()
     {
-        if (activeLevel == null)
+        if (activeLevel is null)
         {
             activeLevel = Array.Find(chaosVoids, (level) => level.scene.name == SceneManager.GetActiveScene().name);
         }
@@ -138,7 +138,7 @@ public class LevelManager : MonoBehaviour
 
     public void BackToMenu()
     {
-        StartCoroutine(LoadYourAsyncScene("MenuStaging", SceneType.Menu));
+        StartCoroutine(LoadYourAsyncScene("MainMenu", SceneType.Menu));
     }
 
     /// <summary>

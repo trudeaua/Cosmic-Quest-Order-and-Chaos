@@ -2006,8 +2006,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2685798253169061784}
-  - component: {fileID: 1012034089}
   - component: {fileID: 1012034090}
+  - component: {fileID: 1012034089}
   - component: {fileID: 1012034098}
   - component: {fileID: 1012034097}
   - component: {fileID: 1012034094}
@@ -2035,7 +2035,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2689989504258117246}
-  - {fileID: 1724143976497665285}
+  - {fileID: 1803611519956956156}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -2080,6 +2080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68daf0c9d7019af4c959f81b9db70916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invincible: 0
   health:
     maxValue: 25
     minValue: 0
@@ -2138,9 +2139,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f6391806b46cd48a45f9a75bfb360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStrategy: 0
   aggroRadius: 15
   attackRadius: 3
   decisionDelay: 0.5
+  alwaysHaveTarget: 0
 --- !u!114 &1012034094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2171,6 +2174,8 @@ MonoBehaviour:
     loop: 0
     loopLength: 0
     loopThreshold: 0
+  hasSpecialAttack: 0
+  specialAttackPeriod: 0
   primaryAttackCooldown: 1
   primaryAttackRadius: 4
   primaryAttackAngle: 45
@@ -2961,13 +2966,18 @@ Transform:
   m_Father: {fileID: 2689989504258117246}
   m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &2899554108010926803
+--- !u!1001 &2798879182666855466
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 2685798253169061784}
     m_Modifications:
+    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyBars
+      objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3041,7 +3051,7 @@ PrefabInstance:
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
@@ -3073,16 +3083,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyBars
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ede0b1d774556b14c96fc9892ebd7909, type: 3}
---- !u!224 &1724143976497665285 stripped
+--- !u!224 &1803611519956956156 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
     type: 3}
-  m_PrefabInstance: {fileID: 2899554108010926803}
+  m_PrefabInstance: {fileID: 2798879182666855466}
   m_PrefabAsset: {fileID: 0}

@@ -16,6 +16,8 @@ public class DialogueManager : MonoBehaviour
     private Queue<string> sentences;
     private Dialogue CurrentDialogue;
 
+    public bool PlayingDialogue => anim.GetBool("IsShown");
+    
     #region Singleton
     public static DialogueManager Instance = null;
 

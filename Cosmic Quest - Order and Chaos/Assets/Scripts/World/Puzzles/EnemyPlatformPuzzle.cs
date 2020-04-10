@@ -7,12 +7,6 @@ public class EnemyPlatformPuzzle : RockPuzzle
     [Tooltip("Required enemies to complete the puzzle")]
     public EnemyStatsController[] enemies;
 
-    protected override void Awake()
-    {
-        platforms = GetComponentsInChildren<Platform>();
-        enemies = GetComponentsInChildren<EnemyStatsController>();
-    }
-
     protected override void Start()
     {
         playerColours = PlayerManager.Instance.CurrentPlayerColours;

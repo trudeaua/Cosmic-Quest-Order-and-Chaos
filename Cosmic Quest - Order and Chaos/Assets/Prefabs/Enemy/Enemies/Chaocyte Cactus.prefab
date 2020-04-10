@@ -595,8 +595,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8337127725775014207}
-  - component: {fileID: 7373837178361070793}
   - component: {fileID: 5887437789540995832}
+  - component: {fileID: 7373837178361070793}
   - component: {fileID: 5573741756012928118}
   - component: {fileID: 7972639214902068382}
   - component: {fileID: 1791537986465276909}
@@ -624,7 +624,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7348721045985030076}
-  - {fileID: 5504321957729735741}
+  - {fileID: 729341302864443601}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -669,6 +669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68daf0c9d7019af4c959f81b9db70916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invincible: 0
   health:
     maxValue: 35
     minValue: 0
@@ -727,9 +728,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f6391806b46cd48a45f9a75bfb360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStrategy: 0
   aggroRadius: 16
   attackRadius: 5
   decisionDelay: 0.5
+  alwaysHaveTarget: 0
 --- !u!114 &1791537986465276909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -760,6 +763,8 @@ MonoBehaviour:
     loop: 0
     loopLength: 0
     loopThreshold: 0
+  hasSpecialAttack: 0
+  specialAttackPeriod: 0
   hasMeleeAttack: 1
   meleeAttackCooldown: 1
   meleeAttackRadius: 5
@@ -1040,7 +1045,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1001 &8337127726349341675
+--- !u!1001 &3877334135643094791
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1070,17 +1075,17 @@ PrefabInstance:
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
@@ -1125,7 +1130,7 @@ PrefabInstance:
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
@@ -1159,9 +1164,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ede0b1d774556b14c96fc9892ebd7909, type: 3}
---- !u!224 &5504321957729735741 stripped
+--- !u!224 &729341302864443601 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
     type: 3}
-  m_PrefabInstance: {fileID: 8337127726349341675}
+  m_PrefabInstance: {fileID: 3877334135643094791}
   m_PrefabAsset: {fileID: 0}

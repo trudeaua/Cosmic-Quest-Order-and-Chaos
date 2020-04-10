@@ -7,10 +7,12 @@ using UnityEngine;
 /// </summary>
 public class Draggable : Interactable
 {
+    public bool IsPickedUp { get; protected set; }
+    
     protected Rigidbody m_Object;
     protected Collider m_Collider;
 
-    void Awake ()
+    protected virtual void Awake ()
     {
         m_Object = GetComponent<Rigidbody>();
         m_Collider = GetComponent<Collider>();
@@ -37,7 +39,7 @@ public class Draggable : Interactable
     public override void StopInteract(Transform target)
     {
         // Drop the object
-        if (isHeld)
+        if (IsPickedUp)
         {
             Dropped(target);
         }
@@ -53,7 +55,7 @@ public class Draggable : Interactable
         m_Object.isKinematic = false;
         m_Object.constraints = RigidbodyConstraints.FreezeRotation;
         transform.position.Set(target.position.x, target.position.y, target.position.z + 20);
-        isHeld = false;
+        IsPickedUp = false;
     }
 
     /// <summary>
@@ -68,7 +70,6 @@ public class Draggable : Interactable
         transform.parent = target.transform; //making the target the PARENT of this object means it will move with it.
         m_Object.isKinematic = true; //stops it from falling
         transform.localPosition = new Vector3(0, 2.2f, m_Collider.bounds.extents.z + 0.65f);
-        isHeld = true;
-
+        IsPickedUp = true;
     }
 }

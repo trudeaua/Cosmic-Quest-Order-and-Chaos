@@ -146,7 +146,7 @@ public class Task : MonoBehaviour
     /// </summary>
     public virtual void Complete()
     {
-        if (puzzles.Count(e => e.isComplete) > 0)
+        if (puzzles.Count(e => e.IsComplete) > 0)
         {
             completed = true;
             PlayExitDialogue();

@@ -98,7 +98,11 @@ public class LichCombatController : EnemyCombatController
         }
     }
 
-    public override void ChooseAttack()
+    /// <summary>
+    /// Lick combat strategy function
+    /// </summary>
+    /// <returns>Whether an attack was chosen or not</returns>
+    public override bool ChooseAttack()
     {
         if (Random.Range(0f, 1f) < primaryAttackProbability)
         {
@@ -110,5 +114,7 @@ public class LichCombatController : EnemyCombatController
             Anim.SetTrigger("SecondaryAttack");
             AttackCooldown = secondaryAttackCooldown;
         }
+
+        return true;
     }
 }

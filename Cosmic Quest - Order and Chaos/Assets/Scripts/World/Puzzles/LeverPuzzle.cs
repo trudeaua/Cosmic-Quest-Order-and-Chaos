@@ -31,8 +31,7 @@ public class LeverPuzzle : Puzzle
     /// <param name="colour">Colour to add to the buffer</param>
     protected virtual void AddColour(CharacterColour colour)
     {
-        Debug.Log("AddColour LeverPuzzle: " + colour);
-        if (isComplete)
+        if (IsComplete)
             return;
 
         // Don't store duplicates of the same colour entry

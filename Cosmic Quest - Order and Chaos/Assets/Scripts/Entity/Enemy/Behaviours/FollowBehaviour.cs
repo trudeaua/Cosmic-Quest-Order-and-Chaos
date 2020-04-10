@@ -36,11 +36,20 @@ public class FollowBehaviour : StateMachineBehaviour
 
         if (_agent.enabled && _target)
         {
+            // See if we can use our special attack
+            if (_combat.CanUseSpecialAttack)
+            {
+                _combat.SpecialAttack();
+                return;
+            }
+            
             if (!_combat.IsCoolingDown && Vector3.Distance(_target.position, animator.transform.position) <= _brain.attackRadius)
             {
                 // Go to attack state
-                _combat.ChooseAttack();
-                _agent.isStopped = true;
+                bool choseAttack = _combat.ChooseAttack();
+                
+                if (choseAttack)
+                    return;
             }
         }
         
@@ -51,16 +60,4 @@ public class FollowBehaviour : StateMachineBehaviour
     {
         _motor.StopFollow();
     }
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
 }

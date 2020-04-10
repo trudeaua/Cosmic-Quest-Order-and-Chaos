@@ -8,7 +8,7 @@ public class RegenerableStat
     public float regenAmount;
     public float CurrentValue { get; private set; }
     
-    public delegate void OnValueChanged(float currentValue);
+    public delegate void OnValueChanged(float currentValue, bool regenerated = false);
     public OnValueChanged onCurrentValueChanged;
     
     private bool _pauseRegen = false;
@@ -37,7 +37,7 @@ public class RegenerableStat
             CurrentValue = maxValue;
         }
         
-        onCurrentValueChanged?.Invoke(CurrentValue);
+        onCurrentValueChanged?.Invoke(CurrentValue, true);
     }
     
     /// <summary>
