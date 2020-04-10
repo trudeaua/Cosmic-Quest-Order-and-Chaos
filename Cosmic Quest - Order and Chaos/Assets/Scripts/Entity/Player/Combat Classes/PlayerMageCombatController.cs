@@ -129,7 +129,6 @@ public class PlayerMageCombatController : PlayerCombatController
     /// </summary>
     protected override void UltimateAbility()
     {
-        // TODO implement melee class ultimate ability
         Anim.SetTrigger("UltimateAbility");
     }
     /// <summary>

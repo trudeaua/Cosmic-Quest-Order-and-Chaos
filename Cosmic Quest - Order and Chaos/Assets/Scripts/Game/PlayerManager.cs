@@ -387,7 +387,7 @@ public class PlayerManager : MonoBehaviour
                     ds.SetLightBarColor(colours.GetColour(newPlayer.characterColour));
                 }
             }
-            // TODO do the rest of this method better
+            
             if (MenuCanvas == null)
             {
                 MainMenuController mainMenu = FindObjectOfType<MainMenuController>();
