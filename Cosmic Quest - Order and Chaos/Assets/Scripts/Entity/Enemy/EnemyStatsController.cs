@@ -201,7 +201,7 @@ public class EnemyStatsController : EntityStatsController
     /// Set the texture and highlight materials for the enemy based on a character colour
     /// </summary>
     /// <param name="colour">Character colour to base colour assignment decision on</param>
-    private void AssignEnemyColour(CharacterColour colour)
+    public void AssignEnemyColour(CharacterColour colour)
     {
         characterColour = colour;
         SkinnedMeshRenderer skin = GetComponentInChildren<SkinnedMeshRenderer>();

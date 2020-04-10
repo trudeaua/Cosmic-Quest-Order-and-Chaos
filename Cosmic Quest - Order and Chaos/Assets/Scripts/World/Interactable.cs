@@ -28,6 +28,11 @@ public class Interactable : MonoBehaviour
             // Set the material colour of the interactable
             SetMaterialColour(colour);
         }
+        else if (colour == CharacterColour.None)
+        {
+            colour = playerColours[Random.Range(0, playerColours.Length)];
+            SetMaterialColour(colour);
+        }
         else
         {
             // Turn off if object's colour isn't one of the players' colours

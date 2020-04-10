@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -6,19 +6,6 @@ public class CombinationLeverPuzzle : LeverPuzzle
 {
     // The expected order of colours
     [SerializeField] private CharacterColour[] combination;
-
-    protected override void Start()
-    {
-        base.Start();
-        foreach (Lever lever in levers)
-        {
-            if (!playerColours.Contains(lever.colour))
-            {
-                gameObject.SetActive(false);
-                break;
-            }
-        }
-    }
 
     protected override void AddColour(CharacterColour colour)
     {
@@ -45,5 +32,18 @@ public class CombinationLeverPuzzle : LeverPuzzle
             // Combination was correct
             SetComplete();
         }
+    }
+
+    /// <summary>
+    /// Set the combination of the puzzle based on active player colours
+    /// </summary>
+    /// <returns>The combination array</returns>
+    public CharacterColour[] SetColourCombination()
+    {
+        for (int i = 0; i < combination.Length; i++)
+        {
+            combination[i] = playerColours[Random.Range(0, playerColours.Length)];
+        }
+        return combination;
     }
 }
