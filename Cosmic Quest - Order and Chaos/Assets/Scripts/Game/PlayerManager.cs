@@ -126,7 +126,7 @@ public class PlayerManager : MonoBehaviour
     {
         get { return _playerSlots.Count(p => p != null); }
     }
-    
+
     public List<GameObject> AlivePlayers
     {
         get { return Players.FindAll(p => !p.GetComponent<PlayerStatsController>().isDead); }

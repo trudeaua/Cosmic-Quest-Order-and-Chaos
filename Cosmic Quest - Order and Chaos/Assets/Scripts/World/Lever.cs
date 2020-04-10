@@ -15,7 +15,7 @@ public class Lever : Interactable
 
     private void Awake()
     {
-        _anim = GetComponent<Animator>();
+        _anim = GetComponentInChildren<Animator>();
         _audio = GetComponent<AudioSource>(); 
     }
 
@@ -44,6 +44,7 @@ public class Lever : Interactable
 
             // Add lever colour to the code input
             //puzzle.AddColour(colour);
+            Debug.Log("StartInteract Lever: " + colour);
             onActivation?.Invoke(colour);
         }
     }

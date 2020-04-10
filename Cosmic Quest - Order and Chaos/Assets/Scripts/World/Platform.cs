@@ -11,13 +11,13 @@ public class Platform : MonoBehaviour
     [SerializeField] private Material redMaterial;
     [SerializeField] private Material yellowMaterial;
     [SerializeField] private Material defaultMaterial;
-    private Animator _anim;
-    private AudioSource _audio;
+    protected Animator _anim;
+    protected AudioSource _audio;
     
     public CharacterColour colour;
-    private bool _isActivated;
+    protected bool _isActivated;
     
-    private void Awake()
+    protected void Awake()
     {
         _anim = GetComponent<Animator>();
         _audio = GetComponent<AudioSource>();
@@ -29,7 +29,12 @@ public class Platform : MonoBehaviour
         if (playerColours.Contains(colour))
         {
             // Set the material colour of the platform
-            SetMaterial();
+            SetMaterial(colour);
+        }
+        else if (colour == CharacterColour.None)
+        {
+            colour = playerColours[Random.Range(0, playerColours.Length)];
+            SetMaterial(colour);
         }
         else
         {
@@ -38,7 +43,7 @@ public class Platform : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter (Collider other) 
+    protected virtual void OnTriggerEnter (Collider other) 
     {
         if (!_isActivated && other.CompareTag("Rock") && other.GetComponent<Interactable>().colour == colour)
         {
@@ -51,7 +56,7 @@ public class Platform : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         if (_isActivated && other.CompareTag("Rock") && other.GetComponent<Interactable>().colour == colour)
         {
@@ -62,6 +67,16 @@ public class Platform : MonoBehaviour
         }
     }
 
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void Unhide()
+    {
+        gameObject.SetActive(true);
+    }
+
     private void PausePlatformAnimationEvent()
     {
         _anim.enabled = false;
@@ -70,7 +85,7 @@ public class Platform : MonoBehaviour
     /// <summary>
     /// Set the material of the platform to reflect the assigned character colour
     /// </summary>
-    private void SetMaterial()
+    public void SetMaterial(CharacterColour colour)
     {
         Renderer renderer = GetComponent<Renderer>();
         Material[] materials = new Material[1];
