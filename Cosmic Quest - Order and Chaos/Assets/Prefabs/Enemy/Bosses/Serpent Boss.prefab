@@ -107,7 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invincible: 0
   health:
-    maxValue: 100
+    maxValue: 120
     minValue: 0
     regenAmount: 0
   onDeath:
@@ -183,9 +183,9 @@ MonoBehaviour:
     loopLength: 0
     loopThreshold: 0
   hasSpecialAttack: 1
-  specialAttackPeriod: 20
+  specialAttackPeriod: 10
   primaryAttackCooldown: 1
-  primaryAttackRadius: 7
+  primaryAttackRadius: 6
   primaryAttackAngle: 45
   primaryAttackMinDamage: 2
   primaryAttackMaxDamage: 6
@@ -200,8 +200,8 @@ MonoBehaviour:
     loopLength: 0
     loopThreshold: 0
   secondaryAttackCooldown: 1
-  secondaryAttackRadius: 8
-  secondaryAttackAngle: 200
+  secondaryAttackRadius: 6
+  secondaryAttackAngle: 100
   secondaryAttackMinDamage: 5
   secondaryAttackMaxDamage: 10
   secondaryAttackSFX:
@@ -214,11 +214,12 @@ MonoBehaviour:
     loopLength: 0
     loopThreshold: 0
   chargedAttackCooldown: 1
-  chargeSpeed: 10
+  chargeSpeed: 12
   chargedAttackTriggerDistance: 5
   chargedAttackRadius: 7
-  chargeAttackMinDamage: 10
-  chargeAttackMaxDamage: 30
+  chargeAttackAngle: 75
+  chargeAttackMinDamage: 8
+  chargeAttackMaxDamage: 12
   roarSFX:
     pitch: 0
     volume: 0

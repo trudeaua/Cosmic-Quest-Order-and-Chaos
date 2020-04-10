@@ -27,6 +27,7 @@ public class SerpentBossCombatController : EnemyCombatController
     public float chargeSpeed = 10f;
     public float chargedAttackTriggerDistance = 5f;
     public float chargedAttackRadius = 7f;
+    public float chargeAttackAngle = 120f;
     public float chargeAttackMinDamage = 10f;
     public float chargeAttackMaxDamage = 30f;
     [SerializeField] protected AudioHelper.EntityAudioClip roarSFX;
@@ -83,7 +84,7 @@ public class SerpentBossCombatController : EnemyCombatController
         StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, chargeAttackSFX));
 
         // Attack any players within the attack range
-        foreach (GameObject player in Players.Where(player => CanDamageTarget(player, chargedAttackRadius)))
+        foreach (GameObject player in Players.Where(player => CanDamageTarget(player, chargedAttackRadius, chargeAttackAngle)))
         {
             // Calculate and perform damage
             float damageValue = Random.Range(chargeAttackMinDamage, chargeAttackMaxDamage) + Stats.damage.GetValue();

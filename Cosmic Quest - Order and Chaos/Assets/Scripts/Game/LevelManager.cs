@@ -95,6 +95,10 @@ public class LevelManager : MonoBehaviour
         if (activeLevel is null)
         {
             activeLevel = Array.Find(chaosVoids, (level) => level.scene.name == SceneManager.GetActiveScene().name);
+            if (activeLevel is null) {
+                Debug.Log("Unable to find chaos void.");
+                return;
+            }
         }
         activeLevel.cleared = true;
     }
