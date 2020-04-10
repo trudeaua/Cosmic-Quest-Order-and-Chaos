@@ -7,7 +7,7 @@ using UnityEngine.AI;
 [System.Serializable]
 public class EnemyColouring {
     public Material Green;
-    public Material Purple;
+    public Material Blue;
     public Material Red;
     public Material Yellow;
     public Material Default;
@@ -217,8 +217,8 @@ public class EnemyStatsController : EntityStatsController
             case CharacterColour.Green:
                 skinMaterial = EnemyColouring.Green;
                 break;
-            case CharacterColour.Purple:
-                skinMaterial = EnemyColouring.Purple;
+            case CharacterColour.Blue:
+                skinMaterial = EnemyColouring.Blue;
                 break;
             default:
                 skinMaterial = EnemyColouring.Default;

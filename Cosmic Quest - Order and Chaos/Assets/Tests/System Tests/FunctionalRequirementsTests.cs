@@ -353,7 +353,7 @@ public class FunctionalRequirementsTests
         PlayerStatsController rangedPlayerStats = rangedPlayer.GetComponent<PlayerStatsController>();
         magePlayerStats.characterColour = CharacterColour.Green;
         meleePlayerStats.characterColour = CharacterColour.Red;
-        healerPlayerStats.characterColour = CharacterColour.Purple;
+        healerPlayerStats.characterColour = CharacterColour.Blue;
         rangedPlayerStats.characterColour = CharacterColour.Yellow;
 
         magePlayer.transform.position = new Vector3(0, 0, -2);

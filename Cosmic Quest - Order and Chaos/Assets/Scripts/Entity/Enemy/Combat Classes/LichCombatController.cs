@@ -100,26 +100,15 @@ public class LichCombatController : EnemyCombatController
 
     public override void ChooseAttack()
     {
-        // Use primary attack, unless surrounded by more than one player
-        if (Players.Count(player => CanDamageTarget(player, secondaryAttackRadius, 180f)) > 1)
-        {
-            float randNum = Random.Range(0f, 1f);
-
-            if (randNum < primaryAttackProbability)
-            {
-                Anim.SetTrigger("PrimaryAttack");
-                AttackCooldown = primaryAttackCooldown;
-            }
-            else
-            {
-                Anim.SetTrigger("SecondaryAttack");
-                AttackCooldown = secondaryAttackCooldown;
-            }
-        }
-        else
+        if (Random.Range(0f, 1f) < primaryAttackProbability)
         {
             Anim.SetTrigger("PrimaryAttack");
             AttackCooldown = primaryAttackCooldown;
+        }
+        else
+        {
+            Anim.SetTrigger("SecondaryAttack");
+            AttackCooldown = secondaryAttackCooldown;
         }
     }
 }

@@ -84,14 +84,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health:
-    maxValue: 20
+    maxValue: 30
     minValue: 0
-    regenAmount: 0
+    regenAmount: 1
   onDeath:
     m_PersistentCalls:
       m_Calls: []
   damage:
-    baseValue: 10
+    baseValue: 5
   defense:
     baseValue: 0
   characterColour: 0
@@ -122,7 +122,7 @@ MonoBehaviour:
     type: 3}
   EnemyColouring:
     Green: {fileID: 2100000, guid: 56292c9487b5b83459f655353f70703e, type: 2}
-    Purple: {fileID: 2100000, guid: a97ae0bb52266cc4291e9b00c1cdf9c7, type: 2}
+    Blue: {fileID: 2100000, guid: a97ae0bb52266cc4291e9b00c1cdf9c7, type: 2}
     Red: {fileID: 2100000, guid: 62f063c102761674f822078b03280034, type: 2}
     Yellow: {fileID: 2100000, guid: 914db70ecb30e744a8e83d54e14fbe8a, type: 2}
     Default: {fileID: 2100000, guid: c658611033b6b0242986642f8be48bee, type: 2}
@@ -141,8 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f6391806b46cd48a45f9a75bfb360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroRadius: 10
-  attackRadius: 4
+  aggroRadius: 16
+  attackRadius: 5
   decisionDelay: 0.5
 --- !u!114 &8063399943703816293
 MonoBehaviour:
@@ -176,10 +176,10 @@ MonoBehaviour:
     loopThreshold: 0
   hasMeleeAttack: 1
   meleeAttackCooldown: 2.5
-  meleeAttackRadius: 6
+  meleeAttackRadius: 5
   meleeAttackAngle: 45
-  meleeAttackMinDamage: 1
-  meleeAttackMaxDamage: 4
+  meleeAttackMinDamage: 12
+  meleeAttackMaxDamage: 15
   meleeAttackSFX:
     pitch: 0
     volume: 0
@@ -189,11 +189,16 @@ MonoBehaviour:
     loop: 0
     loopLength: 0
     loopThreshold: 0
-  hasRangedAttack: 0
+  hasRangedAttack: 1
+  rangedMultiAttack: 0
   rangedAttackCooldown: 1
-  rangedAttackMinDamage: 1
-  rangedAttackMaxDamage: 4
-  rangedAttackProjectile: {fileID: 0}
+  rangedAttackMinDamage: 8
+  rangedAttackMaxDamage: 10
+  rangedAttackRange: 20
+  rangedAttackLaunchForce: 500
+  rangedMultiAttackCount: 4
+  rangedAttackProjectile: {fileID: 3220180553990204031, guid: 60bb997f542d06e41bc9a26870a4c550,
+    type: 3}
   rangedAttackSFX:
     pitch: 0
     volume: 0
@@ -1234,6 +1239,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4806872650656697229}
     m_Modifications:
+    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyBars
+      objectReference: {fileID: 0}
     - target: {fileID: 4598222320501376982, guid: ede0b1d774556b14c96fc9892ebd7909,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1338,11 +1348,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5565512102801706457, guid: ede0b1d774556b14c96fc9892ebd7909,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyBars
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ede0b1d774556b14c96fc9892ebd7909, type: 3}

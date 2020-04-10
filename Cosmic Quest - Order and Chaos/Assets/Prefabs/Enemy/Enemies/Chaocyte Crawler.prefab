@@ -1532,14 +1532,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health:
-    maxValue: 15
+    maxValue: 20
     minValue: 0
     regenAmount: 0
   onDeath:
     m_PersistentCalls:
       m_Calls: []
   damage:
-    baseValue: 2
+    baseValue: 5
   defense:
     baseValue: 0
   characterColour: 0
@@ -1570,7 +1570,7 @@ MonoBehaviour:
     type: 3}
   EnemyColouring:
     Green: {fileID: 2100000, guid: 68fac4d70ded0cc42817cd82f96d6433, type: 2}
-    Purple: {fileID: 2100000, guid: 47f1dd7d55f3428469b0cf22bd3f8901, type: 2}
+    Blue: {fileID: 2100000, guid: e0b3e95eccf87c14cb451fc21bf7edd3, type: 2}
     Red: {fileID: 2100000, guid: cf7729bd78a571344aa2125bc52bfd31, type: 2}
     Yellow: {fileID: 2100000, guid: 77777e2f036553847bd622e19f77cfbe, type: 2}
     Default: {fileID: 2100000, guid: 5e9135e27e909a042b2030159411a9ca, type: 2}
@@ -1589,8 +1589,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f6391806b46cd48a45f9a75bfb360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroRadius: 10
-  attackRadius: 4
+  aggroRadius: 15
+  attackRadius: 2.5
   decisionDelay: 0.5
 --- !u!114 &1265588676304069665
 MonoBehaviour:
@@ -1623,10 +1623,10 @@ MonoBehaviour:
     loopLength: 0
     loopThreshold: 0
   primaryAttackCooldown: 1
-  primaryAttackRadius: 4
+  primaryAttackRadius: 5
   primaryAttackAngle: 45
-  primaryAttackMinDamage: 1
-  primaryAttackMaxDamage: 4
+  primaryAttackMinDamage: 5
+  primaryAttackMaxDamage: 6
   primaryAttackSFX:
     pitch: 0
     volume: 0
@@ -1648,7 +1648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbf61d82ceec0f41ae64dc94dab4842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 1
+  rotationSpeed: 2
 --- !u!195 &7898001845455891954
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1659,11 +1659,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -334000983
   m_Radius: 1.1
-  m_Speed: 5
-  m_Acceleration: 25
+  m_Speed: 8
+  m_Acceleration: 45
   avoidancePriority: 50
-  m_AngularSpeed: 300
-  m_StoppingDistance: 3.1
+  m_AngularSpeed: 400
+  m_StoppingDistance: 2.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

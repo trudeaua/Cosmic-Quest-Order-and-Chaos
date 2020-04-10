@@ -68,7 +68,7 @@ public class Torch : Interactable
         Renderer renderer = GetComponentInChildren<Renderer>();
         Material material;
         switch (colour) { 
-            case CharacterColour.Purple:
+            case CharacterColour.Blue:
              		material = blueMaterial;
                 break;
             case CharacterColour.Green:
