@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour
     {
         CurrentState = GameState.Victory;
         onStateChange.Invoke();
-        StartCoroutine("CompleteLevel");
+        StartCoroutine(CompleteLevel());
     }
 
     public IEnumerator CompleteLevel()

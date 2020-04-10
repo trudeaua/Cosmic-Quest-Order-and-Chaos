@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68daf0c9d7019af4c959f81b9db70916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invincible: 0
   health:
     maxValue: 100
     minValue: 0
@@ -129,6 +130,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 0
     volume: 0
@@ -136,11 +139,13 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
   EnemyColouring:
     Green: {fileID: 0}
-    Purple: {fileID: 0}
+    Blue: {fileID: 0}
     Red: {fileID: 0}
     Yellow: {fileID: 0}
     Default: {fileID: 0}
@@ -166,6 +171,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 0
     volume: 0
@@ -173,6 +180,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   hasSpecialAttack: 1
   specialAttackPeriod: 20
   primaryAttackCooldown: 1
@@ -188,6 +197,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   secondaryAttackCooldown: 1
   secondaryAttackRadius: 8
   secondaryAttackAngle: 200
@@ -200,6 +211,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   chargedAttackCooldown: 1
   chargeSpeed: 10
   chargedAttackTriggerDistance: 5
@@ -213,6 +226,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   chargeAttackSFX:
     pitch: 0
     volume: 0
@@ -220,6 +235,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
 --- !u!114 &6788506072476031497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1609,7 +1626,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dd852db7fa1216445b0b1a72c6de5ec6, type: 2}
+  - {fileID: 2100000, guid: 3dc9cde01e650634ba8069d7cb185d94, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

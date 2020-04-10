@@ -12,6 +12,6 @@ public class BossFight : MonoBehaviour
 
     public void BossDefeated()
     {
-        GameManager.Instance.SetPlayState();
+        GameManager.Instance.SetVictoryState();
     }
 }
