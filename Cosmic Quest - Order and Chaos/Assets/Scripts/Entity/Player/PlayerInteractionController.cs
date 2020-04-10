@@ -79,10 +79,6 @@ public class PlayerInteractionController : MonoBehaviour
             {
                 _anim.SetTrigger("InteractStanding");
             }
-            else if (interactable is Collectable)
-            {
-                _anim.SetTrigger("InteractGround");
-            }
 
             // Attempt interaction
             interactable.StartInteract(transform);
