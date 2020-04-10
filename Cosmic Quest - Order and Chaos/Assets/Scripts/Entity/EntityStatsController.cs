@@ -107,8 +107,9 @@ public class EntityStatsController : MonoBehaviour
         Anim.SetTrigger("TakeDamage");
         if (takeDamageVocalSFX != null)
         {
-            StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, takeDamageVocalSFX));
-        }
+            if (Mathf.Approximately(timeDelta, 1f) || !VocalAudio.isPlaying)
+        		StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, takeDamageVocalSFX));
+    	}
         // Calculate any changes based on stats and modifiers here first
         float hitValue = (damageValue - ComputeDefenseModifier()) * timeDelta;
         health.Subtract(hitValue < 0 ? 0 : hitValue);

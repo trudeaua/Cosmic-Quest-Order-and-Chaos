@@ -23,13 +23,12 @@ public class EnemyPuzzle : Puzzle
 
     protected int numEnemies;
     protected int numEnemiesDead;
-    protected CharacterColour puzzleColour = CharacterColour.None;
-    protected List<GameObject> loadedEnemies = new List<GameObject>();
+    private List<GameObject> loadedEnemies = new List<GameObject>();
 
     /// <summary>
     /// Set up the puzzle
     /// </summary>
-    private void Setup()
+    protected virtual void Setup()
     {
         loadedEnemies.Clear();
         numEnemiesDead = 0;
