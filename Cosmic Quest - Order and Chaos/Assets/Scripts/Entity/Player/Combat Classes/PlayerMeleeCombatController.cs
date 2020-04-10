@@ -61,7 +61,6 @@ public class PlayerMeleeCombatController : PlayerCombatController
         // Attack any enemies within the attack sweep and range
         foreach (Transform enemy in enemies.Where(enemy => CanDamageTarget(enemy, primaryAttackRadius, primaryAttackSweepAngle)))
         {
-            // TODO can this attack affect multiple enemies?
             // Calculate and perform damage
             float damageValue = Random.Range(primaryAttackMinDamage + baseDamage, primaryAttackMaxDamage + baseDamage);
             StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), damageValue, primaryAttackDamageDelay));
@@ -124,7 +123,6 @@ public class PlayerMeleeCombatController : PlayerCombatController
     /// </summary>
     protected override void UltimateAbility()
     {
-        // TODO implement melee class ultimate ability
         Anim.SetTrigger("UltimateAbility");
     }
 }

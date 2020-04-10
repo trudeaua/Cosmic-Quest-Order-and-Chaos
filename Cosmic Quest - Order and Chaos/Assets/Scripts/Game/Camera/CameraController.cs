@@ -46,7 +46,6 @@ public class CameraController : MonoBehaviour
 
         Vector3 pos = transform.position;
 
-        // TODO Smoothed motion of the camera causes slight stuttering in enemy moving
         pos.x = Mathf.Lerp(pos.x, _target.x, speed * Time.deltaTime);
         pos.z = Mathf.Lerp(pos.z, _target.z - _zOffset, speed * Time.deltaTime);
 

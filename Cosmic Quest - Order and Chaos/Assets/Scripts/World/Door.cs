@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class Door : MonoBehaviour, ISerializable
@@ -6,7 +7,7 @@ public class Door : MonoBehaviour, ISerializable
     private AudioSource _audio;
     private Animator _anim;
     private Collider _col;
-
+    
     public bool isOpen { get; private set; }
 
     private void Awake()

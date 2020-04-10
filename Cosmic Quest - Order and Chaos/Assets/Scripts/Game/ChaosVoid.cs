@@ -27,14 +27,8 @@ public class ChaosVoid : ScriptableObject, ISerializable
     // Whether this chaos void has been started
     public bool started;
 
-    // The final boss for this chaos void
-    public GameObject boss;
-
     public void Initialize()
     {
-        // Initialize whatever...
-        // Find all serializables in the level
-        // Find the final boss in the scene
         started = true;
     }
 

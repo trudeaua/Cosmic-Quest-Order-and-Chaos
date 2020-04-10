@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 203298388}
   m_Layer: 0
   m_Name: MainPlat
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4005,13 +4005,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3836832794628780477, guid: 769244af832bdd44cbd0fe4ac286d06b,
-        type: 3}
-      propertyPath: m_NavMeshData
-      value: 
-      objectReference: {fileID: 23800000, guid: b7379fde4e7aec644889371c37e9c1fe,
-        type: 2}
     - target: {fileID: 2209103726178158957, guid: 769244af832bdd44cbd0fe4ac286d06b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5024970032551131240, guid: 769244af832bdd44cbd0fe4ac286d06b,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
@@ -4021,11 +4020,17 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3836832794628780477, guid: 769244af832bdd44cbd0fe4ac286d06b,
+        type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 09f956ed8a0ced64da5ebb92fab2a135,
+        type: 2}
     - target: {fileID: 6642294646469686580, guid: 769244af832bdd44cbd0fe4ac286d06b,
         type: 3}
       propertyPath: m_NavMeshData
       value: 
-      objectReference: {fileID: 23800000, guid: 69316dced8f32224e8e2951fedb3d9f5,
+      objectReference: {fileID: 23800000, guid: 784001945bcf69948a9af72777843050,
         type: 2}
     - target: {fileID: 3055113950535212916, guid: 769244af832bdd44cbd0fe4ac286d06b,
         type: 3}
@@ -6249,7 +6254,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh90752
+  m_Name: pb_Mesh99008
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7235,7 +7240,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1889375442}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -171.91307, y: -1.1805058, z: 417.2684}
+  m_LocalPosition: {x: -171.91307, y: 0, z: 417.2684}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -7621,6 +7626,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1.3049
       objectReference: {fileID: 0}
+    - target: {fileID: 4437435306902391310, guid: ec716927e312c244da3c82c4a7e39ab9,
+        type: 3}
+      propertyPath: introDialogueTrigger
+      value: 
+      objectReference: {fileID: 1280880066}
     - target: {fileID: 3060328582827880310, guid: ec716927e312c244da3c82c4a7e39ab9,
         type: 3}
       propertyPath: onCompletion.m_PersistentCalls.m_Calls.Array.size
@@ -7686,11 +7696,6 @@ PrefabInstance:
       propertyPath: onCompletion.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4437435306902391310, guid: ec716927e312c244da3c82c4a7e39ab9,
-        type: 3}
-      propertyPath: introDialogueTrigger
-      value: 
-      objectReference: {fileID: 1280880066}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec716927e312c244da3c82c4a7e39ab9, type: 3}
 --- !u!114 &2020060749 stripped
@@ -7992,6 +7997,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2077510149065197349, guid: 6ee428fbdcd8bf74e842c76b77c14023,
+        type: 3}
+      propertyPath: m_Name
+      value: CheckpointTask
+      objectReference: {fileID: 0}
     - target: {fileID: 1981479825017304044, guid: 6ee428fbdcd8bf74e842c76b77c14023,
         type: 3}
       propertyPath: m_Center.y
@@ -8006,11 +8016,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Center.x
       value: 0.23077393
-      objectReference: {fileID: 0}
-    - target: {fileID: 2077510149065197349, guid: 6ee428fbdcd8bf74e842c76b77c14023,
-        type: 3}
-      propertyPath: m_Name
-      value: CheckpointTask
       objectReference: {fileID: 0}
     - target: {fileID: 2077510149065197347, guid: 6ee428fbdcd8bf74e842c76b77c14023,
         type: 3}

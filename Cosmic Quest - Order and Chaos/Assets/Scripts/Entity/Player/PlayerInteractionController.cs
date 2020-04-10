@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInteractionController : MonoBehaviour
@@ -6,16 +7,20 @@ public class PlayerInteractionController : MonoBehaviour
     [Tooltip("Max distance of objects that the player can interact with")]
     public float interactionRadius = 4f;
     [Tooltip("The sweeping angle in which the player can detect interactables")]
-    public float interactionAngle = 60f;
+    public float interactionAngle = 120f;
+    [Tooltip("The timeout in seconds before a player can interact with another object")]
+    public float interactionCooldown = 0.2f;
     
     private PlayerCombatController _combat;
     private PlayerStatsController _stats;
     private Animator _anim;
     private Collider _col;
     private Interactable _currentObject;
+    private float _cooldownTimer;
     private Collider[] _hits = new Collider[32];
 
     public bool IsInteracting => _currentObject;
+    public bool IsCoolingDown => _cooldownTimer > 0f;
     
     private void Start()
     {
@@ -24,6 +29,13 @@ public class PlayerInteractionController : MonoBehaviour
         _stats = GetComponent<PlayerStatsController>();
         _stats.onDeath.AddListener(StopInteract);
         _col = GetComponent<Collider>();
+    }
+
+    private void Update()
+    {
+        // Decrement the timer if it is set currently
+        if (_cooldownTimer > 0f)
+            _cooldownTimer -= Time.deltaTime;
     }
 
     public void StopInteract()
@@ -54,10 +66,12 @@ public class PlayerInteractionController : MonoBehaviour
             if (_currentObject)
             {
                 StopInteract();
+                return;
             }
             
             // Ensure the player isn't currently attacking before attempting interaction
-            if (_combat.AttackCooldown > 0)
+            // as well as that the interaction cooldown has passed
+            if (_combat.AttackCooldown > 0 || IsCoolingDown)
                 return;
             
             // Attempt to interact with the first interactable in the player's view
@@ -82,6 +96,9 @@ public class PlayerInteractionController : MonoBehaviour
 
             // Attempt interaction
             interactable.StartInteract(transform);
+            
+            // Start the cooldown timer
+            _cooldownTimer = interactionCooldown;
             
             if (!interactable.isTrigger)
                 _currentObject = interactable;
@@ -117,8 +134,7 @@ public class PlayerInteractionController : MonoBehaviour
                 continue;
             
             float dist = Vector3.Distance(transform.position, _hits[i].transform.position);
-            float angle = Mathf.Abs(Vector3.SignedAngle(transform.forward,
-                _hits[i].transform.position - transform.position, Vector3.up));
+            float angle = Vector3.Angle(_hits[i].transform.position - transform.position, transform.forward);
             
             // If object is within view and is the closest then select this for interaction
             if (angle < interactionAngle / 2f && dist < minDistance)
