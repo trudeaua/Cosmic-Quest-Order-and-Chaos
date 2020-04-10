@@ -94,7 +94,6 @@ public class EnemyCombatController : EntityCombatController
     /// <returns>Whether the enemy can damage the player</returns>
     public bool CanDamageTarget(GameObject target, float radius, float sweepAngle = 360f)
     {
-        // TODO need to rethink hitboxes or standardize projecting from y = 1
         Vector3 pos = transform.position;
         Vector3 targetPos = target.transform.position;
         pos.y = 1f;

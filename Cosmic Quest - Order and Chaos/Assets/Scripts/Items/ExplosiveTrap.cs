@@ -106,7 +106,6 @@ public class ExplosiveTrap : MonoBehaviour
             if (!_hits[i].transform.CompareTag("Enemy"))
                 continue;
 
-            // TODO check for if enemy is behind cover
             _hits[i].transform.GetComponent<EnemyStatsController>().TakeExplosionDamage(_thrower, maxDamage, stunTime, explosionForce, transform.position, explosionRadius);
         }
     }

@@ -155,7 +155,6 @@ public class EntityStatsController : MonoBehaviour
         float proximity = (col.ClosestPoint(explosionPoint) - explosionPoint).magnitude;
         float effect = 1 - (proximity / explosionRadius);
 
-        // TODO slightly strange bug where enemies just beyond the explosion take negative damage? This is a temp fix.
         if (effect < 0f)
             return;
 

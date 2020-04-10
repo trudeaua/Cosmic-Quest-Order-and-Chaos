@@ -53,8 +53,8 @@ public class LevelManager : MonoBehaviour
 
     public void LoadGame(string saveData)
     {
-        // TODO should load players to the last saved level (or take them to the level selection map otherwise)
-        // TODO when loading a game, we need a menu to have players connect their controllers to ensure players are mapped correctly
+        // should load players to the last saved level (or take them to the level selection map otherwise)
+        // when loading a game, we need a menu to have players connect their controllers to ensure players are mapped correctly
         throw new System.NotImplementedException();
     }
     
@@ -66,19 +66,12 @@ public class LevelManager : MonoBehaviour
         // Load Tutorial scene
         StartCoroutine(LoadYourAsyncScene("Tutorial", SceneType.Level));
     }
-    
-    public void StartTestLevel()
-    {
-        // TODO DELETE ME
-        StartCoroutine(LoadYourAsyncScene("ChaosVoid1", SceneType.Level));
-    }
 
     /// <summary>
     /// Go to the level menu scene
     /// </summary>
     public void StartLevelMenu()
     {
-        // TODO if tutorial is skipped then should be taken to the level selection map
         StartCoroutine(LoadYourAsyncScene("LevelsScene", SceneType.Map));
     }
 
