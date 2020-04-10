@@ -13,9 +13,10 @@ public class EnemyPlatformPuzzle : RockPuzzle
         enemies = GetComponentsInChildren<EnemyStatsController>();
     }
 
-    protected virtual void Start()
+    protected override void Start()
     {
         playerColours = PlayerManager.Instance.CurrentPlayerColours;
+        requiredNumActivations = platforms.Length;
 
         // Subscribe to platform activation events
         foreach (Platform platform in platforms)

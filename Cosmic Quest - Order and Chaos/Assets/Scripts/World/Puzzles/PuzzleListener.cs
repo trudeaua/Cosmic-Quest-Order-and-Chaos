@@ -18,7 +18,7 @@ public class PuzzleListener : MonoBehaviour
     public void IncrementCompletedPuzzles()
     {
         numCompleted += 1;
-        if (numCompleted == Puzzles.Length)
+        if (numCompleted >= Puzzles.Length)
         {
             bossDoor.SetActive(true);
             dialogueTrigger.TriggerDialogue();
