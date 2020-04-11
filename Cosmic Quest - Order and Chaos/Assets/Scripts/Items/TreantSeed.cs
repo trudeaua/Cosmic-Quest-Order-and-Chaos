@@ -15,6 +15,7 @@ public class TreantSeed : DamageProjectile
         if (col.CompareTag("Player"))
         {
             EntityStatsController target = col.GetComponent<EntityStatsController>();
+            target.StartCoroutine(other.transform.GetComponent<PlayerMotorController>().ApplyTimedMovementModifier(0.35f, 1.5f));
             target.TakeDamage(Damage);
             gameObject.SetActive(false);
         }
@@ -26,7 +27,7 @@ public class TreantSeed : DamageProjectile
                 TreantBossCombatController treatCombat = LauncherStats.GetComponent<TreantBossCombatController>();
                 if (treatCombat && treatCombat.CanSpawnNewPlant())
                 {
-                    GameObject plantPrefab = plantPrefabs[Random.Range(0, plantPrefabs.Count - 1)];
+                    GameObject plantPrefab = plantPrefabs[Random.Range(0, plantPrefabs.Count)];
                     GameObject plant = Instantiate(plantPrefab, new Vector3(transform.position.x, 0, transform.position.z), Quaternion.identity);
                     treatCombat.AddPlantToSpawnList(plant);
                 }

@@ -186,7 +186,7 @@ public class PlayerStatsController : EntityStatsController
         isDead = false;
         Anim.enabled = true;
         EnableRagdoll(false);
-        health.Add(health.maxValue * 0.35f);
+        health.Add(health.maxValue * 0.6f);
         health.StartRegen();
         mana.StartRegen();
         statBars.Show();

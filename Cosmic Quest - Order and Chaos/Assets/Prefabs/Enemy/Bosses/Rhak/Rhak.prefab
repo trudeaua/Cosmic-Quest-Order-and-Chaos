@@ -14664,16 +14664,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invincible: 1
   health:
-    maxValue: 100
+    maxValue: 300
     minValue: 0
-    regenAmount: 0
+    regenAmount: 5
   onDeath:
     m_PersistentCalls:
       m_Calls: []
   damage:
     baseValue: 0
   defense:
-    baseValue: 0
+    baseValue: 5
   characterColour: 1
   shouldSpawn: 0
   spawnVFX: {fileID: 0}
@@ -14709,6 +14709,7 @@ MonoBehaviour:
   rotateColouring: 0
   minTimeBetweenColourChanges: 7
   colourResistanceModifier: 0.35
+  isBoss: 0
 --- !u!114 &62038697160197841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14741,18 +14742,23 @@ MonoBehaviour:
     loopThreshold: 0
   hasSpecialAttack: 0
   specialAttackPeriod: 0
-  projectileMinDamage: 5
-  projectileMaxDamage: 10
-  projectileForce: 300
-  projectilePrefab: {fileID: 4518939221424855443, guid: 1b833732c4f70d94a9a517b636021a6e,
+  projectileMinDamage: 15
+  projectileMaxDamage: 30
+  minProjectileForce: 200
+  maxProjectileForce: 450
+  projectileAttackAngle: 45
+  maxProjectilesBeforeOrb: 30
+  projectilePrefab: {fileID: 1374267004960804, guid: 81991794858fcd149a44fd155c751642,
     type: 3}
-  orbProbability: 0.05
+  orbProbability: 0.01
   orbMinDamage: 10
   orbMaxDamage: 30
   orbForce: 150
+  orbRange: 15
   orbPrefab: {fileID: 4793373997765603503, guid: 7c7f24704d4577d418efc4682768cb14,
     type: 3}
-  projectilePeriod: 0.5
+  minProjectilePeriod: 0.4
+  maxProjectilePeriod: 2
   primaryAttackSFX:
     pitch: 0
     volume: 0
@@ -14762,13 +14768,13 @@ MonoBehaviour:
     loop: 0
     loopLength: 0
     loopThreshold: 0
-  cooldownMinTime: 3
-  cooldownMaxTime: 5
+  cooldownMinTime: 1.5
+  cooldownMaxTime: 6
   chargeMinDamage: 10
   chargeMaxDamage: 20
-  chargeSpeed: 4
-  chargeAcceleration: 2
-  maxConsecutiveCharges: 3
+  chargeSpeed: 5
+  chargeAcceleration: 2.5
+  maxConsecutiveCharges: 4
 --- !u!114 &1823191193662825316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14784,7 +14790,7 @@ MonoBehaviour:
   targetStrategy: 2
   aggroRadius: 30
   attackRadius: 6
-  decisionDelay: 4
+  decisionDelay: 1
   alwaysHaveTarget: 1
 --- !u!114 &413665315169463642
 MonoBehaviour:
@@ -14798,7 +14804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbf61d82ceec0f41ae64dc94dab4842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 3
+  rotationSpeed: 5
 --- !u!82 &511890735168068375
 AudioSource:
   m_ObjectHideFlags: 0

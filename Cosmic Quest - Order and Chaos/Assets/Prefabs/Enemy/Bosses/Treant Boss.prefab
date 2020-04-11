@@ -5959,7 +5959,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 1.5
-  m_Speed: 1.5
+  m_Speed: 2
   m_Acceleration: 5
   avoidancePriority: 50
   m_AngularSpeed: 50
@@ -5985,7 +5985,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invincible: 0
   health:
-    maxValue: 100
+    maxValue: 150
     minValue: 0
     regenAmount: 0
   onDeath:
@@ -6005,7 +6005,7 @@ MonoBehaviour:
   damage:
     baseValue: 0
   defense:
-    baseValue: 0
+    baseValue: 1
   characterColour: 1
   shouldSpawn: 0
   spawnVFX: {fileID: 0}
@@ -6041,6 +6041,7 @@ MonoBehaviour:
   rotateColouring: 0
   minTimeBetweenColourChanges: 7
   colourResistanceModifier: 0.35
+  isBoss: 1
 --- !u!114 &6155603238355360617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6072,11 +6073,11 @@ MonoBehaviour:
     loopLength: 0
     loopThreshold: 0
   hasSpecialAttack: 1
-  specialAttackPeriod: 20
+  specialAttackPeriod: 15
   primaryAttackCooldown: 2
   primaryAttackRadius: 6
   primaryAttackAngle: 45
-  primaryAttackMinDamage: 10
+  primaryAttackMinDamage: 15
   primaryAttackMaxDamage: 20
   primaryAttackSFX:
     pitch: 0
@@ -6088,10 +6089,10 @@ MonoBehaviour:
     loopLength: 0
     loopThreshold: 0
   secondaryAttackCooldown: 4
-  secondaryAttackRadius: 7
+  secondaryAttackRadius: 5
   secondaryAttackAngle: 200
-  secondaryAttackMinDamage: 10
-  secondaryAttackMaxDamage: 30
+  secondaryAttackMinDamage: 15
+  secondaryAttackMaxDamage: 25
   secondaryAttackSFX:
     pitch: 0
     volume: 0
@@ -6102,12 +6103,13 @@ MonoBehaviour:
     loopLength: 0
     loopThreshold: 0
   projectileAttackCooldown: 5
-  projectileAttackForce: 300
-  projectileAttackAngle: 120
-  projectileAttackNumSeeds: 3
-  projectileAttackMinDamage: 5
-  projectileAttackMaxDamage: 10
-  maxPlantsSpawned: 10
+  projectileAttackForce: 400
+  projectileAttackAngle: 90
+  projectileAttackNumSeeds: 5
+  projectileAttackMinDamage: 10
+  projectileAttackMaxDamage: 12
+  maxPlantsSpawned: 15
+  spawnedPlantsClearCount: 3
   seedPrefab: {fileID: 640558104519320016, guid: feb48f7855885f9478e6eb8d250d9bd0,
     type: 3}
   projectileAttackSFX:
@@ -6132,10 +6134,10 @@ MonoBehaviour:
     loopLength: 0
     loopThreshold: 0
   seedAttackCooldown: 1
-  seedAttackForce: 800
+  seedAttackForce: 500
   seedAttackAngle: 160
-  seedAttackMinDamage: 5
-  seedAttackMaxDamage: 10
+  seedAttackMinDamage: 10
+  seedAttackMaxDamage: 15
   seedLaunchPeriod: 0.1
   seedAttackSFX:
     pitch: 0
@@ -6147,7 +6149,7 @@ MonoBehaviour:
     loopLength: 0
     loopThreshold: 0
   meleeDistance: 7
-  rangedDistance: 12
+  rangedDistance: 14
 --- !u!114 &6155603238355360619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6162,8 +6164,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetStrategy: 1
   aggroRadius: 30
-  attackRadius: 12
-  decisionDelay: 2
+  attackRadius: 14
+  decisionDelay: 5
   alwaysHaveTarget: 1
 --- !u!114 &6155603238355360612
 MonoBehaviour:
@@ -6177,7 +6179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fbf61d82ceec0f41ae64dc94dab4842, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 0.5
+  rotationSpeed: 2.5
 --- !u!82 &6155603238355360608
 AudioSource:
   m_ObjectHideFlags: 0

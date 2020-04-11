@@ -15274,8 +15274,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68daf0c9d7019af4c959f81b9db70916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invincible: 0
   health:
-    maxValue: 100
+    maxValue: 120
     minValue: 0
     regenAmount: 0
   onDeath:
@@ -15298,6 +15299,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 0
     volume: 0
@@ -15305,17 +15308,20 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   FloatingText: {fileID: 8142372409998417235, guid: 022102d05f1ce404e8d4ed43d4238d12,
     type: 3}
   EnemyColouring:
     Green: {fileID: 0}
-    Purple: {fileID: 0}
+    Blue: {fileID: 0}
     Red: {fileID: 0}
     Yellow: {fileID: 0}
     Default: {fileID: 0}
   rotateColouring: 0
   minTimeBetweenColourChanges: 7
   colourResistanceModifier: 0.35
+  isBoss: 1
 --- !u!114 &1546829893308362670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15335,6 +15341,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   entityDeathVocalSFX:
     pitch: 0
     volume: 0
@@ -15342,13 +15350,15 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   hasSpecialAttack: 1
-  specialAttackPeriod: 20
+  specialAttackPeriod: 25
   primaryAttackCooldown: 1
   primaryAttackRadius: 4
   primaryAttackAngle: 45
-  primaryAttackMinDamage: 2
-  primaryAttackMaxDamage: 6
+  primaryAttackMinDamage: 5
+  primaryAttackMaxDamage: 10
   primaryAttackProbability: 0.7
   primaryAttackSFX:
     pitch: 0
@@ -15357,11 +15367,13 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   secondaryAttackCooldown: 1
   secondaryAttackRadius: 5
   secondaryAttackAngle: 200
-  secondaryAttackMinDamage: 5
-  secondaryAttackMaxDamage: 10
+  secondaryAttackMinDamage: 8
+  secondaryAttackMaxDamage: 15
   secondaryAttackSFX:
     pitch: 0
     volume: 0
@@ -15369,10 +15381,12 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   explosionAttackCooldown: 1
-  explosionAttackRadius: 5
-  explosionAttackMinDamage: 5
-  explosionAttackMaxDamage: 10
+  explosionAttackRadius: 6
+  explosionAttackMinDamage: 20
+  explosionAttackMaxDamage: 25
   explosionAttackProbability: 0.3
   explosionAttackSFX:
     pitch: 0
@@ -15381,8 +15395,10 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   firestormCooldown: 1
-  firestormRadius: 5
+  firestormRadius: 25
   firestormMinDamage: 10
   firestormMaxDamage: 30
   firestormSFX:
@@ -15392,6 +15408,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   arenaTorches: []
 --- !u!114 &2999548708934403691
 MonoBehaviour:
@@ -15408,7 +15426,7 @@ MonoBehaviour:
   targetStrategy: 0
   aggroRadius: 30
   attackRadius: 5
-  decisionDelay: 2
+  decisionDelay: 4
   alwaysHaveTarget: 1
 --- !u!114 &3841690853369415765
 MonoBehaviour:

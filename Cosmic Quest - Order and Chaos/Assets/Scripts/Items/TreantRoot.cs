@@ -17,7 +17,7 @@ public class TreantRoot : MonoBehaviour
         _col.enabled = false;
         
         // Set idle animation randomly to one of three
-        _anim.SetInteger("IdleAnim", Random.Range(0, 2));
+        _anim.SetInteger("IdleAnim", Random.Range(0, 3));
         
         // Rotate around the Y-axis randomly to give variation
         transform.Rotate(Vector3.up, Random.Range(0, 360), Space.Self);
@@ -53,6 +53,7 @@ public class TreantRoot : MonoBehaviour
         
         // Deal damage to the player
         float damage = Random.Range(minDamage, maxDamage);
+        StartCoroutine(other.transform.GetComponent<PlayerMotorController>().ApplyTimedMovementModifier(0.35f, 3f));
         other.transform.GetComponent<PlayerStatsController>().TakeDamage(damage);
     }
 }

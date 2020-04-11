@@ -22,7 +22,6 @@ public class EnemyStatsController : EntityStatsController
     private float _minTimeBetweenDamageText = 0.3f;
     private float _damageTextValue = 0f;
     private float _damageTextCounter = 0f;
-
     public GameObject FloatingText;
 
     private Collider _collider;
@@ -35,6 +34,7 @@ public class EnemyStatsController : EntityStatsController
     [SerializeField] protected float minTimeBetweenColourChanges = 7.0f;
     protected float colourChangeTimeCounter = 0;
     public float colourResistanceModifier = 0.35f;
+    public bool isBoss = false;
 
     protected override void Awake()
     {
@@ -53,6 +53,11 @@ public class EnemyStatsController : EntityStatsController
         else
             AssignEnemyColour(characterColour);
 
+        // Scale enemy HP to number of players
+        float multiplier = 1 + PlayerManager.Instance.NumPlayers * (isBoss ? 0.5f : 0.1f);
+        health.maxValue = health.maxValue * multiplier;
+        health.Init();
+
         if (shouldSpawn)
         {
             // Create a VFX where the enemy will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the enemy colour
@@ -61,7 +66,6 @@ public class EnemyStatsController : EntityStatsController
             // "Spawn" the enemy (they float up through the stage)
             //StartCoroutine(Spawn(gameObject, spawnSpeed, spawnDelay, spawnCooldown));
         }
-        Anim.SetTrigger("Spawn");
     }
 
     protected override void Update()

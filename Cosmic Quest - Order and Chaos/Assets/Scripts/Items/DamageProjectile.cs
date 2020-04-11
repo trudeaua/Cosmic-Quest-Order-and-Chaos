@@ -17,7 +17,7 @@ public class DamageProjectile : Projectile
     /// <param name="range">Maximum range that the projectile can fly</param>
     /// <param name="damage">Damage of the projectile</param>
     /// <param name="targetTag">The tag of the target type</param>
-    public void Launch(EntityStatsController launcherStats, Vector3 direction, float launchForce, float range, float damage, string targetTag = "Enemy")
+    public virtual void Launch(EntityStatsController launcherStats, Vector3 direction, float launchForce, float range, float damage, string targetTag = "Enemy")
     {
         // Store the damage amount and call the base launch function
         Damage = damage;

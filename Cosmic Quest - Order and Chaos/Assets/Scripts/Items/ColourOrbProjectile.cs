@@ -26,7 +26,7 @@ public class ColourOrbProjectile : DamageProjectile
         
         // Select an orb colour randomly
         List<CharacterColour> orbColours = (LauncherStats as RhakStatsController).OrbsRequired;
-        _colour = orbColours[Random.Range(0, orbColours.Count - 1)];
+        _colour = orbColours[Random.Range(0, orbColours.Count)];
         Color orbColour = PlayerManager.colours.GetColour(_colour);
         
         // Set the colour of the particle systems to the orb colour

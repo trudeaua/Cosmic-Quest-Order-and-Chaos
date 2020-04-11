@@ -107,7 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   invincible: 0
   health:
-    maxValue: 120
+    maxValue: 100
     minValue: 0
     regenAmount: 0
   onDeath:
@@ -152,6 +152,7 @@ MonoBehaviour:
   rotateColouring: 0
   minTimeBetweenColourChanges: 7
   colourResistanceModifier: 0.35
+  isBoss: 1
 --- !u!114 &3258696065001789536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +201,7 @@ MonoBehaviour:
     loopLength: 0
     loopThreshold: 0
   secondaryAttackCooldown: 1
-  secondaryAttackRadius: 6
+  secondaryAttackRadius: 8
   secondaryAttackAngle: 100
   secondaryAttackMinDamage: 5
   secondaryAttackMaxDamage: 10
@@ -213,7 +214,7 @@ MonoBehaviour:
     loop: 0
     loopLength: 0
     loopThreshold: 0
-  chargedAttackCooldown: 1
+  chargedAttackCooldown: 2
   chargeSpeed: 12
   chargedAttackTriggerDistance: 5
   chargedAttackRadius: 7
@@ -250,10 +251,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f6391806b46cd48a45f9a75bfb360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetStrategy: 1
+  targetStrategy: 0
   aggroRadius: 30
   attackRadius: 6
-  decisionDelay: 2
+  decisionDelay: 3
   alwaysHaveTarget: 1
 --- !u!114 &4811386590653043767
 MonoBehaviour:
