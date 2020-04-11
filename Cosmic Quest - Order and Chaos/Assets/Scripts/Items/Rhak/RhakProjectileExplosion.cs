@@ -15,7 +15,8 @@ public class RhakProjectileExplosion : MonoBehaviour
     [SerializeField]
     private EntityStatsController statsController;
 
-    private float duration = 1f;
+    private float initialWait = 1f;
+    private float projectileDuration = 7f;
 
     public void Explode()
     {
@@ -24,7 +25,7 @@ public class RhakProjectileExplosion : MonoBehaviour
 
     IEnumerator launchProjectiles()
     {
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(initialWait);
 
         int numProjectiles = Random.Range(minProjectileCount, maxProjectileCount);
         Vector3 targetDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
@@ -35,5 +36,7 @@ public class RhakProjectileExplosion : MonoBehaviour
             GameObject projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab);
             projectile.GetComponent<DamageProjectile>().Launch(statsController, Quaternion.AngleAxis(angleIncrement * i, Vector3.up) * targetDirection, launchForce, range, Random.Range(minDamage, maxDamage), "Player");
         }
+
+        Destroy(gameObject, projectileDuration);
     }
 }

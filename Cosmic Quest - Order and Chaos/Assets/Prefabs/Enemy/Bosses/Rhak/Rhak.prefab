@@ -14743,18 +14743,20 @@ MonoBehaviour:
   hasSpecialAttack: 0
   specialAttackPeriod: 0
   projectileMinDamage: 15
-  projectileMaxDamage: 30
+  projectileMaxDamage: 25
   minProjectileForce: 200
-  maxProjectileForce: 450
-  projectileAttackAngle: 45
-  maxProjectilesBeforeOrb: 30
+  maxProjectileForce: 300
+  projectileAttackAngle: 120
+  maxProjectilesBeforeOrb: 25
   projectilePrefab: {fileID: 1374267004960804, guid: 81991794858fcd149a44fd155c751642,
     type: 3}
   orbProbability: 0.01
+  doubleShotProbability: 0.15
+  tripleShotProbability: 0.05
   orbMinDamage: 10
-  orbMaxDamage: 30
+  orbMaxDamage: 20
   orbForce: 150
-  orbRange: 15
+  orbRange: 18
   orbPrefab: {fileID: 4793373997765603503, guid: 7c7f24704d4577d418efc4682768cb14,
     type: 3}
   minProjectilePeriod: 0.4
@@ -14772,7 +14774,7 @@ MonoBehaviour:
   cooldownMaxTime: 6
   chargeMinDamage: 10
   chargeMaxDamage: 20
-  chargeSpeed: 5
+  chargeSpeed: 4
   chargeAcceleration: 2.5
   maxConsecutiveCharges: 4
 --- !u!114 &1823191193662825316

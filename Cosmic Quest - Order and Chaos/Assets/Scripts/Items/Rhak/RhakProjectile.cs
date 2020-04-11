@@ -21,6 +21,7 @@ public class RhakProjectile : DamageProjectile
         if (col.CompareTag(TargetTag))
         {
             EntityStatsController target = col.GetComponent<EntityStatsController>();
+            target.StartCoroutine(other.transform.GetComponent<PlayerMotorController>().ApplyTimedMovementModifier(0.35f, 1.5f));
             target.TakeDamage(LauncherStats, Damage);
         }
         

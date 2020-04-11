@@ -15,7 +15,9 @@ public class RhakCombatController : EnemyCombatController
     public int maxProjectilesBeforeOrb = 30;
     public GameObject projectilePrefab;
     [Range(0, 1)] public float orbProbability = 0.1f;
-    [Range(0, 1)] public float doubleShotProbability = 0.1f;
+    [Range(0, 1)] public float doubleShotProbability = 0.15f;
+    [Range(0, 1)] public float tripleShotProbability = 0.05f;
+
     public float orbMinDamage = 10f;
     public float orbMaxDamage = 30f;
     public float orbForce = 150f;
@@ -89,7 +91,13 @@ public class RhakCombatController : EnemyCombatController
                 launchDir = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;
                 float damage = Random.Range(projectileMinDamage, projectileMaxDamage) + Stats.damage.GetValue();
                 LaunchDamageProjectile(projectilePrefab, launchDir, projectileForce, 30f, damage, "Player");
-                if (Random.Range(0f, 1f) < doubleShotProbability)
+                if (Random.Range(0f, 1f) < tripleShotProbability)
+                {
+                    // :)
+                    LaunchDamageProjectile(projectilePrefab, Quaternion.AngleAxis(120f, Vector3.up) * launchDir, projectileForce, 30f, damage, "Player");
+                    LaunchDamageProjectile(projectilePrefab, Quaternion.AngleAxis(240f, Vector3.up) * launchDir, projectileForce, 30f, damage, "Player");
+                }
+                else if (Random.Range(0f, 1f) < doubleShotProbability)
                 {
                     LaunchDamageProjectile(projectilePrefab, Quaternion.AngleAxis(180f, Vector3.up) * launchDir, projectileForce, 30f, damage, "Player");
                 }

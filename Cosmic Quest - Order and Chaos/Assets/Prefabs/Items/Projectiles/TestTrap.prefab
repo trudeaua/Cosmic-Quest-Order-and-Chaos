@@ -4008,9 +4008,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDamage: 5
-  explosionForce: 250
+  explosionForce: 100
   explosionRadius: 7
-  stunTime: 1.5
+  stunTime: 2
   armTime: 1.5
   explosiveTrapVFX: {fileID: 1007489450165806, guid: a27518df04613c646a85e0581fb6dc6b,
     type: 3}
@@ -4021,6 +4021,8 @@ MonoBehaviour:
     type: 0
     delay: 0
     loop: 0
+    loopLength: 0
+    loopThreshold: 0
   trapModel: {fileID: 2671365866254241856}
 --- !u!54 &9157185116791405799
 Rigidbody:
