@@ -53,7 +53,7 @@ public class TreantRoot : MonoBehaviour
         
         // Deal damage to the player
         float damage = Random.Range(minDamage, maxDamage);
-        StartCoroutine(other.transform.GetComponent<PlayerMotorController>().ApplyTimedMovementModifier(0.35f, 3f));
+        StartCoroutine(other.transform.GetComponent<PlayerMotorController>().ApplyTimedMovementModifier(0.25f, 2.2f));
         other.transform.GetComponent<PlayerStatsController>().TakeDamage(damage);
     }
 }

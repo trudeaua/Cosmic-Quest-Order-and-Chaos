@@ -48,6 +48,9 @@ public class PlayerStatsController : EntityStatsController
         // colour the player's weapon
         AssignWeaponColour(gameObject, playerColour);
 
+        // Scale player damage based on number of levels cleared
+        damage.AddModifier(LevelManager.Instance.GetNumLevelsCleared());
+
         if (shouldSpawn)
         {
             // Create a VFX where the player will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the player colour

@@ -53,11 +53,8 @@ public class EnemyStatsController : EntityStatsController
         else
             AssignEnemyColour(characterColour);
 
-        // Scale enemy HP to number of players
-        float multiplier = 1 + PlayerManager.Instance.NumPlayers * (isBoss ? 0.5f : 0.1f);
-        health.maxValue = health.maxValue * multiplier;
-        health.Init();
-
+        ScaleEnemies(PlayerManager.Instance.NumPlayers);
+        
         if (shouldSpawn)
         {
             // Create a VFX where the enemy will spawn - just slightly above the stage (0.1f) - and change the VFX colour to match the enemy colour
@@ -66,6 +63,7 @@ public class EnemyStatsController : EntityStatsController
             // "Spawn" the enemy (they float up through the stage)
             //StartCoroutine(Spawn(gameObject, spawnSpeed, spawnDelay, spawnCooldown));
         }
+        Anim.SetTrigger("Spawn");
     }
 
     protected override void Update()
@@ -252,5 +250,16 @@ public class EnemyStatsController : EntityStatsController
         
         // Assign the enemy colour
         AssignEnemyColour(randomColour);
+    }
+
+    private void ScaleEnemies(int numPlayers)
+    {
+        // Scale enemy HP to number of players
+        float healthMultiplier = 1 + numPlayers * (isBoss ? 0.5f : 0.1f);
+        health.maxValue = health.maxValue * healthMultiplier;
+        health.Init();
+
+        // Scale player damage on colour resistant enemies(to different colours)
+        colourResistanceModifier =  0.35f + (4 - numPlayers) * 0.15f;
     }
 }

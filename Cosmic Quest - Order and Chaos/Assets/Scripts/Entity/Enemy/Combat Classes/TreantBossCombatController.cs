@@ -29,7 +29,6 @@ public class TreantBossCombatController : EnemyCombatController
     public float projectileAttackMinDamage = 5f;
     public float projectileAttackMaxDamage = 10f;
     public int maxPlantsSpawned = 10;
-    public int spawnedPlantsClearCount = 3;
     public GameObject seedPrefab;
     [SerializeField] protected AudioHelper.EntityAudioClip projectileAttackSFX;
     private List<EnemyStatsController> _spawnedPlants;
@@ -63,6 +62,7 @@ public class TreantBossCombatController : EnemyCombatController
         GameObject roots = Instantiate(rootContainerPrefab);
         _roots = roots.GetComponent<TreantRootContainer>();
         _spawnedPlants = new List<EnemyStatsController>();
+        maxPlantsSpawned = maxPlantsSpawned + PlayerManager.Instance.NumPlayers * 2;
     }
 
     /// <summary>
@@ -165,10 +165,7 @@ public class TreantBossCombatController : EnemyCombatController
         // Kills plants spawned earlier when at max plants
         if (_spawnedPlants.Count >= maxPlantsSpawned)
         {
-            for (int i = 0; i < spawnedPlantsClearCount; i++) 
-            {
-                _spawnedPlants[i].Kill();
-            }
+            _spawnedPlants[0].Kill();
         }
 
         // Remove any dead plants from the list
