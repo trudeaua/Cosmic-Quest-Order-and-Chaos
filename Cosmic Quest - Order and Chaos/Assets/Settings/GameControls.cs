@@ -8,7 +8,7 @@ using UnityEngine.InputSystem.Utilities;
 
 public class @GameControls : IInputActionCollection, IDisposable
 {
-    private InputActionAsset asset;
+    public InputActionAsset asset { get; }
     public @GameControls()
     {
         asset = InputActionAsset.FromJson(@"{
@@ -19,7 +19,7 @@ public class @GameControls : IInputActionCollection, IDisposable
             ""id"": ""9c4661d3-068a-4bc4-880d-e45624c55b69"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""MovePlayer"",
                     ""type"": ""Value"",
                     ""id"": ""a2411fe7-c6e6-4bd0-b021-87e5e42de7aa"",
                     ""expectedControlType"": ""Vector2"",
@@ -83,7 +83,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": ""StickDeadzone(min=0.125,max=0.95)"",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Move"",
+                    ""action"": ""MovePlayer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -94,7 +94,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""MovePlayer"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -105,7 +105,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Move"",
+                    ""action"": ""MovePlayer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -116,7 +116,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Move"",
+                    ""action"": ""MovePlayer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -127,7 +127,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Move"",
+                    ""action"": ""MovePlayer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -138,7 +138,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Move"",
+                    ""action"": ""MovePlayer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -149,7 +149,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Joystick"",
-                    ""action"": ""Move"",
+                    ""action"": ""MovePlayer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -348,7 +348,7 @@ public class @GameControls : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""MenuNavigate"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""6b206bb7-c9cc-4a35-951b-7f7a81206839"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
@@ -356,33 +356,33 @@ public class @GameControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""MenuSelect"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""42861f1a-b0d3-4966-9c50-9dd60852ca5a"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""MenuCancel"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""70ba4ddf-fdf6-4b37-a8b7-62d4f8ca6203"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""MenuOpen"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""6b143529-40bc-40ad-b621-0a10ab3a6ead"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""MenuClose"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""684789e1-b3ac-4f60-92a9-eba3718282db"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)""
                 }
@@ -559,7 +559,7 @@ public class @GameControls : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/enter"",
                     ""interactions"": ""Press"",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""MenuSelect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -698,7 +698,7 @@ public class @GameControls : IInputActionCollection, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_MovePlayer = m_Player.FindAction("MovePlayer", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_PrimaryAttack = m_Player.FindAction("PrimaryAttack", throwIfNotFound: true);
         m_Player_SecondaryAttack = m_Player.FindAction("SecondaryAttack", throwIfNotFound: true);
@@ -761,7 +761,7 @@ public class @GameControls : IInputActionCollection, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_MovePlayer;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_PrimaryAttack;
     private readonly InputAction m_Player_SecondaryAttack;
@@ -772,7 +772,7 @@ public class @GameControls : IInputActionCollection, IDisposable
     {
         private @GameControls m_Wrapper;
         public PlayerActions(@GameControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @MovePlayer => m_Wrapper.m_Player_MovePlayer;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @PrimaryAttack => m_Wrapper.m_Player_PrimaryAttack;
         public InputAction @SecondaryAttack => m_Wrapper.m_Player_SecondaryAttack;
@@ -788,9 +788,9 @@ public class @GameControls : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @MovePlayer.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovePlayer;
+                @MovePlayer.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovePlayer;
+                @MovePlayer.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovePlayer;
                 @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
@@ -813,9 +813,9 @@ public class @GameControls : IInputActionCollection, IDisposable
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
+                @MovePlayer.started += instance.OnMovePlayer;
+                @MovePlayer.performed += instance.OnMovePlayer;
+                @MovePlayer.canceled += instance.OnMovePlayer;
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
@@ -932,7 +932,7 @@ public class @GameControls : IInputActionCollection, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnMove(InputAction.CallbackContext context);
+        void OnMovePlayer(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnPrimaryAttack(InputAction.CallbackContext context);
         void OnSecondaryAttack(InputAction.CallbackContext context);

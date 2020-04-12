@@ -142,7 +142,7 @@ public class PlayerMotorController : MonoBehaviour
         _speedModifier = 1f;
     }
 
-    private void OnMove(InputValue value)
+    private void OnMovePlayer(InputValue value)
     {
         _moveInput = value.Get<Vector2>();
     }

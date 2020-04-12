@@ -6,7 +6,7 @@
             "id": "9c4661d3-068a-4bc4-880d-e45624c55b69",
             "actions": [
                 {
-                    "name": "Move",
+                    "name": "MovePlayer",
                     "type": "Value",
                     "id": "a2411fe7-c6e6-4bd0-b021-87e5e42de7aa",
                     "expectedControlType": "Vector2",
@@ -70,7 +70,7 @@
                     "interactions": "",
                     "processors": "StickDeadzone(min=0.125,max=0.95)",
                     "groups": "Gamepad",
-                    "action": "Move",
+                    "action": "MovePlayer",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -81,7 +81,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "MovePlayer",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -92,7 +92,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Move",
+                    "action": "MovePlayer",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -103,7 +103,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Move",
+                    "action": "MovePlayer",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -114,7 +114,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Move",
+                    "action": "MovePlayer",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -125,7 +125,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Move",
+                    "action": "MovePlayer",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -136,7 +136,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
-                    "action": "Move",
+                    "action": "MovePlayer",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -335,7 +335,7 @@
             "actions": [
                 {
                     "name": "MenuNavigate",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "6b206bb7-c9cc-4a35-951b-7f7a81206839",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -343,33 +343,33 @@
                 },
                 {
                     "name": "MenuSelect",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "42861f1a-b0d3-4966-9c50-9dd60852ca5a",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
                 },
                 {
                     "name": "MenuCancel",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "70ba4ddf-fdf6-4b37-a8b7-62d4f8ca6203",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
                 },
                 {
                     "name": "MenuOpen",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "6b143529-40bc-40ad-b621-0a10ab3a6ead",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
                 },
                 {
                     "name": "MenuClose",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "684789e1-b3ac-4f60-92a9-eba3718282db",
-                    "expectedControlType": "",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
                 }
@@ -546,7 +546,7 @@
                     "path": "<Keyboard>/enter",
                     "interactions": "Press",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard",
                     "action": "MenuSelect",
                     "isComposite": false,
                     "isPartOfComposite": false
