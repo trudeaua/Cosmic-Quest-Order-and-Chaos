@@ -46,9 +46,6 @@ public class Player
     // Which colour is the player
     public CharacterColour characterColour;
 
-    // name of the class
-    public string classChoice;
-    
     // Which ui control is assigned to the player
     public GameObject playerUIControl;
 
@@ -56,6 +53,8 @@ public class Player
     public GameObject playerObject;
 
     public int deviceId;
+
+    internal string classChoice;
 
     public int primaryAttackActionId;
     public int secondaryAttackActionId;
@@ -98,7 +97,7 @@ public class PlayerManager : MonoBehaviour
             Destroy(this);
         }
     }
-    
+
     private void OnDestroy()
     {
         if (Instance == this)
@@ -107,7 +106,7 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     public readonly List<GameObject> Players = new List<GameObject>();
-    
+
     public static PlayerColours colours = new PlayerColours();
 
     [Tooltip("Classes that the players can choose")]
@@ -120,7 +119,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject playerUIControlPrefab;
 
     // Maintains the players that have joined the game
-    private readonly Player[] _playerSlots = { null, null ,null, null };
+    private readonly Player[] _playerSlots = { null, null, null, null };
     public readonly CharacterColour[] PlayerColours = { CharacterColour.Blue, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
 
     public int NumPlayers
@@ -133,7 +132,7 @@ public class PlayerManager : MonoBehaviour
         get { return Players.FindAll(p => !p.GetComponent<PlayerStatsController>().isDead); }
     }
 
-    public CharacterColour[] CurrentPlayerColours 
+    public CharacterColour[] CurrentPlayerColours
     {
         get { return Instance.PlayerColours.Take(Instance.NumPlayers).ToArray(); }
     }
@@ -154,7 +153,7 @@ public class PlayerManager : MonoBehaviour
     {
         Players.Clear();
     }
-    
+
     /// <summary>
     /// Registers a player character instance for the current scene
     /// </summary>
@@ -238,7 +237,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (_playerSlots[playerNumber] == null)
             return null;
-        
+
         // PlayerInput is disabled then reenabled here because when a new instance of PlayerInput is added to the scene,
         // the PlayerInputManager treats it as a new player being connected to the scene. So disabling the PlayerInput 
         // in the prefab and then instantiating does not cause it to be treated as a new player
@@ -262,7 +261,7 @@ public class PlayerManager : MonoBehaviour
         playerMaterial.SetTexture("_MainTex", _playerSlots[playerNumber].characterChoice.skin);
         playerInstance.GetComponentInChildren<Renderer>().sharedMaterial = playerMaterial;
     }
-    
+
     /// <summary>
     /// Assign a Player UI Control game object to a player
     /// </summary>
@@ -388,7 +387,7 @@ public class PlayerManager : MonoBehaviour
                     ds.SetLightBarColor(colours.GetColour(newPlayer.characterColour));
                 }
             }
-            
+
             if (MenuCanvas == null)
             {
                 MainMenuController mainMenu = FindObjectOfType<MainMenuController>();
@@ -400,7 +399,7 @@ public class PlayerManager : MonoBehaviour
             // i.e. If we're on the menu
             if (MenuCanvas != null)
             {
-               // MenuCanvas.BroadcastMessage("PlayerJoined", playerNumber);
+                // MenuCanvas.BroadcastMessage("PlayerJoined", playerNumber);
             }
             // If not in menu we must be in a level (right???)
             else
