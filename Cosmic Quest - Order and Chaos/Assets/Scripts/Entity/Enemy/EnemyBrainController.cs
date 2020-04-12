@@ -52,11 +52,6 @@ public class EnemyBrainController : MonoBehaviour
     {
         // Initialize target array
         _targets = new List<TargetPlayer>();
-        foreach (GameObject player in PlayerManager.Instance.Players)
-        {
-            TargetPlayer target = new TargetPlayer {Player = player, Stats = player.GetComponent<EntityStatsController>()};
-            _targets.Add(target);
-        }
     }
 
     private void Update()
