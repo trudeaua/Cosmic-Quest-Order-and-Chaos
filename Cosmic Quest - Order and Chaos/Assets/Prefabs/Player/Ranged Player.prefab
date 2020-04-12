@@ -2172,6 +2172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionRadius: 4
   interactionAngle: 120
+  interactionCooldown: 0.2
 --- !u!114 &7264181408041424332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2280,7 +2281,7 @@ MonoBehaviour:
   primaryAttackMinDamage: 4
   primaryAttackMaxDamage: 6
   primaryAttackRange: 13.5
-  primaryAttackChargeTime: 2.5
+  primaryAttackChargeTime: 2.2
   primaryAttackMinLaunchForce: 100
   primaryAttackMaxLaunchForce: 400
   primaryAttackLaunchDelay: 0.2
@@ -2316,9 +2317,9 @@ MonoBehaviour:
       outWeight: 1
     - serializedVersion: 3
       time: 1
-      value: 1.6
-      inSlope: 60.00006
-      outSlope: 60.00006
+      value: 1.65
+      inSlope: 65.00006
+      outSlope: 65.00006
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334

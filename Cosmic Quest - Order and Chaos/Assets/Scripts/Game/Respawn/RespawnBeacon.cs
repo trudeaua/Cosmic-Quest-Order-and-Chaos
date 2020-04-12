@@ -17,7 +17,7 @@ public class RespawnBeacon : MonoBehaviour
 
     void Start()
     {
-        reviveText = reviveTextList[Random.Range(0, reviveTextList.Length - 1)];
+        reviveText = reviveTextList[Random.Range(0, reviveTextList.Length)];
         UpdateRespawnPercentage(playerColliders.Count > 0);
     }
 

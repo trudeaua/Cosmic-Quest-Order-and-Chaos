@@ -62,6 +62,7 @@ public class TreantBossCombatController : EnemyCombatController
         GameObject roots = Instantiate(rootContainerPrefab);
         _roots = roots.GetComponent<TreantRootContainer>();
         _spawnedPlants = new List<EnemyStatsController>();
+        maxPlantsSpawned = maxPlantsSpawned + PlayerManager.Instance.NumPlayers * 2;
     }
 
     /// <summary>
@@ -161,6 +162,12 @@ public class TreantBossCombatController : EnemyCombatController
     /// <returns>Whether a new plant can be spawned or not</returns>
     public bool CanSpawnNewPlant()
     {
+        // Kills plants spawned earlier when at max plants
+        if (_spawnedPlants.Count >= maxPlantsSpawned)
+        {
+            _spawnedPlants[0].Kill();
+        }
+
         // Remove any dead plants from the list
         _spawnedPlants.RemoveAll(p => p.isDead);
 

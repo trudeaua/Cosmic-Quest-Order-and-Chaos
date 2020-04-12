@@ -152,6 +152,7 @@ MonoBehaviour:
   rotateColouring: 0
   minTimeBetweenColourChanges: 7
   colourResistanceModifier: 0.35
+  isBoss: 1
 --- !u!114 &3258696065001789536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,9 +184,9 @@ MonoBehaviour:
     loopLength: 0
     loopThreshold: 0
   hasSpecialAttack: 1
-  specialAttackPeriod: 20
+  specialAttackPeriod: 10
   primaryAttackCooldown: 1
-  primaryAttackRadius: 7
+  primaryAttackRadius: 6
   primaryAttackAngle: 45
   primaryAttackMinDamage: 2
   primaryAttackMaxDamage: 6
@@ -201,7 +202,7 @@ MonoBehaviour:
     loopThreshold: 0
   secondaryAttackCooldown: 1
   secondaryAttackRadius: 8
-  secondaryAttackAngle: 200
+  secondaryAttackAngle: 100
   secondaryAttackMinDamage: 5
   secondaryAttackMaxDamage: 10
   secondaryAttackSFX:
@@ -213,12 +214,13 @@ MonoBehaviour:
     loop: 0
     loopLength: 0
     loopThreshold: 0
-  chargedAttackCooldown: 1
-  chargeSpeed: 10
+  chargedAttackCooldown: 2
+  chargeSpeed: 12
   chargedAttackTriggerDistance: 5
   chargedAttackRadius: 7
-  chargeAttackMinDamage: 10
-  chargeAttackMaxDamage: 30
+  chargeAttackAngle: 75
+  chargeAttackMinDamage: 8
+  chargeAttackMaxDamage: 12
   roarSFX:
     pitch: 0
     volume: 0
@@ -249,10 +251,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f6391806b46cd48a45f9a75bfb360b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetStrategy: 1
+  targetStrategy: 0
   aggroRadius: 30
   attackRadius: 6
-  decisionDelay: 2
+  decisionDelay: 3
   alwaysHaveTarget: 1
 --- !u!114 &4811386590653043767
 MonoBehaviour:

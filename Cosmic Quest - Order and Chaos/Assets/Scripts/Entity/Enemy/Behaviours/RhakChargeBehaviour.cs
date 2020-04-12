@@ -15,7 +15,7 @@ public class RhakChargeBehaviour : StateMachineBehaviour
         _brain = animator.GetComponent<EnemyBrainController>();
 
         // Decide the number of charges to perform
-        _totalCharges = Random.Range(1, _combat.maxConsecutiveCharges);
+        _totalCharges = Random.Range(1, _combat.maxConsecutiveCharges + 1);
         _numCharges = 0;
         
         // Start the charge attack

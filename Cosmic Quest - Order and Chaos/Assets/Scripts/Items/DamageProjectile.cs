@@ -6,6 +6,7 @@ public class DamageProjectile : Projectile
 {
     protected float Damage = 0f;
     protected string TargetTag = "Enemy";
+    protected string AllyTag = "Player";
 
     /// <summary>
     /// Launch the damage projectile
@@ -16,11 +17,12 @@ public class DamageProjectile : Projectile
     /// <param name="range">Maximum range that the projectile can fly</param>
     /// <param name="damage">Damage of the projectile</param>
     /// <param name="targetTag">The tag of the target type</param>
-    public void Launch(EntityStatsController launcherStats, Vector3 direction, float launchForce, float range, float damage, string targetTag = "Enemy")
+    public virtual void Launch(EntityStatsController launcherStats, Vector3 direction, float launchForce, float range, float damage, string targetTag = "Enemy")
     {
         // Store the damage amount and call the base launch function
         Damage = damage;
         TargetTag = targetTag;
+        if (targetTag == "Player") AllyTag = "Enemy";
         Launch(launcherStats, direction, launchForce, range);
     }
 
@@ -36,7 +38,7 @@ public class DamageProjectile : Projectile
         }
         
         // Don't worry about collisions with the launcher or colliders that are triggers
-        if (col != LauncherStats.gameObject && !other.isTrigger)
+        if (col != LauncherStats.gameObject && !other.isTrigger && other.tag != AllyTag)
             gameObject.SetActive(false);
     }
 }

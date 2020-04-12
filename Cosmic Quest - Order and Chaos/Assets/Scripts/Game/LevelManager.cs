@@ -44,7 +44,7 @@ public class LevelManager : MonoBehaviour
     private Animator _anim;
 
     public ChaosVoid activeLevel;
-
+    private int numClearedLevels = 0;
 
     private void Start()
     {
@@ -95,8 +95,13 @@ public class LevelManager : MonoBehaviour
         if (activeLevel is null)
         {
             activeLevel = Array.Find(chaosVoids, (level) => level.scene.name == SceneManager.GetActiveScene().name);
+            if (activeLevel is null) {
+                Debug.Log("Unable to find chaos void.");
+                return;
+            }
         }
         activeLevel.cleared = true;
+        numClearedLevels++;
     }
 
     /// <summary>
@@ -180,5 +185,10 @@ public class LevelManager : MonoBehaviour
             GameManager.Instance.SetSelectingLevelState();
         loadingDoneEvent.Invoke();
         yield return new WaitForSeconds(0.5f);
+    }
+
+    public int GetNumLevelsCleared()
+    {
+        return numClearedLevels;
     }
 }

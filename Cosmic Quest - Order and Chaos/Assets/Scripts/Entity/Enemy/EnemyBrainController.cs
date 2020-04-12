@@ -70,7 +70,7 @@ public class EnemyBrainController : MonoBehaviour
 
         // Make target decision when the timer runs out or if the current target is dead
         _decisionTimer -= Time.deltaTime;
-        if (_decisionTimer > 0f || (_currentTarget != null && !_currentTarget.Stats.isDead))
+        if (_decisionTimer > 0f && _currentTarget != null && !_currentTarget.Stats.isDead)
             return;
 
         _decisionTimer = decisionDelay;
@@ -146,7 +146,7 @@ public class EnemyBrainController : MonoBehaviour
                 // 3. If we should always have a target, select a player randomly (if there are any)
                 if (alwaysHaveTarget)
                 {
-                    _currentTarget = AliveTargets[Random.Range(0, AliveTargets.Count - 1)];
+                    _currentTarget = AliveTargets[Random.Range(0, AliveTargets.Count)];
                     return;
                 }
         
@@ -177,7 +177,7 @@ public class EnemyBrainController : MonoBehaviour
             
             case TargetStrategy.Random:
                 // Select living target randomly
-                _currentTarget = AliveTargets.Count > 0 ? AliveTargets[Random.Range(0, AliveTargets.Count - 1)] : null;
+                _currentTarget = AliveTargets.Count > 0 ? AliveTargets[Random.Range(0, AliveTargets.Count)] : null;
                 break;
         }
     }
@@ -297,7 +297,7 @@ public class EnemyBrainController : MonoBehaviour
     /// <returns>The transform of the random target</returns>
     public Transform GetRandomTarget()
     {
-        return AliveTargets.Count > 0 ? AliveTargets[Random.Range(0, AliveTargets.Count - 1)].Player.transform : null;
+        return AliveTargets.Count > 0 ? AliveTargets[Random.Range(0, AliveTargets.Count)].Player.transform : null;
     }
     
     /// <summary>

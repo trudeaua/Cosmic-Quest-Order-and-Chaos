@@ -8,6 +8,7 @@ public class ObjectPoolItem
     public int pooledAmount;
     public GameObject pooledObject;
     public bool expandable;
+    public bool loopingUse;
     public List<GameObject> pooledObjects;
 }
 
@@ -75,6 +76,15 @@ public class ObjectPooler : MonoBehaviour
                     newObject.SetActive(false);
                     item.pooledObjects.Add(newObject);
                     return newObject;
+                }
+
+                if (item.loopingUse)
+                {
+                    GameObject obj = item.pooledObjects[0];
+                    item.pooledObjects.RemoveAt(0);
+                    obj.SetActive(false);
+                    item.pooledObjects.Add(obj);
+                    return obj;
                 }
 
                 return null;

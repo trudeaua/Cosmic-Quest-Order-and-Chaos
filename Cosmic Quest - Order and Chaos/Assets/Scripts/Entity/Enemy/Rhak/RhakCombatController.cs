@@ -7,16 +7,24 @@ public class RhakCombatController : EnemyCombatController
     private Collider _physicalCollider;
     
     [Header("Bullet Hell")]
-    public float projectileMinDamage = 5f;
-    public float projectileMaxDamage = 10f;
-    public float projectileForce = 300f;
+    public float projectileMinDamage = 20f;
+    public float projectileMaxDamage = 30f;
+    public float minProjectileForce = 200f;
+    public float maxProjectileForce = 450f;
+    public float projectileAttackAngle = 30f;
+    public int maxProjectilesBeforeOrb = 30;
     public GameObject projectilePrefab;
     [Range(0, 1)] public float orbProbability = 0.1f;
+    [Range(0, 1)] public float doubleShotProbability = 0.15f;
+    [Range(0, 1)] public float tripleShotProbability = 0.05f;
+
     public float orbMinDamage = 10f;
     public float orbMaxDamage = 30f;
     public float orbForce = 150f;
+    public float orbRange = 15f;
     public GameObject orbPrefab;
-    public float projectilePeriod = 0.5f;
+    public float minProjectilePeriod = 0.1f;
+    public float maxProjectilePeriod = 0.5f;
     [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackSFX;
     private bool _isFiring;
 
@@ -31,6 +39,7 @@ public class RhakCombatController : EnemyCombatController
     
     private Vector3 _chargeTarget;
     private float _currentVelocity;
+    private int currentNumProjectiles = 0;
     public bool IsCharging { get; private set; }
 
     protected override void Awake()
@@ -66,20 +75,35 @@ public class RhakCombatController : EnemyCombatController
 
             Vector3 launchDir = target.position - transform.position;
 
-            if (Random.Range(0f, 1f) < orbProbability)
+            if (Random.Range(0f, 1f) < orbProbability || ++currentNumProjectiles >= maxProjectilesBeforeOrb)
             {
                 // Shoot coloured orb
                 float damage = Random.Range(orbMinDamage, orbMaxDamage) + Stats.damage.GetValue();
-                LaunchDamageProjectile(orbPrefab, launchDir, orbForce, 30f, damage, "Player");
+                LaunchDamageProjectile(orbPrefab, launchDir, orbForce, orbRange, damage, "Player");
+                currentNumProjectiles = 0;
             }
             else
             {
                 // Shoot projectile
+                // Select random direction to launch in
+                float angle = Random.Range(-projectileAttackAngle, projectileAttackAngle) / 2;
+                float projectileForce = Random.Range(minProjectileForce, maxProjectileForce);
+                launchDir = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward;
                 float damage = Random.Range(projectileMinDamage, projectileMaxDamage) + Stats.damage.GetValue();
                 LaunchDamageProjectile(projectilePrefab, launchDir, projectileForce, 30f, damage, "Player");
+                if (Random.Range(0f, 1f) < tripleShotProbability)
+                {
+                    // :)
+                    LaunchDamageProjectile(projectilePrefab, Quaternion.AngleAxis(120f, Vector3.up) * launchDir, projectileForce, 30f, damage, "Player");
+                    LaunchDamageProjectile(projectilePrefab, Quaternion.AngleAxis(240f, Vector3.up) * launchDir, projectileForce, 30f, damage, "Player");
+                }
+                else if (Random.Range(0f, 1f) < doubleShotProbability)
+                {
+                    LaunchDamageProjectile(projectilePrefab, Quaternion.AngleAxis(180f, Vector3.up) * launchDir, projectileForce, 30f, damage, "Player");
+                }
             }
             
-            yield return new WaitForSeconds(projectilePeriod);
+            yield return new WaitForSeconds(Random.Range(minProjectilePeriod, maxProjectilePeriod));
         }
     }
 
