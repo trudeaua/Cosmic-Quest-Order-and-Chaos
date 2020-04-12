@@ -7,7 +7,8 @@ using UnityEngine;
 public class ChaosVoid : ScriptableObject, ISerializable
 {
     // Reference to the scene for this chaos void
-    public Object scene;
+    public SceneReference scene;
+
     // List of chaos voids required to be completed before starting this one
     public ChaosVoid[] prerequisites;
 
@@ -22,16 +23,12 @@ public class ChaosVoid : ScriptableObject, ISerializable
 
     // Whether this chaos void has been cleared
     public bool cleared;
+
     // Whether this chaos void has been started
     public bool started;
-    // The final boss for this chaos void
-    public GameObject boss;
 
     public void Initialize()
     {
-        // Initialize whatever...
-        // Find all serializables in the level
-        // Find the final boss in the scene
         started = true;
     }
 

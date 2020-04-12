@@ -39,8 +39,8 @@ namespace WorldTests //list of tests i should do
             playerControl.characterColour = CharacterColour.Yellow;
             Assert.True(interactable.CanInteract(playerPos));
 
-            interactable.colour = CharacterColour.Purple;
-            playerControl.characterColour = CharacterColour.Purple;
+            interactable.colour = CharacterColour.Blue;
+            playerControl.characterColour = CharacterColour.Blue;
             Assert.True(interactable.CanInteract(playerPos));
 
             //assert for COLOURLESS object, with each player colour
@@ -73,7 +73,6 @@ namespace WorldTests //list of tests i should do
             Transform objPos = gameObject.GetComponent<Transform>();
             objPos.position = Vector3.one; //set both this and the 'player' to the same position
             Interactable interactable = gameObject.AddComponent<Interactable>();
-            interactable.radius = 10f; //arbitrarily large, the target and player are in same spot anyways for testing
             interactable.colour = CharacterColour.Red; //set target and 'player' colour to NOT MATCH
             
             //target.GetComponent<EntityStatsController>().characterColour
@@ -89,8 +88,8 @@ namespace WorldTests //list of tests i should do
             //Red object, Green Player
             Assert.False(interactable.CanInteract(playerPos));
 
-            //Purple object, Green Player
-            interactable.colour = CharacterColour.Purple; 
+            //Blue object, Green Player
+            interactable.colour = CharacterColour.Blue; 
             Assert.False(interactable.CanInteract(playerPos));
 
             //Yellow object, Green Player
@@ -102,8 +101,8 @@ namespace WorldTests //list of tests i should do
             //Yellow object, Red player
             Assert.False(interactable.CanInteract(playerPos));
 
-            //Purple object, Red Player
-            interactable.colour = CharacterColour.Purple; 
+            //Blue object, Red Player
+            interactable.colour = CharacterColour.Blue; 
             Assert.False(interactable.CanInteract(playerPos));
 
             //Green object, Red Player
@@ -111,16 +110,16 @@ namespace WorldTests //list of tests i should do
             Assert.False(interactable.CanInteract(playerPos));
 
 
-            playerControl.characterColour = CharacterColour.Purple;//set player colour to Purple now
+            playerControl.characterColour = CharacterColour.Blue;//set player colour to Blue now
             
-            //Green object, Purple Player
+            //Green object, Blue Player
             Assert.False(interactable.CanInteract(playerPos));
 
-            //Yellow object, Purple Player
+            //Yellow object, Blue Player
             interactable.colour = CharacterColour.Yellow; 
             Assert.False(interactable.CanInteract(playerPos));
 
-            //Red object, Purple Player
+            //Red object, Blue Player
             interactable.colour = CharacterColour.Red; 
             Assert.False(interactable.CanInteract(playerPos));
 
@@ -130,8 +129,8 @@ namespace WorldTests //list of tests i should do
             //Red object, Yellow Player
             Assert.False(interactable.CanInteract(playerPos));
 
-            //Purple object, Yellow Player
-            interactable.colour = CharacterColour.Purple; 
+            //Blue object, Yellow Player
+            interactable.colour = CharacterColour.Blue; 
             Assert.False(interactable.CanInteract(playerPos));
 
             //Green object, Yellow Player
@@ -152,7 +151,6 @@ namespace WorldTests //list of tests i should do
             Transform objPos = gameObject.GetComponent<Transform>();
             objPos.position = Vector3.up; //position (0,1,0)
             Interactable interactable = gameObject.AddComponent<Interactable>();
-            interactable.radius = 0f; //test range of 0 first, then range of 0.5, range of 1, and range of arbitrarily large.
             interactable.colour = CharacterColour.Red; //set target and 'player' colour to RED
 
             //variables for 'player'
@@ -161,26 +159,14 @@ namespace WorldTests //list of tests i should do
             playerPos.position = Vector3.zero; //position (0,0,0)
             EntityStatsController playerControl = player.AddComponent<EntityStatsController>();
             playerControl.characterColour = CharacterColour.Red;//set player colour to Red to start
-
             Assert.False(interactable.CanInteract(playerPos));
-
-            interactable.radius = 0.5f;
-            Assert.False(interactable.CanInteract(playerPos));
-
-            interactable.radius = 0.9999f;
-            Assert.False(interactable.CanInteract(playerPos));
-
-
-            interactable.radius = 1.0f; // this should be interactible
-            Assert.True(interactable.CanInteract(playerPos));
+            
 
             objPos.position = new Vector3(0,2,0); //position (0,2,0)
             //interactible radius is still 1, test it is now out of range
             Assert.False(interactable.CanInteract(playerPos));
 
-            //arbitrarily large number 235463
-
-            interactable.radius = 235463.0f;
+            
             objPos.position = new Vector3(235463,235463,235463); //arbitrarily far
             //interactible radius is still 1, test it is now out of range
             Assert.False(interactable.CanInteract(playerPos));
@@ -196,7 +182,6 @@ namespace WorldTests //list of tests i should do
             Transform objPos = gameObject.GetComponent<Transform>();
             objPos.position = Vector3.up; //position (0,1,0)
             Interactable interactable = gameObject.AddComponent<Interactable>();
-            interactable.radius = 0f; //will not test as many for this
             interactable.colour = CharacterColour.Red; //set target and 'player' colour to different colours
 
             //variables for 'player'
@@ -208,21 +193,11 @@ namespace WorldTests //list of tests i should do
 
             Assert.False(interactable.CanInteract(playerPos));
 
-            interactable.radius = 0.5f;
-            Assert.False(interactable.CanInteract(playerPos));
-
-            interactable.radius = 0.9999f;
-            Assert.False(interactable.CanInteract(playerPos));
-
-
-
             objPos.position = new Vector3(0,2,0); //position (0,2,0)
             //interactible radius is still 1, test it is out of range
             Assert.False(interactable.CanInteract(playerPos));
 
             //arbitrarily large number 235463
-
-            interactable.radius = 732363.0f;
             objPos.position = new Vector3(732363,732363,732363); //arbitrarily far
             //interactible radius is still 0.9999, test it is now out of range
             Assert.False(interactable.CanInteract(playerPos));

@@ -8,19 +8,40 @@ using UnityEngine.AI;
 [RequireComponent(typeof(EnemyBrainController))]
 public class EnemyCombatController : EntityCombatController
 {
-    public float primaryAttackCooldown = 1f;
-    public float primaryAttackDelay = 0.6f;
-    [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackSFX;
+    [Header("General Settings")]
+    public bool hasSpecialAttack;
+    [Tooltip("How often the enemy will perform its special attack if it has one")]
+    public float specialAttackPeriod;
 
-    public float attackRadius = 3f;
-    public float attackAngle = 45f;
+    public bool IsCoolingDown => AttackCooldown > 0f;
+    protected float SpecialAttackTimer;
+    public bool CanUseSpecialAttack => hasSpecialAttack && SpecialAttackTimer <= 0f;
 
-    protected List<GameObject> Players;
+    protected EnemyBrainController Brain;
+    protected IEnumerable<GameObject> Players => PlayerManager.Instance.Players;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        Brain = GetComponent<EnemyBrainController>();
+    }
+    
     private void Start()
     {
-        Players = PlayerManager.Instance.Players;
+        // Initialize special attack timer
+        if (hasSpecialAttack)
+            SpecialAttackTimer = specialAttackPeriod;
     }
+    
+    protected override void Update()
+    {
+        base.Update();
+
+        if (hasSpecialAttack && SpecialAttackTimer > 0)
+            SpecialAttackTimer -= Time.deltaTime;
+    }
+
     /// <summary>
     /// Placeholder for enemy primary attack
     /// </summary>
@@ -28,6 +49,7 @@ public class EnemyCombatController : EntityCombatController
     {
         Debug.Log(gameObject.name + "'s primary attack triggered");
     }
+    
     /// <summary>
     /// Placeholder for enemy secondary attack
     /// </summary>
@@ -35,6 +57,7 @@ public class EnemyCombatController : EntityCombatController
     {
         Debug.Log(gameObject.name + "'s secondary attack triggered");
     }
+    
     /// <summary>
     /// Placeholder for enemy tertiary attack
     /// </summary>
@@ -44,27 +67,49 @@ public class EnemyCombatController : EntityCombatController
     }
 
     /// <summary>
+    /// Placeholder for enemy special attack starter
+    /// </summary>
+    public virtual void SpecialAttack()
+    {
+        Debug.Log(gameObject.name + "'s special attack triggered");
+    }
+
+    /// <summary>
+    /// Selects an attack to perform based on enemy's attack strategy
+    /// </summary>
+    /// <returns>Whether an attack was chosen or not</returns>
+    public virtual bool ChooseAttack()
+    {
+        Debug.Log("Default ChooseAttack() implementation triggered");
+        return false;
+    }
+
+    /// <summary>
     /// Determines if the enemy can deal damage to a player
     /// </summary>
-    /// <param name="target">The position of the target player</param>
+    /// <param name="target">The GameObject of the target player</param>
     /// <param name="radius">The range of the attack</param>
     /// <param name="sweepAngle">The angular distance in degrees of the attacks FOV.
     /// If set to 360 or left unset then the enemy can attack in any direction.</param>
     /// <returns>Whether the enemy can damage the player</returns>
-    protected bool CanDamageTarget(Vector3 target, float radius, float sweepAngle = 360f)
+    public bool CanDamageTarget(GameObject target, float radius, float sweepAngle = 360f)
     {
-        // TODO need to rethink hitboxes or standardize projecting from y = 1
         Vector3 pos = transform.position;
+        Vector3 targetPos = target.transform.position;
         pos.y = 1f;
-        Vector3 rayDirection = target - pos;
+        Vector3 rayDirection = targetPos - pos;
         rayDirection.y = 0;
+
+        // Player should be within the radius
+        if (Vector3.Distance(pos, targetPos) > radius)
+            return false;
 
         if (Mathf.Approximately(sweepAngle, 360f) || Vector3.Angle(rayDirection, transform.forward) <= sweepAngle * 0.5f)
         {
             // Check if enemy is within player's sight
             if (Physics.Raycast(pos, rayDirection, out RaycastHit hit, radius))
             {
-                return hit.transform.CompareTag("Player");
+                return hit.transform.gameObject.Equals(target);
             }
         }
 

@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
+using UnityEngine.InputSystem.Utilities;
 
 [Serializable]
 public class PlayerColours
 {
     public Color red = Color.red;
     public Color green = Color.green;
-    public Color purple = Color.magenta;
+    public Color blue = Color.blue;
     public Color yellow = Color.yellow;
 
     public Color GetColour(CharacterColour colour)
@@ -19,10 +21,16 @@ public class PlayerColours
         {
             case CharacterColour.Red: return red;
             case CharacterColour.Green: return green;
-            case CharacterColour.Purple: return purple;
+            case CharacterColour.Blue: return blue;
             case CharacterColour.Yellow: return yellow;
             default: return Color.gray;
         }
+    }
+
+    public string GetColorHex(CharacterColour colour)
+    {
+        Color c = GetColour(colour);
+        return string.Format("#{0:X2}{1:X2}{2:X2}", (int)(c.r * 255), (int)(c.g * 255), (int)(c.b * 255));
     }
 }
 
@@ -48,6 +56,11 @@ public class Player
     public GameObject playerObject;
 
     public int deviceId;
+
+    internal string classChoice;
+
+    public int primaryAttackActionId;
+    public int secondaryAttackActionId;
 
     public Player(PlayerInput _playerInput, CharacterColour _characterColour, CharacterOption _characterChoice, int _deviceId)
     {
@@ -110,17 +123,23 @@ public class PlayerManager : MonoBehaviour
 
     // Maintains the players that have joined the game
     private readonly Player[] _playerSlots = { null, null ,null, null };
-    public readonly CharacterColour[] PlayerColours = { CharacterColour.Purple, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
+    public readonly CharacterColour[] PlayerColours = { CharacterColour.Blue, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
 
     public int NumPlayers
     {
         get { return _playerSlots.Count(p => p != null); }
     }
-    
+
     public List<GameObject> AlivePlayers
     {
         get { return Players.FindAll(p => !p.GetComponent<PlayerStatsController>().isDead); }
     }
+
+    public CharacterColour[] CurrentPlayerColours 
+    {
+        get { return Instance.PlayerColours.Take(Instance.NumPlayers).ToArray(); }
+    }
+
 
     // GameObject containing all selectables and submenus for the main menu
     private GameObject MenuCanvas;
@@ -169,6 +188,12 @@ public class PlayerManager : MonoBehaviour
         {
             // Simply instantiate the player and let it choose a device randomly
             playerInstance = Instantiate(_playerSlots[playerNumber].playerObject);
+            PlayerInput playerInput = playerInstance.GetComponent<PlayerInput>();
+            InputDevice device = playerInput.devices.FirstOrDefault();
+            if (device != null)
+            {
+                _playerSlots[playerNumber].deviceId = device.deviceId;
+            }
         }
         else
         {
@@ -365,7 +390,7 @@ public class PlayerManager : MonoBehaviour
                     ds.SetLightBarColor(colours.GetColour(newPlayer.characterColour));
                 }
             }
-            // TODO do the rest of this method better
+            
             if (MenuCanvas == null)
             {
                 MainMenuController mainMenu = FindObjectOfType<MainMenuController>();
@@ -391,6 +416,37 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Player " + playerInput.user.id + " Left");
         playerInput.user.UnpairDevicesAndRemoveUser();
+    }
+
+    public IEnumerator RumbleGamepad(PlayerInput playerInput, float lowFrequency, float highFrequency, float duration)
+    {
+        InputDevice inputDevice = playerInput.devices.First();
+        if (inputDevice is Gamepad)
+        {
+            Gamepad gamepad = inputDevice as Gamepad;
+            gamepad.SetMotorSpeeds(lowFrequency, highFrequency);
+            yield return new WaitForSeconds(duration);
+            gamepad.SetMotorSpeeds(0, 0);
+        }
+    }
+
+    /// <summary>
+    /// Retrieves an action map from a Player's Input
+    /// </summary>
+    /// <param name="playerInput">Player's Input component</param>
+    /// <param name="actionMapName">Name of the action map</param>
+    /// <returns>The action map</returns>
+    public InputActionMap GetActionMap(PlayerInput playerInput, string actionMapName)
+    {
+        ReadOnlyArray<InputActionMap> actionMaps = playerInput.actions.actionMaps;
+        foreach (InputActionMap actionMap in actionMaps)
+        {
+            if (actionMap.name == actionMapName)
+            {
+                return actionMap;
+            }
+        }
+        return null;
     }
 
     /// <summary>

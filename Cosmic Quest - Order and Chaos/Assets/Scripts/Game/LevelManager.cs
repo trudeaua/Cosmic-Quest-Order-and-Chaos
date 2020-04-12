@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
@@ -35,11 +36,15 @@ public class LevelManager : MonoBehaviour
 
     // Loading screen to use for scene transitions
     public GameObject loadingScene;
+    public UnityEvent loadingDoneEvent = new UnityEvent();
     
     // List of all chaos voids
     public ChaosVoid[] chaosVoids;
 
     private Animator _anim;
+
+    public ChaosVoid activeLevel;
+
 
     private void Start()
     {
@@ -48,8 +53,8 @@ public class LevelManager : MonoBehaviour
 
     public void LoadGame(string saveData)
     {
-        // TODO should load players to the last saved level (or take them to the level selection map otherwise)
-        // TODO when loading a game, we need a menu to have players connect their controllers to ensure players are mapped correctly
+        // should load players to the last saved level (or take them to the level selection map otherwise)
+        // when loading a game, we need a menu to have players connect their controllers to ensure players are mapped correctly
         throw new System.NotImplementedException();
     }
     
@@ -61,19 +66,12 @@ public class LevelManager : MonoBehaviour
         // Load Tutorial scene
         StartCoroutine(LoadYourAsyncScene("Tutorial", SceneType.Level));
     }
-    
-    public void StartTestLevel()
-    {
-        // TODO DELETE ME
-        StartCoroutine(LoadYourAsyncScene("ChaosVoid1", SceneType.Level));
-    }
 
     /// <summary>
     /// Go to the level menu scene
     /// </summary>
     public void StartLevelMenu()
     {
-        // TODO if tutorial is skipped then should be taken to the level selection map
         StartCoroutine(LoadYourAsyncScene("LevelsScene", SceneType.Map));
     }
 
@@ -85,6 +83,33 @@ public class LevelManager : MonoBehaviour
     {
         StartCoroutine(LoadYourAsyncScene(chaosVoid.scene.name, SceneType.Level));
         chaosVoid.Initialize();
+        activeLevel = chaosVoid;
+    }
+
+    /// <summary>
+    /// Marks a given chaos void as cleared
+    /// </summary>
+    /// <param name="chaosVoid">Reference to the chaos void level to load</param>
+    public void ClearChaosVoid()
+    {
+        if (activeLevel is null)
+        {
+            activeLevel = Array.Find(chaosVoids, (level) => level.scene.name == SceneManager.GetActiveScene().name);
+        }
+        activeLevel.cleared = true;
+    }
+
+    /// <summary>
+    /// Start next level
+    /// </summary>
+    /// <param name="chaosVoid">Reference to the chaos void level to load</param>
+    public void StartNextLevel()
+    {
+        int index = Array.FindIndex(chaosVoids, (level) => level.scene.name == SceneManager.GetActiveScene().name);
+        if (index >= 0)
+        {
+            StartChaosVoid(chaosVoids[index+1]);
+        }
     }
 
     /// <summary>
@@ -93,7 +118,6 @@ public class LevelManager : MonoBehaviour
     public void RestartCurrentLevel()
     {
         StartCoroutine(LoadYourAsyncScene(SceneManager.GetActiveScene().name, SceneType.Level));
-        // TODO initialize chaos void
     }
 
     /// <summary>
@@ -107,7 +131,7 @@ public class LevelManager : MonoBehaviour
 
     public void BackToMenu()
     {
-        StartCoroutine(LoadYourAsyncScene("MenuStaging", SceneType.Menu));
+        StartCoroutine(LoadYourAsyncScene("MainMenu", SceneType.Menu));
     }
 
     /// <summary>
@@ -129,7 +153,8 @@ public class LevelManager : MonoBehaviour
 
         // check if scene has already been loaded, if it has then set it to active
         Scene loadedScene = SceneManager.GetSceneByName(sceneName);
-        if (loadedScene.IsValid())
+        
+        if (loadedScene.IsValid() && sceneName != SceneManager.GetActiveScene().name)
         {
             SceneManager.SetActiveScene(loadedScene);
             yield break;
@@ -153,6 +178,7 @@ public class LevelManager : MonoBehaviour
             GameManager.Instance.SetMenuState();
         else if (sceneType == SceneType.Map)
             GameManager.Instance.SetSelectingLevelState();
+        loadingDoneEvent.Invoke();
         yield return new WaitForSeconds(0.5f);
     }
 }

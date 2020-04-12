@@ -10,12 +10,14 @@ public enum CharacterColour
     Red,
     Yellow,
     Green,
-    Purple
+    Blue
 }
 
 public class EntityStatsController : MonoBehaviour
 {
     // Common entity regenerable stats
+    [Header("Basic Stats")]
+    public bool invincible;
     public RegenerableStat health;
 
     public bool isDead { get; protected set; }
@@ -95,20 +97,22 @@ public class EntityStatsController : MonoBehaviour
     /// <summary>
     /// Take damage from an attacker
     /// </summary>
-    /// <param name="attacker">Stats controller of the attacking entity</param>
     /// <param name="damageValue">Approximate damage value to apply to enemy health</param>
     /// <param name="timeDelta">Time since last damage calculation</param>
-    public virtual void TakeDamage(EntityStatsController attacker, float damageValue, float timeDelta = 1f)
+    public virtual void TakeDamage(float damageValue, float timeDelta = 1f)
     {
-        // Ignore attacks if already dead
-        if (isDead)
+        // Ignore attacks if already dead or invincible
+        if (isDead || invincible)
             return;
-        Anim.ResetTrigger("TakeDamage");
+        
         Anim.SetTrigger("TakeDamage");
+        
         if (takeDamageVocalSFX != null)
         {
-            StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, takeDamageVocalSFX));
+            if (Mathf.Approximately(timeDelta, 1f) || !VocalAudio.isPlaying)
+                StartCoroutine(AudioHelper.PlayAudioOverlap(VocalAudio, takeDamageVocalSFX));
         }
+        
         // Calculate any changes based on stats and modifiers here first
         float hitValue = (damageValue - ComputeDefenseModifier()) * timeDelta;
         health.Subtract(hitValue < 0 ? 0 : hitValue);
@@ -117,6 +121,18 @@ public class EntityStatsController : MonoBehaviour
         {
             Die();
         }
+    }
+    
+    /// <summary>
+    /// Take damage from an attacker, with reference to who the attacker is
+    /// </summary>
+    /// <param name="attacker">Stats controller of the attacking entity</param>
+    /// <param name="damageValue">Approximate damage value to apply to enemy health</param>
+    /// <param name="timeDelta">Time since last damage calculation</param>
+    public virtual void TakeDamage(EntityStatsController attacker, float damageValue, float timeDelta = 1f)
+    {
+        // By default ignore the launcher stats
+        TakeDamage(damageValue, timeDelta);
     }
 
     /// <summary>
@@ -131,15 +147,14 @@ public class EntityStatsController : MonoBehaviour
     public virtual void TakeExplosionDamage(EntityStatsController attacker, float maxDamage, float stunTime,
         float explosionForce, Vector3 explosionPoint, float explosionRadius)
     {
-        // Ignore explosions if already dead
-        if (isDead)
+        // Ignore explosions if already dead or invincible
+        if (isDead || invincible)
             return;
 
         // Calculate damage based on distance from the explosion point
         float proximity = (col.ClosestPoint(explosionPoint) - explosionPoint).magnitude;
         float effect = 1 - (proximity / explosionRadius);
 
-        // TODO slightly strange bug where enemies just beyond the explosion take negative damage? This is a temp fix.
         if (effect < 0f)
             return;
 
@@ -159,9 +174,6 @@ public class EntityStatsController : MonoBehaviour
     protected virtual IEnumerator ApplyExplosiveForce(float explosionForce, Vector3 explosionPoint, float explosionRadius, float stunTime)
     {
         // Set to stunned before applying explosive force
-        // TODO
-
-        // TODO change this to AddForce(<force vector>, ForceMode.Impulse);
         rb.AddExplosionForce(explosionForce, explosionPoint, explosionRadius);
 
         // Wait for a moment before un-stunning the victim
@@ -177,6 +189,7 @@ public class EntityStatsController : MonoBehaviour
         float baseHit = Random.Range(0, damage.GetBaseValue() - 1); // never want to do 0 damage
         return damage.GetValue() - baseHit;
     }
+    
     /// <summary>
     /// Compute the amount of defense to take
     /// </summary>

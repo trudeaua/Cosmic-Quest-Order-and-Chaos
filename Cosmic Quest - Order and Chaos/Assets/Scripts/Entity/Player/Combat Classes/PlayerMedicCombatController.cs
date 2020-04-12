@@ -65,7 +65,6 @@ public class PlayerMedicCombatController : PlayerCombatController
         // Attack any enemies within the attack sweep and range
         foreach (var enemy in enemies.Where(enemy => CanDamageTarget(enemy, primaryAttackRadius, primaryAttackSweepAngle)))
         {
-            // TODO can this attack affect multiple enemies?
             // Calculate and perform damage
             float damageValue = Random.Range(primaryAttackMinDamage + baseDamage, primaryAttackMaxDamage + baseDamage);
             StartCoroutine(PerformDamage(enemy.GetComponent<EntityStatsController>(), damageValue, primaryAttackDamageDelay));
@@ -116,7 +115,6 @@ public class PlayerMedicCombatController : PlayerCombatController
 
     private IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float damage, float heal, float launchDelay = 0f)
     {
-        ResetTakeDamageAnim();
         if (launchDelay > 0f)
             yield return new WaitForSeconds(launchDelay);
 
@@ -130,7 +128,6 @@ public class PlayerMedicCombatController : PlayerCombatController
     /// </summary>
     protected override void UltimateAbility()
     {
-        // TODO implement melee class ultimate ability
         Anim.SetTrigger("UltimateAbility");
     }
 }

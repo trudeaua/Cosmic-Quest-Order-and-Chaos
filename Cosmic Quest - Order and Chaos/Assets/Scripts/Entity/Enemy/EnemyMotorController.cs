@@ -9,53 +9,96 @@ public class EnemyMotorController : MonoBehaviour
 {
     private EnemyStatsController _stats;
     private EnemyBrainController _brain;
-    private Animator _anim;
     private NavMeshAgent _agent;
 
-    private Transform _currentTarget = null;
+    private Transform _target;
+    private bool _ignoreBrain;
 
+    public float rotationSpeed = 1.0f;
+
+    public bool IsFollowing { get; private set; }
+    public bool IsRotating { get; private set; }
+    
     private void Awake()
     {
         _stats = GetComponent<EnemyStatsController>();
         _brain = GetComponent<EnemyBrainController>();
-        _anim = GetComponentInChildren<Animator>();
         _agent = GetComponent<NavMeshAgent>();
+        
+        // Set avoidance priority to random number (0-99) to prevent enemy clustering
+        if (_agent)
+            _agent.avoidancePriority = Random.Range(0, 100);
     }
 
-    private void Update()
+    public void StartFollow(Transform staticTarget = null)
     {
-        // Prevent enemy activity during death animation
-        if (_stats.isDead)
-            return;
-
-        // Ensure current target is up to date
-        _currentTarget = _brain.GetCurrentTarget();
-        
-        // Follow current aggro decision
-        if (_currentTarget && _agent.enabled)
+        if (staticTarget)
         {
-            _agent.SetDestination(_currentTarget.position);
-
-            float distance = (_currentTarget.position - transform.position).sqrMagnitude;
-            if (distance <= _agent.stoppingDistance * _agent.stoppingDistance)
-            {
-                FaceTarget();
-            }
+            _ignoreBrain = true;
+            _target = staticTarget;
         }
-
-        // Trigger walking animation
-        _anim.SetFloat("WalkSpeed", _agent.velocity.magnitude);
-    }
-    /// <summary>
-    /// Rotate the enemy to face the current target
-    /// </summary>
-    private void FaceTarget()
-    {
-        if (_currentTarget is null)
-            return;
+        else
+        {
+            _ignoreBrain = false;
+        }
         
-        Vector3 direction = (_currentTarget.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        _agent.isStopped = false;
+        IsFollowing = true;
+        StartCoroutine(FollowTarget());
+    }
+
+    public void StopFollow()
+    {
+        _agent.isStopped = true;
+        IsFollowing = false;
+        StopCoroutine(FollowTarget());
+    }
+
+    public void StartRotate()
+    {
+        IsRotating = true;
+        StartCoroutine(RotateToTarget());
+    }
+
+    public void StopRotate()
+    {
+        IsRotating = false;
+        StopCoroutine(RotateToTarget());
+    }
+
+    private IEnumerator FollowTarget()
+    {
+        while (IsFollowing)
+        {
+            if (!_ignoreBrain)
+                _target = _brain.GetCurrentTarget();
+
+            if (_target && _agent.enabled && !_stats.isDead)
+            {
+                _agent.SetDestination(_target.position);
+            }
+
+            // Delay loop to increase lessen load on path finding
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    private IEnumerator RotateToTarget()
+    {
+        while (IsRotating)
+        {
+            _target = _brain.GetCurrentTarget();
+
+            if (_target && !_stats.isDead)
+            {
+                // Rotate enemy to face target
+                Vector3 direction = (_target.position - transform.position).normalized;
+                Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+            }
+            
+            // Wait for end of frame
+            yield return null;
+        }
     }
 }

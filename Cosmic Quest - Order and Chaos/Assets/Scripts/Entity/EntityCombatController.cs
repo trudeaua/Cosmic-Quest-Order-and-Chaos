@@ -56,8 +56,6 @@ public class EntityCombatController : MonoBehaviour
         if (damageDelay > 0f)
             yield return new WaitForSeconds(damageDelay);
 
-        ResetTakeDamageAnim();
-
         // Applies damage to targetStats
         targetStats.TakeDamage(Stats, damageValue);
     }
@@ -78,18 +76,8 @@ public class EntityCombatController : MonoBehaviour
         if (explosionDelay > 0f)
             yield return new WaitForSeconds(explosionDelay);
 
-        ResetTakeDamageAnim();
-
         // Applies damage to targetStats
         targetStats.TakeExplosionDamage(Stats, maxDamage, stunTime, explosionForce, explosionPoint, explosionRadius);
-    }
-
-    /// <summary>
-    /// Reset the entity's "take damage" animation
-    /// </summary>
-    protected void ResetTakeDamageAnim()
-    {
-        Anim.ResetTrigger("TakeDamage");
     }
 
     /// <summary>
@@ -99,18 +87,13 @@ public class EntityCombatController : MonoBehaviour
     /// <param name="direction">The direction to launch the projectile in</param>
     /// <param name="launchForce">The force applied to the projectile at launch</param>
     /// <param name="range">Maximum range the projectile can travel for</param>
-    /// <param name="damage">Damage value of the projectile</param>
-    /// <param name="launchDelay">Number of seconds to wait before launching the projectile</param>
-    /// <returns>An IEnumerator</returns>
-    protected IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float launchDelay = 0f)
+    /// <param name="damage">The damage the projectile will do</param>
+    /// <param name="targetTag">The tag of the target type</param>
+    protected void LaunchDamageProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float damage, string targetTag = "Enemy")
     {
-        if (launchDelay > 0f)
-            yield return new WaitForSeconds(launchDelay);
-
         // Launch projectile from projectile pool
         GameObject projectile = ObjectPooler.Instance.GetPooledObject(projectilePrefab);
 
-        ResetTakeDamageAnim();
-        projectile.GetComponent<Projectile>().Launch(Stats, direction, launchForce, range);
+        projectile.GetComponent<DamageProjectile>().Launch(Stats, direction, launchForce, range, damage, targetTag);
     }
 }

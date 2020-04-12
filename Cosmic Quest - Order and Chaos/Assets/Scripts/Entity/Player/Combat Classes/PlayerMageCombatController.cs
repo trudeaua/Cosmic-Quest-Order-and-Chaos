@@ -67,17 +67,12 @@ public class PlayerMageCombatController : PlayerCombatController
         if ((Stats as PlayerStatsController).mana.CurrentValue < 1f)
         {
             // Stop attack if not enough mana
-            _isPrimaryActive = false;
-            Anim.SetBool("PrimaryAttack", false);
-            AudioHelper.StopAudio(WeaponAudio);
-            (Stats as PlayerStatsController).mana.StartRegen();
-            Motor.ResetMovementModifier();
+            ReleaseChargedAttack();
             return;
         }
 
         (Stats as PlayerStatsController).mana.Subtract(primaryAttackManaDepletion * Time.deltaTime);
 
-        ResetTakeDamageAnim();
         Vector3 vfxPos = transform.position + transform.forward * 1.6f + new Vector3(0, 2f);
         StartCoroutine(VfxHelper.CreateVFX(primaryVFX, vfxPos, transform.rotation));
 
@@ -134,7 +129,6 @@ public class PlayerMageCombatController : PlayerCombatController
     /// </summary>
     protected override void UltimateAbility()
     {
-        // TODO implement melee class ultimate ability
         Anim.SetTrigger("UltimateAbility");
     }
     /// <summary>
@@ -176,5 +170,14 @@ public class PlayerMageCombatController : PlayerCombatController
             Interaction.StopInteract();
             SecondaryAttack();
         }
+    }
+
+    protected override void ReleaseChargedAttack()
+    {
+        _isPrimaryActive = false;
+        Anim.SetBool("PrimaryAttack", false);
+        AudioHelper.StopAudio(WeaponAudio);
+        (Stats as PlayerStatsController).mana.StartRegen();
+        Motor.ResetMovementModifier();
     }
 }

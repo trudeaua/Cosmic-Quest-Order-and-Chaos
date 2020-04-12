@@ -75,7 +75,6 @@ public class PlayerCombatController : EntityCombatController
     /// <returns>Whether the player can damage the enemy</returns>
     protected bool CanDamageTarget(Transform target, float radius, float sweepAngle = 360f)
     {
-        // TODO need to rethink hitboxes or standardize projecting from y = 1
         Vector3 pos = transform.position;
         pos.y = 1f;
         Vector3 rayDirection = target.position - pos;
@@ -140,5 +139,10 @@ public class PlayerCombatController : EntityCombatController
         {
             UltimateAbility();
         }
+    }
+
+    protected virtual void ReleaseChargedAttack()
+    {
+        Debug.Log("Cancelled charge attack");
     }
 }

@@ -1,19 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class Door : MonoBehaviour, ISerializable
 {
     private AudioSource _audio;
     private Animator _anim;
-    private BoxCollider _col;
-
+    private Collider _col;
+    
     public bool isOpen { get; private set; }
 
     private void Awake()
     {
         _audio = GetComponent<AudioSource>();
         _anim = GetComponent<Animator>();
-        _col = GetComponent<BoxCollider>();
+        _col = GetComponent<Collider>();
     }
 
     public void Open()
@@ -21,7 +22,16 @@ public class Door : MonoBehaviour, ISerializable
         if (!isOpen)
         {
             isOpen = true;
-            StartCoroutine("OpenDoor");
+            StartCoroutine(OpenDoor());
+        }
+    }
+
+    public void Close()
+    {
+        if (isOpen)
+        {
+            isOpen = false;
+            StartCoroutine(CloseDoor());
         }
     }
 
@@ -40,6 +50,19 @@ public class Door : MonoBehaviour, ISerializable
         
         // Disable the door collider
         _col.enabled = false;
+    }
+
+    private IEnumerator CloseDoor()
+    {
+        // Play door opening animation
+        if (_anim)
+            _anim.SetBool("UnlockDoor", false);
+
+        // Wait until the animation completes
+        yield return new WaitForSeconds(1f);
+
+        // Disable the door collider
+        _col.enabled = true;
     }
 
     public string Serialize()

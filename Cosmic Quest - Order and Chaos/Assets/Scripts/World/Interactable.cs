@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -7,9 +8,6 @@ using UnityEngine;
 /// </summary>
 public class Interactable : MonoBehaviour
 {
-    [Tooltip("Max distance a transform can be to interact with this")]
-    public float radius = 3f;
-
     [Tooltip("Whether the player must hold down the interact button to interact with this object")]
     public bool isHeld = false;
 
@@ -18,6 +16,29 @@ public class Interactable : MonoBehaviour
     
     [Tooltip("Required character colour to interact with")]
     public CharacterColour colour = CharacterColour.All;
+
+    [HideInInspector] public bool isParticleSystem;
+
+    protected virtual void Start()
+    {
+        CharacterColour[] playerColours = PlayerManager.Instance.CurrentPlayerColours;
+        if (playerColours.Contains(colour))
+        {
+            // Set the material colour of the interactable if not a particle system
+            if (!isParticleSystem)
+                SetMaterialColour(colour);
+        }
+        else if (colour == CharacterColour.None)
+        {
+            colour = playerColours[Random.Range(0, playerColours.Length)];
+            SetMaterialColour(colour);
+        }
+        else
+        {
+            // Turn off if object's colour isn't one of the players' colours
+            gameObject.SetActive(false);
+        }
+    }
 
     /// <summary>
     /// Handles the start of an interaction event with a player
@@ -49,14 +70,38 @@ public class Interactable : MonoBehaviour
     /// <returns>Whether the Transform can interact with this object</returns>
     public virtual bool CanInteract(Transform target)
     {
-        return Vector3.Distance(transform.position, target.position) <= radius &&
-               (colour == CharacterColour.All || target.GetComponent<EntityStatsController>().characterColour == colour);
+        return colour == CharacterColour.All || target.GetComponent<EntityStatsController>().characterColour == colour;
     }
-    
-    // Displays the interaction radius in the editor
-    private void OnDrawGizmosSelected ()
+
+    public virtual void SetMaterialColour(CharacterColour characterColour)
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, radius);
+        Color color = PlayerManager.colours.GetColour(characterColour);
+        Transform[] interactableComponents = GetComponentsInChildren<Transform>();
+        float intensity = 0.1f;
+        Material[] materials = new Material[1];
+        materials[0] = new Material(Shader.Find("Standard"));
+        materials[0].EnableKeyword("_EMISSION");
+        materials[0].SetColor("_Color", color);
+        materials[0].SetColor("_EmissionColor", color * intensity);
+        foreach (Transform interactableComponent in interactableComponents)
+        {
+            Renderer[] interactableRenderers = interactableComponent.GetComponentsInChildren<Renderer>();
+            foreach (Renderer r in interactableRenderers)
+            {
+                r.materials = materials;
+            }
+        }
+    }
+
+    private void OnDrawGizmos ()
+    {
+        Gizmos.color = PlayerManager.colours.GetColour(colour);
+        MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
+        foreach(MeshFilter meshFilter in meshFilters)
+        {
+            Mesh mesh = meshFilter.sharedMesh;
+            mesh.RecalculateNormals();
+            Gizmos.DrawWireMesh(mesh, meshFilter.transform.position, meshFilter.transform.rotation, meshFilter.transform.lossyScale);
+        }
     }
 }

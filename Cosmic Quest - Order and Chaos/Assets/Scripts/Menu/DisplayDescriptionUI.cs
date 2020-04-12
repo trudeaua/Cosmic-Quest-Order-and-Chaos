@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-// TODO: Implement conotroller support for the menu
 public class DisplayDescriptionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public GameObject Description; // Display description of highligthed selection when mouse hovers over screen

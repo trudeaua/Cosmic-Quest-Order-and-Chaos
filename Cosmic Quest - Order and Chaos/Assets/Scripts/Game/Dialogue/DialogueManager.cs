@@ -9,10 +9,16 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueText;
     private Dialogue _Dialogue;
     public Animator anim;
-
     public float TYPE_SPEED = 0.05f;
-    private Queue<string> sentences;
+    public float AutoPlayTimeFactor = 2.5f;
+    public AudioHelper.EntityAudioClip typingSound;
+    public AudioSource audioSource;
 
+    private Queue<string> sentences;
+    private Dialogue CurrentDialogue;
+
+    public bool PlayingDialogue => anim.GetBool("IsShown");
+    
     #region Singleton
     public static DialogueManager Instance = null;
 
@@ -45,7 +51,11 @@ public class DialogueManager : MonoBehaviour
         anim.SetBool("IsShown", true);
         dialogueName.text = dialogue.name;
         sentences.Clear();
+<<<<<<< HEAD
         _Dialogue = dialogue;
+=======
+        CurrentDialogue = dialogue;
+>>>>>>> 23058c66ae117a3642b7b3c0850286029b17584d
         foreach (string sentence in dialogue.sentences)
         {
             sentences.Enqueue(sentence);
@@ -63,24 +73,30 @@ public class DialogueManager : MonoBehaviour
         if (sentences.Count == 0)
         {
             EndDialogue();
+<<<<<<< HEAD
             _Dialogue.onComplete.Invoke();
             return;
+=======
+            CurrentDialogue.onComplete.Invoke();
+            return; 
+>>>>>>> 23058c66ae117a3642b7b3c0850286029b17584d
         }
 
         string sentence = sentences.Dequeue();
         StopAllCoroutines(); // when user continues while sentence is animating
-        StartCoroutine(TypeSentence(sentence));
-        if (!interactable) StartCoroutine(AutoPlay(sentence));
+        StartCoroutine(TypeSentence(sentence, interactable));
     }
 
     /// <summary>
     /// Auto play dialogue
     /// </summary>
-    /// <param name="sentence">Sentence that will be shown next</param>
     /// <returns>An IEnumerator</returns>
     IEnumerator AutoPlay(string sentence)
     {
-        yield return new WaitForSeconds(sentence.Split(' ').Length / 2.5f);
+        if (sentence.Length == 0)
+            yield return new WaitForSeconds(0);
+        else
+            yield return new WaitForSeconds(AutoPlayTimeFactor);
         DisplayNextSentence(false);
     }
 
@@ -88,15 +104,33 @@ public class DialogueManager : MonoBehaviour
     /// Type the sentence on the dialogue canvas
     /// </summary>
     /// <param name="sentence">Sentence that will be shown next</param>
+    /// <param name="interactable">Indicates whether the dialogue canvas is skippable or not</param>
     /// <returns>An IEnumerator</returns>
-    IEnumerator TypeSentence(string sentence)
+    IEnumerator TypeSentence(string sentence, bool interactable)
     {
-        dialogueText.text = "";
-        foreach (char letter in sentence.ToCharArray())
+        // render the text behind the scenes, allows rich text effects to be applied nicely
+        dialogueText.text = sentence;
+        dialogueText.maxVisibleCharacters = 0;
+        yield return new WaitForSeconds(TYPE_SPEED);
+        // text w/o rich text tags
+        string parsedText = dialogueText.GetParsedText();
+        for (int i = 0; i <= parsedText.Length; i++)
         {
-            dialogueText.text += letter;
+            int visibleCount = i % (parsedText.Length + 1);
+            dialogueText.maxVisibleCharacters = visibleCount;
             yield return new WaitForSeconds(TYPE_SPEED);
+            // play typing sound
+            if (i % 2 == 0 && visibleCount < parsedText.Length)
+            {
+                StartCoroutine(AudioHelper.PlayAudio(audioSource, typingSound));
+            }
+            else
+            {
+                AudioHelper.StopAudio(audioSource);
+            }
         }
+        if (!interactable)
+            StartCoroutine(AutoPlay(sentence));
     }
     /// <summary>
     /// Stop showing the dialogue canvas

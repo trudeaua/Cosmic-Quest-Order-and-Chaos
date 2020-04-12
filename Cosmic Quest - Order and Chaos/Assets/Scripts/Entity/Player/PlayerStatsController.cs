@@ -26,7 +26,6 @@ public class PlayerStatsController : EntityStatsController
     // Player stat bars
     public StatBar statBars;
 
-
     protected override void Awake()
     {
         base.Awake();
@@ -62,15 +61,16 @@ public class PlayerStatsController : EntityStatsController
     {
         base.Update();
 
-        if (!isDead) {
-            health.Regen();
-            mana.Regen();
-            
-            // Check if player has fallen into the abyss
-            if (transform.position.y < GameManager.Instance.playerDeathZone)
-            {
-                Die();
-            }
+        if (isDead)
+            return;
+        
+        health.Regen();
+        mana.Regen();
+        
+        // Check if player has fallen into the abyss
+        if (transform.position.y < GameManager.Instance.playerDeathZone)
+        {
+            Die();
         }
     }
 

@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 2289055437169375044}
   - component: {fileID: 2289055437169375045}
   - component: {fileID: 2289055437169375042}
-  - component: {fileID: 2289055437169375043}
   - component: {fileID: 2289055437169375040}
+  - component: {fileID: 2289055437169375043}
   - component: {fileID: 1211610377368977388}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TestDamageProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,19 +81,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &2289055437169375043
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2289055437169375041}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &2289055437169375040
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -110,6 +97,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!135 &2289055437169375043
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2289055437169375041}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1211610377368977388
 MonoBehaviour:
   m_ObjectHideFlags: 0

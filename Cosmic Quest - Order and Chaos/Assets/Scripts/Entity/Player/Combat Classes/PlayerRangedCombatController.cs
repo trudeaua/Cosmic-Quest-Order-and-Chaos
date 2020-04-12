@@ -33,6 +33,10 @@ public class PlayerRangedCombatController : PlayerCombatController
     [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackChargeWeaponSFX;
     [Tooltip("Weapon audio effect for primary attack release")]
     [SerializeField] protected AudioHelper.EntityAudioClip primaryAttackReleaseWeaponSFX;
+    [Tooltip("Visual effect for primary attack")]
+    public GameObject sparkleVFX;
+    [Tooltip("Sound effect for primary attack")]
+    [SerializeField] protected AudioHelper.EntityAudioClip sparkleSFX;
 
     [Header("Secondary Attack")]
     [Tooltip("The trap prefab for the secondary attack")]
@@ -49,6 +53,7 @@ public class PlayerRangedCombatController : PlayerCombatController
 
     private bool _isPrimaryCharging;
     private float _primaryChargeTime;
+    private bool _sparkleShown = false;
 
     protected override void Update()
     {
@@ -58,8 +63,13 @@ public class PlayerRangedCombatController : PlayerCombatController
         if (_isPrimaryCharging)
         {
             _primaryChargeTime += Time.deltaTime;
-            if (_primaryChargeTime > primaryAttackChargeTime)
+            if (_primaryChargeTime >= primaryAttackChargeTime)
             {
+                if (!_sparkleShown) {
+                    StartCoroutine(VfxHelper.CreateVFX(sparkleVFX, transform.position + transform.forward * 1.6f + new Vector3(0, 2f, 0), transform.rotation));
+                    StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, sparkleSFX));
+                    _sparkleShown = true;
+                }
                 // Clamp to max charge time
                 _primaryChargeTime = primaryAttackChargeTime;
             }
@@ -71,9 +81,10 @@ public class PlayerRangedCombatController : PlayerCombatController
     protected override void PrimaryAttack()
     {
         float chargePercent = Mathf.InverseLerp(0f, primaryAttackChargeTime, _primaryChargeTime);
+        float manaPercent = Mathf.Min((Stats as PlayerStatsController).mana.CurrentValue / primaryAttackManaDepletion, 1f);
         float baseDamage = Stats.damage.GetValue();
 
-        float damageValue = primaryAttackEffectCurve.Evaluate(chargePercent) * Random.Range(primaryAttackMinDamage + baseDamage, primaryAttackMaxDamage + baseDamage);
+        float damageValue = primaryAttackEffectCurve.Evaluate(chargePercent) * manaPercent * Random.Range(primaryAttackMinDamage + baseDamage, primaryAttackMaxDamage + baseDamage);
         float primaryAttackLaunchForce = Mathf.Lerp(primaryAttackMinLaunchForce, primaryAttackMaxLaunchForce, primaryAttackEffectCurve.Evaluate(chargePercent));
 
         // Launch projectile in the direction the player is facing
@@ -112,7 +123,6 @@ public class PlayerRangedCombatController : PlayerCombatController
     /// </summary>
     protected override void UltimateAbility()
     {
-        // TODO implement melee class ultimate ability
         Anim.SetTrigger("UltimateAbility");
     }
     /// <summary>
@@ -127,7 +137,6 @@ public class PlayerRangedCombatController : PlayerCombatController
     /// <returns>An IEnumerator</returns>
     private IEnumerator LaunchProjectile(GameObject projectilePrefab, Vector3 direction, float launchForce, float range, float damage, float launchDelay = 0f)
     {
-        ResetTakeDamageAnim();
         if (launchDelay > 0f)
             yield return new WaitForSeconds(launchDelay);
 
@@ -143,7 +152,6 @@ public class PlayerRangedCombatController : PlayerCombatController
     /// <returns>An IEnumerator</returns>
     private IEnumerator PlaceTrap(GameObject trapPrefab, float spawnDelay = 0f)
     {
-        ResetTakeDamageAnim();
         if (spawnDelay > 0f)
             yield return new WaitForSeconds(spawnDelay);
 
@@ -158,7 +166,7 @@ public class PlayerRangedCombatController : PlayerCombatController
     /// <param name="value">Value of the input controller primary attack button state</param>
     protected override void OnPrimaryAttack(InputValue value)
     {
-        if (AttackCooldown > 0 || (Stats as PlayerStatsController).mana.CurrentValue < primaryAttackManaDepletion)
+        if (AttackCooldown > 0)
             return;
 
         if (value.isPressed)
@@ -172,12 +180,17 @@ public class PlayerRangedCombatController : PlayerCombatController
         }
         else if (_isPrimaryCharging)
         {
-            _isPrimaryCharging = false;
-            Anim.SetBool("PrimaryAttack", false);
-            AudioHelper.StopAudio(WeaponAudio);
-            StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackReleaseWeaponSFX));
-            Motor.ResetMovementModifier();
-            PrimaryAttack();
+            ReleaseChargedAttack();
         }
+    }
+    protected override void ReleaseChargedAttack()
+    {
+        _isPrimaryCharging = false;
+        Anim.SetBool("PrimaryAttack", false);
+        if (!_sparkleShown) AudioHelper.StopAudio(WeaponAudio);
+        _sparkleShown = false;
+        StartCoroutine(AudioHelper.PlayAudioOverlap(WeaponAudio, primaryAttackReleaseWeaponSFX));
+        Motor.ResetMovementModifier();
+        PrimaryAttack();
     }
 }
