@@ -7,7 +7,6 @@ public class DialogueManager : MonoBehaviour
 {
     public TextMeshProUGUI dialogueName;
     public TextMeshProUGUI dialogueText;
-    private Dialogue _Dialogue;
     public Animator anim;
     public float TYPE_SPEED = 0.05f;
     public float AutoPlayTimeFactor = 2.5f;
@@ -51,11 +50,7 @@ public class DialogueManager : MonoBehaviour
         anim.SetBool("IsShown", true);
         dialogueName.text = dialogue.name;
         sentences.Clear();
-<<<<<<< HEAD
-        _Dialogue = dialogue;
-=======
         CurrentDialogue = dialogue;
->>>>>>> 23058c66ae117a3642b7b3c0850286029b17584d
         foreach (string sentence in dialogue.sentences)
         {
             sentences.Enqueue(sentence);
@@ -73,13 +68,8 @@ public class DialogueManager : MonoBehaviour
         if (sentences.Count == 0)
         {
             EndDialogue();
-<<<<<<< HEAD
-            _Dialogue.onComplete.Invoke();
-            return;
-=======
             CurrentDialogue.onComplete.Invoke();
             return; 
->>>>>>> 23058c66ae117a3642b7b3c0850286029b17584d
         }
 
         string sentence = sentences.Dequeue();

@@ -57,8 +57,6 @@ public class Player
 
     public int deviceId;
 
-    internal string classChoice;
-
     public int primaryAttackActionId;
     public int secondaryAttackActionId;
 
