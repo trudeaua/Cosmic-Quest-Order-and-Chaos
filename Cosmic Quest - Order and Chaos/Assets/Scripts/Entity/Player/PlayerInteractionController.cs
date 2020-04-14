@@ -125,12 +125,13 @@ public class PlayerInteractionController : MonoBehaviour
 
         for (int i = 0; i < numHits; i++)
         {
+            Debug.Log(_hits[i].name);
             Interactable interactableObject = _hits[i].GetComponent<Interactable>();
 
-            // Ensure the object is an interactable and is reachable by the player
+            // Ensure the object is an interactable and is reachable by the player, ignoring trigger colliders
             if (interactableObject is null ||
                 !(Physics.Linecast(transform.position, _hits[i].transform.position, out RaycastHit hitInfo) &&
-                  hitInfo.transform.Equals(_hits[i].transform)))
+                  hitInfo.transform.Equals(_hits[i].transform)) && !hitInfo.collider.isTrigger)
                 continue;
             
             float dist = Vector3.Distance(transform.position, _hits[i].transform.position);

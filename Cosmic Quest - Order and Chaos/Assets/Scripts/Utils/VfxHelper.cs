@@ -60,12 +60,37 @@ public class VfxHelper : MonoBehaviour
     public static void SetParticleSystemColour(ParticleSystem p, Color vfxColour)
     {
         ParticleSystem.MainModule main = p.main;
+        ParticleSystem.ColorOverLifetimeModule colorOverLifetime = p.colorOverLifetime;
         float h1, s1, v1, h2, s2, v2, h3, s3, v3;
         Color min = vfxColour;
         Color max = vfxColour;
         // need to maintain alpha values, they are forgotten in the RGB to HSV to RGB conversion
         float minA = main.startColor.colorMin.a;
         float maxA = main.startColor.colorMax.a;
+
+        // colour gradients
+        ParticleSystem.MinMaxGradient minMaxGradient = colorOverLifetime.color;
+        Gradient gradient = minMaxGradient.gradient;
+        if (gradient != null)
+        {
+            Gradient _gradient = new Gradient();
+            GradientColorKey[] gradientColorKeys = new GradientColorKey[gradient.colorKeys.Length];
+            GradientAlphaKey[] gradientAlphaKeys = new GradientAlphaKey[gradient.colorKeys.Length];
+            for (int i = 0; i < gradient.colorKeys.Length; i++)
+            {
+                Color gradientMaxColor = gradient.colorKeys[i].color;
+                float gradientAlpha = gradient.colorKeys[i].color.a;
+                Color.RGBToHSV(gradientMaxColor, out h1, out s1, out v1);
+                Color.RGBToHSV(vfxColour, out h3, out s3, out v3);
+                max = Color.HSVToRGB(h3, s1, v1);
+                gradient.colorKeys[i].color = max;
+                gradientColorKeys[i] = new GradientColorKey(max, gradient.colorKeys[i].time);
+                gradientAlphaKeys[i] = new GradientAlphaKey(gradientAlpha, gradient.colorKeys[i].time);
+            }
+            _gradient.SetKeys(gradientColorKeys, gradientAlphaKeys);
+            colorOverLifetime.color = new ParticleSystem.MinMaxGradient(_gradient);
+        }
+        // colour base PS
         if (vfxColour != Color.white && vfxColour != Color.black && vfxColour != Color.gray)
         {
             // need to get saturation and brightness value
