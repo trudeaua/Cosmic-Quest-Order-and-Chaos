@@ -2,6 +2,28 @@
 
 public class MusicManager : MonoBehaviour
 {
+    #region Singleton
+    public static MusicManager Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Debug.LogWarning("Only one music manager should be in the scene!");
+            Destroy(this);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+    #endregion
     public AudioHelper.EntityAudioClip PlayingMusic;
     public AudioHelper.EntityAudioClip BossFightMusic;
     public AudioHelper.EntityAudioClip GameOverMusic;
@@ -18,6 +40,7 @@ public class MusicManager : MonoBehaviour
         // Listen for changes in game state
         GameManager.Instance.onStateChange.AddListener(UpdateMusic);
         UpdateMusic();
+        PlayMusic();
     }
 
     private void Update()
@@ -39,6 +62,19 @@ public class MusicManager : MonoBehaviour
     public void StopMusic()
     {
         audioSource.Stop();
+    }
+
+    /// <summary>
+    /// Description: Plays the audio source
+    /// Rationale: Need to play music if it's been reassigned or stopped
+    /// </summary>
+    public void PlayMusic()
+    {
+        audioSource.clip = CurrentAudioLoop.clip;
+        audioSource.pitch = CurrentAudioLoop.pitch;
+        audioSource.volume = CurrentAudioLoop.volume;
+        audioSource.timeSamples = Mathf.RoundToInt(CurrentAudioLoop.loopThreshold * CurrentAudioLoop.clip.frequency);
+        audioSource.Play();
     }
 
     /// <summary>
@@ -66,11 +102,5 @@ public class MusicManager : MonoBehaviour
             default:
                 break;
         }
-
-        audioSource.clip = CurrentAudioLoop.clip;
-        audioSource.pitch = CurrentAudioLoop.pitch;
-        audioSource.volume = CurrentAudioLoop.volume;
-        audioSource.timeSamples = Mathf.RoundToInt(CurrentAudioLoop.loopThreshold * CurrentAudioLoop.clip.frequency);
-        audioSource.Play();
     }
 }
