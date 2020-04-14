@@ -125,7 +125,6 @@ public class PlayerInteractionController : MonoBehaviour
 
         for (int i = 0; i < numHits; i++)
         {
-            Debug.Log(_hits[i].name);
             Interactable interactableObject = _hits[i].GetComponent<Interactable>();
 
             // Ensure the object is an interactable and is reachable by the player, ignoring trigger colliders
