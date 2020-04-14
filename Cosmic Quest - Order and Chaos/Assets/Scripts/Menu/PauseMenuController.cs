@@ -35,6 +35,10 @@ public class PauseMenuController : MenuController
         SetUpQualitySettingsDropdown();
         SetUpAntiAliasingDropdown();
         SetUpDisplayModeDropdown();
+        for (int i = 0; i < saveSlots.Length; i++)
+        {
+            SetSlotActive(i);
+        }
     }
 
     /// <summary>
