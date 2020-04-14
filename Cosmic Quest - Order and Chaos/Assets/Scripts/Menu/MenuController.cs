@@ -34,6 +34,8 @@ public class MenuController : MonoBehaviour
 
     [SerializeField] protected GameObject antiAliasingDropdown;
 
+    [SerializeField] protected GameObject displayModeDropdown;
+
     protected List<KeyValuePair<string, AudioSpeakerMode>> speakerModes;
 
     protected string[] qualitySettings;
@@ -50,6 +52,7 @@ public class MenuController : MonoBehaviour
         SetUpSpeakerModesDropdown();
         SetUpQualitySettingsDropdown();
         SetUpAntiAliasingDropdown();
+        SetUpDisplayModeDropdown();
     }
 
     /// <summary>
@@ -233,6 +236,24 @@ public class MenuController : MonoBehaviour
     }
 
     /// <summary>
+    /// Add items to the speaker mode settings dropdown and set the default
+    /// </summary>
+    protected void SetUpDisplayModeDropdown()
+    {
+        if (displayModeDropdown)
+        {
+            bool isFullScreen = VideoHelper.isFullscreen();
+            int selected = isFullScreen ? 1 : 0;
+            List<TMPro.TMP_Dropdown.OptionData> displayDropdownOptions = new List<TMPro.TMP_Dropdown.OptionData>();
+            displayDropdownOptions.Add(new TMPro.TMP_Dropdown.OptionData("Windowed"));
+            displayDropdownOptions.Add(new TMPro.TMP_Dropdown.OptionData("Fullscreen"));
+            TMPro.TMP_Dropdown dropdown = displayModeDropdown.GetComponent<TMPro.TMP_Dropdown>();
+            dropdown.options = displayDropdownOptions;
+            dropdown.SetValueWithoutNotify(selected);
+        }
+    }
+
+    /// <summary>
     /// Set the master volume
     /// </summary>
     /// <param name="slider">Selectable slider</param>
@@ -320,6 +341,16 @@ public class MenuController : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Set the screen mode
+    /// </summary>
+    public void SetScreenMode()
+    {
+        TMPro.TMP_Dropdown dropdown = displayModeDropdown.GetComponent<TMPro.TMP_Dropdown>();
+        VideoHelper.SetFullscreen(dropdown.value == 1);
+    }
+
 
     /// <summary>
     /// Update any playing music

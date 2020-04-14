@@ -58,4 +58,22 @@ public class VideoHelper : MonoBehaviour
         int[] levels = { 0, 2, 4, 8 };
         return levels;
     }
+
+    /// <summary>
+    /// Is the current game instance running in full screen mode?
+    /// </summary>
+    /// <returns></returns>
+    public static bool isFullscreen()
+    {
+        return Screen.fullScreen;
+    }
+
+    /// <summary>
+    /// Set the screen mode of the game
+    /// </summary>
+    /// <param name="isFullScreen">Should the game be full screen?</param>
+    public static void SetFullscreen(bool isFullScreen)
+    {
+        Screen.fullScreen = isFullScreen;
+    }
 }
