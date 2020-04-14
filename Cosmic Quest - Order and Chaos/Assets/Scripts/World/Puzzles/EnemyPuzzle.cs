@@ -59,6 +59,7 @@ public class EnemyPuzzle : Puzzle
         if (isBoss)
         {
             GameManager.Instance.SetBossState();
+            MusicManager.Instance.PlayMusic();
         }
     }
 

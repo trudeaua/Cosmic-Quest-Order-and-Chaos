@@ -10,10 +10,20 @@ public class DialogueTrigger : MonoBehaviour
         // pauses music when dialogue is playing, resumes when dialogue completes
         if (pauseMusicOnPlay)
         {
-            MusicManager.Instance.StopMusic();
-            dialogue.onComplete.AddListener(MusicManager.Instance.PlayMusic);
+            StopMusic();
+            dialogue.onComplete.AddListener(PlayMusic);
         }
         // false to disable interactable dialogue
         DialogueManager.Instance.StartDialogue(dialogue, false); 
+    }
+
+    public void PlayMusic()
+    {
+        MusicManager.Instance.PlayMusic();
+    }
+
+    public void StopMusic()
+    {
+        MusicManager.Instance.StopMusic();
     }
 }
