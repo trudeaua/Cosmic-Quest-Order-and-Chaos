@@ -7,6 +7,7 @@ public class BossFight : MonoBehaviour
     public void StartFight()
     {
         GameManager.Instance.SetBossState();
+        MusicManager.Instance.PlayMusic();
         boss.SetActive(true);
     }
 
