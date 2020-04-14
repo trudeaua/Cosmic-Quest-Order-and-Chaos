@@ -26,7 +26,7 @@ public class MenuController : MonoBehaviour
 
     protected Camera mainCamera;
 
-    protected AudioSource musicSource;
+    [SerializeField] protected AudioSource musicSource;
 
     [SerializeField] protected GameObject speakerModesDropdown;
 
@@ -36,11 +36,16 @@ public class MenuController : MonoBehaviour
 
     [SerializeField] protected GameObject displayModeDropdown;
 
+    [SerializeField] protected GameObject[] saveSlots;
+
     protected List<KeyValuePair<string, AudioSpeakerMode>> speakerModes;
 
     protected string[] qualitySettings;
 
     protected int[] antiAliasingLevels;
+
+    // Determines whether selecting a save slot starts a new game or not
+    private bool isNewGame = false;
 
     protected virtual void Start()
     {
@@ -53,6 +58,10 @@ public class MenuController : MonoBehaviour
         SetUpQualitySettingsDropdown();
         SetUpAntiAliasingDropdown();
         SetUpDisplayModeDropdown();
+        for (int i = 0; i < saveSlots.Length; i++)
+        {
+            SetSlotActive(i);
+        }
     }
 
     /// <summary>
@@ -163,7 +172,10 @@ public class MenuController : MonoBehaviour
     protected void FindCameraAndMusic()
     {
         mainCamera = Camera.main;
-        musicSource = mainCamera.GetComponent<AudioSource>();
+        if (musicSource == null)
+        {
+            musicSource = mainCamera.GetComponent<AudioSource>();
+        }
     }
 
     /// <summary>
@@ -363,18 +375,98 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Load the level selection scene
+    /// </summary>
     public void LoadLevelsScene()
     {
         LevelManager.Instance.StartLevelMenu();
     }
 
+    /// <summary>
+    /// Exit the game
+    /// </summary>
     public void ExitGame()
     {
+        if (GameSaveManager.Instance.CurrentSlot > -1)
+        {
+            SaveGame();
+        }
         LevelManager.Instance.ExitGame();
     }
 
+    /// <summary>
+    /// Load the main menu
+    /// </summary>
     public void LoadMenuScene()
     {
+        if (GameSaveManager.Instance.CurrentSlot > -1)
+        {
+            SaveGame();
+        }
         LevelManager.Instance.BackToMenu();
+    }
+
+    /// <summary>
+    /// Save the game to a slot
+    /// </summary>
+    /// <param name="slot">Slot to save to</param>
+    public void SaveGame(int slot)
+    {
+        GameSaveManager.Instance.SaveGame(slot);
+    }
+
+    /// <summary>
+    /// Save the game to the current slot
+    /// </summary>
+    public void SaveGame()
+    {
+        GameSaveManager.Instance.SaveGame(GameSaveManager.Instance.CurrentSlot);
+    }
+
+    /// <summary>
+    /// Sets whether selecting a slot should be considered as starting a new game or not
+    /// </summary>
+    /// <param name="_isNewGame">Should selecting a slot start a new game?</param>
+    public void SetNewGame(bool _isNewGame)
+    {
+        isNewGame = _isNewGame;
+    }
+
+    /// <summary>
+    /// Load a game from a slot, or start a new one
+    /// </summary>
+    /// <param name="slot">Slot to load from</param>
+    public void SelectSlot(int slot)
+    {
+        if (isNewGame)
+        {
+            GameSaveManager.Instance.NewGame(slot);
+        }
+        else
+        {
+            GameSaveManager.Instance.LoadGame(slot);
+        }
+    }
+
+    /// <summary>
+    /// Set the active state of a save slot
+    /// </summary>
+    /// <param name="slot"></param>
+    protected void SetSlotActive(int slot)
+    {
+        GameObject saveSlot = saveSlots[slot];
+        bool isSaveFile = GameSaveManager.Instance.IsSaveFile(slot);
+        float percentComplete = GameSaveManager.Instance.GetCompletion(slot);
+        Selectable selectable = saveSlot.GetComponent<Selectable>();
+        TMPro.TextMeshProUGUI ugui = saveSlot.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+        if (isSaveFile)
+        {
+            ugui.text = "Slot " + (slot + 1) + " - " + Mathf.RoundToInt(percentComplete*100) + "%";
+        }
+        else
+        {
+            ugui.text = "No Data";
+        }
     }
 }

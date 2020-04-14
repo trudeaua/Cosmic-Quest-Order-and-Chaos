@@ -72,7 +72,7 @@ public class MusicManager : MonoBehaviour
     {
         audioSource.clip = CurrentAudioLoop.clip;
         audioSource.pitch = CurrentAudioLoop.pitch;
-        audioSource.volume = CurrentAudioLoop.volume;
+        audioSource.volume = CurrentAudioLoop.volume * AudioHelper.GetAudioModifier(CurrentAudioLoop.type);
         audioSource.timeSamples = Mathf.RoundToInt(CurrentAudioLoop.loopThreshold * CurrentAudioLoop.clip.frequency);
         audioSource.Play();
     }

@@ -32,6 +32,12 @@ public class ChaosVoid : ScriptableObject, ISerializable
         started = true;
     }
 
+    public void Reset()
+    {
+        cleared = false;
+        started = false;
+    }
+
     public void Initialize(string saved)
     {
         
