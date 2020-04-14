@@ -34,6 +34,7 @@ public class PauseMenuController : MenuController
         SetUpSpeakerModesDropdown();
         SetUpQualitySettingsDropdown();
         SetUpAntiAliasingDropdown();
+        SetUpDisplayModeDropdown();
     }
 
     /// <summary>
