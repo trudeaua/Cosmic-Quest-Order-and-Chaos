@@ -202,7 +202,7 @@ public class MainMenuController : MenuController
     {
         if (playerNumber < playerJoinAreas.Length)
         {
-            if (NumberOfPlayers >= 2)
+            if (NumberOfPlayers >= PlayerManager.Instance.MinNumberPlayers)
             {
                 lobbyConfirmButton.SetActive(false);
                 multiplayerEventSystems[0].SetSelectedGameObject(GetDefaultButton(playerJoinAreas[0]));
@@ -254,7 +254,7 @@ public class MainMenuController : MenuController
         {
             ReadyPlayers[playerNumber] = true;
             SetReady(playerNumber, ReadyPlayers[playerNumber]);
-            if (ReadyPlayers.Count(r => r == true) == NumberOfPlayers && NumberOfPlayers >= 2)
+            if (ReadyPlayers.Count(r => r == true) == NumberOfPlayers && NumberOfPlayers >= PlayerManager.Instance.MinNumberPlayers)
             {
                 lobbyConfirmButton.SetActive(true);
                 multiplayerEventSystems[0].SetSelectedGameObject(lobbyConfirmButton);

@@ -95,7 +95,7 @@ public class PlayerStatsController : EntityStatsController
     /// </summary>
     private IEnumerator PlayerDeath()
     {
-        playerInput.PassivateInput();
+        playerInput.DeactivateInput();
         yield return new WaitForSeconds(2.5f);
         statBars.Hide();
         GameObject go = Instantiate(respawnBeaconPrefab, gameObject.transform.position, Quaternion.identity);
@@ -178,7 +178,7 @@ public class PlayerStatsController : EntityStatsController
     {
         // disable player input until spawn sequence is done
         PlayerInput playerInput = GetComponent<PlayerInput>();
-        playerInput.PassivateInput();
+        playerInput.DeactivateInput();
         yield return base.Spawn(obj, speed, delay, cooldown);
         playerInput.ActivateInput();
     }
