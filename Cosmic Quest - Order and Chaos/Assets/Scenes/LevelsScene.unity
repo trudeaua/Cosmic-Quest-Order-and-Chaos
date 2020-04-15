@@ -401,7 +401,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Back TO Map
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1251,6 +1251,75 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1001 &499486237
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5461487647066506878, guid: 61638ccc697723d47a0f6cd429f85df6,
+        type: 3}
+      propertyPath: m_Name
+      value: GameSaveManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5461487647066506876, guid: 61638ccc697723d47a0f6cd429f85df6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 430.42316
+      objectReference: {fileID: 0}
+    - target: {fileID: 5461487647066506876, guid: 61638ccc697723d47a0f6cd429f85df6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 278.38455
+      objectReference: {fileID: 0}
+    - target: {fileID: 5461487647066506876, guid: 61638ccc697723d47a0f6cd429f85df6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 175.64648
+      objectReference: {fileID: 0}
+    - target: {fileID: 5461487647066506876, guid: 61638ccc697723d47a0f6cd429f85df6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5461487647066506876, guid: 61638ccc697723d47a0f6cd429f85df6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5461487647066506876, guid: 61638ccc697723d47a0f6cd429f85df6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5461487647066506876, guid: 61638ccc697723d47a0f6cd429f85df6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5461487647066506876, guid: 61638ccc697723d47a0f6cd429f85df6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5461487647066506876, guid: 61638ccc697723d47a0f6cd429f85df6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5461487647066506876, guid: 61638ccc697723d47a0f6cd429f85df6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5461487647066506876, guid: 61638ccc697723d47a0f6cd429f85df6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 61638ccc697723d47a0f6cd429f85df6, type: 3}
 --- !u!1 &646041883
 GameObject:
   m_ObjectHideFlags: 0
@@ -3195,8 +3264,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Level title
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
-  m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: cfc8a88a1e1bad747aa3293748f3c322, type: 2}
+  m_sharedMaterial: {fileID: -8005528451431377428, guid: cfc8a88a1e1bad747aa3293748f3c322,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3748,7 +3818,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Play Level
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3915,8 +3985,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeMenu: {fileID: 1307199591055484075}
+  musicSource: {fileID: 0}
   speakerModesDropdown: {fileID: 0}
   qualitySettingsDropdown: {fileID: 0}
   antiAliasingDropdown: {fileID: 0}
   displayModeDropdown: {fileID: 0}
+  saveSlots: []
   levelTitle: {fileID: 1968472213}

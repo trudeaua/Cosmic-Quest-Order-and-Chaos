@@ -77,7 +77,7 @@ public class Interactable : MonoBehaviour
     {
         Color color = PlayerManager.colours.GetColour(characterColour);
         Transform[] interactableComponents = GetComponentsInChildren<Transform>();
-        float intensity = 0.1f;
+        float intensity = 2.0f;
         Material[] materials = new Material[1];
         materials[0] = new Material(Shader.Find("Standard"));
         materials[0].EnableKeyword("_EMISSION");

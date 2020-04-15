@@ -2036,6 +2036,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1480052911}
+  playMusicOnStart: 1
 --- !u!4 &728480545
 Transform:
   m_ObjectHideFlags: 0
@@ -8675,7 +8676,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh38216
+  m_Name: pb_Mesh150734
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -9225,6 +9226,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6023961966929729764, guid: 82c9c26894cedee40a467a631c172cb9,
+        type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023961966929729764, guid: 82c9c26894cedee40a467a631c172cb9,
+        type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023961966929729764, guid: 82c9c26894cedee40a467a631c172cb9,
+        type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023961966929729764, guid: 82c9c26894cedee40a467a631c172cb9,
+        type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 728480544}
+    - target: {fileID: 6023961966929729764, guid: 82c9c26894cedee40a467a631c172cb9,
+        type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BossDefeated
+      objectReference: {fileID: 0}
+    - target: {fileID: 6023961966929729764, guid: 82c9c26894cedee40a467a631c172cb9,
+        type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1546829893308362670, guid: 82c9c26894cedee40a467a631c172cb9,
         type: 3}
       propertyPath: arenaTorches.Array.size
@@ -9290,36 +9321,6 @@ PrefabInstance:
       propertyPath: arenaTorches.Array.data[11]
       value: 
       objectReference: {fileID: 428099420}
-    - target: {fileID: 6023961966929729764, guid: 82c9c26894cedee40a467a631c172cb9,
-        type: 3}
-      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6023961966929729764, guid: 82c9c26894cedee40a467a631c172cb9,
-        type: 3}
-      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6023961966929729764, guid: 82c9c26894cedee40a467a631c172cb9,
-        type: 3}
-      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6023961966929729764, guid: 82c9c26894cedee40a467a631c172cb9,
-        type: 3}
-      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 728480544}
-    - target: {fileID: 6023961966929729764, guid: 82c9c26894cedee40a467a631c172cb9,
-        type: 3}
-      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: BossDefeated
-      objectReference: {fileID: 0}
-    - target: {fileID: 6023961966929729764, guid: 82c9c26894cedee40a467a631c172cb9,
-        type: 3}
-      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82c9c26894cedee40a467a631c172cb9, type: 3}
 --- !u!1 &1480052911 stripped
@@ -10723,6 +10724,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3836832794628780477, guid: 769244af832bdd44cbd0fe4ac286d06b,
+        type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 303e7017fb43aff47aab58bc9db1a6bd,
+        type: 2}
+    - target: {fileID: 6642294646469686580, guid: 769244af832bdd44cbd0fe4ac286d06b,
+        type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: fad65f5a4c736674f866a3746380e571,
+        type: 2}
     - target: {fileID: 6191347782550681471, guid: 769244af832bdd44cbd0fe4ac286d06b,
         type: 3}
       propertyPath: pooledItems.Array.size
@@ -10744,18 +10757,6 @@ PrefabInstance:
       propertyPath: pooledItems.Array.data[3].expandable
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3836832794628780477, guid: 769244af832bdd44cbd0fe4ac286d06b,
-        type: 3}
-      propertyPath: m_NavMeshData
-      value: 
-      objectReference: {fileID: 23800000, guid: 303e7017fb43aff47aab58bc9db1a6bd,
-        type: 2}
-    - target: {fileID: 6642294646469686580, guid: 769244af832bdd44cbd0fe4ac286d06b,
-        type: 3}
-      propertyPath: m_NavMeshData
-      value: 
-      objectReference: {fileID: 23800000, guid: fad65f5a4c736674f866a3746380e571,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 769244af832bdd44cbd0fe4ac286d06b, type: 3}
 --- !u!1001 &1960501567
@@ -11471,6 +11472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dec67bd2bf15c241bad2596059266d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseMusicOnPlay: 0
   dialogue:
     name: Leol
     sentences:
