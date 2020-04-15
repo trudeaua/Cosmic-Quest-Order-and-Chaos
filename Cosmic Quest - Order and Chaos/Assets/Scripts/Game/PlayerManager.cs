@@ -120,6 +120,7 @@ public class PlayerManager : MonoBehaviour
 
     // Maintains the players that have joined the game
     private readonly Player[] _playerSlots = { null, null, null, null };
+    public readonly int MinNumberPlayers = 1;
     public readonly CharacterColour[] PlayerColours = { CharacterColour.Blue, CharacterColour.Green, CharacterColour.Red, CharacterColour.Yellow };
 
     public int NumPlayers
