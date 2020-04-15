@@ -147,6 +147,7 @@ public class LevelManager : MonoBehaviour
     /// <returns>An IEnumerator</returns>
     private IEnumerator LoadYourAsyncScene(string sceneName, SceneType sceneType = SceneType.Menu)
     {
+        GameSaveManager.Instance.SaveGame();
         GameManager.Instance.SetLoadingState();
         
         // Start the loading screen

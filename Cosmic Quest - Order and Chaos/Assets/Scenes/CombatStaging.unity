@@ -1852,6 +1852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boss: {fileID: 1511419841}
+  playMusicOnStart: 1
 --- !u!4 &935570642
 Transform:
   m_ObjectHideFlags: 0
@@ -2680,21 +2681,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7166535896654659051, guid: 9a87ceef7006a3a45a5fae02227f0d9a,
-        type: 3}
-      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 935570641}
-    - target: {fileID: 8101272257669751146, guid: 9a87ceef7006a3a45a5fae02227f0d9a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4104770451486937526, guid: 9a87ceef7006a3a45a5fae02227f0d9a,
         type: 3}
       propertyPath: invincible
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8101272257669751146, guid: 9a87ceef7006a3a45a5fae02227f0d9a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7166535896654659051, guid: 9a87ceef7006a3a45a5fae02227f0d9a,
+        type: 3}
+      propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 935570641}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a87ceef7006a3a45a5fae02227f0d9a, type: 3}
 --- !u!1001 &2803803917969584476
@@ -2769,11 +2770,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3969176260353021959, guid: f5e7fead186f9ef43a1d3dfadacc68a5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2597590279679575174, guid: f5e7fead186f9ef43a1d3dfadacc68a5,
         type: 3}
       propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.size
@@ -2803,6 +2799,11 @@ PrefabInstance:
         type: 3}
       propertyPath: onDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3969176260353021959, guid: f5e7fead186f9ef43a1d3dfadacc68a5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5e7fead186f9ef43a1d3dfadacc68a5, type: 3}
@@ -2977,14 +2978,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 841840915886584631, guid: 6bcbb8302c9b7764596747fa4c93df8d,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6155603238355360618, guid: 6bcbb8302c9b7764596747fa4c93df8d,
         type: 3}
       propertyPath: invincible
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 841840915886584631, guid: 6bcbb8302c9b7764596747fa4c93df8d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3059,6 +3060,14 @@ PrefabInstance:
     - target: {fileID: 7159535219512900553, guid: 064901d1e5248f64ea73e76bd6c77360,
         type: 3}
       propertyPath: near clip plane
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 197146447, guid: 064901d1e5248f64ea73e76bd6c77360, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 197146447, guid: 064901d1e5248f64ea73e76bd6c77360, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

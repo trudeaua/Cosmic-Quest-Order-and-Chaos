@@ -61,6 +61,30 @@ public class GameSaveManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Save a game to the current slot
+    /// </summary>
+    /// <param name="slot">Slot to save the game to</param>
+    public void SaveGame()
+    {
+        if (!IsSaveFile(CurrentSlot))
+        {
+            Directory.CreateDirectory(Application.persistentDataPath + "/saves/" + CurrentSlot);
+        }
+        if (!Directory.Exists(Application.persistentDataPath + "/saves/" + CurrentSlot + "/levels"))
+        {
+            Directory.CreateDirectory(Application.persistentDataPath + "/saves/" + CurrentSlot + "/levels");
+        }
+        BinaryFormatter binaryFormatter = new BinaryFormatter();
+        for (int i = 0; i < chaosVoids.Length; i++)
+        {
+            FileStream file = File.Create(Application.persistentDataPath + "/saves/" + CurrentSlot + "/levels/level" + i + "_save");
+            var json = JsonUtility.ToJson(chaosVoids[i]);
+            binaryFormatter.Serialize(file, json);
+            file.Close();
+        }
+    }
+
+    /// <summary>
     /// Checks if the save file exists
     /// </summary>
     /// <param name="slot"></param>
