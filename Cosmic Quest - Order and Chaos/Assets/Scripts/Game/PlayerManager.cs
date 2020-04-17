@@ -262,7 +262,8 @@ public class PlayerManager : MonoBehaviour
         //playerMaterial.SetColor("_OutlineColor", colours.GetColour(_playerSlots[playerNumber].characterColour));
         //playerMaterial.SetTexture("_MainTex", _playerSlots[playerNumber].characterChoice.skin);
         //playerInstance.GetComponentInChildren<Renderer>().sharedMaterial = playerMaterial;
-        Material playerMaterial = _playerSlots[playerNumber].characterChoice.skin;
+        //Material playerMaterial = _playerSlots[playerNumber].characterChoice.skin;
+        Material playerMaterial = new Material(_playerSlots[playerNumber].characterChoice.skin);
         playerMaterial.SetColor("_OutlineColor", colours.GetColour(_playerSlots[playerNumber].characterColour));
         playerInstance.GetComponentInChildren<Renderer>().sharedMaterial = playerMaterial;
     }

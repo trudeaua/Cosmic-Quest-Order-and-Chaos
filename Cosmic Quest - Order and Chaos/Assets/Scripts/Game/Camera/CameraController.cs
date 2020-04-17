@@ -6,14 +6,20 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public float speed = 5f;
-    public int deadBoundary = 50;
+    [Range(0, 1)]
+    public float deadBoundary = 0.05f;
 
     private Camera _camera;
-    private float _playerHeight = 1.9f;
+    private float _playerHeight = 2.35f;
     private float _invTanOfView;
     private float _zOffset;
     private Vector3 _target;
-
+    private bool xEnable = true;
+    private bool yEnable = true;
+    private Vector3 a;
+    private Vector3 b;
+    private Vector3 c;
+    private Vector3 d;
     private void Awake()
     {
         _camera = GetComponent<Camera>();
@@ -21,6 +27,7 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
+        
         // Calculate the Z offset based on the current camera angle and height
         if (Mathf.Approximately(transform.rotation.eulerAngles.x, 90f))
         {
@@ -34,10 +41,15 @@ public class CameraController : MonoBehaviour
             _invTanOfView = 1 / Mathf.Tan(transform.rotation.eulerAngles.x * Mathf.Deg2Rad);
             _zOffset = (transform.position.y - _playerHeight) * _invTanOfView;
         }
+        
     }
 
     private void FixedUpdate()
     {
+        a = _camera.ViewportToWorldPoint(new Vector3(deadBoundary, deadBoundary, _camera.transform.position.y));
+        b = _camera.ViewportToWorldPoint(new Vector3(deadBoundary, 1 - deadBoundary, _camera.transform.position.y));
+        c = _camera.ViewportToWorldPoint(new Vector3(1 - deadBoundary, deadBoundary, _camera.transform.position.y));
+        d = _camera.ViewportToWorldPoint(new Vector3(1 - deadBoundary, 1 - deadBoundary, _camera.transform.position.y));
         // Track the approximate center of the players
         _target = FindPlayersCenter();
 
@@ -45,9 +57,10 @@ public class CameraController : MonoBehaviour
             return;
 
         Vector3 pos = transform.position;
-
-        pos.x = Mathf.Lerp(pos.x, _target.x, speed * Time.deltaTime);
-        pos.z = Mathf.Lerp(pos.z, _target.z - _zOffset, speed * Time.deltaTime);
+        if (xEnable)
+            pos.x = Mathf.Lerp(pos.x, _target.x, speed * Time.deltaTime);
+        if (yEnable)
+            pos.z = Mathf.Lerp(pos.z, _target.z - _zOffset, speed * Time.deltaTime);
 
         transform.position = pos;
     }
@@ -61,40 +74,11 @@ public class CameraController : MonoBehaviour
     /// <returns>The clamped position</returns>
     public Vector3 ClampToScreenEdge(Vector3 targetPos)
     {
-        targetPos += new Vector3(0f, _playerHeight, 0f);
-        Vector3 screenPos = _camera.WorldToScreenPoint(targetPos);
-        Vector3 edgePos;
-
-        // Handle clamping along the x-axis
-        if (screenPos.x < deadBoundary)
-        {
-            // Left edge
-            edgePos = _camera.ScreenToWorldPoint(new Vector3(deadBoundary, 0f, 0f));
-            targetPos.x = edgePos.x;
-        }
-        else if (screenPos.x > Screen.width - deadBoundary)
-        {
-            // Right edge
-            edgePos = _camera.ScreenToWorldPoint(new Vector3(Screen.width - deadBoundary, 0f, 0f));
-            targetPos.x = edgePos.x;
-        }
-
-        // Handle clamping along the z-axis
-        float scaledDeadBoundary = deadBoundary + (_playerHeight * _invTanOfView);
-        if (screenPos.y < scaledDeadBoundary)
-        {
-            // Bottom edge
-            edgePos = _camera.ScreenToWorldPoint(new Vector3(0f, scaledDeadBoundary, 0f));
-            targetPos.z = edgePos.z + ((edgePos.y - targetPos.y) * _invTanOfView);
-        }
-        else if (screenPos.y > Screen.height - scaledDeadBoundary)
-        {
-            // Top edge
-            edgePos = _camera.ScreenToWorldPoint(new Vector3(0f, Screen.height - scaledDeadBoundary, 0f));
-            targetPos.z = edgePos.z + ((edgePos.y - targetPos.y) * _invTanOfView);
-        }
-
-        return targetPos - new Vector3(0f, _playerHeight, 0f);
+        Vector3 pos = _camera.WorldToViewportPoint(targetPos);
+        pos.x = Mathf.Clamp(pos.x, deadBoundary, 1 - deadBoundary);
+        pos.y = Mathf.Clamp(pos.y, deadBoundary, 1 - deadBoundary);
+        targetPos = _camera.ViewportToWorldPoint(pos);
+        return targetPos;
     }
     
     /// <summary>
@@ -120,7 +104,6 @@ public class CameraController : MonoBehaviour
         float xMax = float.MinValue;
         float zMin = float.MaxValue;
         float zMax = float.MinValue;
-
         foreach (GameObject player in players)
         {
             if (player.activeSelf)
@@ -132,10 +115,11 @@ public class CameraController : MonoBehaviour
                 zMax = Mathf.Max(zMax, playerPos.z);
             }
         }
-
-        Vector3 minPos = new Vector3(xMin, 0, zMin);
-        Vector3 maxPos = new Vector3(xMax, 0, zMax);
-
+        // determine whether we should allow the camera to move along the x or y axis
+        xEnable = !(xMin < a.x + 1  && xMax > c.x - 1);
+        yEnable = !(zMin < a.z && zMax > b.z);
+        Vector3 minPos = new Vector3(Mathf.Max(xMin, a.x), 0, Mathf.Max(zMin, a.z));
+        Vector3 maxPos = new Vector3(Mathf.Min(xMax, c.x), 0, Mathf.Min(zMax, b.z));
         return (minPos + maxPos) * 0.5f;
     }
 }
