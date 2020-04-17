@@ -79,7 +79,8 @@ public class ClassOption
 public class CharacterOption
 {
     public string name;
-    public Texture skin;
+    //public Texture skin;
+    public Material skin;
 }
 
 public class PlayerManager : MonoBehaviour
@@ -256,10 +257,14 @@ public class PlayerManager : MonoBehaviour
     public void SetPlayerLooksAndColour(GameObject playerInstance, int playerNumber)
     {
         playerInstance.GetComponent<EntityStatsController>().characterColour = _playerSlots[playerNumber].characterColour;
-        Material playerMaterial = new Material(Shader.Find("Custom/Outline"));
-        playerMaterial.SetFloat("_Outline", 0.0005f);
+        //Material playerMaterial = new Material(Shader.Find("Custom/Outline"));
+        //playerMaterial.SetFloat("_Outline", 0.0005f);
+        //playerMaterial.SetColor("_OutlineColor", colours.GetColour(_playerSlots[playerNumber].characterColour));
+        //playerMaterial.SetTexture("_MainTex", _playerSlots[playerNumber].characterChoice.skin);
+        //playerInstance.GetComponentInChildren<Renderer>().sharedMaterial = playerMaterial;
+        //Material playerMaterial = _playerSlots[playerNumber].characterChoice.skin;
+        Material playerMaterial = new Material(_playerSlots[playerNumber].characterChoice.skin);
         playerMaterial.SetColor("_OutlineColor", colours.GetColour(_playerSlots[playerNumber].characterColour));
-        playerMaterial.SetTexture("_MainTex", _playerSlots[playerNumber].characterChoice.skin);
         playerInstance.GetComponentInChildren<Renderer>().sharedMaterial = playerMaterial;
     }
 

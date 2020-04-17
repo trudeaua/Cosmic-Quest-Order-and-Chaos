@@ -1,10 +1,98 @@
 ﻿Shader "Custom/Outline" {
     Properties {
         _MainTex ("MainTex", 2D) = "white" {}
-        _Outline ("_Outline", Range(0,0.1)) = 0
-        _OutlineColor ("Color", Color) = (1, 1, 1, 1)
+        _Outline ("_Outline", Range(0,0.1)) = 0.0006
+        _OutlineColor ("OutlineColor", Color) = (1, 1, 1, 1)
+		_BaseOutline ("_BaseOutline", Range(0,0.1)) = 0.0003
+        _BaseOutlineColor ("BaseOutlineColor", Color) = (0, 0, 0, 0)
+        _Color("Color", Color) = (0.5, 0.5, 0.5, 1)
+		[HDR]
+		_AmbientColor("Ambient Color", Color) = (0.4,0.4,0.4,1)
+		[HDR]
+		_SpecularColor("Specular Color", Color) = (0.9,0.9,0.9,1)
+		_Glossiness("Glossiness", Float) = 32
+		[HDR]
+		_RimColor("Rim Color", Color) = (1,1,1,1)
+		_RimAmount("Rim Amount", Range(0, 1)) = 0.716
+		_RimThreshold("Rim Threshold", Range(0, 1)) = 0.1
     }
     SubShader {
+		Pass
+		{
+			Tags
+			{
+				"LightMode" = "ForwardBase"
+				"PassFlags" = "OnlyDirectional"
+			}
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+			#pragma multi_compile_fwdbase
+
+			#include "UnityCG.cginc"
+			#include "Lighting.cginc"
+			#include "AutoLight.cginc"
+
+			struct appdata
+			{
+				float4 vertex : POSITION;				
+				float4 uv : TEXCOORD0;
+				float3 normal : NORMAL;
+			};
+
+			struct v2f
+			{
+				float4 pos : SV_POSITION;
+				float2 uv : TEXCOORD0;
+				float3 worldNormal : NORMAL;
+				float3 viewDir : TEXCOORD1;
+				SHADOW_COORDS(2)
+			};
+
+			sampler2D _MainTex;
+			float4 _MainTex_ST;
+			
+			v2f vert (appdata v)
+			{
+				v2f o;
+				o.pos = UnityObjectToClipPos(v.vertex);
+				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+				o.worldNormal = UnityObjectToWorldNormal(v.normal);
+				o.viewDir = WorldSpaceViewDir(v.vertex);
+				TRANSFER_SHADOW(o)
+				return o;
+			}
+			
+			float4 _Color;
+			float4 _AmbientColor;
+			float _Glossiness;
+			float4 _SpecularColor;
+			float4 _RimColor;
+			float _RimAmount;
+			float _RimThreshold;
+			float4 frag (v2f i) : SV_Target
+			{
+				float3 normal = normalize(i.worldNormal);
+				float NdotL = dot(_WorldSpaceLightPos0, normal);
+				float3 viewDir = normalize(i.viewDir);
+				float3 halfVector = normalize(_WorldSpaceLightPos0 + viewDir);
+				float NdotH = dot(normal, halfVector);
+				float4 sample = tex2D(_MainTex, i.uv);
+				float shadow = SHADOW_ATTENUATION(i);
+				float lightIntensity = smoothstep(0, 0.01, NdotL * shadow);
+				float specularIntensity = pow(NdotH * lightIntensity, _Glossiness * _Glossiness);
+				float specularIntensitySmooth = smoothstep(0.005, 0.01, specularIntensity);
+				float4 specular = specularIntensitySmooth * _SpecularColor;
+				float4 rimDot = 1 - dot(viewDir, normal);
+				float rimIntensity = rimDot * pow(NdotL, _RimThreshold);
+				rimIntensity = smoothstep(_RimAmount - 0.01, _RimAmount + 0.01, rimIntensity);
+				float4 rim = rimIntensity * _RimColor;
+				float4 light = lightIntensity * _LightColor0;
+				return _Color * sample * (_AmbientColor + light + specular + rim);
+			}
+			ENDCG
+		}
+		UsePass "Legacy Shaders/VertexLit/SHADOWCASTER"
         Pass {
             Tags { "RenderType"="Opaque" }
             Cull Front
@@ -25,7 +113,7 @@
             float4 vert(appdata_base v) : SV_POSITION {
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
-                float3 normal = mul((float3x3) UNITY_MATRIX_MV, v.normal);
+				float3 normal = UnityObjectToViewPos(v.normal);
                 normal.x *= UNITY_MATRIX_P[0][0];
                 normal.y *= UNITY_MATRIX_P[1][1];
                 o.pos.xy += normal.xy * _Outline;
@@ -35,24 +123,40 @@
             half4 frag(v2f i) : COLOR {
                 return _OutlineColor;
             }
- 
             ENDCG
         }
+		Pass {
+            Tags { "RenderType"="Opaque" }
+            Cull Front
  
-        CGPROGRAM
-        #pragma surface surf Lambert
+            CGPROGRAM
  
-        sampler2D _MainTex;
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "UnityCG.cginc"
  
-        struct Input {
-            float2 uv_MainTex;
-        };
+            struct v2f {
+                float4 pos : SV_POSITION;
+            };
  
-        void surf(Input IN, inout SurfaceOutput o) {
-            o.Albedo = tex2D(_MainTex, IN.uv_MainTex);
+            float _BaseOutline;
+            float4 _BaseOutlineColor;
+ 
+            float4 vert(appdata_base v) : SV_POSITION {
+                v2f o;
+                o.pos = UnityObjectToClipPos(v.vertex);
+				float3 normal = UnityObjectToViewPos(v.normal);
+                normal.x *= UNITY_MATRIX_P[0][0];
+                normal.y *= UNITY_MATRIX_P[1][1];
+                o.pos.xy += normal.xy * _BaseOutline;
+                return o.pos;
+            }
+ 
+            half4 frag(v2f i) : COLOR {
+                return _BaseOutlineColor;
+            }
+            ENDCG
         }
- 
-        ENDCG
     }
     FallBack "Diffuse"
 }
